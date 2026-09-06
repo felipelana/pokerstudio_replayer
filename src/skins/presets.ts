@@ -205,6 +205,84 @@ export const SKIN_BLUE_NIGHT: Skin = {
   table: { ...SKIN_DEFAULT_DARK.table, railColor: '#1c1f26', railHighlight: '#3d434f' },
 };
 
+/**
+ * "GG Style" — dark warm felt on a wooden rail, white 4-colour cards, gold
+ * accents and cyan stack figures, in the spirit of modern client layouts.
+ * Colours only: no third-party logo, watermark or wordmark is reproduced.
+ */
+export const SKIN_GG: Skin = {
+  id: 'gg-style',
+  name: 'GG Style',
+  theme: 'dark',
+  isBuiltIn: true,
+  deck: {
+    style: 'outlined',
+    colorMode: 4,
+    suitColors: { s: '#16181c', h: '#d5323a', d: '#1f6fd0', c: '#1f9d4d' },
+    cardBg: '#ffffff',
+    inkOnFilled: '#ffffff',
+    backColor: '#d9d4cc',
+    backPattern: 'diamonds',
+    backInk: 'rgba(52, 47, 42, 0.55)',
+    rankFont: 'Inter',
+    cornerRadius: 0.09,
+  },
+  felt: {
+    color: '#403a34',
+    textureIntensity: 0.4,
+    vignetteColor: '#17130f',
+    vignetteStrength: 0.72,
+    logoOpacity: 0.1,
+  },
+  table: {
+    railColor: '#6a4629',
+    railHighlight: '#a9784a',
+    railWidth: 0.055,
+    railShine: 0.45,
+    aspect: 0.55,
+  },
+  ui: {
+    bg: '#2b2622',
+    bgEnd: '#141110',
+    surface: '#211d1a',
+    surface2: '#2c2723',
+    text: '#f3ede4',
+    textMuted: '#a99f92',
+    accent: '#f0b429',
+    border: 'rgba(255,255,255,0.10)',
+  },
+  chips: {
+    colors: {
+      '1': '#f2efe9',
+      '5': '#d5323a',
+      '25': '#1f9d4d',
+      '100': '#1b1b1b',
+      '500': '#7b3fb5',
+      '1000': '#f0b429',
+      '5000': '#e2711d',
+      '25000': '#12a3a3',
+      '100000': '#c2185b',
+      '500000': '#5d4037',
+      '1000000': '#aacc00',
+    },
+    edge: '#ffffff',
+    dealerButton: '#f0b429',
+    dealerButtonInk: '#2a2418',
+  },
+  plates: {
+    bg: 'rgba(22, 20, 18, 0.94)',
+    border: 'rgba(255,255,255,0.14)',
+    activeBorder: '#f0b429',
+    text: '#ffffff',
+    // GG-like: the stack figure reads in cyan under the player name.
+    textMuted: '#63c7f5',
+    foldLabel: '#6b6560',
+    allInLabel: '#e0453d',
+    heroBorder: '#63c7f5',
+    winnerGlow: '#1f9d4d',
+  },
+};
+
 export const BUILT_IN_SKINS: Skin[] = [
   SKIN_DEFAULT_DARK,
   SKIN_DEFAULT_LIGHT,
@@ -212,6 +290,7 @@ export const BUILT_IN_SKINS: Skin[] = [
   SKIN_FOUR_COLOR,
   SKIN_MONO,
   SKIN_BLUE_NIGHT,
+  SKIN_GG,
 ];
 
 /** Deck shortcuts for the admin "2 / 4 colours" button and the `C` cycle. */

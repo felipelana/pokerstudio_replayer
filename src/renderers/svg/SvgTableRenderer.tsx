@@ -93,8 +93,8 @@ export function SvgTableRenderer({
 
   const bySeat = new Map(frame.players.map((p) => [p.seat, p]));
   const winners = new Set(frame.kind === 'end' ? frame.players.filter((p) => p.collected > 0).map((p) => p.name) : []);
-  const boardW = 66;
-  const boardGap = 8;
+  const boardW = 80;
+  const boardGap = 10;
   const boardX0 = CX - (5 * boardW + 4 * boardGap) / 2;
   const boardY = CY - (boardW * CARD_H) / CARD_W / 2 + 10;
 
@@ -141,7 +141,16 @@ export function SvgTableRenderer({
 
         {/* Pot */}
         <g transform={`translate(${CX} ${CY - 66})`}>
-          <rect x={-80} y={-16} width={160} height={30} rx={15} fill="rgba(0,0,0,0.45)" />
+          <rect
+            x={-80}
+            y={-16}
+            width={160}
+            height={30}
+            rx={15}
+            fill="rgba(0,0,0,0.6)"
+            stroke={skin.plates.activeBorder}
+            strokeWidth={1.5}
+          />
           <text x={0} y={5} textAnchor="middle" fontSize={17} fontWeight={600} fill="#fff">
             {t('table.pot')}: {fmt(frame.totalPot)}
           </text>

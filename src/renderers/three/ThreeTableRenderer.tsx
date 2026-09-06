@@ -13,7 +13,7 @@ import { CARD_H, CARD_W } from '@/ui/cards/primitives';
 
 /* Table dimensions in world units (x = long axis, z = towards the viewer). */
 const RX = 5.2;
-const CARD_WIDTH = 0.78;
+const CARD_WIDTH = 0.95;
 const CARD_HEIGHT = (CARD_WIDTH * CARD_H) / CARD_W;
 /** Board cards lean towards the camera (radians from flat) so ranks stay legible. */
 const CARD_TILT = 0.72;
@@ -265,7 +265,7 @@ function Scene(props: TableRendererProps & { labels: SceneLabels }) {
   const bySeat = new Map(frame.players.map((p) => [p.seat, p]));
   const winners = new Set(frame.kind === 'end' ? frame.players.filter((p) => p.collected > 0).map((p) => p.name) : []);
 
-  const boardGap = 0.09;
+  const boardGap = 0.11;
   const boardX0 = -((5 * CARD_WIDTH + 4 * boardGap) / 2) + CARD_WIDTH / 2;
 
   return (
@@ -290,7 +290,7 @@ function Scene(props: TableRendererProps & { labels: SceneLabels }) {
       {/* Board */}
       {frame.board.map((c, i) => (
         <Appear key={c} enabled={animations} delay={i * 40}>
-          <CardMesh card={c} deck={skin.deck} position={[boardX0 + i * (CARD_WIDTH + boardGap), 0.01, 0.15]} />
+          <CardMesh card={c} deck={skin.deck} position={[boardX0 + i * (CARD_WIDTH + boardGap), 0.01, 0.5]} />
         </Appear>
       ))}
 
@@ -302,8 +302,11 @@ function Scene(props: TableRendererProps & { labels: SceneLabels }) {
       )}
 
       {/* Pot label */}
-      <Html position={[0, 0.05, -1.15]} center zIndexRange={[5, 0]} style={{ pointerEvents: 'none' }}>
-        <div className="whitespace-nowrap rounded-full px-3 py-1 text-[15px] font-semibold text-white" style={{ background: 'rgba(0,0,0,0.5)' }}>
+      <Html position={[0, 0.05, -1.55]} center zIndexRange={[5, 0]} style={{ pointerEvents: 'none' }}>
+        <div
+          className="whitespace-nowrap rounded-full border px-3 py-1 text-[15px] font-semibold text-white"
+          style={{ background: 'rgba(0,0,0,0.62)', borderColor: skin.plates.activeBorder }}
+        >
           {labels.pot}: {fmt(frame.totalPot)}
           {frame.pots.length > 1 && (
             <div className="text-center text-[11px] font-normal opacity-85">
