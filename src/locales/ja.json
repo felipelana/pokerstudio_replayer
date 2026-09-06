@@ -288,8 +288,8 @@
     "setDefault": "リプレイヤーで使用",
     "inUse": "使用中",
     "builtIn": "組み込み",
-    "exportJson": "JSON をエクスポート",
-    "importJson": "JSON をインポート",
+    "exportJson": "スキンをエクスポート",
+    "importJson": "スキンをインポート",
     "preview": "ライブプレビュー",
     "skinName": "スキン名",
     "theme": "ベーステーマ",
@@ -381,6 +381,18 @@
       "winnerGlow": "勝者の光",
       "activeGlow": "アクション中プレイヤーの光",
       "activeGlowStrength": "光の強さ"
+    },
+    "logo": {
+      "title": "コーナーロゴ",
+      "image": "ロゴ画像",
+      "corner": "位置",
+      "none": "非表示",
+      "top-left": "左上",
+      "top-right": "右上",
+      "bottom-left": "左下",
+      "bottom-right": "右下",
+      "size": "サイズ",
+      "opacity": "不透明度"
     }
   },
   "warnings": {

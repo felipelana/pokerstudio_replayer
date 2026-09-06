@@ -288,8 +288,8 @@
     "setDefault": "Usar no replayer",
     "inUse": "Em uso",
     "builtIn": "Padrão",
-    "exportJson": "Exportar JSON",
-    "importJson": "Importar JSON",
+    "exportJson": "Exportar skin",
+    "importJson": "Importar skin",
     "preview": "Preview ao vivo",
     "skinName": "Nome da skin",
     "theme": "Tema base",
@@ -381,6 +381,18 @@
       "winnerGlow": "Brilho do vencedor",
       "activeGlow": "Brilho do jogador da vez",
       "activeGlowStrength": "Intensidade do brilho"
+    },
+    "logo": {
+      "title": "Logotipo no canto",
+      "image": "Imagem do logotipo",
+      "corner": "Posição",
+      "none": "Oculto",
+      "top-left": "Superior esquerdo",
+      "top-right": "Superior direito",
+      "bottom-left": "Inferior esquerdo",
+      "bottom-right": "Inferior direito",
+      "size": "Tamanho",
+      "opacity": "Opacidade"
     }
   },
   "warnings": {

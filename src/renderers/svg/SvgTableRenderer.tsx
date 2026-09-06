@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import type { TableRendererProps } from '../TableRenderer';
 import { chipBreakdown } from '../layout';
 import { SeatPlate, seatLabels } from '../seats/SeatPlate';
+import { useAssetImage } from '@/ui/hooks/useAssetImage';
 import { AmountTspans } from '../Amount';
 import { cardWidthFor } from '../cardSize';
 import { CARD_H, CARD_W, cardPrimitives, patternShapes } from '@/ui/cards/primitives';
@@ -93,6 +94,7 @@ export function SvgTableRenderer({
   const rail = skin.table.railWidth * RX * 2;
   const isCash = hand.currency !== 'chips';
   const feltId = useMemo(() => `felt-${Math.random().toString(36).slice(2, 8)}`, []);
+  const feltLogo = useAssetImage(skin.felt.logoAssetId);
   const neonStrength = neon ? (skin.table.neonIntensity ?? 0) : 0;
   const neonColor = skin.table.neonColor ?? skin.plates.activeBorder;
 
@@ -100,10 +102,11 @@ export function SvgTableRenderer({
   const winners = new Set(frame.kind === 'end' ? frame.players.filter((p) => p.collected > 0).map((p) => p.name) : []);
   const boardW = 64;
   const boardGap = 9;
-  const boardX0 = CX - (5 * boardW + 4 * boardGap) / 2;
-  // Board sits just above the middle; the pot label takes the centre, and the
-  // gap above the board keeps the dealer button off the cards.
-  const boardY = CY - (boardW * CARD_H) / CARD_W / 2 - 34;
+  // Centre on the cards actually dealt (flop = 3, turn = 4, river = 5).
+  const boardCount = Math.max(1, frame.board.length);
+  const boardX0 = CX - (boardCount * boardW + (boardCount - 1) * boardGap) / 2;
+  // Board dead centre; the pot block sits below it.
+  const boardY = CY - (boardW * CARD_H) / CARD_W / 2;
 
   return (
     <div className="relative h-full w-full select-none" style={{ aspectRatio: `${VW} / ${VH}` }}>
@@ -172,6 +175,20 @@ export function SvgTableRenderer({
         {neonStrength === 0 && (
           <ellipse cx={CX} cy={CY} rx={RX - 22} ry={RY - 18} fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth={2} />
         )}
+        {/* Uploaded watermark, centred on the cloth and clipped to it. */}
+        {feltLogo && (
+          <image
+            href={feltLogo.src}
+            x={CX - RX * 0.44}
+            y={CY - RY * 0.34}
+            width={RX * 0.88}
+            height={RY * 0.68}
+            preserveAspectRatio="xMidYMid meet"
+            opacity={skin.felt.logoOpacity}
+            clipPath={`url(#${feltId}-clip)`}
+            style={{ pointerEvents: 'none' }}
+          />
+        )}
         {skin.felt.logoText && (
           <text x={CX} y={CY + RY * 0.55} textAnchor="middle" fontSize={40} fontWeight={700} fill="#fff" opacity={skin.felt.logoOpacity} style={{ letterSpacing: 4 }}>
             {skin.felt.logoText}
@@ -179,7 +196,7 @@ export function SvgTableRenderer({
         )}
 
         {/* Pot */}
-        <g transform={`translate(${CX} ${CY + 48})`}>
+        <g transform={`translate(${CX} ${CY + 84})`}>
           <rect
             x={-82}
             y={-24}
@@ -207,12 +224,12 @@ export function SvgTableRenderer({
           </text>
         </g>
         {frame.pots.length > 1 && (
-          <text x={CX} y={CY + 90} textAnchor="middle" fontSize={11.5} fill="rgba(255,255,255,0.75)">
-            {frame.pots.map((p) => `${p.kind === 'main' ? t('table.mainPot') : t('table.sidePot', { index: p.index })} ${fmt(p.amount)}`).join(' · ')}
+          <text x={CX} y={CY + 126} textAnchor="middle" fontSize={11.5} fill="rgba(255,255,255,0.75)">
+            {frame.pots.map((p) => fmt(p.amount)).join('   ')}
           </text>
         )}
         {frame.pot > 0 && (
-          <ChipStack chips={chipBreakdown(frame.pot, isCash, 10)} colors={skin.chips.colors} edge={skin.chips.edge} x={CX - 190} y={CY + 46} />
+          <ChipStack chips={chipBreakdown(frame.pot, isCash, 10)} colors={skin.chips.colors} edge={skin.chips.edge} x={CX - 190} y={CY + 82} />
         )}
 
         {/* Board */}

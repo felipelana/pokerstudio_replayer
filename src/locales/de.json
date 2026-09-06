@@ -288,8 +288,8 @@
     "setDefault": "Im Replayer verwenden",
     "inUse": "In Verwendung",
     "builtIn": "Integriert",
-    "exportJson": "JSON exportieren",
-    "importJson": "JSON importieren",
+    "exportJson": "Skin exportieren",
+    "importJson": "Skin importieren",
     "preview": "Live-Vorschau",
     "skinName": "Skin-Name",
     "theme": "Basisdesign",
@@ -381,6 +381,18 @@
       "winnerGlow": "Gewinner-Leuchten",
       "activeGlow": "Leuchten des aktiven Spielers",
       "activeGlowStrength": "Leuchtstärke"
+    },
+    "logo": {
+      "title": "Logo in der Ecke",
+      "image": "Logobild",
+      "corner": "Position",
+      "none": "Ausgeblendet",
+      "top-left": "Oben links",
+      "top-right": "Oben rechts",
+      "bottom-left": "Unten links",
+      "bottom-right": "Unten rechts",
+      "size": "Größe",
+      "opacity": "Deckkraft"
     }
   },
   "warnings": {

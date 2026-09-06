@@ -12,6 +12,7 @@ import { SvgTableRenderer } from '../svg/SvgTableRenderer';
 import { cardCanvas } from '@/ui/cards/cardTexture';
 import type { DeckSkin, FeltSkin, Skin, TableSkin } from '@/skins/types';
 import { CARD_H, CARD_W } from '@/ui/cards/primitives';
+import { useAssetImage } from '@/ui/hooks/useAssetImage';
 
 /* Table dimensions in world units (x = long axis, z = towards the viewer). */
 const RX = 5.2;
@@ -41,8 +42,8 @@ function cardTexture(card: string | 'back', deck: DeckSkin): THREE.CanvasTexture
   return tex;
 }
 
-function feltTexture(felt: FeltSkin): THREE.CanvasTexture {
-  const key = `felt|${JSON.stringify(felt)}`;
+function feltTexture(felt: FeltSkin, logo?: HTMLImageElement): THREE.CanvasTexture {
+  const key = `felt|${JSON.stringify(felt)}|${logo?.src ?? ''}`;
   let tex = textureCache.get(key);
   if (!tex) {
     const size = 1024;
@@ -79,6 +80,17 @@ function feltTexture(felt: FeltSkin): THREE.CanvasTexture {
     inner.addColorStop(1, hexToRgba(felt.vignetteColor, 0.8));
     ctx.fillStyle = inner;
     ctx.fillRect(0, 0, size, size);
+    // Uploaded watermark, centred and scaled to ~44% of the felt width.
+    if (logo && logo.naturalWidth > 0) {
+      const maxW = size * 0.44;
+      const scale = Math.min(maxW / logo.naturalWidth, (size * 0.26) / logo.naturalHeight);
+      const w = logo.naturalWidth * scale;
+      const h = logo.naturalHeight * scale;
+      ctx.save();
+      ctx.globalAlpha = felt.logoOpacity;
+      ctx.drawImage(logo, (size - w) / 2, (size - h) / 2, w, h);
+      ctx.restore();
+    }
     if (felt.logoText) {
       ctx.font = `700 ${size * 0.09}px Inter, system-ui, sans-serif`;
       ctx.textAlign = 'center';
@@ -199,10 +211,10 @@ function glowTexture(): THREE.CanvasTexture {
   return tex;
 }
 
-function Table({ skin, neon }: { skin: Skin; neon: boolean }) {
+function Table({ skin, neon, feltLogo }: { skin: Skin; neon: boolean; feltLogo?: HTMLImageElement }) {
   const rz = RX * skin.table.aspect;
   const railW = skin.table.railWidth * RX * 2;
-  const felt = useMemo(() => feltTexture(skin.felt), [skin.felt]);
+  const felt = useMemo(() => feltTexture(skin.felt, feltLogo), [skin.felt, feltLogo]);
   const wood = useMemo(() => woodTexture(skin.table), [skin.table]);
   const shadow = useMemo(() => shadowTexture(), []);
   const glow = useMemo(() => glowTexture(), []);
@@ -430,8 +442,8 @@ interface SceneLabels {
   seats: SeatLabels;
 }
 
-function Scene(props: TableRendererProps & { labels: SceneLabels }) {
-  const { hand, frame, skin, slots, heroName, positions, showKnownHands, equity, fmt, exact, onSeatClick, interactive = true, animations, labels } = props;
+function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTMLImageElement }) {
+  const { hand, frame, skin, slots, heroName, positions, showKnownHands, equity, fmt, exact, onSeatClick, interactive = true, animations, labels, feltLogo } = props;
   const rz = RX * skin.table.aspect;
   const railW = skin.table.railWidth * RX * 2;
   const isCash = hand.currency !== 'chips';
@@ -439,7 +451,10 @@ function Scene(props: TableRendererProps & { labels: SceneLabels }) {
   const winners = new Set(frame.kind === 'end' ? frame.players.filter((p) => p.collected > 0).map((p) => p.name) : []);
 
   const boardGap = 0.11;
-  const boardX0 = -((5 * CARD_WIDTH + 4 * boardGap) / 2) + CARD_WIDTH / 2;
+  // Centre on the cards actually dealt, so the flop and turn are never
+  // left-aligned inside an empty five-card row.
+  const boardCount = Math.max(1, frame.board.length);
+  const boardX0 = -((boardCount * CARD_WIDTH + (boardCount - 1) * boardGap) / 2) + CARD_WIDTH / 2;
 
   return (
     <>
@@ -460,26 +475,26 @@ function Scene(props: TableRendererProps & { labels: SceneLabels }) {
       />
       <pointLight position={[-6, 6, -4]} intensity={0.4} />
 
-      <Table skin={skin} neon={props.neon !== false} />
+      <Table skin={skin} neon={props.neon !== false} feltLogo={feltLogo} />
 
       {/* Board */}
       {frame.board.map((c, i) => (
         <Appear key={c} enabled={animations} delay={i * 40}>
-          <CardMesh card={c} deck={skin.deck} position={[boardX0 + i * (CARD_WIDTH + boardGap), 0.01, -0.7]} />
+          <CardMesh card={c} deck={skin.deck} position={[boardX0 + i * (CARD_WIDTH + boardGap), 0.01, 0]} />
         </Appear>
       ))}
 
       {/* Pot chips */}
       {frame.pot > 0 && (
         <Appear enabled={animations}>
-          <ChipStack3D chips={chipBreakdown(frame.pot, isCash, 10)} skin={skin} position={[-2.5, 0, 0.55]} />
+          <ChipStack3D chips={chipBreakdown(frame.pot, isCash, 10)} skin={skin} position={[-2.5, 0, 1.35]} />
         </Appear>
       )}
 
       {/* Pot label */}
-      {/* Pot in the middle of the felt, board just above it: both clear of the
-          bet ring, so no two pieces of information can overlap. */}
-      <Html position={[0, 0.05, 0.62]} center zIndexRange={[5, 0]} style={{ pointerEvents: 'none' }}>
+      {/* Board dead centre; the pot block (total + side pots) sits right under
+          it, clear of the bet ring, so nothing can overlap. */}
+      <Html position={[0, 0.05, 1.42]} center zIndexRange={[5, 0]} style={{ pointerEvents: 'none' }}>
         <div
           className="flex flex-col items-center whitespace-nowrap rounded-2xl border px-4 py-1.5 text-white"
           style={{
@@ -493,8 +508,18 @@ function Scene(props: TableRendererProps & { labels: SceneLabels }) {
           </span>
           <Amount value={fmt(frame.totalPot)} size={24} className="mt-1 leading-none" />
           {frame.pots.length > 1 && (
-            <div className="mt-1 text-center text-[10.5px] font-normal leading-none opacity-70">
-              {frame.pots.map((p) => `${p.kind === 'main' ? labels.mainPot : labels.sidePot(p.index)} ${fmt(p.amount)}`).join(' · ')}
+            // Side pots as bare amounts — the wording lives in the tooltip only.
+            <div className="mt-1.5 flex items-center justify-center gap-1">
+              {frame.pots.map((p, i) => (
+                <span
+                  key={i}
+                  className="rounded-md px-1.5 py-[1px] text-[11px] font-medium leading-[15px] tabular-nums"
+                  style={{ background: 'rgba(255,255,255,0.12)' }}
+                  title={p.kind === 'main' ? labels.mainPot : labels.sidePot(p.index)}
+                >
+                  {fmt(p.amount)}
+                </span>
+              ))}
             </div>
           )}
         </div>
@@ -587,6 +612,7 @@ export function ThreeTableRenderer(props: TableRendererProps) {
     [t],
   );
   const rz = RX * props.skin.table.aspect;
+  const feltLogo = useAssetImage(props.skin.felt.logoAssetId);
 
   // Some embedded browsers only flush R3F's initial size measurement on a
   // resize event; kick one right after mount so the first frame is never blank.
@@ -610,7 +636,7 @@ export function ThreeTableRenderer(props: TableRendererProps) {
           onCreated={({ camera: cam }) => cam.lookAt(0, 0, 1.1)}
           style={{ background: 'transparent' }}
         >
-          <Scene {...props} labels={labels} />
+          <Scene {...props} labels={labels} feltLogo={feltLogo} />
         </Canvas>
       </div>
     </RendererBoundary>

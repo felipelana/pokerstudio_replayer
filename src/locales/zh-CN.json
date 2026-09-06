@@ -288,8 +288,8 @@
     "setDefault": "在回放器中使用",
     "inUse": "使用中",
     "builtIn": "内置",
-    "exportJson": "导出 JSON",
-    "importJson": "导入 JSON",
+    "exportJson": "导出皮肤",
+    "importJson": "导入皮肤",
     "preview": "实时预览",
     "skinName": "皮肤名称",
     "theme": "基础主题",
@@ -381,6 +381,18 @@
       "winnerGlow": "赢家光晕",
       "activeGlow": "行动玩家光晕",
       "activeGlowStrength": "光晕强度"
+    },
+    "logo": {
+      "title": "角标 Logo",
+      "image": "Logo 图片",
+      "corner": "位置",
+      "none": "隐藏",
+      "top-left": "左上",
+      "top-right": "右上",
+      "bottom-left": "左下",
+      "bottom-right": "右下",
+      "size": "大小",
+      "opacity": "不透明度"
     }
   },
   "warnings": {

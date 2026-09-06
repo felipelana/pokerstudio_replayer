@@ -288,8 +288,8 @@
     "setDefault": "Use in replayer",
     "inUse": "In use",
     "builtIn": "Built-in",
-    "exportJson": "Export JSON",
-    "importJson": "Import JSON",
+    "exportJson": "Export skin",
+    "importJson": "Import skin",
     "preview": "Live preview",
     "skinName": "Skin name",
     "theme": "Base theme",
@@ -381,6 +381,18 @@
       "winnerGlow": "Winner glow",
       "activeGlow": "Acting player glow",
       "activeGlowStrength": "Glow strength"
+    },
+    "logo": {
+      "title": "Corner logo",
+      "image": "Logo image",
+      "corner": "Position",
+      "none": "Hidden",
+      "top-left": "Top left",
+      "top-right": "Top right",
+      "bottom-left": "Bottom left",
+      "bottom-right": "Bottom right",
+      "size": "Size",
+      "opacity": "Opacity"
     }
   },
   "warnings": {

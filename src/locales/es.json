@@ -288,8 +288,8 @@
     "setDefault": "Usar en el replayer",
     "inUse": "En uso",
     "builtIn": "Integrada",
-    "exportJson": "Exportar JSON",
-    "importJson": "Importar JSON",
+    "exportJson": "Exportar skin",
+    "importJson": "Importar skin",
     "preview": "Vista previa en vivo",
     "skinName": "Nombre de la skin",
     "theme": "Tema base",
@@ -381,6 +381,18 @@
       "winnerGlow": "Brillo del ganador",
       "activeGlow": "Brillo del jugador en turno",
       "activeGlowStrength": "Intensidad del brillo"
+    },
+    "logo": {
+      "title": "Logotipo en la esquina",
+      "image": "Imagen del logotipo",
+      "corner": "Posición",
+      "none": "Oculto",
+      "top-left": "Superior izquierda",
+      "top-right": "Superior derecha",
+      "bottom-left": "Inferior izquierda",
+      "bottom-right": "Inferior derecha",
+      "size": "Tamaño",
+      "opacity": "Opacidad"
     }
   },
   "warnings": {

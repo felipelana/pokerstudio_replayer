@@ -294,8 +294,8 @@
     "setDefault": "Использовать в реплеере",
     "inUse": "Используется",
     "builtIn": "Встроенный",
-    "exportJson": "Экспорт JSON",
-    "importJson": "Импорт JSON",
+    "exportJson": "Экспорт скина",
+    "importJson": "Импорт скина",
     "preview": "Предпросмотр",
     "skinName": "Название скина",
     "theme": "Базовая тема",
@@ -387,6 +387,18 @@
       "winnerGlow": "Свечение победителя",
       "activeGlow": "Свечение активного игрока",
       "activeGlowStrength": "Сила свечения"
+    },
+    "logo": {
+      "title": "Логотип в углу",
+      "image": "Изображение логотипа",
+      "corner": "Положение",
+      "none": "Скрыт",
+      "top-left": "Сверху слева",
+      "top-right": "Сверху справа",
+      "bottom-left": "Снизу слева",
+      "bottom-right": "Снизу справа",
+      "size": "Размер",
+      "opacity": "Прозрачность"
     }
   },
   "warnings": {

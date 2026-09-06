@@ -58,6 +58,8 @@ export interface TableSkin {
   neonColor?: string;
 }
 
+export type LogoCorner = 'none' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+
 export interface UiSkin {
   bg: string;
   bgEnd: string;
@@ -67,6 +69,13 @@ export interface UiSkin {
   textMuted: string;
   accent: string;
   border: string;
+  /** Logo pinned to a corner of the table area (IndexedDB asset id). */
+  logoAssetId?: string;
+  logoCorner?: LogoCorner;
+  /** Rendered height in px (default 44). */
+  logoSize?: number;
+  /** 0..1 (default 0.85). */
+  logoOpacity?: number;
 }
 
 export const CHIP_DENOMINATIONS = [

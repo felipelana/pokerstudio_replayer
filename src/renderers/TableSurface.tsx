@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react';
 import type { RendererChoice } from '@/state/store';
+import { CornerLogo } from './CornerLogo';
 import { hasWebGL, type TableRendererProps } from './TableRenderer';
 import { SvgTableRenderer } from './svg/SvgTableRenderer';
 
@@ -15,10 +16,16 @@ const ThreeTableRenderer = lazy(() =>
  */
 export function TableSurface({ renderer, ...props }: TableRendererProps & { renderer: RendererChoice }) {
   const useThree = renderer === 'three' || (renderer === 'auto' && hasWebGL());
-  if (!useThree) return <SvgTableRenderer {...props} />;
   return (
-    <Suspense fallback={<SvgTableRenderer {...props} />}>
-      <ThreeTableRenderer {...props} />
-    </Suspense>
+    <div className="relative h-full w-full">
+      {useThree ? (
+        <Suspense fallback={<SvgTableRenderer {...props} />}>
+          <ThreeTableRenderer {...props} />
+        </Suspense>
+      ) : (
+        <SvgTableRenderer {...props} />
+      )}
+      <CornerLogo ui={props.skin.ui} />
+    </div>
   );
 }

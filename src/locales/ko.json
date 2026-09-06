@@ -288,8 +288,8 @@
     "setDefault": "리플레이어에서 사용",
     "inUse": "사용 중",
     "builtIn": "기본 제공",
-    "exportJson": "JSON 내보내기",
-    "importJson": "JSON 가져오기",
+    "exportJson": "스킨 내보내기",
+    "importJson": "스킨 가져오기",
     "preview": "실시간 미리보기",
     "skinName": "스킨 이름",
     "theme": "기본 테마",
@@ -381,6 +381,18 @@
       "winnerGlow": "승자 광채",
       "activeGlow": "액션 플레이어 광채",
       "activeGlowStrength": "광채 강도"
+    },
+    "logo": {
+      "title": "모서리 로고",
+      "image": "로고 이미지",
+      "corner": "위치",
+      "none": "숨김",
+      "top-left": "왼쪽 위",
+      "top-right": "오른쪽 위",
+      "bottom-left": "왼쪽 아래",
+      "bottom-right": "오른쪽 아래",
+      "size": "크기",
+      "opacity": "불투명도"
     }
   },
   "warnings": {

@@ -9,7 +9,7 @@ import { anchorSeatFor, computeSeatSlots } from '@/renderers/layout';
 import { TableSurface } from '@/renderers/TableSurface';
 import { formatAmount } from '@/model/format';
 import { BUILT_IN_SKINS, DECK_PRESETS, SKIN_DEFAULT_DARK } from '@/skins/presets';
-import { CHIP_DENOMINATIONS, type BackPattern, type DeckStyle, type RankFont, type Skin } from '@/skins/types';
+import { CHIP_DENOMINATIONS, type BackPattern, type DeckStyle, type LogoCorner, type RankFont, type Skin } from '@/skins/types';
 import { useAppStore } from '@/state/store';
 import { Card } from '@/ui/cards/Card';
 
@@ -146,6 +146,7 @@ export function AdminPage() {
   const [notice, setNotice] = useState('');
   const importInput = useRef<HTMLInputElement>(null);
   const logoInput = useRef<HTMLInputElement>(null);
+  const cornerLogoInput = useRef<HTMLInputElement>(null);
   const { hand, frame } = useDemo();
 
   useEffect(() => {
@@ -230,6 +231,12 @@ export function AdminPage() {
     const id = `logo-${Date.now().toString(36)}`;
     await getRepository().saveAsset(id, file);
     patch('felt', { logoAssetId: id });
+  };
+
+  const uploadCornerLogo = async (file: File) => {
+    const id = `corner-${Date.now().toString(36)}`;
+    await getRepository().saveAsset(id, file);
+    patch('ui', { logoAssetId: id, logoCorner: draft.ui.logoCorner ?? 'bottom-right' });
   };
 
   const slots = useMemo(
@@ -398,6 +405,42 @@ export function AdminPage() {
           <ColorField label={t('admin.chips.edge')} value={draft.chips.edge} onChange={(v) => patch('chips', { edge: v })} />
           <ColorField label={t('admin.chips.dealerButton')} value={draft.chips.dealerButton} onChange={(v) => patch('chips', { dealerButton: v })} />
           <ColorField label={t('admin.chips.dealerButtonInk')} value={draft.chips.dealerButtonInk} onChange={(v) => patch('chips', { dealerButtonInk: v })} />
+        </Section>
+
+        <Section title={t('admin.logo.title')}>
+          <div className="flex items-center gap-2 py-1 text-xs">
+            <span className="flex-1">{t('admin.logo.image')}</span>
+            <button type="button" className="btn !py-0.5 text-[11px]" onClick={() => cornerLogoInput.current?.click()}>
+              {t('common.import')}
+            </button>
+            {draft.ui.logoAssetId && (
+              <button type="button" className="btn !py-0.5 text-[11px]" onClick={() => patch('ui', { logoAssetId: undefined })}>
+                {t('admin.felt.removeLogo')}
+              </button>
+            )}
+            <input
+              ref={cornerLogoInput}
+              type="file"
+              accept="image/png,image/svg+xml,image/jpeg,image/webp"
+              hidden
+              onChange={(e) => {
+                const f = e.target.files?.[0];
+                if (f) void uploadCornerLogo(f);
+                e.target.value = '';
+              }}
+            />
+          </div>
+          <SelectField
+            label={t('admin.logo.corner')}
+            value={draft.ui.logoCorner ?? 'none'}
+            options={(['none', 'top-left', 'top-right', 'bottom-left', 'bottom-right'] as const).map((c) => ({
+              value: c,
+              label: t(`admin.logo.${c}`),
+            }))}
+            onChange={(v) => patch('ui', { logoCorner: v as LogoCorner })}
+          />
+          <RangeField label={t('admin.logo.size')} value={draft.ui.logoSize ?? 44} min={20} max={140} step={2} onChange={(v) => patch('ui', { logoSize: v })} />
+          <RangeField label={t('admin.logo.opacity')} value={draft.ui.logoOpacity ?? 0.85} min={0.1} max={1} step={0.05} onChange={(v) => patch('ui', { logoOpacity: v })} />
         </Section>
 
         <Section title={t('admin.plates.title')}>
