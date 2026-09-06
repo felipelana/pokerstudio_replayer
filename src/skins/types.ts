@@ -91,6 +91,12 @@ export interface PlateSkin {
   allInLabel: string;
   heroBorder: string;
   winnerGlow: string;
+  /**
+   * Halo around the player who is acting. Falls back to `activeBorder`, and
+   * `activeGlowStrength` (0..1, default 0.5) sets how far it spreads.
+   */
+  activeGlow?: string;
+  activeGlowStrength?: number;
 }
 
 export interface Skin {

@@ -378,7 +378,9 @@
       "textMuted": "보조 텍스트",
       "foldLabel": "폴드 라벨",
       "allInLabel": "올인 라벨",
-      "winnerGlow": "승자 광채"
+      "winnerGlow": "승자 광채",
+      "activeGlow": "액션 플레이어 광채",
+      "activeGlowStrength": "광채 강도"
     }
   },
   "warnings": {

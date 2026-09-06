@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import type { TableRendererProps } from '../TableRenderer';
 import { chipBreakdown } from '../layout';
 import { SeatPlate, seatLabels } from '../seats/SeatPlate';
+import { AmountTspans } from '../Amount';
 import { cardWidthFor } from '../cardSize';
 import { CARD_H, CARD_W, cardPrimitives, patternShapes } from '@/ui/cards/primitives';
 import type { DeckSkin } from '@/skins/types';
@@ -97,7 +98,7 @@ export function SvgTableRenderer({
 
   const bySeat = new Map(frame.players.map((p) => [p.seat, p]));
   const winners = new Set(frame.kind === 'end' ? frame.players.filter((p) => p.collected > 0).map((p) => p.name) : []);
-  const boardW = 70;
+  const boardW = 64;
   const boardGap = 9;
   const boardX0 = CX - (5 * boardW + 4 * boardGap) / 2;
   // Board sits just above the middle; the pot label takes the centre, and the
@@ -178,23 +179,35 @@ export function SvgTableRenderer({
         )}
 
         {/* Pot */}
-        <g transform={`translate(${CX} ${CY + 42})`}>
+        <g transform={`translate(${CX} ${CY + 48})`}>
           <rect
-            x={-80}
-            y={-16}
-            width={160}
-            height={30}
-            rx={15}
-            fill="rgba(0,0,0,0.6)"
+            x={-82}
+            y={-24}
+            width={164}
+            height={48}
+            rx={14}
+            fill="rgba(0,0,0,0.45)"
             stroke={skin.plates.activeBorder}
+            strokeOpacity={0.26}
             strokeWidth={1.5}
           />
-          <text x={0} y={5} textAnchor="middle" fontSize={17} fontWeight={600} fill="#fff">
-            {t('table.pot')}: {fmt(frame.totalPot)}
+          <text
+            x={0}
+            y={-9}
+            textAnchor="middle"
+            fontSize={9.5}
+            fontWeight={600}
+            letterSpacing={2}
+            fill="rgba(255,255,255,0.55)"
+          >
+            {t('table.pot').toUpperCase()}
+          </text>
+          <text x={0} y={17} textAnchor="middle" fontSize={22} fontWeight={600} fill="#fff">
+            <AmountTspans value={fmt(frame.totalPot)} size={22} />
           </text>
         </g>
         {frame.pots.length > 1 && (
-          <text x={CX} y={CY + 76} textAnchor="middle" fontSize={12} fill="rgba(255,255,255,0.8)">
+          <text x={CX} y={CY + 90} textAnchor="middle" fontSize={11.5} fill="rgba(255,255,255,0.75)">
             {frame.pots.map((p) => `${p.kind === 'main' ? t('table.mainPot') : t('table.sidePot', { index: p.index })} ${fmt(p.amount)}`).join(' · ')}
           </text>
         )}
@@ -232,7 +245,7 @@ export function SvgTableRenderer({
                     strokeWidth={2.5}
                     paintOrder="stroke"
                   >
-                    {fmt(p.streetBet)}
+                    <AmountTspans value={fmt(p.streetBet)} size={14} />
                   </text>
                 </g>
               )}

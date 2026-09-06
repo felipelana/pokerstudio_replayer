@@ -378,7 +378,9 @@
       "textMuted": "Muted text",
       "foldLabel": "FOLD label",
       "allInLabel": "ALL-IN label",
-      "winnerGlow": "Winner glow"
+      "winnerGlow": "Winner glow",
+      "activeGlow": "Acting player glow",
+      "activeGlowStrength": "Glow strength"
     }
   },
   "warnings": {

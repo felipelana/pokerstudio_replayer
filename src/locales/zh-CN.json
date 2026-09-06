@@ -378,7 +378,9 @@
       "textMuted": "次要文字",
       "foldLabel": "弃牌标签",
       "allInLabel": "全下标签",
-      "winnerGlow": "赢家光晕"
+      "winnerGlow": "赢家光晕",
+      "activeGlow": "行动玩家光晕",
+      "activeGlowStrength": "光晕强度"
     }
   },
   "warnings": {

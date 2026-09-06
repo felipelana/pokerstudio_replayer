@@ -378,7 +378,9 @@
       "textMuted": "補助テキスト",
       "foldLabel": "フォールドラベル",
       "allInLabel": "オールインラベル",
-      "winnerGlow": "勝者の光"
+      "winnerGlow": "勝者の光",
+      "activeGlow": "アクション中プレイヤーの光",
+      "activeGlowStrength": "光の強さ"
     }
   },
   "warnings": {

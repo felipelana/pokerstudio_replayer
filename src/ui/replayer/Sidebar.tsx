@@ -126,7 +126,7 @@ export function Sidebar({ rows, currentIndex, skin, heroName, sessionHasHero, pl
           background: 'var(--surface-2)',
         }}
       >
-        <span className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>
+        <span className="label-caps flex items-center gap-1.5">
           <IconUser size={12} />
           {t('sidebar.focusSelect')}
         </span>
@@ -151,9 +151,7 @@ export function Sidebar({ rows, currentIndex, skin, heroName, sessionHasHero, pl
       </button>
 
       <div className="flex items-center gap-2">
-        <span className="text-[10px] font-semibold uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>
-          {t('sidebar.hands')}
-        </span>
+        <span className="label-caps">{t('sidebar.hands')}</span>
         <span className="rounded-full px-1.5 text-[10px] font-semibold tabular-nums" style={{ background: 'var(--surface-2)', color: 'var(--text-muted)' }}>
           {rows.length}
         </span>

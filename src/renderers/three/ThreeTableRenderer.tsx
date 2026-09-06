@@ -4,6 +4,7 @@ import { Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { useTranslation } from 'react-i18next';
 import type { TableRendererProps } from '../TableRenderer';
+import { Amount } from '../Amount';
 import { cardWidthFor } from '../cardSize';
 import { chipBreakdown } from '../layout';
 import { SeatPlate, seatLabels, type SeatLabels } from '../seats/SeatPlate';
@@ -480,12 +481,19 @@ function Scene(props: TableRendererProps & { labels: SceneLabels }) {
           bet ring, so no two pieces of information can overlap. */}
       <Html position={[0, 0.05, 0.62]} center zIndexRange={[5, 0]} style={{ pointerEvents: 'none' }}>
         <div
-          className="whitespace-nowrap rounded-full border px-3 py-1 text-[15px] font-semibold text-white"
-          style={{ background: 'rgba(0,0,0,0.62)', borderColor: skin.plates.activeBorder }}
+          className="flex flex-col items-center whitespace-nowrap rounded-2xl border px-4 py-1.5 text-white"
+          style={{
+            background: 'rgba(0,0,0,0.45)',
+            borderColor: `color-mix(in srgb, ${skin.plates.activeBorder} 26%, transparent)`,
+            backdropFilter: 'blur(3px)',
+          }}
         >
-          {labels.pot}: {fmt(frame.totalPot)}
+          <span className="text-[9.5px] font-semibold uppercase leading-none tracking-[0.2em] opacity-55">
+            {labels.pot}
+          </span>
+          <Amount value={fmt(frame.totalPot)} size={24} className="mt-1 leading-none" />
           {frame.pots.length > 1 && (
-            <div className="text-center text-[11px] font-normal opacity-85">
+            <div className="mt-1 text-center text-[10.5px] font-normal leading-none opacity-70">
               {frame.pots.map((p) => `${p.kind === 'main' ? labels.mainPot : labels.sidePot(p.index)} ${fmt(p.amount)}`).join(' · ')}
             </div>
           )}
@@ -513,9 +521,12 @@ function Scene(props: TableRendererProps & { labels: SceneLabels }) {
                   zIndexRange={[5, 0]}
                   style={{ pointerEvents: 'none' }}
                 >
-                  <div className="whitespace-nowrap text-[13px] font-semibold text-white" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.9)' }}>
-                    {fmt(p.streetBet)}
-                  </div>
+                  <Amount
+                    value={fmt(p.streetBet)}
+                    size={13}
+                    className="whitespace-nowrap text-white"
+                    style={{ textShadow: '0 1px 4px rgba(0,0,0,0.95)' }}
+                  />
                 </Html>
               </Appear>
             )}

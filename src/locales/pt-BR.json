@@ -378,7 +378,9 @@
       "textMuted": "Texto secundário",
       "foldLabel": "Etiqueta FOLD",
       "allInLabel": "Etiqueta ALL-IN",
-      "winnerGlow": "Brilho do vencedor"
+      "winnerGlow": "Brilho do vencedor",
+      "activeGlow": "Brilho do jogador da vez",
+      "activeGlowStrength": "Intensidade do brilho"
     }
   },
   "warnings": {

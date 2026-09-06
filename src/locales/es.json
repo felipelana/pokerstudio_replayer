@@ -378,7 +378,9 @@
       "textMuted": "Texto secundario",
       "foldLabel": "Etiqueta FOLD",
       "allInLabel": "Etiqueta ALL-IN",
-      "winnerGlow": "Brillo del ganador"
+      "winnerGlow": "Brillo del ganador",
+      "activeGlow": "Brillo del jugador en turno",
+      "activeGlowStrength": "Intensidad del brillo"
     }
   },
   "warnings": {

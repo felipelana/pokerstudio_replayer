@@ -295,6 +295,89 @@ export const SKIN_GG: Skin = {
   },
 };
 
+/**
+ * "Flat" — near-black study table: no wood, no gloss, a single warm amber accent
+ * and a strong halo on the player to act. Built for long review sessions.
+ */
+export const SKIN_FLAT: Skin = {
+  id: 'flat',
+  name: 'Flat',
+  theme: 'dark',
+  isBuiltIn: true,
+  deck: {
+    style: 'outlined',
+    colorMode: 4,
+    suitColors: { s: '#2b2b30', h: '#d9534f', d: '#4a90d9', c: '#4aa96c' },
+    cardBg: '#f5f4f1',
+    inkOnFilled: '#ffffff',
+    backColor: '#e8a04a',
+    backPattern: 'plain',
+    backInk: 'rgba(28, 20, 10, 0.28)',
+    rankFont: 'Inter',
+    cornerRadius: 0.16,
+    holeLayout: 'overlap',
+    courtStyle: 'letter',
+  },
+  felt: {
+    color: '#1a1a1d',
+    textureIntensity: 0.12,
+    vignetteColor: '#0a0a0c',
+    vignetteStrength: 0.82,
+    logoOpacity: 0.06,
+  },
+  table: {
+    railColor: '#1f1f23',
+    railHighlight: '#33333a',
+    railWidth: 0.03,
+    railShine: 0.05,
+    aspect: 0.6,
+    neonColor: '#ef8f4c',
+    neonIntensity: 0.22,
+  },
+  ui: {
+    bg: '#141416',
+    bgEnd: '#0c0c0e',
+    surface: '#161619',
+    surface2: '#1e1e22',
+    text: '#e9e9ec',
+    textMuted: '#86868f',
+    accent: '#ef8f4c',
+    border: 'rgba(255,255,255,0.07)',
+  },
+  chips: {
+    colors: {
+      '1': '#f0ece4',
+      '5': '#d9534f',
+      '25': '#4aa96c',
+      '100': '#2b2b30',
+      '500': '#8e6bc7',
+      '1000': '#e8a04a',
+      '5000': '#ef8f4c',
+      '25000': '#3fa8a8',
+      '100000': '#d16b9a',
+      '500000': '#7a5c46',
+      '1000000': '#9fc23f',
+    },
+    edge: 'rgba(255,255,255,0.55)',
+    dealerButton: '#d94b3e',
+    dealerButtonInk: '#ffffff',
+  },
+  plates: {
+    bg: '#202024',
+    border: 'rgba(255,255,255,0.08)',
+    activeBorder: '#ef8f4c',
+    text: '#e9e9ec',
+    textMuted: '#b9b9c0',
+    foldLabel: '#4a4a52',
+    allInLabel: '#d9534f',
+    heroBorder: '#e8a04a',
+    winnerGlow: '#4aa96c',
+    // The seat to act gets a wide amber halo — the point of this skin.
+    activeGlow: '#ef8f4c',
+    activeGlowStrength: 0.9,
+  },
+};
+
 export const BUILT_IN_SKINS: Skin[] = [
   SKIN_DEFAULT_DARK,
   SKIN_DEFAULT_LIGHT,
@@ -303,6 +386,7 @@ export const BUILT_IN_SKINS: Skin[] = [
   SKIN_MONO,
   SKIN_BLUE_NIGHT,
   SKIN_GG,
+  SKIN_FLAT,
 ];
 
 /** Deck shortcuts for the admin "2 / 4 colours" button and the `C` cycle. */

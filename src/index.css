@@ -57,7 +57,20 @@ body {
     -apple-system,
     sans-serif;
   font-size: 14px;
+  /* Softer glyph edges on dark backgrounds, where full-weight hinting looks harsh. */
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  letter-spacing: 0.005em;
+}
+
+/* One style for every small caps label (section headers, meta rows). */
+.label-caps {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: var(--text-muted);
 }
 
 :lang(zh-CN) body,

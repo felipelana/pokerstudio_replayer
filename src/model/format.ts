@@ -39,6 +39,15 @@ export function exactNumber(value: number, isCash: boolean, locale = 'en'): stri
   }).format(value);
 }
 
+/**
+ * Splits a formatted amount into number and unit ("52.5 BB" -> "52.5" + "BB")
+ * so the UI can render the unit smaller and dimmer than the figure.
+ */
+export function splitAmount(formatted: string): { value: string; unit?: string } {
+  const m = /^(.*\S)\s+([A-Za-z]+)$/.exec(formatted);
+  return m ? { value: m[1], unit: m[2] } : { value: formatted };
+}
+
 export interface FormatOpts {
   display: ChipDisplay;
   bb: number;

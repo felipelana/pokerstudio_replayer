@@ -378,7 +378,9 @@
       "textMuted": "Abgeschwächter Text",
       "foldLabel": "FOLD-Label",
       "allInLabel": "ALL-IN-Label",
-      "winnerGlow": "Gewinner-Leuchten"
+      "winnerGlow": "Gewinner-Leuchten",
+      "activeGlow": "Leuchten des aktiven Spielers",
+      "activeGlowStrength": "Leuchtstärke"
     }
   },
   "warnings": {

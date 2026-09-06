@@ -5,6 +5,7 @@ import type { PositionLabel } from '@/model/positions';
 import type { Skin } from '@/skins/types';
 import { Card } from '@/ui/cards/Card';
 import { CARD_H, CARD_W } from '@/ui/cards/primitives';
+import { Amount } from '../Amount';
 
 /**
  * Translated strings the plate needs. Passed in as props (instead of calling
@@ -46,6 +47,21 @@ interface Props {
   cardWidth?: number;
   /** Extra shrink for crowded tables. */
   scale?: number;
+}
+
+/** Halo drawn around the player to act — colour and spread come from the skin. */
+function actingGlow(p: Skin['plates']): string {
+  const colour = p.activeGlow ?? p.activeBorder;
+  const s = p.activeGlowStrength ?? 0.5;
+  const ring = (1 + 2 * s).toFixed(1);
+  const blur = Math.round(10 + 28 * s);
+  const spread = Math.round(1 + 6 * s);
+  const alpha = Math.round(28 + 42 * s);
+  return [
+    `0 0 0 ${ring}px color-mix(in srgb, ${colour} 60%, transparent)`,
+    `0 0 ${blur}px ${spread}px color-mix(in srgb, ${colour} ${alpha}%, transparent)`,
+    '0 6px 16px rgba(0,0,0,0.45)',
+  ].join(', ');
 }
 
 /** Fanned pair: the second card sits on top, both tilted outwards. */
@@ -126,9 +142,9 @@ export const SeatPlate = memo(function SeatPlate({
           borderColor: border,
           color: p.text,
           boxShadow: isActing
-            ? `0 0 0 3px color-mix(in srgb, ${p.activeBorder} 35%, transparent), 0 6px 16px rgba(0,0,0,0.4)`
+            ? actingGlow(p)
             : isWinner
-              ? `0 0 14px ${p.winnerGlow}`
+              ? `0 0 16px ${p.winnerGlow}, 0 6px 16px rgba(0,0,0,0.4)`
               : '0 6px 16px rgba(0,0,0,0.4)',
           cursor: onClick ? 'pointer' : 'default',
         }}
@@ -145,12 +161,12 @@ export const SeatPlate = memo(function SeatPlate({
           )}
           <span className="truncate">{player.name}</span>
         </div>
-        <div
-          className="text-[14px] font-semibold tabular-nums leading-tight"
+        <Amount
+          value={fmt(player.stack)}
+          size={14}
+          className="block tabular-nums leading-tight"
           style={{ color: player.stack === 0 ? p.allInLabel : p.textMuted }}
-        >
-          {fmt(player.stack)}
-        </div>
+        />
         {(player.folded || player.allIn || player.sittingOut) && player.inHand && (
           <div
             className="absolute -top-2 right-1 rounded px-1 text-[9px] font-bold uppercase leading-[14px] tracking-wide text-white"

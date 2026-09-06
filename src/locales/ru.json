@@ -384,7 +384,9 @@
       "textMuted": "Приглушённый текст",
       "foldLabel": "Метка ФОЛД",
       "allInLabel": "Метка ОЛЛ-ИН",
-      "winnerGlow": "Свечение победителя"
+      "winnerGlow": "Свечение победителя",
+      "activeGlow": "Свечение активного игрока",
+      "activeGlowStrength": "Сила свечения"
     }
   },
   "warnings": {

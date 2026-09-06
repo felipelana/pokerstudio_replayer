@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { CHIP_DENOMINATIONS } from './types';
-import { BUILT_IN_SKINS, DECK_PRESETS, SKIN_GG } from './presets';
+import { BUILT_IN_SKINS, DECK_PRESETS, SKIN_FLAT, SKIN_GG } from './presets';
 
 const isColor = (v: string) => /^#[0-9a-f]{3,8}$/i.test(v) || /^rgba?\(/.test(v);
 
@@ -13,7 +13,15 @@ describe('built-in skins', () => {
   it('define every colour token and a chip colour per denomination', () => {
     for (const skin of BUILT_IN_SKINS) {
       for (const [k, v] of Object.entries(skin.ui)) expect(isColor(v), `${skin.id}.ui.${k}`).toBe(true);
-      for (const [k, v] of Object.entries(skin.plates)) expect(isColor(v), `${skin.id}.plates.${k}`).toBe(true);
+      // `activeGlowStrength` is a 0..1 number; every other plate token is a colour.
+      for (const [k, v] of Object.entries(skin.plates)) {
+        if (typeof v === 'number') {
+          expect(v, `${skin.id}.plates.${k}`).toBeGreaterThanOrEqual(0);
+          expect(v, `${skin.id}.plates.${k}`).toBeLessThanOrEqual(1);
+        } else {
+          expect(isColor(v), `${skin.id}.plates.${k}`).toBe(true);
+        }
+      }
       for (const [k, v] of Object.entries(skin.deck.suitColors)) expect(isColor(v), `${skin.id}.suit.${k}`).toBe(true);
       for (const d of CHIP_DENOMINATIONS) expect(skin.chips.colors[String(d)], `${skin.id}.chip.${d}`).toBeTruthy();
       expect(skin.table.aspect).toBeGreaterThan(0.3);
@@ -33,6 +41,15 @@ describe('built-in skins', () => {
     // No third-party wordmark baked into the felt.
     expect(SKIN_GG.felt.logoText).toBeUndefined();
     expect(SKIN_GG.felt.logoAssetId).toBeUndefined();
+  });
+
+  it('ships the Flat skin with a warm acting-player halo and a thin rail', () => {
+    expect(BUILT_IN_SKINS).toContain(SKIN_FLAT);
+    expect(SKIN_FLAT.plates.activeGlow).toBeTruthy();
+    expect(SKIN_FLAT.plates.activeGlowStrength).toBeGreaterThan(0.5);
+    expect(SKIN_FLAT.table.railWidth).toBeLessThanOrEqual(0.035);
+    expect(SKIN_FLAT.table.railShine).toBeLessThan(0.2);
+    expect(SKIN_FLAT.deck.holeLayout).toBe('overlap');
   });
 
   it('deck presets never use more colours than their mode allows', () => {

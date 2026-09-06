@@ -404,6 +404,19 @@ export function AdminPage() {
           {(['bg', 'border', 'activeBorder', 'heroBorder', 'text', 'textMuted', 'foldLabel', 'allInLabel', 'winnerGlow'] as const).map((k) => (
             <ColorField key={k} label={t(`admin.plates.${k}`)} value={draft.plates[k]} onChange={(v) => patch('plates', { [k]: v })} />
           ))}
+          <ColorField
+            label={t('admin.plates.activeGlow')}
+            value={draft.plates.activeGlow ?? draft.plates.activeBorder}
+            onChange={(v) => patch('plates', { activeGlow: v })}
+          />
+          <RangeField
+            label={t('admin.plates.activeGlowStrength')}
+            value={draft.plates.activeGlowStrength ?? 0.5}
+            min={0}
+            max={1}
+            step={0.05}
+            onChange={(v) => patch('plates', { activeGlowStrength: v })}
+          />
         </Section>
       </div>
 
