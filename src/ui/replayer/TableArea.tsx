@@ -1,18 +1,14 @@
-import { lazy, Suspense, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Frame, HandReplay } from '@/engine/replay';
 import { potOddsFor } from '@/engine/replay';
 import { computePositions } from '@/model/positions';
 import { anchorSeatFor, computeSeatSlots } from '@/renderers/layout';
-import { hasWebGL, type TableRendererProps } from '@/renderers/TableRenderer';
-import { SvgTableRenderer } from '@/renderers/svg/SvgTableRenderer';
+import type { TableRendererProps } from '@/renderers/TableRenderer';
+import { TableSurface } from '@/renderers/TableSurface';
 import { useAppStore, useActiveSkin } from '@/state/store';
 import { useEquity } from '@/equity/useEquity';
 import { useAmountFormatter, useDateFormatter } from '@/ui/hooks/useFormat';
-
-const ThreeTableRenderer = lazy(() =>
-  import('@/renderers/three/ThreeTableRenderer').then((m) => ({ default: m.ThreeTableRenderer })),
-);
 
 interface Props {
   replay: HandReplay;
@@ -44,8 +40,6 @@ export function TableArea({ replay, frame, heroName, onSeatClick }: Props) {
   const equity = useEquity(hand, frame, settings.showEquity, settings.equityIterations);
   const potOdds = useMemo(() => potOddsFor(frame, heroName), [frame, heroName]);
   const heroEquity = heroName ? equity.values[heroName] : undefined;
-
-  const useThree = settings.renderer === 'three' || (settings.renderer === 'auto' && hasWebGL());
 
   const rendererProps: TableRendererProps = {
     hand,
@@ -104,13 +98,7 @@ export function TableArea({ replay, frame, heroName, onSeatClick }: Props) {
       </div>
       <div className="relative min-h-0 flex-1 px-2 pb-1">
         <div className="mx-auto h-full max-w-[1400px]">
-          {useThree ? (
-            <Suspense fallback={<SvgTableRenderer {...rendererProps} />}>
-              <ThreeTableRenderer {...rendererProps} />
-            </Suspense>
-          ) : (
-            <SvgTableRenderer {...rendererProps} />
-          )}
+          <TableSurface {...rendererProps} renderer={settings.renderer} />
         </div>
       </div>
     </div>

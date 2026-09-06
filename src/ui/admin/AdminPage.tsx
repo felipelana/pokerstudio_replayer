@@ -6,7 +6,7 @@ import { computePositions } from '@/model/positions';
 import { pokerStarsParser } from '@/parsers/pokerstars';
 import { getRepository } from '@/db/repository';
 import { anchorSeatFor, computeSeatSlots } from '@/renderers/layout';
-import { SvgTableRenderer } from '@/renderers/svg/SvgTableRenderer';
+import { TableSurface } from '@/renderers/TableSurface';
 import { formatAmount } from '@/model/format';
 import { BUILT_IN_SKINS, DECK_PRESETS, SKIN_DEFAULT_DARK } from '@/skins/presets';
 import { CHIP_DENOMINATIONS, type BackPattern, type DeckStyle, type RankFont, type Skin } from '@/skins/types';
@@ -417,8 +417,10 @@ export function AdminPage() {
             ))}
           </div>
         </div>
-        <div className="mx-auto w-full max-w-[1100px]">
-          <SvgTableRenderer
+        {/* Same surface as the replayer, so what you tune is what you get. */}
+        <div className="mx-auto w-full max-w-[1100px]" style={{ aspectRatio: '1000 / 640' }}>
+          <TableSurface
+            renderer={settings.renderer}
             hand={hand}
             frame={frame}
             skin={draft}
@@ -427,6 +429,7 @@ export function AdminPage() {
             positions={positions}
             showKnownHands
             animations={false}
+            neon={settings.neon}
             fmt={fmt}
             exact={exact}
             interactive={false}
