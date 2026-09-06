@@ -1,0 +1,105 @@
+PokerStars Hand #260784573801: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XX (5000/10000) - 2026/05/12 20:39:36 WET [2026/05/12 15:39:36 ET]
+Table '3999835239 12' 9-max Seat #3 is the button
+Seat 1: -Iuury (81510 in chips)
+Seat 2: Saludfresh (215283 in chips)
+Seat 3: WBreKoZo (45120 in chips)
+Seat 4: Player Four (120000 in chips)
+Seat 7: shogi2 (215283 in chips) is sitting out
+-Iuury: posts the ante 1500
+Saludfresh: posts the ante 1500
+WBreKoZo: posts the ante 1500
+Player Four: posts the ante 1500
+shogi2: posts the ante 1500
+Player Four: posts small blind 5000
+shogi2: posts big blind 10000
+*** HOLE CARDS ***
+-Iuury: folds
+Saludfresh: raises 97266 to 122266 and is all-in
+WBreKoZo: calls 43620 and is all-in
+Player Four: folds
+shogi2 has timed out
+shogi2: folds
+Uncalled bet (78646) returned to Saludfresh
+*** FLOP *** [6s 7c 9s]
+*** TURN *** [6s 7c 9s] [Td]
+*** RIVER *** [6s 7c 9s Td] [2h]
+*** SHOW DOWN ***
+Saludfresh: shows [Qs Ac] (a pair of Aces)
+WBreKoZo: mucks hand
+Saludfresh collected 109740 from pot
+WBreKoZo finished the tournament in 9th place and received $3.67.
+Saludfresh wins the $2.15 bounty for eliminating WBreKoZo
+*** SUMMARY ***
+Total pot 109740 | Rake 0
+Board [6s 7c 9s Td 2h]
+Seat 1: -Iuury folded before Flop (didn't bet)
+Seat 2: Saludfresh showed [Qs Ac] and won (109740) with a pair of Aces
+Seat 3: WBreKoZo (button) mucked
+Seat 4: Player Four (small blind) folded before Flop
+Seat 7: shogi2 (big blind) folded before Flop
+
+
+
+PokerStars Hand #260784573802: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XX (5000/10000) - 2026/05/12 20:41:10 WET [2026/05/12 15:41:10 ET]
+Table '3999835239 12' 9-max Seat #4 is the button
+Seat 1: -Iuury (80010 in chips)
+Seat 2: Saludfresh (279903 in chips)
+Seat 4: Player Four (113500 in chips)
+Seat 7: shogi2 (203783 in chips) is sitting out
+-Iuury: posts the ante 1500
+Saludfresh: posts the ante 1500
+Player Four: posts the ante 1500
+shogi2: posts the ante 1500
+shogi2: posts small blind 5000
+-Iuury: posts big blind 10000
+*** HOLE CARDS ***
+Saludfresh: raises 10000 to 20000
+Player Four: calls 20000
+shogi2 is sitting out
+shogi2: folds
+-Iuury: raises 58510 to 78510 and is all-in
+Saludfresh: calls 58510
+Player Four: calls 58510
+*** FLOP *** [Kh 4d 4c]
+Saludfresh: bets 33490
+Player Four: calls 33490 and is all-in
+*** TURN *** [Kh 4d 4c] [8s]
+*** RIVER *** [Kh 4d 4c 8s] [Jc]
+*** SHOW DOWN ***
+Saludfresh: shows [Ks Kd] (a full house, Kings full of Fours)
+Player Four: shows [Ah 4s] (three of a kind, Fours)
+Saludfresh collected 66980 from side pot
+-Iuury: shows [Qs Qd] (two pair, Queens and Fours)
+Saludfresh collected 246530 from main pot
+-Iuury finished the tournament in 8th place and received $3.67.
+Player Four finished the tournament in 7th place and received $3.67.
+Saludfresh wins the $2.15 bounty for eliminating -Iuury
+Saludfresh wins the $2.15 bounty for eliminating Player Four
+shogi2 has returned
+*** SUMMARY ***
+Total pot 313510 Main pot 246530. Side pot 66980. | Rake 0
+Board [Kh 4d 4c 8s Jc]
+Seat 1: -Iuury (big blind) showed [Qs Qd] and lost with two pair, Queens and Fours
+Seat 2: Saludfresh showed [Ks Kd] and won (313510) with a full house, Kings full of Fours
+Seat 4: Player Four (button) showed [Ah 4s] and lost with three of a kind, Fours
+Seat 7: shogi2 (small blind) folded before Flop
+
+
+PokerStars Hand #260784573803: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XX (5000/10000) - 2026/05/12 20:42:30 WET [2026/05/12 15:42:30 ET]
+Table '3999835239 12' 9-max Seat #7 is the button
+Seat 2: Saludfresh (479913 in chips)
+Seat 7: shogi2 (197283 in chips)
+Saludfresh: posts the ante 1500
+shogi2: posts the ante 1500
+shogi2: posts small blind 5000
+Saludfresh: posts big blind 10000
+*** HOLE CARDS ***
+shogi2: raises 15000 to 25000
+Saludfresh: folds
+Uncalled bet (15000) returned to shogi2
+shogi2 collected 23000 from pot
+shogi2: doesn't show hand
+*** SUMMARY ***
+Total pot 23000 | Rake 0
+Seat 2: Saludfresh (big blind) folded before Flop
+Seat 7: shogi2 (button) (small blind) collected (23000)

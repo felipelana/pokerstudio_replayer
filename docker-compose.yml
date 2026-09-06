@@ -1,0 +1,7 @@
+services:
+  replayer:
+    image: ${REPLAYER_IMAGE:-ghcr.io/OWNER/lana-replayer:latest}
+    container_name: lana-replayer
+    restart: unless-stopped
+    ports:
+      - '${REPLAYER_PORT:-8080}:80'

@@ -1,0 +1,220 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@500;700&family=Noto+Sans+SC:wght@400;600&family=Noto+Sans+JP:wght@400;600&family=Noto+Sans+KR:wght@400;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #2b2f36;
+  --bg-end: #1f2227;
+  --surface: #23272e;
+  --surface-2: #2f343c;
+  --text: #eef1f5;
+  --text-muted: #9aa3ad;
+  --accent: #4fa3ff;
+  --border: rgba(255, 255, 255, 0.09);
+  --felt: #1d6b3f;
+  --felt-edge: #0b2e1b;
+  --card-bg: #ffffff;
+  --suit-s: #23272e;
+  --suit-h: #c62828;
+  --suit-d: #1e5bb8;
+  --suit-c: #1f7a3a;
+  --plate-bg: rgba(20, 22, 26, 0.92);
+  --plate-border: rgba(255, 255, 255, 0.12);
+  --plate-active: #f5c542;
+  --plate-text: #f2f4f7;
+  --plate-muted: #9aa3ad;
+  --plate-fold: #6b7280;
+  --plate-allin: #e53935;
+  --plate-hero: #4fa3ff;
+  --plate-winner: #43a047;
+  --result-won: #43a047;
+  --result-lost: #e53935;
+  --result-folded: #6b7280;
+  --result-break-even: #f5c542;
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-end) 100%);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family:
+    Inter,
+    'Noto Sans',
+    'Noto Sans SC',
+    'Noto Sans JP',
+    'Noto Sans KR',
+    system-ui,
+    -apple-system,
+    sans-serif;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+:lang(zh-CN) body,
+:lang(zh) body {
+  font-family: Inter, 'Noto Sans SC', system-ui, sans-serif;
+}
+:lang(ja) body {
+  font-family: Inter, 'Noto Sans JP', system-ui, sans-serif;
+}
+:lang(ko) body {
+  font-family: Inter, 'Noto Sans KR', system-ui, sans-serif;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--text) 18%, transparent);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-md border px-3 py-1.5 text-sm font-medium transition-colors;
+    border-color: var(--border);
+    background: var(--surface-2);
+    color: var(--text);
+  }
+  .btn:hover {
+    background: color-mix(in srgb, var(--surface-2) 80%, var(--text) 8%);
+  }
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    border-color: transparent;
+  }
+  .btn-primary:hover {
+    background: color-mix(in srgb, var(--accent) 85%, #000 15%);
+  }
+  .btn-ghost {
+    background: transparent;
+    border-color: transparent;
+  }
+  .btn-ghost:hover {
+    background: color-mix(in srgb, var(--text) 8%, transparent);
+  }
+  .btn-icon {
+    @apply btn px-2;
+  }
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+  .input {
+    @apply w-full rounded-md border px-2.5 py-1.5 text-sm;
+    background: var(--surface-2);
+    border-color: var(--border);
+    color: var(--text);
+  }
+  .label {
+    @apply mb-1 block text-xs font-medium uppercase tracking-wide;
+    color: var(--text-muted);
+  }
+  .checkbox {
+    @apply inline-flex cursor-pointer select-none items-center gap-2 text-sm;
+  }
+  .checkbox input {
+    accent-color: var(--accent);
+  }
+  .chip-tag {
+    @apply inline-flex items-center rounded-full border px-2 py-0.5 text-xs;
+    border-color: var(--border);
+  }
+}
+
+/* ---------- animations ---------- */
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes chips-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes flip-in {
+  from {
+    transform: rotateY(90deg);
+  }
+  to {
+    transform: rotateY(0deg);
+  }
+}
+.anim .card-in {
+  animation: card-in 220ms ease-out both;
+}
+.anim .chips-in {
+  animation: chips-in 200ms ease-out both;
+}
+.anim .flip-in {
+  animation: flip-in 180ms ease-out both;
+  transform-style: preserve-3d;
+}
+.anim .seat-plate {
+  transition:
+    opacity 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
+}
+
+.result-won {
+  background: var(--result-won);
+}
+.result-lost {
+  background: var(--result-lost);
+}
+.result-folded {
+  background: var(--result-folded);
+}
+.result-break-even {
+  background: var(--result-break-even);
+}
+
+kbd {
+  @apply inline-block rounded border px-1.5 py-0.5 font-mono text-xs;
+  border-color: var(--border);
+  background: var(--surface-2);
+}

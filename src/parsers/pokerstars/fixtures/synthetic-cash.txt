@@ -1,0 +1,110 @@
+﻿PokerStars Hand #245000000001:  Hold'em No Limit ($0.05/$0.10 USD) - 2024/03/01 20:15:33 ET
+Table 'Aludra II' 6-max Seat #2 is the button
+Seat 1: villain one ($10.50 in chips)
+Seat 2: Hero ($12.00 in chips)
+Seat 3: José (Ñu) [x] ($9.85 in chips)
+Seat 4: 김철수 ($25.00 in chips)
+Seat 5: sitter ($4.00 in chips) is sitting out
+Seat 6: Иван ($10.00 in chips)
+José (Ñu) [x]: posts small blind $0.05
+김철수: posts big blind $0.10
+*** HOLE CARDS ***
+Dealt to Hero [Ah Kd]
+Иван: folds
+villain one: raises $0.20 to $0.30
+Hero: raises $0.70 to $1.00
+José (Ñu) [x]: folds
+김철수: folds
+villain one: calls $0.70
+*** FLOP *** [Ac 7d 2s]
+villain one: checks
+Hero: bets $1.20
+villain one: raises $2.40 to $3.60
+Hero: calls $2.40
+*** TURN *** [Ac 7d 2s] [9h]
+villain one: bets $5.90 and is all-in
+Hero: calls $5.90
+*** RIVER *** [Ac 7d 2s 9h] [3c]
+*** SHOW DOWN ***
+villain one: shows [7s 7h] (three of a kind, Sevens)
+Hero: mucks hand
+villain one collected $20.20 from pot
+*** SUMMARY ***
+Total pot $21.15 | Rake $0.95
+Board [Ac 7d 2s 9h 3c]
+Seat 1: villain one showed [7s 7h] and won ($20.20) with three of a kind, Sevens
+Seat 2: Hero (button) mucked [Ah Kd]
+Seat 3: José (Ñu) [x] (small blind) folded before Flop
+Seat 4: 김철수 (big blind) folded before Flop
+Seat 6: Иван folded before Flop (didn't bet)
+
+PokerStars Hand #245000000002:  Hold'em No Limit ($0.05/$0.10 USD) - 2024/03/01 20:17:02 ET
+Table 'Aludra II' 6-max Seat #3 is the button
+Seat 1: villain one ($20.20 in chips)
+Seat 2: Hero ($1.50 in chips)
+Seat 3: José (Ñu) [x] ($9.80 in chips)
+Seat 4: 김철수 ($24.90 in chips)
+Seat 6: Иван ($10.00 in chips)
+김철수: posts small blind $0.05
+Иван: posts big blind $0.10
+*** HOLE CARDS ***
+Dealt to Hero [Qc Qs]
+villain one: folds
+Hero: raises $1.40 to $1.50 and is all-in
+José (Ñu) [x]: calls $1.50
+김철수: calls $1.45
+Иван: folds
+*** FLOP *** [Qd 5h 5c]
+김철수: checks
+José (Ñu) [x]: checks
+*** TURN *** [Qd 5h 5c] [8d]
+김철수: checks
+José (Ñu) [x]: checks
+*** RIVER *** [Qd 5h 5c 8d] [Kc]
+김철수: checks
+José (Ñu) [x]: checks
+*** SHOW DOWN ***
+김철수: shows [5d 5s] (four of a kind, Fives)
+José (Ñu) [x]: mucks hand
+Hero: shows [Qc Qs] (a full house, Queens full of Fives)
+김철수 collected $4.40 from pot
+*** SUMMARY ***
+Total pot $4.60 | Rake $0.20
+Board [Qd 5h 5c 8d Kc]
+Seat 1: villain one folded before Flop (didn't bet)
+Seat 2: Hero showed [Qc Qs] and lost with a full house, Queens full of Fives
+Seat 3: José (Ñu) [x] (button) mucked [Ad Kd]
+Seat 4: 김철수 (small blind) showed [5d 5s] and won ($4.40) with four of a kind, Fives
+Seat 6: Иван (big blind) folded before Flop
+
+PokerStars Hand #245000000003:  Hold'em No Limit ($0.05/$0.10 USD) - 2024/03/01 20:18:40 ET
+Table 'Aludra II' 6-max Seat #4 is the button
+Seat 1: villain one ($20.20 in chips)
+Seat 2: Hero ($10.00 in chips)
+Seat 3: José (Ñu) [x] ($8.30 in chips)
+Seat 4: 김철수 ($27.80 in chips)
+Seat 6: Иван ($9.90 in chips)
+Иван: posts small blind $0.05
+villain one: posts big blind $0.10
+Hero: posts small & big blinds $0.15
+*** HOLE CARDS ***
+Dealt to Hero [2c 7d]
+José (Ñu) [x]: folds
+김철수: raises $0.20 to $0.30
+Иван: folds
+villain one: calls $0.20
+Hero: folds
+*** FLOP *** [Js Jd 4h]
+villain one: checks
+김철수: bets $0.40
+villain one: folds
+Uncalled bet ($0.40) returned to 김철수
+김철수 collected $0.78 from pot
+김철수: doesn't show hand
+*** SUMMARY ***
+Total pot $0.80 | Rake $0.02
+Board [Js Jd 4h]
+Seat 1: villain one (big blind) folded on the Flop
+Seat 3: José (Ñu) [x] folded before Flop (didn't bet)
+Seat 4: 김철수 (button) collected ($0.78)
+Seat 6: Иван (small blind) folded before Flop

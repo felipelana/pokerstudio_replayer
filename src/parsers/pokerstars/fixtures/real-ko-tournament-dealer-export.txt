@@ -1,0 +1,1450 @@
+﻿PokerStars Hand #260784487428: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXVII (5000/10000) - 2026/05/12 20:39:36 WET [2026/05/12 15:39:36 ET]
+Table '3999835239 7' 9-max Seat #3 is the button
+Seat 1: WBreKoZo (81510 in chips) 
+Seat 2: Saludfresh (298479 in chips) 
+Seat 3: victorf10 (158222 in chips) 
+Seat 4: cappoccino (259807 in chips) 
+Seat 5: Brunorflima (126836 in chips) 
+Seat 6: -Iuury (268141 in chips) 
+Seat 7: shogi2 (216783 in chips) 
+Seat 8: missjackmon007 (83164 in chips) 
+Seat 9: braianbritto (212058 in chips) 
+WBreKoZo: posts the ante 1500
+Saludfresh: posts the ante 1500
+victorf10: posts the ante 1500
+cappoccino: posts the ante 1500
+Brunorflima: posts the ante 1500
+-Iuury: posts the ante 1500
+shogi2: posts the ante 1500
+missjackmon007: posts the ante 1500
+braianbritto: posts the ante 1500
+cappoccino: posts small blind 5000
+Brunorflima: posts big blind 10000
+*** HOLE CARDS ***
+-Iuury: folds 
+shogi2 has timed out
+shogi2: folds 
+shogi2 is sitting out
+missjackmon007: folds 
+braianbritto: folds 
+WBreKoZo: folds 
+Saludfresh: folds 
+victorf10: folds 
+cappoccino: folds 
+Uncalled bet (5000) returned to Brunorflima
+Brunorflima collected 23500 from pot
+Brunorflima: doesn't show hand 
+*** SUMMARY ***
+Total pot 23500 | Rake 0 
+Seat 1: WBreKoZo folded before Flop (didn't bet)
+Seat 2: Saludfresh folded before Flop (didn't bet)
+Seat 3: victorf10 (button) folded before Flop (didn't bet)
+Seat 4: cappoccino (small blind) folded before Flop
+Seat 5: Brunorflima (big blind) collected (23500)
+Seat 6: -Iuury folded before Flop (didn't bet)
+Seat 7: shogi2 folded before Flop (didn't bet)
+Seat 8: missjackmon007 folded before Flop (didn't bet)
+Seat 9: braianbritto folded before Flop (didn't bet)
+
+
+
+PokerStars Hand #260784505265: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXVII (5000/10000) - 2026/05/12 20:40:51 WET [2026/05/12 15:40:51 ET]
+Table '3999835239 7' 9-max Seat #4 is the button
+Seat 1: WBreKoZo (80010 in chips) 
+Seat 2: Saludfresh (296979 in chips) 
+Seat 3: victorf10 (156722 in chips) 
+Seat 4: cappoccino (253307 in chips) 
+Seat 5: Brunorflima (143836 in chips) 
+Seat 6: -Iuury (266641 in chips) 
+Seat 7: shogi2 (215283 in chips) is sitting out
+Seat 8: missjackmon007 (81664 in chips) 
+Seat 9: braianbritto (210558 in chips) 
+WBreKoZo: posts the ante 1500
+Saludfresh: posts the ante 1500
+victorf10: posts the ante 1500
+cappoccino: posts the ante 1500
+Brunorflima: posts the ante 1500
+-Iuury: posts the ante 1500
+shogi2: posts the ante 1500
+missjackmon007: posts the ante 1500
+braianbritto: posts the ante 1500
+Brunorflima: posts small blind 5000
+-Iuury: posts big blind 10000
+*** HOLE CARDS ***
+shogi2: folds 
+missjackmon007: folds 
+braianbritto: folds 
+WBreKoZo: folds 
+Saludfresh: folds 
+victorf10: folds 
+cappoccino: folds 
+Brunorflima: calls 5000
+-Iuury: checks 
+*** FLOP *** [Js 5s 7s]
+Brunorflima: checks 
+-Iuury: checks 
+*** TURN *** [Js 5s 7s] [Jd]
+Brunorflima: bets 10000
+-Iuury: calls 10000
+*** RIVER *** [Js 5s 7s Jd] [8d]
+Brunorflima: checks 
+shogi2 has returned
+-Iuury: bets 24075
+Brunorflima: calls 24075
+*** SHOW DOWN ***
+-Iuury: shows [4c 6h] (a straight, Four to Eight)
+Brunorflima: mucks hand 
+-Iuury collected 101650 from pot
+*** SUMMARY ***
+Total pot 101650 | Rake 0 
+Board [Js 5s 7s Jd 8d]
+Seat 1: WBreKoZo folded before Flop (didn't bet)
+Seat 2: Saludfresh folded before Flop (didn't bet)
+Seat 3: victorf10 folded before Flop (didn't bet)
+Seat 4: cappoccino (button) folded before Flop (didn't bet)
+Seat 5: Brunorflima (small blind) mucked
+Seat 6: -Iuury (big blind) showed [4c 6h] and won (101650) with a straight, Four to Eight
+Seat 7: shogi2 folded before Flop (didn't bet)
+Seat 8: missjackmon007 folded before Flop (didn't bet)
+Seat 9: braianbritto folded before Flop (didn't bet)
+
+
+
+PokerStars Hand #260784523751: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXVIII (6000/12000) - 2026/05/12 20:42:09 WET [2026/05/12 15:42:09 ET]
+Table '3999835239 7' 9-max Seat #5 is the button
+Seat 1: WBreKoZo (78510 in chips) 
+Seat 2: Saludfresh (295479 in chips) 
+Seat 3: victorf10 (155222 in chips) 
+Seat 4: cappoccino (251807 in chips) 
+Seat 5: Brunorflima (98261 in chips) 
+Seat 6: -Iuury (322716 in chips) 
+Seat 7: shogi2 (213783 in chips) 
+Seat 8: missjackmon007 (80164 in chips) 
+Seat 9: braianbritto (209058 in chips) 
+WBreKoZo: posts the ante 1800
+Saludfresh: posts the ante 1800
+victorf10: posts the ante 1800
+cappoccino: posts the ante 1800
+Brunorflima: posts the ante 1800
+-Iuury: posts the ante 1800
+shogi2: posts the ante 1800
+missjackmon007: posts the ante 1800
+braianbritto: posts the ante 1800
+-Iuury: posts small blind 6000
+shogi2: posts big blind 12000
+*** HOLE CARDS ***
+missjackmon007: folds 
+braianbritto: raises 195258 to 207258 and is all-in
+WBreKoZo: folds 
+Saludfresh: folds 
+victorf10: folds 
+cappoccino: folds 
+Brunorflima: folds 
+-Iuury: folds 
+shogi2: folds 
+Uncalled bet (195258) returned to braianbritto
+braianbritto collected 46200 from pot
+braianbritto: doesn't show hand 
+*** SUMMARY ***
+Total pot 46200 | Rake 0 
+Seat 1: WBreKoZo folded before Flop (didn't bet)
+Seat 2: Saludfresh folded before Flop (didn't bet)
+Seat 3: victorf10 folded before Flop (didn't bet)
+Seat 4: cappoccino folded before Flop (didn't bet)
+Seat 5: Brunorflima (button) folded before Flop (didn't bet)
+Seat 6: -Iuury (small blind) folded before Flop
+Seat 7: shogi2 (big blind) folded before Flop
+Seat 8: missjackmon007 folded before Flop (didn't bet)
+Seat 9: braianbritto collected (46200)
+
+
+
+PokerStars Hand #260784529802: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXVIII (6000/12000) - 2026/05/12 20:42:34 WET [2026/05/12 15:42:34 ET]
+Table '3999835239 7' 9-max Seat #6 is the button
+Seat 1: WBreKoZo (76710 in chips) 
+Seat 2: Saludfresh (293679 in chips) 
+Seat 3: victorf10 (153422 in chips) 
+Seat 4: cappoccino (250007 in chips) 
+Seat 5: Brunorflima (96461 in chips) 
+Seat 6: -Iuury (314916 in chips) 
+Seat 7: shogi2 (199983 in chips) 
+Seat 8: missjackmon007 (78364 in chips) 
+Seat 9: braianbritto (241458 in chips) 
+WBreKoZo: posts the ante 1800
+Saludfresh: posts the ante 1800
+victorf10: posts the ante 1800
+cappoccino: posts the ante 1800
+Brunorflima: posts the ante 1800
+-Iuury: posts the ante 1800
+shogi2: posts the ante 1800
+missjackmon007: posts the ante 1800
+braianbritto: posts the ante 1800
+shogi2: posts small blind 6000
+missjackmon007: posts big blind 12000
+*** HOLE CARDS ***
+braianbritto: folds 
+WBreKoZo: raises 62910 to 74910 and is all-in
+Saludfresh: raises 216969 to 291879 and is all-in
+victorf10: folds 
+cappoccino: folds 
+Brunorflima: folds 
+-Iuury: folds 
+shogi2: folds 
+missjackmon007: folds 
+Uncalled bet (216969) returned to Saludfresh
+*** FLOP *** [Js 5h 5s]
+*** TURN *** [Js 5h 5s] [8d]
+*** RIVER *** [Js 5h 5s 8d] [9s]
+*** SHOW DOWN ***
+WBreKoZo: shows [Ah 8s] (two pair, Eights and Fives)
+Saludfresh: shows [Jc Ac] (two pair, Jacks and Fives)
+Saludfresh collected 184020 from pot
+Saludfresh wins the $2.15 bounty for eliminating WBreKoZo
+WBreKoZo finished the tournament in 9th place and received $3.67.
+*** SUMMARY ***
+Total pot 184020 | Rake 0 
+Board [Js 5h 5s 8d 9s]
+Seat 1: WBreKoZo showed [Ah 8s] and lost with two pair, Eights and Fives
+Seat 2: Saludfresh showed [Jc Ac] and won (184020) with two pair, Jacks and Fives
+Seat 3: victorf10 folded before Flop (didn't bet)
+Seat 4: cappoccino folded before Flop (didn't bet)
+Seat 5: Brunorflima folded before Flop (didn't bet)
+Seat 6: -Iuury (button) folded before Flop (didn't bet)
+Seat 7: shogi2 (small blind) folded before Flop
+Seat 8: missjackmon007 (big blind) folded before Flop
+Seat 9: braianbritto folded before Flop (didn't bet)
+
+
+
+PokerStars Hand #260784538029: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXVIII (6000/12000) - 2026/05/12 20:43:09 WET [2026/05/12 15:43:09 ET]
+Table '3999835239 7' 9-max Seat #7 is the button
+Seat 2: Saludfresh (400989 in chips) 
+Seat 3: victorf10 (151622 in chips) 
+Seat 4: cappoccino (248207 in chips) 
+Seat 5: Brunorflima (94661 in chips) 
+Seat 6: -Iuury (313116 in chips) 
+Seat 7: shogi2 (192183 in chips) 
+Seat 8: missjackmon007 (64564 in chips) 
+Seat 9: braianbritto (239658 in chips) 
+Saludfresh: posts the ante 1800
+victorf10: posts the ante 1800
+cappoccino: posts the ante 1800
+Brunorflima: posts the ante 1800
+-Iuury: posts the ante 1800
+shogi2: posts the ante 1800
+missjackmon007: posts the ante 1800
+braianbritto: posts the ante 1800
+missjackmon007: posts small blind 6000
+braianbritto: posts big blind 12000
+*** HOLE CARDS ***
+Saludfresh: folds 
+victorf10: folds 
+cappoccino: folds 
+Brunorflima: folds 
+-Iuury: raises 12000 to 24000
+shogi2: folds 
+missjackmon007: raises 38764 to 62764 and is all-in
+braianbritto: folds 
+-Iuury: calls 38764
+*** FLOP *** [Th 5h 8c]
+*** TURN *** [Th 5h 8c] [7d]
+*** RIVER *** [Th 5h 8c 7d] [Ad]
+*** SHOW DOWN ***
+missjackmon007: shows [Ah As] (three of a kind, Aces)
+-Iuury: shows [Qs Ac] (a pair of Aces)
+missjackmon007 collected 151928 from pot
+*** SUMMARY ***
+Total pot 151928 | Rake 0 
+Board [Th 5h 8c 7d Ad]
+Seat 2: Saludfresh folded before Flop (didn't bet)
+Seat 3: victorf10 folded before Flop (didn't bet)
+Seat 4: cappoccino folded before Flop (didn't bet)
+Seat 5: Brunorflima folded before Flop (didn't bet)
+Seat 6: -Iuury showed [Qs Ac] and lost with a pair of Aces
+Seat 7: shogi2 (button) folded before Flop (didn't bet)
+Seat 8: missjackmon007 (small blind) showed [Ah As] and won (151928) with three of a kind, Aces
+Seat 9: braianbritto (big blind) folded before Flop
+
+
+
+PokerStars Hand #260784644125: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXIX (7000/14000) - 2026/05/12 20:50:39 WET [2026/05/12 15:50:39 ET]
+Table '3999835239 7' 9-max Seat #2 is the button
+Seat 2: Saludfresh (359089 in chips) 
+Seat 4: cappoccino (227307 in chips) 
+Seat 5: Brunorflima (173422 in chips) 
+Seat 6: -Iuury (542957 in chips) 
+Seat 7: shogi2 (64222 in chips) 
+Seat 8: missjackmon007 (147828 in chips) 
+Seat 9: braianbritto (190175 in chips) 
+Saludfresh: posts the ante 2100
+cappoccino: posts the ante 2100
+Brunorflima: posts the ante 2100
+-Iuury: posts the ante 2100
+shogi2: posts the ante 2100
+missjackmon007: posts the ante 2100
+braianbritto: posts the ante 2100
+cappoccino: posts small blind 7000
+Brunorflima: posts big blind 14000
+*** HOLE CARDS ***
+-Iuury: folds 
+shogi2: folds 
+missjackmon007: calls 14000
+braianbritto: folds 
+Saludfresh: folds 
+cappoccino: folds 
+Brunorflima: checks 
+*** FLOP *** [3d Qs 9c]
+Brunorflima: checks 
+missjackmon007: checks 
+*** TURN *** [3d Qs 9c] [2d]
+Brunorflima: checks 
+missjackmon007: bets 14000
+Brunorflima: calls 14000
+*** RIVER *** [3d Qs 9c 2d] [Ts]
+Brunorflima: checks 
+missjackmon007: checks 
+*** SHOW DOWN ***
+Brunorflima: shows [8d 3s] (a pair of Threes)
+missjackmon007: mucks hand 
+Brunorflima collected 77700 from pot
+*** SUMMARY ***
+Total pot 77700 | Rake 0 
+Board [3d Qs 9c 2d Ts]
+Seat 2: Saludfresh (button) folded before Flop (didn't bet)
+Seat 4: cappoccino (small blind) folded before Flop
+Seat 5: Brunorflima (big blind) showed [8d 3s] and won (77700) with a pair of Threes
+Seat 6: -Iuury folded before Flop (didn't bet)
+Seat 7: shogi2 folded before Flop (didn't bet)
+Seat 8: missjackmon007 mucked
+Seat 9: braianbritto folded before Flop (didn't bet)
+
+
+
+PokerStars Hand #260784654882: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXIX (7000/14000) - 2026/05/12 20:51:24 WET [2026/05/12 15:51:24 ET]
+Table '3999835239 7' 9-max Seat #4 is the button
+Seat 2: Saludfresh (356989 in chips) 
+Seat 4: cappoccino (218207 in chips) 
+Seat 5: Brunorflima (221022 in chips) 
+Seat 6: -Iuury (540857 in chips) 
+Seat 7: shogi2 (62122 in chips) 
+Seat 8: missjackmon007 (117728 in chips) 
+Seat 9: braianbritto (188075 in chips) 
+Saludfresh: posts the ante 2100
+cappoccino: posts the ante 2100
+Brunorflima: posts the ante 2100
+-Iuury: posts the ante 2100
+shogi2: posts the ante 2100
+missjackmon007: posts the ante 2100
+braianbritto: posts the ante 2100
+Brunorflima: posts small blind 7000
+-Iuury: posts big blind 14000
+*** HOLE CARDS ***
+shogi2: folds 
+missjackmon007: folds 
+braianbritto: folds 
+Saludfresh: raises 14000 to 28000
+cappoccino: folds 
+Brunorflima: folds 
+-Iuury: raises 91000 to 119000
+Saludfresh: folds 
+Uncalled bet (91000) returned to -Iuury
+-Iuury collected 77700 from pot
+-Iuury: doesn't show hand 
+*** SUMMARY ***
+Total pot 77700 | Rake 0 
+Seat 2: Saludfresh folded before Flop
+Seat 4: cappoccino (button) folded before Flop (didn't bet)
+Seat 5: Brunorflima (small blind) folded before Flop
+Seat 6: -Iuury (big blind) collected (77700)
+Seat 7: shogi2 folded before Flop (didn't bet)
+Seat 8: missjackmon007 folded before Flop (didn't bet)
+Seat 9: braianbritto folded before Flop (didn't bet)
+
+
+
+PokerStars Hand #260784661959: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXX (8000/16000) - 2026/05/12 20:51:55 WET [2026/05/12 15:51:55 ET]
+Table '3999835239 7' 9-max Seat #5 is the button
+Seat 2: Saludfresh (326889 in chips) 
+Seat 4: cappoccino (216107 in chips) 
+Seat 5: Brunorflima (211922 in chips) 
+Seat 6: -Iuury (588457 in chips) 
+Seat 7: shogi2 (60022 in chips) 
+Seat 8: missjackmon007 (115628 in chips) 
+Seat 9: braianbritto (185975 in chips) 
+Saludfresh: posts the ante 2400
+cappoccino: posts the ante 2400
+Brunorflima: posts the ante 2400
+-Iuury: posts the ante 2400
+shogi2: posts the ante 2400
+missjackmon007: posts the ante 2400
+braianbritto: posts the ante 2400
+-Iuury: posts small blind 8000
+shogi2: posts big blind 16000
+*** HOLE CARDS ***
+missjackmon007: folds 
+braianbritto: folds 
+Saludfresh: raises 56000 to 72000
+cappoccino: folds 
+Brunorflima: folds 
+-Iuury: folds 
+shogi2: calls 41622 and is all-in
+Uncalled bet (14378) returned to Saludfresh
+*** FLOP *** [7c 8d 2s]
+*** TURN *** [7c 8d 2s] [Qd]
+*** RIVER *** [7c 8d 2s Qd] [Jh]
+*** SHOW DOWN ***
+shogi2: shows [8s Kh] (a pair of Eights)
+Saludfresh: shows [Ac Ts] (high card Ace)
+shogi2 collected 140044 from pot
+*** SUMMARY ***
+Total pot 140044 | Rake 0 
+Board [7c 8d 2s Qd Jh]
+Seat 2: Saludfresh showed [Ac Ts] and lost with high card Ace
+Seat 4: cappoccino folded before Flop (didn't bet)
+Seat 5: Brunorflima (button) folded before Flop (didn't bet)
+Seat 6: -Iuury (small blind) folded before Flop
+Seat 7: shogi2 (big blind) showed [8s Kh] and won (140044) with a pair of Eights
+Seat 8: missjackmon007 folded before Flop (didn't bet)
+Seat 9: braianbritto folded before Flop (didn't bet)
+
+
+
+PokerStars Hand #260784671283: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXX (8000/16000) - 2026/05/12 20:52:35 WET [2026/05/12 15:52:35 ET]
+Table '3999835239 7' 9-max Seat #6 is the button
+Seat 2: Saludfresh (266867 in chips) 
+Seat 4: cappoccino (213707 in chips) 
+Seat 5: Brunorflima (209522 in chips) 
+Seat 6: -Iuury (578057 in chips) 
+Seat 7: shogi2 (140044 in chips) 
+Seat 8: missjackmon007 (113228 in chips) 
+Seat 9: braianbritto (183575 in chips) 
+Saludfresh: posts the ante 2400
+cappoccino: posts the ante 2400
+Brunorflima: posts the ante 2400
+-Iuury: posts the ante 2400
+shogi2: posts the ante 2400
+missjackmon007: posts the ante 2400
+braianbritto: posts the ante 2400
+shogi2: posts small blind 8000
+missjackmon007: posts big blind 16000
+*** HOLE CARDS ***
+braianbritto: folds 
+Saludfresh: folds 
+cappoccino: folds 
+Brunorflima: raises 16000 to 32000
+-Iuury: raises 543657 to 575657 and is all-in
+shogi2: folds 
+missjackmon007: calls 94828 and is all-in
+Brunorflima: folds 
+Uncalled bet (464829) returned to -Iuury
+*** FLOP *** [2c 7s 3c]
+*** TURN *** [2c 7s 3c] [7d]
+*** RIVER *** [2c 7s 3c 7d] [3h]
+*** SHOW DOWN ***
+missjackmon007: shows [Js Jc] (two pair, Jacks and Sevens)
+-Iuury: shows [Qd Kc] (two pair, Sevens and Threes)
+missjackmon007 collected 278456 from pot
+*** SUMMARY ***
+Total pot 278456 | Rake 0 
+Board [2c 7s 3c 7d 3h]
+Seat 2: Saludfresh folded before Flop (didn't bet)
+Seat 4: cappoccino folded before Flop (didn't bet)
+Seat 5: Brunorflima folded before Flop
+Seat 6: -Iuury (button) showed [Qd Kc] and lost with two pair, Sevens and Threes
+Seat 7: shogi2 (small blind) folded before Flop
+Seat 8: missjackmon007 (big blind) showed [Js Jc] and won (278456) with two pair, Jacks and Sevens
+Seat 9: braianbritto folded before Flop (didn't bet)
+
+
+
+PokerStars Hand #260784678732: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXX (8000/16000) - 2026/05/12 20:53:07 WET [2026/05/12 15:53:07 ET]
+Table '3999835239 7' 9-max Seat #7 is the button
+Seat 2: Saludfresh (264467 in chips) 
+Seat 4: cappoccino (211307 in chips) 
+Seat 5: Brunorflima (175122 in chips) 
+Seat 6: -Iuury (464829 in chips) 
+Seat 7: shogi2 (129644 in chips) 
+Seat 8: missjackmon007 (278456 in chips) 
+Seat 9: braianbritto (181175 in chips) 
+Saludfresh: posts the ante 2400
+cappoccino: posts the ante 2400
+Brunorflima: posts the ante 2400
+-Iuury: posts the ante 2400
+shogi2: posts the ante 2400
+missjackmon007: posts the ante 2400
+braianbritto: posts the ante 2400
+missjackmon007: posts small blind 8000
+braianbritto: posts big blind 16000
+*** HOLE CARDS ***
+Saludfresh: folds 
+cappoccino: calls 16000
+Brunorflima: folds 
+-Iuury: folds 
+shogi2: raises 111244 to 127244 and is all-in
+missjackmon007: folds 
+braianbritto: folds 
+cappoccino: folds 
+Uncalled bet (111244) returned to shogi2
+shogi2 collected 72800 from pot
+shogi2: doesn't show hand 
+*** SUMMARY ***
+Total pot 72800 | Rake 0 
+Seat 2: Saludfresh folded before Flop (didn't bet)
+Seat 4: cappoccino folded before Flop
+Seat 5: Brunorflima folded before Flop (didn't bet)
+Seat 6: -Iuury folded before Flop (didn't bet)
+Seat 7: shogi2 (button) collected (72800)
+Seat 8: missjackmon007 (small blind) folded before Flop
+Seat 9: braianbritto (big blind) folded before Flop
+
+
+
+PokerStars Hand #260784685386: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXX (8000/16000) - 2026/05/12 20:53:35 WET [2026/05/12 15:53:35 ET]
+Table '3999835239 7' 9-max Seat #8 is the button
+Seat 2: Saludfresh (262067 in chips) 
+Seat 4: cappoccino (192907 in chips) 
+Seat 5: Brunorflima (172722 in chips) 
+Seat 6: -Iuury (462429 in chips) 
+Seat 7: shogi2 (184044 in chips) 
+Seat 8: missjackmon007 (268056 in chips) 
+Seat 9: braianbritto (162775 in chips) 
+Saludfresh: posts the ante 2400
+cappoccino: posts the ante 2400
+Brunorflima: posts the ante 2400
+-Iuury: posts the ante 2400
+shogi2: posts the ante 2400
+missjackmon007: posts the ante 2400
+braianbritto: posts the ante 2400
+braianbritto: posts small blind 8000
+Saludfresh: posts big blind 16000
+*** HOLE CARDS ***
+cappoccino: folds 
+Brunorflima: folds 
+-Iuury: folds 
+shogi2: calls 16000
+missjackmon007: folds 
+braianbritto: raises 144375 to 160375 and is all-in
+Saludfresh: folds 
+shogi2: folds 
+Uncalled bet (144375) returned to braianbritto
+braianbritto collected 64800 from pot
+braianbritto: doesn't show hand 
+*** SUMMARY ***
+Total pot 64800 | Rake 0 
+Seat 2: Saludfresh (big blind) folded before Flop
+Seat 4: cappoccino folded before Flop (didn't bet)
+Seat 5: Brunorflima folded before Flop (didn't bet)
+Seat 6: -Iuury folded before Flop (didn't bet)
+Seat 7: shogi2 folded before Flop
+Seat 8: missjackmon007 (button) folded before Flop (didn't bet)
+Seat 9: braianbritto (small blind) collected (64800)
+
+
+
+PokerStars Hand #260784694638: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXX (8000/16000) - 2026/05/12 20:54:15 WET [2026/05/12 15:54:15 ET]
+Table '3999835239 7' 9-max Seat #9 is the button
+Seat 2: Saludfresh (243667 in chips) 
+Seat 4: cappoccino (190507 in chips) 
+Seat 5: Brunorflima (170322 in chips) 
+Seat 6: -Iuury (460029 in chips) 
+Seat 7: shogi2 (165644 in chips) 
+Seat 8: missjackmon007 (265656 in chips) 
+Seat 9: braianbritto (209175 in chips) 
+Saludfresh: posts the ante 2400
+cappoccino: posts the ante 2400
+Brunorflima: posts the ante 2400
+-Iuury: posts the ante 2400
+shogi2: posts the ante 2400
+missjackmon007: posts the ante 2400
+braianbritto: posts the ante 2400
+Saludfresh: posts small blind 8000
+cappoccino: posts big blind 16000
+*** HOLE CARDS ***
+Brunorflima: folds 
+-Iuury: folds 
+shogi2: folds 
+missjackmon007: folds 
+braianbritto: raises 190775 to 206775 and is all-in
+Saludfresh: folds 
+cappoccino: folds 
+Uncalled bet (190775) returned to braianbritto
+braianbritto collected 56800 from pot
+braianbritto: doesn't show hand 
+*** SUMMARY ***
+Total pot 56800 | Rake 0 
+Seat 2: Saludfresh (small blind) folded before Flop
+Seat 4: cappoccino (big blind) folded before Flop
+Seat 5: Brunorflima folded before Flop (didn't bet)
+Seat 6: -Iuury folded before Flop (didn't bet)
+Seat 7: shogi2 folded before Flop (didn't bet)
+Seat 8: missjackmon007 folded before Flop (didn't bet)
+Seat 9: braianbritto (button) collected (56800)
+
+
+
+PokerStars Hand #260784699175: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXX (8000/16000) - 2026/05/12 20:54:34 WET [2026/05/12 15:54:34 ET]
+Table '3999835239 7' 9-max Seat #2 is the button
+Seat 2: Saludfresh (233267 in chips) 
+Seat 4: cappoccino (172107 in chips) 
+Seat 5: Brunorflima (167922 in chips) 
+Seat 6: -Iuury (457629 in chips) 
+Seat 7: shogi2 (163244 in chips) 
+Seat 8: missjackmon007 (263256 in chips) 
+Seat 9: braianbritto (247575 in chips) 
+Saludfresh: posts the ante 2400
+cappoccino: posts the ante 2400
+Brunorflima: posts the ante 2400
+-Iuury: posts the ante 2400
+shogi2: posts the ante 2400
+missjackmon007: posts the ante 2400
+braianbritto: posts the ante 2400
+cappoccino: posts small blind 8000
+Brunorflima: posts big blind 16000
+*** HOLE CARDS ***
+-Iuury: folds 
+shogi2 has timed out
+shogi2: folds 
+shogi2 is sitting out
+shogi2 has returned
+missjackmon007: folds 
+braianbritto: folds 
+Saludfresh: raises 214867 to 230867 and is all-in
+cappoccino: folds 
+Brunorflima: folds 
+Uncalled bet (214867) returned to Saludfresh
+Saludfresh collected 56800 from pot
+Saludfresh: doesn't show hand 
+*** SUMMARY ***
+Total pot 56800 | Rake 0 
+Seat 2: Saludfresh (button) collected (56800)
+Seat 4: cappoccino (small blind) folded before Flop
+Seat 5: Brunorflima (big blind) folded before Flop
+Seat 6: -Iuury folded before Flop (didn't bet)
+Seat 7: shogi2 folded before Flop (didn't bet)
+Seat 8: missjackmon007 folded before Flop (didn't bet)
+Seat 9: braianbritto folded before Flop (didn't bet)
+
+
+
+PokerStars Hand #260784706231: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXX (8000/16000) - 2026/05/12 20:55:05 WET [2026/05/12 15:55:05 ET]
+Table '3999835239 7' 9-max Seat #4 is the button
+Seat 2: Saludfresh (271667 in chips) 
+Seat 4: cappoccino (161707 in chips) 
+Seat 5: Brunorflima (149522 in chips) 
+Seat 6: -Iuury (455229 in chips) 
+Seat 7: shogi2 (160844 in chips) 
+Seat 8: missjackmon007 (260856 in chips) 
+Seat 9: braianbritto (245175 in chips) 
+Saludfresh: posts the ante 2400
+cappoccino: posts the ante 2400
+Brunorflima: posts the ante 2400
+-Iuury: posts the ante 2400
+shogi2: posts the ante 2400
+missjackmon007: posts the ante 2400
+braianbritto: posts the ante 2400
+Brunorflima: posts small blind 8000
+-Iuury: posts big blind 16000
+*** HOLE CARDS ***
+shogi2 has timed out
+shogi2: folds 
+shogi2 is sitting out
+shogi2 has returned
+missjackmon007: calls 16000
+braianbritto: folds 
+Saludfresh: folds 
+cappoccino: folds 
+Brunorflima: calls 8000
+-Iuury: checks 
+*** FLOP *** [Ah 8c 4d]
+Brunorflima: checks 
+-Iuury: checks 
+missjackmon007: bets 16000
+Brunorflima: calls 16000
+-Iuury: folds 
+*** TURN *** [Ah 8c 4d] [8s]
+Brunorflima: checks 
+missjackmon007: checks 
+*** RIVER *** [Ah 8c 4d 8s] [6s]
+Brunorflima: checks 
+missjackmon007: checks 
+*** SHOW DOWN ***
+Brunorflima: shows [Ac 7s] (two pair, Aces and Eights)
+missjackmon007: mucks hand 
+Brunorflima collected 96800 from pot
+*** SUMMARY ***
+Total pot 96800 | Rake 0 
+Board [Ah 8c 4d 8s 6s]
+Seat 2: Saludfresh folded before Flop (didn't bet)
+Seat 4: cappoccino (button) folded before Flop (didn't bet)
+Seat 5: Brunorflima (small blind) showed [Ac 7s] and won (96800) with two pair, Aces and Eights
+Seat 6: -Iuury (big blind) folded on the Flop
+Seat 7: shogi2 folded before Flop (didn't bet)
+Seat 8: missjackmon007 mucked
+Seat 9: braianbritto folded before Flop (didn't bet)
+
+
+
+PokerStars Hand #260784824300: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXXI (10000/20000) - 2026/05/12 21:05:28 WET [2026/05/12 16:05:28 ET]
+Table '3999835239 7' 9-max Seat #6 is the button
+Seat 2: Saludfresh (471574 in chips) 
+Seat 5: Brunorflima (375766 in chips) 
+Seat 6: -Iuury (424029 in chips) 
+Seat 8: missjackmon007 (134656 in chips) 
+Seat 9: braianbritto (298975 in chips) 
+Saludfresh: posts the ante 3000
+Brunorflima: posts the ante 3000
+-Iuury: posts the ante 3000
+missjackmon007: posts the ante 3000
+braianbritto: posts the ante 3000
+missjackmon007: posts small blind 10000
+braianbritto: posts big blind 20000
+*** HOLE CARDS ***
+Saludfresh: folds 
+Brunorflima: folds 
+-Iuury: folds 
+missjackmon007: calls 10000
+braianbritto: checks 
+*** FLOP *** [8c 5d Th]
+missjackmon007: bets 20000
+braianbritto: folds 
+Uncalled bet (20000) returned to missjackmon007
+missjackmon007 collected 55000 from pot
+missjackmon007: doesn't show hand 
+*** SUMMARY ***
+Total pot 55000 | Rake 0 
+Board [8c 5d Th]
+Seat 2: Saludfresh folded before Flop (didn't bet)
+Seat 5: Brunorflima folded before Flop (didn't bet)
+Seat 6: -Iuury (button) folded before Flop (didn't bet)
+Seat 8: missjackmon007 (small blind) collected (55000)
+Seat 9: braianbritto (big blind) folded on the Flop
+
+
+
+PokerStars Hand #260784831289: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXXI (10000/20000) - 2026/05/12 21:05:58 WET [2026/05/12 16:05:58 ET]
+Table '3999835239 7' 9-max Seat #8 is the button
+Seat 2: Saludfresh (468574 in chips) 
+Seat 5: Brunorflima (372766 in chips) 
+Seat 6: -Iuury (421029 in chips) 
+Seat 8: missjackmon007 (166656 in chips) 
+Seat 9: braianbritto (275975 in chips) 
+Saludfresh: posts the ante 3000
+Brunorflima: posts the ante 3000
+-Iuury: posts the ante 3000
+missjackmon007: posts the ante 3000
+braianbritto: posts the ante 3000
+braianbritto: posts small blind 10000
+Saludfresh: posts big blind 20000
+*** HOLE CARDS ***
+Brunorflima: folds 
+-Iuury: folds 
+missjackmon007: folds 
+braianbritto: folds 
+Uncalled bet (10000) returned to Saludfresh
+Saludfresh collected 35000 from pot
+Saludfresh: doesn't show hand 
+*** SUMMARY ***
+Total pot 35000 | Rake 0 
+Seat 2: Saludfresh (big blind) collected (35000)
+Seat 5: Brunorflima folded before Flop (didn't bet)
+Seat 6: -Iuury folded before Flop (didn't bet)
+Seat 8: missjackmon007 (button) folded before Flop (didn't bet)
+Seat 9: braianbritto (small blind) folded before Flop
+
+
+
+PokerStars Hand #260784834609: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXXI (10000/20000) - 2026/05/12 21:06:11 WET [2026/05/12 16:06:11 ET]
+Table '3999835239 7' 9-max Seat #9 is the button
+Seat 2: Saludfresh (490574 in chips) 
+Seat 5: Brunorflima (369766 in chips) 
+Seat 6: -Iuury (418029 in chips) 
+Seat 8: missjackmon007 (163656 in chips) 
+Seat 9: braianbritto (262975 in chips) 
+Saludfresh: posts the ante 3000
+Brunorflima: posts the ante 3000
+-Iuury: posts the ante 3000
+missjackmon007: posts the ante 3000
+braianbritto: posts the ante 3000
+Saludfresh: posts small blind 10000
+Brunorflima: posts big blind 20000
+*** HOLE CARDS ***
+-Iuury: folds 
+missjackmon007: raises 140656 to 160656 and is all-in
+braianbritto: folds 
+Saludfresh: folds 
+Brunorflima: folds 
+Uncalled bet (140656) returned to missjackmon007
+missjackmon007 collected 65000 from pot
+missjackmon007: doesn't show hand 
+*** SUMMARY ***
+Total pot 65000 | Rake 0 
+Seat 2: Saludfresh (small blind) folded before Flop
+Seat 5: Brunorflima (big blind) folded before Flop
+Seat 6: -Iuury folded before Flop (didn't bet)
+Seat 8: missjackmon007 collected (65000)
+Seat 9: braianbritto (button) folded before Flop (didn't bet)
+
+
+
+PokerStars Hand #260784839636: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXXI (10000/20000) - 2026/05/12 21:06:32 WET [2026/05/12 16:06:32 ET]
+Table '3999835239 7' 9-max Seat #2 is the button
+Seat 2: Saludfresh (477574 in chips) 
+Seat 5: Brunorflima (346766 in chips) 
+Seat 6: -Iuury (415029 in chips) 
+Seat 8: missjackmon007 (205656 in chips) 
+Seat 9: braianbritto (259975 in chips) 
+Saludfresh: posts the ante 3000
+Brunorflima: posts the ante 3000
+-Iuury: posts the ante 3000
+missjackmon007: posts the ante 3000
+braianbritto: posts the ante 3000
+Brunorflima: posts small blind 10000
+-Iuury: posts big blind 20000
+*** HOLE CARDS ***
+missjackmon007: folds 
+braianbritto: folds 
+Saludfresh: folds 
+Brunorflima: raises 40000 to 60000
+-Iuury: folds 
+Uncalled bet (40000) returned to Brunorflima
+Brunorflima collected 55000 from pot
+Brunorflima: doesn't show hand 
+*** SUMMARY ***
+Total pot 55000 | Rake 0 
+Seat 2: Saludfresh (button) folded before Flop (didn't bet)
+Seat 5: Brunorflima (small blind) collected (55000)
+Seat 6: -Iuury (big blind) folded before Flop
+Seat 8: missjackmon007 folded before Flop (didn't bet)
+Seat 9: braianbritto folded before Flop (didn't bet)
+
+
+
+PokerStars Hand #260784845084: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXXI (10000/20000) - 2026/05/12 21:06:55 WET [2026/05/12 16:06:55 ET]
+Table '3999835239 7' 9-max Seat #5 is the button
+Seat 2: Saludfresh (474574 in chips) 
+Seat 5: Brunorflima (378766 in chips) 
+Seat 6: -Iuury (392029 in chips) 
+Seat 8: missjackmon007 (202656 in chips) 
+Seat 9: braianbritto (256975 in chips) 
+Saludfresh: posts the ante 3000
+Brunorflima: posts the ante 3000
+-Iuury: posts the ante 3000
+missjackmon007: posts the ante 3000
+braianbritto: posts the ante 3000
+-Iuury: posts small blind 10000
+missjackmon007: posts big blind 20000
+*** HOLE CARDS ***
+braianbritto: folds 
+Saludfresh: folds 
+Brunorflima: folds 
+-Iuury: raises 369029 to 389029 and is all-in
+missjackmon007: folds 
+Uncalled bet (369029) returned to -Iuury
+-Iuury collected 55000 from pot
+-Iuury: doesn't show hand 
+*** SUMMARY ***
+Total pot 55000 | Rake 0 
+Seat 2: Saludfresh folded before Flop (didn't bet)
+Seat 5: Brunorflima (button) folded before Flop (didn't bet)
+Seat 6: -Iuury (small blind) collected (55000)
+Seat 8: missjackmon007 (big blind) folded before Flop
+Seat 9: braianbritto folded before Flop (didn't bet)
+
+
+
+PokerStars Hand #260784848153: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXXI (10000/20000) - 2026/05/12 21:07:08 WET [2026/05/12 16:07:08 ET]
+Table '3999835239 7' 9-max Seat #6 is the button
+Seat 2: Saludfresh (471574 in chips) 
+Seat 5: Brunorflima (375766 in chips) 
+Seat 6: -Iuury (424029 in chips) 
+Seat 8: missjackmon007 (179656 in chips) 
+Seat 9: braianbritto (253975 in chips) 
+Saludfresh: posts the ante 3000
+Brunorflima: posts the ante 3000
+-Iuury: posts the ante 3000
+missjackmon007: posts the ante 3000
+braianbritto: posts the ante 3000
+missjackmon007: posts small blind 10000
+braianbritto: posts big blind 20000
+*** HOLE CARDS ***
+Saludfresh: folds 
+Brunorflima: raises 25000 to 45000
+-Iuury: folds 
+missjackmon007: folds 
+braianbritto: folds 
+Uncalled bet (25000) returned to Brunorflima
+Brunorflima collected 65000 from pot
+Brunorflima: doesn't show hand 
+*** SUMMARY ***
+Total pot 65000 | Rake 0 
+Seat 2: Saludfresh folded before Flop (didn't bet)
+Seat 5: Brunorflima collected (65000)
+Seat 6: -Iuury (button) folded before Flop (didn't bet)
+Seat 8: missjackmon007 (small blind) folded before Flop
+Seat 9: braianbritto (big blind) folded before Flop
+
+
+
+PokerStars Hand #260784855447: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXXII (12500/25000) - 2026/05/12 21:07:40 WET [2026/05/12 16:07:40 ET]
+Table '3999835239 7' 9-max Seat #8 is the button
+Seat 2: Saludfresh (468574 in chips) 
+Seat 5: Brunorflima (417766 in chips) 
+Seat 6: -Iuury (421029 in chips) 
+Seat 8: missjackmon007 (166656 in chips) 
+Seat 9: braianbritto (230975 in chips) 
+Saludfresh: posts the ante 3800
+Brunorflima: posts the ante 3800
+-Iuury: posts the ante 3800
+missjackmon007: posts the ante 3800
+braianbritto: posts the ante 3800
+braianbritto: posts small blind 12500
+Saludfresh: posts big blind 25000
+*** HOLE CARDS ***
+Brunorflima: folds 
+-Iuury: folds 
+missjackmon007: folds 
+braianbritto: raises 202175 to 227175 and is all-in
+Saludfresh: folds 
+Uncalled bet (202175) returned to braianbritto
+braianbritto collected 69000 from pot
+braianbritto: doesn't show hand 
+*** SUMMARY ***
+Total pot 69000 | Rake 0 
+Seat 2: Saludfresh (big blind) folded before Flop
+Seat 5: Brunorflima folded before Flop (didn't bet)
+Seat 6: -Iuury folded before Flop (didn't bet)
+Seat 8: missjackmon007 (button) folded before Flop (didn't bet)
+Seat 9: braianbritto (small blind) collected (69000)
+
+
+
+PokerStars Hand #260784860093: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXXII (12500/25000) - 2026/05/12 21:08:00 WET [2026/05/12 16:08:00 ET]
+Table '3999835239 7' 9-max Seat #9 is the button
+Seat 2: Saludfresh (439774 in chips) 
+Seat 5: Brunorflima (413966 in chips) 
+Seat 6: -Iuury (417229 in chips) 
+Seat 8: missjackmon007 (162856 in chips) 
+Seat 9: braianbritto (271175 in chips) 
+Saludfresh: posts the ante 3800
+Brunorflima: posts the ante 3800
+-Iuury: posts the ante 3800
+missjackmon007: posts the ante 3800
+braianbritto: posts the ante 3800
+Saludfresh: posts small blind 12500
+Brunorflima: posts big blind 25000
+*** HOLE CARDS ***
+-Iuury: folds 
+missjackmon007: folds 
+braianbritto: folds 
+Saludfresh: raises 55000 to 80000
+Brunorflima: folds 
+Uncalled bet (55000) returned to Saludfresh
+Saludfresh collected 69000 from pot
+Saludfresh: doesn't show hand 
+*** SUMMARY ***
+Total pot 69000 | Rake 0 
+Seat 2: Saludfresh (small blind) collected (69000)
+Seat 5: Brunorflima (big blind) folded before Flop
+Seat 6: -Iuury folded before Flop (didn't bet)
+Seat 8: missjackmon007 folded before Flop (didn't bet)
+Seat 9: braianbritto (button) folded before Flop (didn't bet)
+
+
+
+PokerStars Hand #260784864300: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXXII (12500/25000) - 2026/05/12 21:08:17 WET [2026/05/12 16:08:17 ET]
+Table '3999835239 7' 9-max Seat #2 is the button
+Seat 2: Saludfresh (479974 in chips) 
+Seat 5: Brunorflima (385166 in chips) 
+Seat 6: -Iuury (413429 in chips) 
+Seat 8: missjackmon007 (159056 in chips) 
+Seat 9: braianbritto (267375 in chips) 
+Saludfresh: posts the ante 3800
+Brunorflima: posts the ante 3800
+-Iuury: posts the ante 3800
+missjackmon007: posts the ante 3800
+braianbritto: posts the ante 3800
+Brunorflima: posts small blind 12500
+-Iuury: posts big blind 25000
+*** HOLE CARDS ***
+missjackmon007: folds 
+braianbritto: folds 
+Saludfresh: raises 25000 to 50000
+Brunorflima: folds 
+-Iuury: raises 359629 to 409629 and is all-in
+Saludfresh: calls 359629
+*** FLOP *** [6h Qd 6s]
+*** TURN *** [6h Qd 6s] [Qs]
+*** RIVER *** [6h Qd 6s Qs] [2s]
+*** SHOW DOWN ***
+-Iuury: shows [As 7d] (two pair, Queens and Sixes)
+Saludfresh: shows [Ah 9d] (two pair, Queens and Sixes)
+-Iuury collected 425379 from pot
+Saludfresh collected 425379 from pot
+*** SUMMARY ***
+Total pot 850758 | Rake 0 
+Board [6h Qd 6s Qs 2s]
+Seat 2: Saludfresh (button) showed [Ah 9d] and won (425379) with two pair, Queens and Sixes
+Seat 5: Brunorflima (small blind) folded before Flop
+Seat 6: -Iuury (big blind) showed [As 7d] and won (425379) with two pair, Queens and Sixes
+Seat 8: missjackmon007 folded before Flop (didn't bet)
+Seat 9: braianbritto folded before Flop (didn't bet)
+
+
+
+PokerStars Hand #260784870908: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXXII (12500/25000) - 2026/05/12 21:08:46 WET [2026/05/12 16:08:46 ET]
+Table '3999835239 7' 9-max Seat #5 is the button
+Seat 2: Saludfresh (491924 in chips) 
+Seat 5: Brunorflima (368866 in chips) 
+Seat 6: -Iuury (425379 in chips) 
+Seat 8: missjackmon007 (155256 in chips) 
+Seat 9: braianbritto (263575 in chips) 
+Saludfresh: posts the ante 3800
+Brunorflima: posts the ante 3800
+-Iuury: posts the ante 3800
+missjackmon007: posts the ante 3800
+braianbritto: posts the ante 3800
+-Iuury: posts small blind 12500
+missjackmon007: posts big blind 25000
+*** HOLE CARDS ***
+braianbritto: raises 234775 to 259775 and is all-in
+Saludfresh: folds 
+Brunorflima: folds 
+-Iuury: folds 
+missjackmon007: folds 
+Uncalled bet (234775) returned to braianbritto
+braianbritto collected 81500 from pot
+braianbritto: doesn't show hand 
+*** SUMMARY ***
+Total pot 81500 | Rake 0 
+Seat 2: Saludfresh folded before Flop (didn't bet)
+Seat 5: Brunorflima (button) folded before Flop (didn't bet)
+Seat 6: -Iuury (small blind) folded before Flop
+Seat 8: missjackmon007 (big blind) folded before Flop
+Seat 9: braianbritto collected (81500)
+
+
+
+PokerStars Hand #260784873887: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXXII (12500/25000) - 2026/05/12 21:08:59 WET [2026/05/12 16:08:59 ET]
+Table '3999835239 7' 9-max Seat #6 is the button
+Seat 2: Saludfresh (488124 in chips) 
+Seat 5: Brunorflima (365066 in chips) 
+Seat 6: -Iuury (409079 in chips) 
+Seat 8: missjackmon007 (126456 in chips) 
+Seat 9: braianbritto (316275 in chips) 
+Saludfresh: posts the ante 3800
+Brunorflima: posts the ante 3800
+-Iuury: posts the ante 3800
+missjackmon007: posts the ante 3800
+braianbritto: posts the ante 3800
+missjackmon007: posts small blind 12500
+braianbritto: posts big blind 25000
+*** HOLE CARDS ***
+Saludfresh: folds 
+Brunorflima: folds 
+-Iuury: folds 
+missjackmon007: folds 
+Uncalled bet (12500) returned to braianbritto
+braianbritto collected 44000 from pot
+braianbritto: doesn't show hand 
+*** SUMMARY ***
+Total pot 44000 | Rake 0 
+Seat 2: Saludfresh folded before Flop (didn't bet)
+Seat 5: Brunorflima folded before Flop (didn't bet)
+Seat 6: -Iuury (button) folded before Flop (didn't bet)
+Seat 8: missjackmon007 (small blind) folded before Flop
+Seat 9: braianbritto (big blind) collected (44000)
+
+
+
+PokerStars Hand #260784876159: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXXII (12500/25000) - 2026/05/12 21:09:09 WET [2026/05/12 16:09:09 ET]
+Table '3999835239 7' 9-max Seat #8 is the button
+Seat 2: Saludfresh (484324 in chips) 
+Seat 5: Brunorflima (361266 in chips) 
+Seat 6: -Iuury (405279 in chips) 
+Seat 8: missjackmon007 (110156 in chips) 
+Seat 9: braianbritto (343975 in chips) 
+Saludfresh: posts the ante 3800
+Brunorflima: posts the ante 3800
+-Iuury: posts the ante 3800
+missjackmon007: posts the ante 3800
+braianbritto: posts the ante 3800
+braianbritto: posts small blind 12500
+Saludfresh: posts big blind 25000
+*** HOLE CARDS ***
+Brunorflima: raises 25000 to 50000
+-Iuury: folds 
+missjackmon007: folds 
+braianbritto: folds 
+Saludfresh: calls 25000
+*** FLOP *** [Jd 7c As]
+Saludfresh: bets 52600
+Brunorflima: calls 52600
+*** TURN *** [Jd 7c As] [8h]
+Saludfresh: checks 
+Brunorflima: bets 100000
+Saludfresh: calls 100000
+*** RIVER *** [Jd 7c As 8h] [Qh]
+Saludfresh: bets 277924 and is all-in
+Brunorflima: folds 
+Uncalled bet (277924) returned to Saludfresh
+Saludfresh collected 436700 from pot
+Saludfresh: doesn't show hand 
+*** SUMMARY ***
+Total pot 436700 | Rake 0 
+Board [Jd 7c As 8h Qh]
+Seat 2: Saludfresh (big blind) collected (436700)
+Seat 5: Brunorflima folded on the River
+Seat 6: -Iuury folded before Flop (didn't bet)
+Seat 8: missjackmon007 (button) folded before Flop (didn't bet)
+Seat 9: braianbritto (small blind) folded before Flop
+
+
+
+PokerStars Hand #260784884989: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXXII (12500/25000) - 2026/05/12 21:09:46 WET [2026/05/12 16:09:46 ET]
+Table '3999835239 7' 9-max Seat #9 is the button
+Seat 2: Saludfresh (714624 in chips) 
+Seat 5: Brunorflima (154866 in chips) 
+Seat 6: -Iuury (401479 in chips) 
+Seat 8: missjackmon007 (106356 in chips) 
+Seat 9: braianbritto (327675 in chips) 
+Saludfresh: posts the ante 3800
+Brunorflima: posts the ante 3800
+-Iuury: posts the ante 3800
+missjackmon007: posts the ante 3800
+braianbritto: posts the ante 3800
+Saludfresh: posts small blind 12500
+Brunorflima: posts big blind 25000
+*** HOLE CARDS ***
+-Iuury: folds 
+missjackmon007: folds 
+braianbritto: folds 
+Saludfresh: raises 685824 to 710824 and is all-in
+Brunorflima: folds 
+Uncalled bet (685824) returned to Saludfresh
+Saludfresh collected 69000 from pot
+Saludfresh: doesn't show hand 
+*** SUMMARY ***
+Total pot 69000 | Rake 0 
+Seat 2: Saludfresh (small blind) collected (69000)
+Seat 5: Brunorflima (big blind) folded before Flop
+Seat 6: -Iuury folded before Flop (didn't bet)
+Seat 8: missjackmon007 folded before Flop (didn't bet)
+Seat 9: braianbritto (button) folded before Flop (didn't bet)
+
+
+
+PokerStars Hand #260784888529: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXXII (12500/25000) - 2026/05/12 21:10:01 WET [2026/05/12 16:10:01 ET]
+Table '3999835239 7' 9-max Seat #2 is the button
+Seat 2: Saludfresh (754824 in chips) 
+Seat 5: Brunorflima (126066 in chips) 
+Seat 6: -Iuury (397679 in chips) 
+Seat 8: missjackmon007 (102556 in chips) 
+Seat 9: braianbritto (323875 in chips) 
+Saludfresh: posts the ante 3800
+Brunorflima: posts the ante 3800
+-Iuury: posts the ante 3800
+missjackmon007: posts the ante 3800
+braianbritto: posts the ante 3800
+Brunorflima: posts small blind 12500
+-Iuury: posts big blind 25000
+*** HOLE CARDS ***
+missjackmon007: folds 
+braianbritto: folds 
+Saludfresh: folds 
+Brunorflima: raises 97266 to 122266 and is all-in
+-Iuury: folds 
+Uncalled bet (97266) returned to Brunorflima
+Brunorflima collected 69000 from pot
+Brunorflima: doesn't show hand 
+*** SUMMARY ***
+Total pot 69000 | Rake 0 
+Seat 2: Saludfresh (button) folded before Flop (didn't bet)
+Seat 5: Brunorflima (small blind) collected (69000)
+Seat 6: -Iuury (big blind) folded before Flop
+Seat 8: missjackmon007 folded before Flop (didn't bet)
+Seat 9: braianbritto folded before Flop (didn't bet)
+
+
+
+PokerStars Hand #260784891313: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXXII (12500/25000) - 2026/05/12 21:10:13 WET [2026/05/12 16:10:13 ET]
+Table '3999835239 7' 9-max Seat #5 is the button
+Seat 2: Saludfresh (751024 in chips) 
+Seat 5: Brunorflima (166266 in chips) 
+Seat 6: -Iuury (368879 in chips) 
+Seat 8: missjackmon007 (98756 in chips) 
+Seat 9: braianbritto (320075 in chips) 
+Saludfresh: posts the ante 3800
+Brunorflima: posts the ante 3800
+-Iuury: posts the ante 3800
+missjackmon007: posts the ante 3800
+braianbritto: posts the ante 3800
+-Iuury: posts small blind 12500
+missjackmon007: posts big blind 25000
+*** HOLE CARDS ***
+braianbritto: folds 
+Saludfresh: raises 55000 to 80000
+Brunorflima: folds 
+-Iuury: folds 
+missjackmon007: folds 
+Uncalled bet (55000) returned to Saludfresh
+Saludfresh collected 81500 from pot
+Saludfresh: doesn't show hand 
+*** SUMMARY ***
+Total pot 81500 | Rake 0 
+Seat 2: Saludfresh collected (81500)
+Seat 5: Brunorflima (button) folded before Flop (didn't bet)
+Seat 6: -Iuury (small blind) folded before Flop
+Seat 8: missjackmon007 (big blind) folded before Flop
+Seat 9: braianbritto folded before Flop (didn't bet)
+
+
+
+PokerStars Hand #260784895837: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXXII (12500/25000) - 2026/05/12 21:10:32 WET [2026/05/12 16:10:32 ET]
+Table '3999835239 7' 9-max Seat #6 is the button
+Seat 2: Saludfresh (803724 in chips) 
+Seat 5: Brunorflima (162466 in chips) 
+Seat 6: -Iuury (352579 in chips) 
+Seat 8: missjackmon007 (69956 in chips) 
+Seat 9: braianbritto (316275 in chips) 
+Saludfresh: posts the ante 3800
+Brunorflima: posts the ante 3800
+-Iuury: posts the ante 3800
+missjackmon007: posts the ante 3800
+braianbritto: posts the ante 3800
+missjackmon007: posts small blind 12500
+braianbritto: posts big blind 25000
+*** HOLE CARDS ***
+Saludfresh: calls 25000
+Brunorflima: folds 
+-Iuury: folds 
+missjackmon007: calls 12500
+braianbritto: checks 
+*** FLOP *** [9c Js 4c]
+missjackmon007: checks 
+braianbritto: checks 
+Saludfresh: bets 62600
+missjackmon007: folds 
+braianbritto: folds 
+Uncalled bet (62600) returned to Saludfresh
+Saludfresh collected 94000 from pot
+Saludfresh: doesn't show hand 
+*** SUMMARY ***
+Total pot 94000 | Rake 0 
+Board [9c Js 4c]
+Seat 2: Saludfresh collected (94000)
+Seat 5: Brunorflima folded before Flop (didn't bet)
+Seat 6: -Iuury (button) folded before Flop (didn't bet)
+Seat 8: missjackmon007 (small blind) folded on the Flop
+Seat 9: braianbritto (big blind) folded on the Flop
+
+
+
+PokerStars Hand #260784902584: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXXII (12500/25000) - 2026/05/12 21:11:00 WET [2026/05/12 16:11:00 ET]
+Table '3999835239 7' 9-max Seat #8 is the button
+Seat 2: Saludfresh (868924 in chips) 
+Seat 5: Brunorflima (158666 in chips) 
+Seat 6: -Iuury (348779 in chips) 
+Seat 8: missjackmon007 (41156 in chips) 
+Seat 9: braianbritto (287475 in chips) 
+Saludfresh: posts the ante 3800
+Brunorflima: posts the ante 3800
+-Iuury: posts the ante 3800
+missjackmon007: posts the ante 3800
+braianbritto: posts the ante 3800
+braianbritto: posts small blind 12500
+Saludfresh: posts big blind 25000
+*** HOLE CARDS ***
+Brunorflima: folds 
+-Iuury: folds 
+missjackmon007: raises 12356 to 37356 and is all-in
+braianbritto: raises 246319 to 283675 and is all-in
+Saludfresh: folds 
+Uncalled bet (246319) returned to braianbritto
+*** FLOP *** [8s 4h 6c]
+*** TURN *** [8s 4h 6c] [2s]
+*** RIVER *** [8s 4h 6c 2s] [Th]
+*** SHOW DOWN ***
+braianbritto: shows [Kc Ac] (high card Ace)
+missjackmon007: shows [Jc Js] (a pair of Jacks)
+missjackmon007 collected 118712 from pot
+*** SUMMARY ***
+Total pot 118712 | Rake 0 
+Board [8s 4h 6c 2s Th]
+Seat 2: Saludfresh (big blind) folded before Flop
+Seat 5: Brunorflima folded before Flop (didn't bet)
+Seat 6: -Iuury folded before Flop (didn't bet)
+Seat 8: missjackmon007 (button) showed [Jc Js] and won (118712) with a pair of Jacks
+Seat 9: braianbritto (small blind) showed [Kc Ac] and lost with high card Ace
+
+
+
+PokerStars Hand #260784907954: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXXII (12500/25000) - 2026/05/12 21:11:23 WET [2026/05/12 16:11:23 ET]
+Table '3999835239 7' 9-max Seat #9 is the button
+Seat 2: Saludfresh (840124 in chips) 
+Seat 5: Brunorflima (154866 in chips) 
+Seat 6: -Iuury (344979 in chips) 
+Seat 8: missjackmon007 (118712 in chips) 
+Seat 9: braianbritto (246319 in chips) 
+Saludfresh: posts the ante 3800
+Brunorflima: posts the ante 3800
+-Iuury: posts the ante 3800
+missjackmon007: posts the ante 3800
+braianbritto: posts the ante 3800
+Saludfresh: posts small blind 12500
+Brunorflima: posts big blind 25000
+*** HOLE CARDS ***
+-Iuury: folds 
+missjackmon007: folds 
+braianbritto: folds 
+Saludfresh: raises 811324 to 836324 and is all-in
+Brunorflima: folds 
+Uncalled bet (811324) returned to Saludfresh
+Saludfresh collected 69000 from pot
+Saludfresh: doesn't show hand 
+*** SUMMARY ***
+Total pot 69000 | Rake 0 
+Seat 2: Saludfresh (small blind) collected (69000)
+Seat 5: Brunorflima (big blind) folded before Flop
+Seat 6: -Iuury folded before Flop (didn't bet)
+Seat 8: missjackmon007 folded before Flop (didn't bet)
+Seat 9: braianbritto (button) folded before Flop (didn't bet)
+
+
+
+PokerStars Hand #260784911788: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXXII (12500/25000) - 2026/05/12 21:11:39 WET [2026/05/12 16:11:39 ET]
+Table '3999835239 7' 9-max Seat #2 is the button
+Seat 2: Saludfresh (880324 in chips) 
+Seat 5: Brunorflima (126066 in chips) 
+Seat 6: -Iuury (341179 in chips) 
+Seat 8: missjackmon007 (114912 in chips) 
+Seat 9: braianbritto (242519 in chips) 
+Saludfresh: posts the ante 3800
+Brunorflima: posts the ante 3800
+-Iuury: posts the ante 3800
+missjackmon007: posts the ante 3800
+braianbritto: posts the ante 3800
+Brunorflima: posts small blind 12500
+-Iuury: posts big blind 25000
+*** HOLE CARDS ***
+missjackmon007: folds 
+braianbritto: raises 213719 to 238719 and is all-in
+Saludfresh: folds 
+Brunorflima: folds 
+-Iuury: folds 
+Uncalled bet (213719) returned to braianbritto
+braianbritto collected 81500 from pot
+braianbritto: doesn't show hand 
+*** SUMMARY ***
+Total pot 81500 | Rake 0 
+Seat 2: Saludfresh (button) folded before Flop (didn't bet)
+Seat 5: Brunorflima (small blind) folded before Flop
+Seat 6: -Iuury (big blind) folded before Flop
+Seat 8: missjackmon007 folded before Flop (didn't bet)
+Seat 9: braianbritto collected (81500)
+
+
+
+PokerStars Hand #260784915280: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXXII (12500/25000) - 2026/05/12 21:11:54 WET [2026/05/12 16:11:54 ET]
+Table '3999835239 7' 9-max Seat #5 is the button
+Seat 2: Saludfresh (876524 in chips) 
+Seat 5: Brunorflima (109766 in chips) 
+Seat 6: -Iuury (312379 in chips) 
+Seat 8: missjackmon007 (111112 in chips) 
+Seat 9: braianbritto (295219 in chips) 
+Saludfresh: posts the ante 3800
+Brunorflima: posts the ante 3800
+-Iuury: posts the ante 3800
+missjackmon007: posts the ante 3800
+braianbritto: posts the ante 3800
+-Iuury: posts small blind 12500
+missjackmon007: posts big blind 25000
+*** HOLE CARDS ***
+braianbritto: folds 
+Saludfresh: folds 
+Brunorflima: raises 80966 to 105966 and is all-in
+-Iuury: folds 
+missjackmon007: folds 
+Uncalled bet (80966) returned to Brunorflima
+Brunorflima collected 81500 from pot
+Brunorflima: doesn't show hand 
+*** SUMMARY ***
+Total pot 81500 | Rake 0 
+Seat 2: Saludfresh folded before Flop (didn't bet)
+Seat 5: Brunorflima (button) collected (81500)
+Seat 6: -Iuury (small blind) folded before Flop
+Seat 8: missjackmon007 (big blind) folded before Flop
+Seat 9: braianbritto folded before Flop (didn't bet)
+
+
+
+PokerStars Hand #260784917960: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXXII (12500/25000) - 2026/05/12 21:12:05 WET [2026/05/12 16:12:05 ET]
+Table '3999835239 7' 9-max Seat #6 is the button
+Seat 2: Saludfresh (872724 in chips) 
+Seat 5: Brunorflima (162466 in chips) 
+Seat 6: -Iuury (296079 in chips) 
+Seat 8: missjackmon007 (82312 in chips) 
+Seat 9: braianbritto (291419 in chips) 
+Saludfresh: posts the ante 3800
+Brunorflima: posts the ante 3800
+-Iuury: posts the ante 3800
+missjackmon007: posts the ante 3800
+braianbritto: posts the ante 3800
+missjackmon007: posts small blind 12500
+braianbritto: posts big blind 25000
+*** HOLE CARDS ***
+Saludfresh: folds 
+Brunorflima: folds 
+-Iuury: folds 
+missjackmon007: folds 
+Uncalled bet (12500) returned to braianbritto
+braianbritto collected 44000 from pot
+braianbritto: doesn't show hand 
+*** SUMMARY ***
+Total pot 44000 | Rake 0 
+Seat 2: Saludfresh folded before Flop (didn't bet)
+Seat 5: Brunorflima folded before Flop (didn't bet)
+Seat 6: -Iuury (button) folded before Flop (didn't bet)
+Seat 8: missjackmon007 (small blind) folded before Flop
+Seat 9: braianbritto (big blind) collected (44000)
+
+
+
+PokerStars Hand #260784923270: Tournament #3999835239, $0.49+$0.49+$0.12 USD Hold'em No Limit - Level XXXIII (15000/30000) - 2026/05/12 21:12:27 WET [2026/05/12 16:12:27 ET]
+Table '3999835239 7' 9-max Seat #8 is the button
+Seat 2: Saludfresh (868924 in chips) 
+Seat 5: Brunorflima (158666 in chips) 
+Seat 6: -Iuury (292279 in chips) 
+Seat 8: missjackmon007 (66012 in chips) 
+Seat 9: braianbritto (319119 in chips) 
+Saludfresh: posts the ante 5000
+Brunorflima: posts the ante 5000
+-Iuury: posts the ante 5000
+missjackmon007: posts the ante 5000
+braianbritto: posts the ante 5000
+braianbritto: posts small blind 15000
+Saludfresh: posts big blind 30000
+*** HOLE CARDS ***
+Brunorflima: raises 123666 to 153666 and is all-in
+-Iuury: folds 
+missjackmon007: calls 61012 and is all-in
+braianbritto: folds 
+Saludfresh: calls 123666
+*** FLOP *** [5s 9d 6s]
+*** TURN *** [5s 9d 6s] [2d]
+*** RIVER *** [5s 9d 6s 2d] [Js]
+*** SHOW DOWN ***
+Saludfresh: shows [Tc 4c] (high card Jack)
+Brunorflima: shows [Th Ad] (high card Ace)
+Brunorflima collected 185308 from side pot
+missjackmon007: shows [Td Ah] (high card Ace)
+Brunorflima collected 111518 from main pot
+missjackmon007 collected 111518 from main pot
+*** SUMMARY ***
+Total pot 408344 Main pot 223036. Side pot 185308. | Rake 0 
+Board [5s 9d 6s 2d Js]
+Seat 2: Saludfresh (big blind) showed [Tc 4c] and lost with high card Jack
+Seat 5: Brunorflima showed [Th Ad] and won (296826) with high card Ace
+Seat 6: -Iuury folded before Flop (didn't bet)
+Seat 8: missjackmon007 (button) showed [Td Ah] and won (111518) with high card Ace
+Seat 9: braianbritto (small blind) folded before Flop
+

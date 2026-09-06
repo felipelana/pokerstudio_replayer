@@ -1,0 +1,92 @@
+import type { CardCode } from '@/model/cards';
+import type { DeckSkin } from '@/skins/types';
+import { CARD_H, CARD_W, cardPrimitives, patternShapes } from './primitives';
+
+const cache = new Map<string, HTMLCanvasElement>();
+
+function deckKey(deck: DeckSkin): string {
+  return JSON.stringify(deck);
+}
+
+/**
+ * Draw a card into a canvas using the same primitives as the SVG component.
+ * Cached by (card, deck). Used as a Three.js texture.
+ */
+export function cardCanvas(card: CardCode | 'back', deck: DeckSkin, scale = 4): HTMLCanvasElement {
+  const key = `${card}|${scale}|${deckKey(deck)}`;
+  const hit = cache.get(key);
+  if (hit) return hit;
+
+  const canvas = document.createElement('canvas');
+  canvas.width = CARD_W * scale;
+  canvas.height = CARD_H * scale;
+  const ctx = canvas.getContext('2d')!;
+  ctx.scale(scale, scale);
+  ctx.clearRect(0, 0, CARD_W, CARD_H);
+
+  for (const p of cardPrimitives(card, deck)) {
+    switch (p.kind) {
+      case 'rect': {
+        ctx.beginPath();
+        ctx.roundRect(p.x, p.y, p.w, p.h, p.rx);
+        ctx.fillStyle = p.fill;
+        ctx.fill();
+        if (p.stroke) {
+          ctx.strokeStyle = p.stroke;
+          ctx.lineWidth = p.strokeWidth ?? 1;
+          ctx.stroke();
+        }
+        break;
+      }
+      case 'text': {
+        ctx.font = `${p.weight} ${p.size}px ${p.font}`;
+        ctx.fillStyle = p.fill;
+        ctx.textAlign = p.anchor === 'middle' ? 'center' : p.anchor === 'end' ? 'right' : 'left';
+        ctx.textBaseline = 'alphabetic';
+        ctx.fillText(p.text, p.x, p.y);
+        break;
+      }
+      case 'path': {
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.scale(p.scale, p.scale);
+        ctx.fillStyle = p.fill;
+        ctx.fill(new Path2D(p.d));
+        ctx.restore();
+        break;
+      }
+      case 'pattern': {
+        ctx.fillStyle = p.ink;
+        ctx.strokeStyle = p.ink;
+        ctx.lineWidth = 0.8;
+        for (const s of patternShapes(p.pattern, p.inset)) {
+          if (s.kind === 'circle') {
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.w, 0, Math.PI * 2);
+            ctx.fill();
+          } else if (s.kind === 'diamond') {
+            ctx.beginPath();
+            ctx.moveTo(s.x, s.y - s.h / 2);
+            ctx.lineTo(s.x + s.w / 2, s.y);
+            ctx.lineTo(s.x, s.y + s.h / 2);
+            ctx.lineTo(s.x - s.w / 2, s.y);
+            ctx.closePath();
+            ctx.fill();
+          } else {
+            ctx.beginPath();
+            ctx.moveTo(s.x, s.y);
+            ctx.lineTo(s.x + s.w, s.y + s.h);
+            ctx.stroke();
+          }
+        }
+        break;
+      }
+    }
+  }
+  cache.set(key, canvas);
+  return canvas;
+}
+
+export function clearCardTextureCache() {
+  cache.clear();
+}
