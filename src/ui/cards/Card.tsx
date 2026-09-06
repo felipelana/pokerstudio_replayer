@@ -1,7 +1,7 @@
-import { memo } from 'react';
+import { memo, useId } from 'react';
 import type { CardCode } from '@/model/cards';
 import type { DeckSkin } from '@/skins/types';
-import { CARD_H, CARD_W, cardPrimitives, patternShapes } from './primitives';
+import { CARD_H, CARD_W, cardPrimitives, glossStops, patternShapes } from './primitives';
 
 interface Props {
   card: CardCode | 'back';
@@ -17,13 +17,14 @@ interface Props {
 export const Card = memo(function Card({ card, deck, width = 40, className, dimmed, title }: Props) {
   const prims = cardPrimitives(card, deck);
   const height = (width * CARD_H) / CARD_W;
+  const glossId = useId();
   return (
     <svg
       width={width}
       height={height}
       viewBox={`0 0 ${CARD_W} ${CARD_H}`}
       className={className}
-      style={{ opacity: dimmed ? 0.45 : 1, display: 'block', flexShrink: 0 }}
+      style={{ opacity: dimmed ? 0.45 : 1, display: 'block', flexShrink: 0, filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.45))' }}
       role="img"
       aria-label={title ?? (card === 'back' ? 'card back' : card)}
     >
@@ -84,6 +85,19 @@ export const Card = memo(function Card({ card, deck, width = 40, className, dimm
                     );
                   return <line key={j} x1={s.x} y1={s.y} x2={s.x + s.w} y2={s.y + s.h} />;
                 })}
+              </g>
+            );
+          case 'gloss':
+            return (
+              <g key={i}>
+                <defs>
+                  <linearGradient id={`${glossId}-g`} x1="0" y1="0" x2="1" y2="1">
+                    {glossStops(p.strength).map((s, j) => (
+                      <stop key={j} offset={s.offset} stopColor="#ffffff" stopOpacity={s.alpha} />
+                    ))}
+                  </linearGradient>
+                </defs>
+                <rect x={0} y={0} width={CARD_W} height={CARD_H} rx={p.rx} fill={`url(#${glossId}-g)`} pointerEvents="none" />
               </g>
             );
         }

@@ -62,7 +62,7 @@ export const SeatPlate = memo(function SeatPlate({
   fmt,
   exact,
   onClick,
-  cardWidth = 34,
+  cardWidth = 50,
   scale = 1,
 }: Props) {
   const p = skin.plates;
@@ -78,7 +78,7 @@ export const SeatPlate = memo(function SeatPlate({
       style={{ transform: `scale(${scale})`, transformOrigin: 'center bottom', opacity: dim ? 0.55 : 1 }}
     >
       {hasCards && (
-        <div className="mb-[-6px] flex gap-[2px]" aria-label={known ? player.cards!.join(' ') : labels.unknownCards}>
+        <div className="mb-[-8px] flex gap-[3px]" aria-label={known ? player.cards!.join(' ') : labels.unknownCards}>
           {showFaces ? (
             player.cards!.map((c) => (
               <div key={c} className="flip-in">

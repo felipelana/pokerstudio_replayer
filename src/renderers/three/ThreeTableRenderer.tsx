@@ -28,9 +28,12 @@ function cardTexture(card: string | 'back', deck: DeckSkin): THREE.CanvasTexture
   const key = `${card}|${JSON.stringify(deck)}`;
   let tex = textureCache.get(key);
   if (!tex) {
-    tex = new THREE.CanvasTexture(cardCanvas(card, deck, 4));
+    tex = new THREE.CanvasTexture(cardCanvas(card, deck, 6));
     tex.colorSpace = THREE.SRGBColorSpace;
-    tex.anisotropy = 8;
+    tex.anisotropy = 16;
+    tex.minFilter = THREE.LinearMipmapLinearFilter;
+    tex.magFilter = THREE.LinearFilter;
+    tex.generateMipmaps = true;
     textureCache.set(key, tex);
   }
   return tex;
@@ -177,11 +180,12 @@ function CardMesh({ card, deck, position, rotationY = 0 }: { card: string; deck:
     <group position={[position[0], position[1] + lift, position[2]]} rotation={[-Math.PI / 2 + CARD_TILT, 0, rotationY]}>
       <mesh castShadow>
         <planeGeometry args={[CARD_WIDTH, CARD_HEIGHT]} />
-        <meshStandardMaterial map={tex} roughness={0.6} />
+        {/* Low roughness + a little metalness gives the printed face a glossy sheen. */}
+        <meshStandardMaterial map={tex} roughness={0.28} metalness={0.06} />
       </mesh>
       <mesh rotation={[Math.PI, 0, 0]} position={[0, 0, -0.004]}>
         <planeGeometry args={[CARD_WIDTH, CARD_HEIGHT]} />
-        <meshStandardMaterial map={back} roughness={0.6} />
+        <meshStandardMaterial map={back} roughness={0.32} metalness={0.06} />
       </mesh>
     </group>
   );
@@ -345,6 +349,7 @@ function Scene(props: TableRendererProps & { labels: SceneLabels }) {
                   fmt={fmt}
                   exact={exact}
                   onClick={interactive && onSeatClick ? () => onSeatClick(p.name) : undefined}
+                  cardWidth={p.name === heroName ? 64 : 50}
                   scale={slots.length > 8 ? 0.9 : 1}
                 />
               ) : (

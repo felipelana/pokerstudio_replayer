@@ -114,7 +114,9 @@
     "noSession": "Keine Sitzung geladen",
     "hideResults": "Ergebnisse ausblenden (Blind-Review)",
     "focusSelect": "Fokusspieler",
-    "choosePlayer": "Spieler wählen…"
+    "choosePlayer": "Spieler wählen…",
+    "randomHand": "Zufällige Hand",
+    "fileHero": "Hero aus der Datei (Dealt to)"
   },
   "table": {
     "pot": "Pot",

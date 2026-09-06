@@ -104,24 +104,29 @@ export function Sidebar({ rows, currentIndex, skin, heroName, sessionHasHero, pl
           {t('sidebar.hideResults')}
         </label>
       </div>
-      {!sessionHasHero && (
-        <div className="flex flex-col gap-1 rounded-md px-2 py-1.5 text-[11px]" style={{ background: 'color-mix(in srgb, var(--result-break-even) 15%, transparent)' }}>
-          {!heroName && <span>{t('sidebar.noHero')}</span>}
-          <label className="flex flex-col gap-0.5">
-            <span className="font-semibold uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>
-              {t('sidebar.focusSelect')}
-            </span>
-            <select className="input !py-1 text-xs" value={focusPlayer ?? ''} onChange={(e) => setFocus(e.target.value || undefined)}>
-              <option value="">{t('sidebar.choosePlayer')}</option>
-              {players.map((p) => (
-                <option key={p.name} value={p.name}>
-                  {p.name} ({p.count})
-                </option>
-              ))}
-            </select>
-          </label>
-        </div>
-      )}
+      {/* Focus player is pinned for the whole session (every hand where they sit). */}
+      <div
+        className="flex flex-col gap-1 rounded-md px-2 py-1.5 text-[11px]"
+        style={{ background: !sessionHasHero && !focusPlayer ? 'color-mix(in srgb, var(--result-break-even) 15%, transparent)' : 'var(--surface-2)' }}
+      >
+        {!heroName && <span>{t('sidebar.noHero')}</span>}
+        <label className="flex flex-col gap-0.5">
+          <span className="font-semibold uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>
+            {t('sidebar.focusSelect')}
+          </span>
+          <select className="input !py-1 text-xs" value={focusPlayer ?? ''} onChange={(e) => setFocus(e.target.value || undefined)}>
+            <option value="">{sessionHasHero ? t('sidebar.fileHero') : t('sidebar.choosePlayer')}</option>
+            {players.map((p) => (
+              <option key={p.name} value={p.name}>
+                {p.name} ({p.count})
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
+      <button type="button" className="btn w-full" onClick={() => rows.length && onSelect(Math.floor(Math.random() * rows.length))} title={t('sidebar.randomHand')}>
+        🎲 {t('sidebar.randomHand')}
+      </button>
       {focusPlayer && (
         <div className="flex items-center gap-1 text-[11px]">
           <span className="truncate">{t('sidebar.focus', { player: focusPlayer })}</span>

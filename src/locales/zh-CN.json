@@ -114,7 +114,9 @@
     "noSession": "未加载会话",
     "hideResults": "隐藏结果（盲审）",
     "focusSelect": "关注玩家",
-    "choosePlayer": "选择玩家…"
+    "choosePlayer": "选择玩家…",
+    "randomHand": "随机牌局",
+    "fileHero": "文件中的主角（Dealt to）"
   },
   "table": {
     "pot": "底池",

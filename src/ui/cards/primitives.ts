@@ -50,7 +50,9 @@ export type Primitive =
       y: number;
       scale: number;
     }
-  | { kind: 'pattern'; pattern: DeckSkin['backPattern']; ink: string; inset: number };
+  | { kind: 'pattern'; pattern: DeckSkin['backPattern']; ink: string; inset: number }
+  /** Glossy highlight: white → transparent diagonal sheen over the whole face. */
+  | { kind: 'gloss'; rx: number; strength: number };
 
 export function fontFamily(font: DeckSkin['rankFont']): string {
   switch (font) {
@@ -83,6 +85,7 @@ export function cardPrimitives(card: CardCode | 'back', deck: DeckSkin): Primiti
       { kind: 'rect', x: 0, y: 0, w: CARD_W, h: CARD_H, rx, fill: deck.cardBg },
       { kind: 'rect', x: 6, y: 6, w: CARD_W - 12, h: CARD_H - 12, rx: Math.max(0, rx - 4), fill: deck.backColor },
       { kind: 'pattern', pattern: deck.backPattern, ink: deck.backInk, inset: 10 },
+      { kind: 'gloss', rx, strength: 0.28 },
     ];
   }
   const rank = rankOf(card);
@@ -90,13 +93,13 @@ export function cardPrimitives(card: CardCode | 'back', deck: DeckSkin): Primiti
   const { face, ink, edge } = cardColors(suit, deck);
   const label = rankLabel(rank);
   const font = fontFamily(deck.rankFont);
-  const rankSize = label.length > 1 ? 34 : 40;
+  const rankSize = label.length > 1 ? 40 : 46;
   return [
     { kind: 'rect', x: 0, y: 0, w: CARD_W, h: CARD_H, rx, fill: face, stroke: edge, strokeWidth: 2 },
     {
       kind: 'text',
-      x: 9,
-      y: 40,
+      x: 8,
+      y: 44,
       text: label,
       size: rankSize,
       fill: ink,
@@ -104,8 +107,19 @@ export function cardPrimitives(card: CardCode | 'back', deck: DeckSkin): Primiti
       font,
       anchor: 'start',
     },
-    { kind: 'path', d: SUIT_PATHS[suit], fill: ink, x: 9, y: 46, scale: 0.26 },
-    { kind: 'path', d: SUIT_PATHS[suit], fill: ink, x: 34, y: 66, scale: 0.6 },
+    { kind: 'path', d: SUIT_PATHS[suit], fill: ink, x: 8, y: 50, scale: 0.3 },
+    { kind: 'path', d: SUIT_PATHS[suit], fill: ink, x: 33, y: 68, scale: 0.64 },
+    { kind: 'gloss', rx, strength: deck.style === 'filled' ? 0.22 : 0.16 },
+  ];
+}
+
+/** Gloss gradient stops shared by SVG and canvas (offset 0..1, alpha). */
+export function glossStops(strength: number): { offset: number; alpha: number }[] {
+  return [
+    { offset: 0, alpha: strength },
+    { offset: 0.45, alpha: strength * 0.25 },
+    { offset: 0.5, alpha: 0 },
+    { offset: 1, alpha: 0 },
   ];
 }
 

@@ -114,7 +114,9 @@
     "noSession": "Ninguna sesión cargada",
     "hideResults": "Ocultar resultados (revisión a ciegas)",
     "focusSelect": "Jugador en foco",
-    "choosePlayer": "Elige un jugador…"
+    "choosePlayer": "Elige un jugador…",
+    "randomHand": "Mano aleatoria",
+    "fileHero": "Héroe del archivo (Dealt to)"
   },
   "table": {
     "pot": "Bote",

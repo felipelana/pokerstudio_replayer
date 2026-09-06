@@ -221,6 +221,7 @@ export function SvgTableRenderer({
               fmt={fmt}
               exact={exact}
               onClick={interactive && onSeatClick ? () => onSeatClick(p.name) : undefined}
+              cardWidth={p.name === heroName ? 64 : 50}
               scale={slots.length > 8 ? 0.9 : 1}
             />
           </div>

@@ -72,7 +72,7 @@ export function Footer({ replay, rows, currentIndex, fmt, onSelectHand }: Props)
   }, [rows]);
 
   return (
-    <footer className="flex h-[176px] shrink-0 flex-col gap-1.5 border-t p-2" style={{ borderColor: 'var(--border)', background: 'var(--surface)' }}>
+    <footer className="flex h-[182px] shrink-0 flex-col gap-1.5 border-t p-2" style={{ borderColor: 'var(--border)', background: 'var(--surface)' }}>
       <div className="flex min-h-0 flex-1 gap-3">
         <ol ref={logRef} className="min-h-0 flex-1 overflow-auto rounded-md p-1 font-mono text-[12px]" aria-label={t('footer.log')} style={{ background: 'var(--surface-2)' }}>
           {lines.map((line, i) => (
@@ -140,7 +140,7 @@ export function Footer({ replay, rows, currentIndex, fmt, onSelectHand }: Props)
           />
         </div>
       </div>
-      <div ref={timelineRef} className="flex h-[26px] shrink-0 items-end gap-[2px] overflow-x-auto overflow-y-hidden" aria-label={t('footer.timeline')} role="listbox">
+      <div ref={timelineRef} className="flex h-[30px] shrink-0 items-end gap-[3px] overflow-x-auto overflow-y-hidden" aria-label={t('footer.timeline')} role="listbox">
         {rows.map((r, i) => (
           <div key={r.hand.id} className="flex shrink-0 items-end gap-[2px]">
             {separators.has(i) && (
@@ -155,7 +155,7 @@ export function Footer({ replay, rows, currentIndex, fmt, onSelectHand }: Props)
               data-index={i}
               onClick={() => onSelectHand(i)}
               title={`#${i + 1} · ${r.hand.handNumber}`}
-              className={`flex h-[18px] w-[14px] items-center justify-center rounded-[3px] text-[9px] font-bold leading-none text-white ${r.meta.result && !hideResults ? `result-${r.meta.result}` : ''}`}
+              className={`flex h-[22px] w-[18px] items-center justify-center rounded-[4px] text-[10px] font-bold leading-none text-white ${r.meta.result && !hideResults ? `result-${r.meta.result}` : ''}`}
               style={{
                 background: r.meta.result && !hideResults ? undefined : 'color-mix(in srgb, var(--text) 15%, transparent)',
                 outline: i === currentIndex ? '2px solid var(--accent)' : undefined,

@@ -1,6 +1,6 @@
 import type { CardCode } from '@/model/cards';
 import type { DeckSkin } from '@/skins/types';
-import { CARD_H, CARD_W, cardPrimitives, patternShapes } from './primitives';
+import { CARD_H, CARD_W, cardPrimitives, glossStops, patternShapes } from './primitives';
 
 const cache = new Map<string, HTMLCanvasElement>();
 
@@ -53,6 +53,15 @@ export function cardCanvas(card: CardCode | 'back', deck: DeckSkin, scale = 4): 
         ctx.fillStyle = p.fill;
         ctx.fill(new Path2D(p.d));
         ctx.restore();
+        break;
+      }
+      case 'gloss': {
+        const g = ctx.createLinearGradient(0, 0, CARD_W, CARD_H);
+        for (const s of glossStops(p.strength)) g.addColorStop(s.offset, `rgba(255,255,255,${s.alpha})`);
+        ctx.beginPath();
+        ctx.roundRect(0, 0, CARD_W, CARD_H, p.rx);
+        ctx.fillStyle = g;
+        ctx.fill();
         break;
       }
       case 'pattern': {

@@ -114,7 +114,9 @@
     "noSession": "セッションが読み込まれていません",
     "hideResults": "結果を隠す（ブラインドレビュー）",
     "focusSelect": "注目プレイヤー",
-    "choosePlayer": "プレイヤーを選択…"
+    "choosePlayer": "プレイヤーを選択…",
+    "randomHand": "ランダムなハンド",
+    "fileHero": "ファイルのヒーロー（Dealt to）"
   },
   "table": {
     "pot": "ポット",
