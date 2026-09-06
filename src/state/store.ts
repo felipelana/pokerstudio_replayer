@@ -25,6 +25,8 @@ export interface Settings {
   showEquity: boolean;
   /** Blind review: hide result colours and net amounts in the list/timeline. */
   hideResults: boolean;
+  /** Glowing edge on the felt (colour and strength come from the skin). */
+  neon: boolean;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -43,6 +45,7 @@ export const DEFAULT_SETTINGS: Settings = {
   renderer: 'auto',
   showEquity: true,
   hideResults: false,
+  neon: true,
 };
 
 export type JumpTarget = 'preflop' | 'hero' | 'flop' | 'turn' | 'river' | 'showdown' | 'end';

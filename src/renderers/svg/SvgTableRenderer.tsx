@@ -84,6 +84,7 @@ export function SvgTableRenderer({
   exact,
   onSeatClick,
   interactive = true,
+  neon = true,
 }: TableRendererProps) {
   const { t } = useTranslation();
   const labels = useMemo(() => seatLabels(t), [t]);
@@ -91,6 +92,8 @@ export function SvgTableRenderer({
   const rail = skin.table.railWidth * RX * 2;
   const isCash = hand.currency !== 'chips';
   const feltId = useMemo(() => `felt-${Math.random().toString(36).slice(2, 8)}`, []);
+  const neonStrength = neon ? (skin.table.neonIntensity ?? 0) : 0;
+  const neonColor = skin.table.neonColor ?? skin.plates.activeBorder;
 
   const bySeat = new Map(frame.players.map((p) => [p.seat, p]));
   const winners = new Set(frame.kind === 'end' ? frame.players.filter((p) => p.collected > 0).map((p) => p.name) : []);
@@ -122,6 +125,9 @@ export function SvgTableRenderer({
           <clipPath id={`${feltId}-clip`}>
             <ellipse cx={CX} cy={CY} rx={RX} ry={RY} />
           </clipPath>
+          <filter id={`${feltId}-neon`} x="-25%" y="-35%" width="150%" height="170%">
+            <feGaussianBlur stdDeviation={9} />
+          </filter>
         </defs>
         {/* Shadow + rail */}
         <ellipse cx={CX} cy={CY + 10} rx={RX + rail} ry={RY + rail} fill="rgba(0,0,0,0.35)" />
@@ -133,7 +139,36 @@ export function SvgTableRenderer({
         <g clipPath={`url(#${feltId}-clip)`}>
           <rect x={CX - RX} y={CY - RY} width={RX * 2} height={RY * 2} filter={`url(#${feltId}-noise)`} />
         </g>
-        <ellipse cx={CX} cy={CY} rx={RX - 18} ry={RY - 14} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth={2} />
+        {/* Neon inside the felt: a blurred halo washing inwards, clipped to the
+            cloth so it never touches the rail, under a crisp inner line. */}
+        {neonStrength > 0 && (
+          <g clipPath={`url(#${feltId}-clip)`}>
+            <ellipse
+              cx={CX}
+              cy={CY}
+              rx={RX * 0.9}
+              ry={RY * 0.9}
+              fill="none"
+              stroke={neonColor}
+              strokeWidth={16}
+              opacity={0.5 * neonStrength}
+              filter={`url(#${feltId}-neon)`}
+            />
+            <ellipse
+              cx={CX}
+              cy={CY}
+              rx={RX * 0.9}
+              ry={RY * 0.9}
+              fill="none"
+              stroke={neonColor}
+              strokeWidth={2}
+              opacity={0.5 + 0.5 * neonStrength}
+            />
+          </g>
+        )}
+        {neonStrength === 0 && (
+          <ellipse cx={CX} cy={CY} rx={RX - 22} ry={RY - 18} fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth={2} />
+        )}
         {skin.felt.logoText && (
           <text x={CX} y={CY + RY * 0.55} textAnchor="middle" fontSize={40} fontWeight={700} fill="#fff" opacity={skin.felt.logoOpacity} style={{ letterSpacing: 4 }}>
             {skin.felt.logoText}

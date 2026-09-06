@@ -1,7 +1,7 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/store';
-import { IconHelp, IconMoon, IconSpade, IconSun } from './icons';
+import { IconHelp, IconMoon, IconNeon, IconSpade, IconSun } from './icons';
 import { LanguageSelector } from './LanguageSelector';
 
 function navClass({ isActive }: { isActive: boolean }) {
@@ -63,6 +63,33 @@ export function Header() {
           ))}
         </select>
       </label>
+
+      {inReplayer && (
+        <>
+          <button
+            type="button"
+            className="btn"
+            title={t('header.toggle3d')}
+            aria-pressed={settings.renderer !== 'svg'}
+            onClick={() => updateSettings({ renderer: settings.renderer === 'svg' ? 'three' : 'svg' })}
+          >
+            <span className={settings.renderer !== 'svg' ? 'font-bold' : 'opacity-50'}>3D</span>
+            <span className="opacity-40">/</span>
+            <span className={settings.renderer === 'svg' ? 'font-bold' : 'opacity-50'}>2D</span>
+          </button>
+          <button
+            type="button"
+            className="btn-icon"
+            title={t('header.toggleNeon')}
+            aria-label={t('header.toggleNeon')}
+            aria-pressed={settings.neon}
+            style={settings.neon ? { color: 'var(--accent)', borderColor: 'var(--accent)' } : undefined}
+            onClick={() => updateSettings({ neon: !settings.neon })}
+          >
+            <IconNeon size={15} />
+          </button>
+        </>
+      )}
 
       <button
         type="button"

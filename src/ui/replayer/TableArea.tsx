@@ -56,6 +56,7 @@ export function TableArea({ replay, frame, heroName, onSeatClick }: Props) {
     positions,
     showKnownHands: settings.showKnownHands,
     animations: settings.animations,
+    neon: settings.neon,
     equity: settings.showEquity ? equity : undefined,
     potOdds,
     fmt,

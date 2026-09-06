@@ -62,7 +62,9 @@
     "bb": "BB",
     "toggleChips": "Mostrar fichas o ciegas grandes (B)",
     "help": "Atajos de teclado (?)",
-    "review": "Notas de revisión"
+    "review": "Notas de revisión",
+    "toggleNeon": "Neón en la mesa",
+    "toggle3d": "Cambiar entre mesa 3D y 2D"
   },
   "library": {
     "title": "Biblioteca de historiales",
@@ -258,7 +260,8 @@
     "clearData": "Eliminar todos los datos locales",
     "confirmClear": "¿Eliminar todas las sesiones, manos, revisiones y skins personalizadas de este navegador?",
     "cleared": "Datos locales eliminados.",
-    "shortcuts": "Atajos de teclado"
+    "shortcuts": "Atajos de teclado",
+    "neon": "Neón en el borde de la mesa"
   },
   "shortcuts": {
     "title": "Atajos de teclado",
@@ -321,7 +324,10 @@
       "cornerRadius": "Radio de las esquinas",
       "holeLayout": "Cartas del jugador",
       "layoutSpread": "Una al lado de otra",
-      "layoutOverlap": "Superpuestas (abanico)"
+      "layoutOverlap": "Superpuestas (abanico)",
+      "courtStyle": "J / Q / K",
+      "courtLetter": "Solo la letra",
+      "courtFigure": "Figuras (rey, dama, sota)"
     },
     "felt": {
       "title": "Tapete",
@@ -340,7 +346,9 @@
       "railHighlight": "Brillo del borde",
       "railWidth": "Ancho del borde",
       "railShine": "Reflejo del borde",
-      "aspect": "Proporción de la elipse"
+      "aspect": "Proporción de la elipse",
+      "neonColor": "Color del neón",
+      "neonIntensity": "Intensidad del neón"
     },
     "ui": {
       "title": "Fondo y paneles",

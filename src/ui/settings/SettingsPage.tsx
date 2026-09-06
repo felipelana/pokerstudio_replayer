@@ -100,6 +100,9 @@ export function SettingsPage() {
         <Row label={t('settings.animations')}>
           <Toggle checked={settings.animations} onChange={(v) => update({ animations: v })} label={t('settings.animations')} />
         </Row>
+        <Row label={t('settings.neon')}>
+          <Toggle checked={settings.neon} onChange={(v) => update({ neon: v })} label={t('settings.neon')} />
+        </Row>
         <Row label={t('settings.speed')}>
           <select className="input" value={settings.speed} onChange={(e) => update({ speed: Number(e.target.value) })}>
             {[0.5, 1, 1.5, 2, 3].map((s) => (

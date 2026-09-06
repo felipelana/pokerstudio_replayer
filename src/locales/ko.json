@@ -62,7 +62,9 @@
     "bb": "BB",
     "toggleChips": "칩 또는 빅 블라인드로 표시 (B)",
     "help": "키보드 단축키 (?)",
-    "review": "리뷰 메모"
+    "review": "리뷰 메모",
+    "toggleNeon": "테이블 네온",
+    "toggle3d": "3D / 2D 테이블 전환"
   },
   "library": {
     "title": "핸드 히스토리 라이브러리",
@@ -258,7 +260,8 @@
     "clearData": "모든 로컬 데이터 삭제",
     "confirmClear": "이 브라우저의 모든 세션, 핸드, 리뷰, 사용자 지정 스킨을 삭제할까요?",
     "cleared": "로컬 데이터가 삭제되었습니다.",
-    "shortcuts": "키보드 단축키"
+    "shortcuts": "키보드 단축키",
+    "neon": "테이블 가장자리 네온"
   },
   "shortcuts": {
     "title": "키보드 단축키",
@@ -321,7 +324,10 @@
       "cornerRadius": "모서리 반경",
       "holeLayout": "홀 카드",
       "layoutSpread": "나란히",
-      "layoutOverlap": "겹쳐서 부채꼴"
+      "layoutOverlap": "겹쳐서 부채꼴",
+      "courtStyle": "J / Q / K",
+      "courtLetter": "문자만",
+      "courtFigure": "그림 카드 (킹·퀸·잭)"
     },
     "felt": {
       "title": "펠트",
@@ -340,7 +346,9 @@
       "railHighlight": "레일 하이라이트",
       "railWidth": "레일 너비",
       "railShine": "레일 광택",
-      "aspect": "타원 비율"
+      "aspect": "타원 비율",
+      "neonColor": "네온 색상",
+      "neonIntensity": "네온 강도"
     },
     "ui": {
       "title": "배경 및 패널",

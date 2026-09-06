@@ -62,7 +62,9 @@
     "bb": "BB",
     "toggleChips": "以筹码或大盲显示 (B)",
     "help": "键盘快捷键 (?)",
-    "review": "复盘笔记"
+    "review": "复盘笔记",
+    "toggleNeon": "牌桌霓虹边缘",
+    "toggle3d": "切换 3D / 2D 牌桌"
   },
   "library": {
     "title": "牌局记录库",
@@ -258,7 +260,8 @@
     "clearData": "删除所有本地数据",
     "confirmClear": "删除此浏览器中的所有会话、牌局、复盘和自定义皮肤？",
     "cleared": "本地数据已删除。",
-    "shortcuts": "键盘快捷键"
+    "shortcuts": "键盘快捷键",
+    "neon": "牌桌霓虹边缘"
   },
   "shortcuts": {
     "title": "键盘快捷键",
@@ -321,7 +324,10 @@
       "cornerRadius": "圆角半径",
       "holeLayout": "手牌",
       "layoutSpread": "并排",
-      "layoutOverlap": "扇形（重叠）"
+      "layoutOverlap": "扇形（重叠）",
+      "courtStyle": "J / Q / K",
+      "courtLetter": "仅字母",
+      "courtFigure": "人物图案（K、Q、J）"
     },
     "felt": {
       "title": "桌布",
@@ -340,7 +346,9 @@
       "railHighlight": "桌沿高光",
       "railWidth": "桌沿宽度",
       "railShine": "桌沿光泽",
-      "aspect": "椭圆比例"
+      "aspect": "椭圆比例",
+      "neonColor": "霓虹颜色",
+      "neonIntensity": "霓虹强度"
     },
     "ui": {
       "title": "背景与面板",

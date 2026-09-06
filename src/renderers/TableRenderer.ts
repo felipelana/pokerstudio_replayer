@@ -21,6 +21,8 @@ export interface TableRendererProps {
   positions: Record<string, PositionLabel>;
   showKnownHands: boolean;
   animations: boolean;
+  /** Global neon switch; the colour and strength come from the skin. */
+  neon?: boolean;
   equity?: EquityInfo;
   potOdds?: PotOdds;
   fmt: (v: number) => string;

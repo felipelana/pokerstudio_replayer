@@ -171,12 +171,42 @@ function hexToRgba(hex: string, alpha: number): string {
 /* Meshes                                                              */
 /* ------------------------------------------------------------------ */
 
-function Table({ skin }: { skin: Skin }) {
+/** Soft radial band used for the neon halo around the felt. */
+function glowTexture(): THREE.CanvasTexture {
+  const key = 'neon-glow';
+  let tex = textureCache.get(key);
+  if (!tex) {
+    const size = 512;
+    const c = document.createElement('canvas');
+    c.width = size;
+    c.height = size;
+    const ctx = c.getContext('2d')!;
+    // The band lives INSIDE the felt: it fades to zero before the rail, so the
+    // glow washes inwards over the cloth instead of spilling onto the wood.
+    const g = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size * 0.5);
+    g.addColorStop(0, 'rgba(255,255,255,0)');
+    g.addColorStop(0.58, 'rgba(255,255,255,0.05)');
+    g.addColorStop(0.8, 'rgba(255,255,255,0.34)');
+    g.addColorStop(0.9, 'rgba(255,255,255,0.9)');
+    g.addColorStop(0.965, 'rgba(255,255,255,0.28)');
+    g.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, size, size);
+    tex = new THREE.CanvasTexture(c);
+    textureCache.set(key, tex);
+  }
+  return tex;
+}
+
+function Table({ skin, neon }: { skin: Skin; neon: boolean }) {
   const rz = RX * skin.table.aspect;
   const railW = skin.table.railWidth * RX * 2;
   const felt = useMemo(() => feltTexture(skin.felt), [skin.felt]);
   const wood = useMemo(() => woodTexture(skin.table), [skin.table]);
   const shadow = useMemo(() => shadowTexture(), []);
+  const glow = useMemo(() => glowTexture(), []);
+  const neonStrength = neon ? (skin.table.neonIntensity ?? 0) : 0;
+  const neonColor = skin.table.neonColor ?? skin.plates.activeBorder;
 
   const feltGeo = useMemo(() => {
     const shape = new THREE.Shape();
@@ -252,6 +282,38 @@ function Table({ skin }: { skin: Skin }) {
       <mesh geometry={feltGeo} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
         <meshStandardMaterial map={felt} roughness={0.96} metalness={0} />
       </mesh>
+
+      {/* Neon: a bright edge on the felt plus a halo bleeding over the rail. */}
+      {neonStrength > 0 && (
+        <group>
+          {/* Halo mapped exactly onto the felt ellipse — nothing reaches the rail. */}
+          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.006, 0]} renderOrder={2}>
+            <planeGeometry args={[RX * 2, rz * 2]} />
+            <meshBasicMaterial
+              map={glow}
+              color={neonColor}
+              transparent
+              opacity={0.62 * neonStrength}
+              blending={THREE.AdditiveBlending}
+              depthWrite={false}
+            />
+          </mesh>
+          <group scale={[RX * 0.9, rz * 0.9, 1]} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.02, 0]}>
+            <mesh renderOrder={3}>
+              <ringGeometry args={[0.982, 1, 192]} />
+              <meshBasicMaterial
+                color={neonColor}
+                transparent
+                opacity={0.55 + 0.45 * neonStrength}
+                blending={THREE.AdditiveBlending}
+                depthWrite={false}
+              />
+            </mesh>
+          </group>
+          {/* Coloured bounce light so the rail and chips pick up the neon. */}
+          <pointLight position={[0, 0.8, 0]} intensity={16 * neonStrength} distance={12} decay={2} color={neonColor} />
+        </group>
+      )}
 
       {/* Betting line */}
       <group scale={[RX - 0.55, rz - 0.45, 1]} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.004, 0]}>
@@ -397,7 +459,7 @@ function Scene(props: TableRendererProps & { labels: SceneLabels }) {
       />
       <pointLight position={[-6, 6, -4]} intensity={0.4} />
 
-      <Table skin={skin} />
+      <Table skin={skin} neon={props.neon !== false} />
 
       {/* Board */}
       {frame.board.map((c, i) => (

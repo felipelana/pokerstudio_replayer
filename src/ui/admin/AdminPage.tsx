@@ -330,6 +330,15 @@ export function AdminPage() {
           <ColorField label={t('admin.deck.backInk')} value={draft.deck.backInk} onChange={(v) => patch('deck', { backInk: v })} />
           <SelectField<BackPattern> label={t('admin.deck.backPattern')} value={draft.deck.backPattern} options={(['diamonds', 'grid', 'dots', 'plain'] as BackPattern[]).map((p) => ({ value: p, label: t(`admin.deck.pattern.${p}`) }))} onChange={(v) => patch('deck', { backPattern: v })} />
           <SelectField
+            label={t('admin.deck.courtStyle')}
+            value={draft.deck.courtStyle ?? 'letter'}
+            options={[
+              { value: 'letter', label: t('admin.deck.courtLetter') },
+              { value: 'figure', label: t('admin.deck.courtFigure') },
+            ]}
+            onChange={(v) => patch('deck', { courtStyle: v as 'letter' | 'figure' })}
+          />
+          <SelectField
             label={t('admin.deck.holeLayout')}
             value={draft.deck.holeLayout ?? 'spread'}
             options={[
@@ -372,6 +381,8 @@ export function AdminPage() {
           <RangeField label={t('admin.table.railWidth')} value={draft.table.railWidth} min={0.02} max={0.12} step={0.005} onChange={(v) => patch('table', { railWidth: v })} />
           <RangeField label={t('admin.table.railShine')} value={draft.table.railShine} min={0} max={1} step={0.05} onChange={(v) => patch('table', { railShine: v })} />
           <RangeField label={t('admin.table.aspect')} value={draft.table.aspect} min={0.4} max={0.75} step={0.01} onChange={(v) => patch('table', { aspect: v })} />
+          <ColorField label={t('admin.table.neonColor')} value={draft.table.neonColor ?? draft.plates.activeBorder} onChange={(v) => patch('table', { neonColor: v })} />
+          <RangeField label={t('admin.table.neonIntensity')} value={draft.table.neonIntensity ?? 0} min={0} max={1} step={0.05} onChange={(v) => patch('table', { neonIntensity: v })} />
         </Section>
 
         <Section title={t('admin.ui.title')}>

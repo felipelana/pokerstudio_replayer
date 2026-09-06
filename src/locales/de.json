@@ -62,7 +62,9 @@
     "bb": "BB",
     "toggleChips": "Chips oder Big Blinds anzeigen (B)",
     "help": "Tastaturkürzel (?)",
-    "review": "Review-Notizen"
+    "review": "Review-Notizen",
+    "toggleNeon": "Neonkante am Tisch",
+    "toggle3d": "Zwischen 3D- und 2D-Tisch wechseln"
   },
   "library": {
     "title": "Hand-History-Bibliothek",
@@ -258,7 +260,8 @@
     "clearData": "Alle lokalen Daten löschen",
     "confirmClear": "Alle Sitzungen, Hände, Reviews und eigenen Skins in diesem Browser löschen?",
     "cleared": "Lokale Daten gelöscht.",
-    "shortcuts": "Tastaturkürzel"
+    "shortcuts": "Tastaturkürzel",
+    "neon": "Neonkante am Tisch"
   },
   "shortcuts": {
     "title": "Tastaturkürzel",
@@ -321,7 +324,10 @@
       "cornerRadius": "Eckenradius",
       "holeLayout": "Handkarten",
       "layoutSpread": "Nebeneinander",
-      "layoutOverlap": "Gefächert (überlappend)"
+      "layoutOverlap": "Gefächert (überlappend)",
+      "courtStyle": "B / D / K",
+      "courtLetter": "Nur der Buchstabe",
+      "courtFigure": "Figuren (König, Dame, Bube)"
     },
     "felt": {
       "title": "Filz",
@@ -340,7 +346,9 @@
       "railHighlight": "Randglanzfarbe",
       "railWidth": "Randbreite",
       "railShine": "Randglanz",
-      "aspect": "Ellipsenverhältnis"
+      "aspect": "Ellipsenverhältnis",
+      "neonColor": "Neonfarbe",
+      "neonIntensity": "Neonstärke"
     },
     "ui": {
       "title": "Hintergrund & Panels",

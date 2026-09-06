@@ -14,6 +14,7 @@ export const DECK_FOUR_COLOR_FILLED: DeckSkin = {
   rankFont: 'Inter',
   cornerRadius: 0.1,
   holeLayout: 'spread',
+  courtStyle: 'letter',
 };
 
 export const DECK_FOUR_COLOR_OUTLINED: DeckSkin = {
@@ -203,7 +204,13 @@ export const SKIN_BLUE_NIGHT: Skin = {
     vignetteStrength: 0.6,
     logoOpacity: 0.12,
   },
-  table: { ...SKIN_DEFAULT_DARK.table, railColor: '#1c1f26', railHighlight: '#3d434f' },
+  table: {
+    ...SKIN_DEFAULT_DARK.table,
+    railColor: '#1c1f26',
+    railHighlight: '#3d434f',
+    neonColor: '#4fc3f7',
+    neonIntensity: 0.9,
+  },
 };
 
 /**
@@ -228,6 +235,7 @@ export const SKIN_GG: Skin = {
     rankFont: 'Inter',
     cornerRadius: 0.09,
     holeLayout: 'overlap',
+    courtStyle: 'figure',
   },
   felt: {
     color: '#403a34',
@@ -242,6 +250,8 @@ export const SKIN_GG: Skin = {
     railWidth: 0.055,
     railShine: 0.45,
     aspect: 0.55,
+    neonColor: '#f0b429',
+    neonIntensity: 0.75,
   },
   ui: {
     bg: '#2b2622',

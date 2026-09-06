@@ -24,6 +24,11 @@ export interface DeckSkin {
    * Undefined behaves as 'spread' (skins saved before this option existed).
    */
   holeLayout?: 'spread' | 'overlap';
+  /**
+   * J/Q/K artwork: 'letter' keeps the plain rank + big pip, 'figure' draws the
+   * jack, queen and king silhouettes like a real deck. Undefined = 'letter'.
+   */
+  courtStyle?: 'letter' | 'figure';
 }
 
 export interface FeltSkin {
@@ -48,6 +53,9 @@ export interface TableSkin {
   railShine: number;
   /** height / width of the ellipse */
   aspect: number;
+  /** Glowing edge around the felt. 0 (or undefined) disables it for this skin. */
+  neonIntensity?: number;
+  neonColor?: string;
 }
 
 export interface UiSkin {

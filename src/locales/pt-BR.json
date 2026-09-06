@@ -62,7 +62,9 @@
     "bb": "BB",
     "toggleChips": "Mostrar fichas ou big blinds (B)",
     "help": "Atalhos de teclado (?)",
-    "review": "Notas de review"
+    "review": "Notas de review",
+    "toggleNeon": "Neon na mesa",
+    "toggle3d": "Alternar entre mesa 3D e 2D"
   },
   "library": {
     "title": "Biblioteca de hand histories",
@@ -258,7 +260,8 @@
     "clearData": "Excluir todos os dados locais",
     "confirmClear": "Excluir todas as sessões, mãos, reviews e skins personalizadas deste navegador?",
     "cleared": "Dados locais excluídos.",
-    "shortcuts": "Atalhos de teclado"
+    "shortcuts": "Atalhos de teclado",
+    "neon": "Neon na borda da mesa"
   },
   "shortcuts": {
     "title": "Atalhos de teclado",
@@ -321,7 +324,10 @@
       "cornerRadius": "Raio dos cantos",
       "holeLayout": "Cartas do jogador",
       "layoutSpread": "Lado a lado",
-      "layoutOverlap": "Sobrepostas (leque)"
+      "layoutOverlap": "Sobrepostas (leque)",
+      "courtStyle": "J / Q / K",
+      "courtLetter": "Somente a letra",
+      "courtFigure": "Figuras (rei, dama, valete)"
     },
     "felt": {
       "title": "Feltro",
@@ -340,7 +346,9 @@
       "railHighlight": "Realce da borda",
       "railWidth": "Largura da borda",
       "railShine": "Brilho da borda",
-      "aspect": "Proporção da elipse"
+      "aspect": "Proporção da elipse",
+      "neonColor": "Cor do neon",
+      "neonIntensity": "Intensidade do neon"
     },
     "ui": {
       "title": "Fundo e painéis",

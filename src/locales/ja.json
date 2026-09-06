@@ -62,7 +62,9 @@
     "bb": "BB",
     "toggleChips": "チップまたはBB表示 (B)",
     "help": "キーボードショートカット (?)",
-    "review": "レビューメモ"
+    "review": "レビューメモ",
+    "toggleNeon": "テーブルのネオン",
+    "toggle3d": "3D / 2D テーブルを切り替え"
   },
   "library": {
     "title": "ハンド履歴ライブラリ",
@@ -258,7 +260,8 @@
     "clearData": "ローカルデータをすべて削除",
     "confirmClear": "このブラウザ内のすべてのセッション、ハンド、レビュー、カスタムスキンを削除しますか？",
     "cleared": "ローカルデータを削除しました。",
-    "shortcuts": "キーボードショートカット"
+    "shortcuts": "キーボードショートカット",
+    "neon": "テーブル縁のネオン"
   },
   "shortcuts": {
     "title": "キーボードショートカット",
@@ -321,7 +324,10 @@
       "cornerRadius": "角の丸み",
       "holeLayout": "ホールカード",
       "layoutSpread": "横並び",
-      "layoutOverlap": "重ねて扇状"
+      "layoutOverlap": "重ねて扇状",
+      "courtStyle": "J / Q / K",
+      "courtLetter": "文字のみ",
+      "courtFigure": "絵札（キング・クイーン・ジャック）"
     },
     "felt": {
       "title": "フェルト",
@@ -340,7 +346,9 @@
       "railHighlight": "レールのハイライト",
       "railWidth": "レールの幅",
       "railShine": "レールの光沢",
-      "aspect": "楕円の比率"
+      "aspect": "楕円の比率",
+      "neonColor": "ネオンの色",
+      "neonIntensity": "ネオンの強さ"
     },
     "ui": {
       "title": "背景とパネル",

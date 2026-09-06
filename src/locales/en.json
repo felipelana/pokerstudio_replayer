@@ -62,7 +62,9 @@
     "bb": "BB",
     "toggleChips": "Show chips or big blinds (B)",
     "help": "Keyboard shortcuts (?)",
-    "review": "Review notes"
+    "review": "Review notes",
+    "toggleNeon": "Neon table edge",
+    "toggle3d": "Switch between the 3D and 2D table"
   },
   "library": {
     "title": "Hand history library",
@@ -258,7 +260,8 @@
     "clearData": "Delete all local data",
     "confirmClear": "Delete every session, hand, review and custom skin stored in this browser?",
     "cleared": "Local data deleted.",
-    "shortcuts": "Keyboard shortcuts"
+    "shortcuts": "Keyboard shortcuts",
+    "neon": "Neon table edge"
   },
   "shortcuts": {
     "title": "Keyboard shortcuts",
@@ -321,7 +324,10 @@
       "cornerRadius": "Corner radius",
       "holeLayout": "Hole cards",
       "layoutSpread": "Side by side",
-      "layoutOverlap": "Fanned (overlapping)"
+      "layoutOverlap": "Fanned (overlapping)",
+      "courtStyle": "J / Q / K",
+      "courtLetter": "Letter only",
+      "courtFigure": "Court figures"
     },
     "felt": {
       "title": "Felt",
@@ -340,7 +346,9 @@
       "railHighlight": "Rail highlight",
       "railWidth": "Rail width",
       "railShine": "Rail shine",
-      "aspect": "Ellipse ratio"
+      "aspect": "Ellipse ratio",
+      "neonColor": "Neon colour",
+      "neonIntensity": "Neon intensity"
     },
     "ui": {
       "title": "Background & panels",

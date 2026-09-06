@@ -157,6 +157,14 @@ export const IconEye = (p: Props) => (
   </Svg>
 );
 
+export const IconNeon = (p: Props) => (
+  <Svg {...p}>
+    <ellipse cx="12" cy="12" rx="9" ry="6" />
+    <ellipse cx="12" cy="12" rx="5.4" ry="3.2" opacity="0.5" />
+    <path d="M12 2.6v1.6M21.4 12h-1.6M12 21.4v-1.6M2.6 12h1.6" />
+  </Svg>
+);
+
 export const IconSpade = (p: Props) => (
   <Svg {...p}>
     <path
