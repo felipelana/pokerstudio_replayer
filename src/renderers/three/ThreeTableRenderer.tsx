@@ -13,8 +13,10 @@ import { CARD_H, CARD_W } from '@/ui/cards/primitives';
 
 /* Table dimensions in world units (x = long axis, z = towards the viewer). */
 const RX = 5.2;
-const CARD_WIDTH = 0.62;
+const CARD_WIDTH = 0.78;
 const CARD_HEIGHT = (CARD_WIDTH * CARD_H) / CARD_W;
+/** Board cards lean towards the camera (radians from flat) so ranks stay legible. */
+const CARD_TILT = 0.72;
 
 /* ------------------------------------------------------------------ */
 /* Textures                                                            */
@@ -169,8 +171,10 @@ function Appear({ children, enabled, delay = 0 }: { children: ReactNode; enabled
 function CardMesh({ card, deck, position, rotationY = 0 }: { card: string; deck: DeckSkin; position: [number, number, number]; rotationY?: number }) {
   const tex = useMemo(() => cardTexture(card, deck), [card, deck]);
   const back = useMemo(() => cardTexture('back', deck), [deck]);
+  // Lift the card so its bottom edge rests on the felt once tilted.
+  const lift = (CARD_HEIGHT / 2) * Math.sin(CARD_TILT) + 0.01;
   return (
-    <group position={position} rotation={[-Math.PI / 2, 0, rotationY]}>
+    <group position={[position[0], position[1] + lift, position[2]]} rotation={[-Math.PI / 2 + CARD_TILT, 0, rotationY]}>
       <mesh castShadow>
         <planeGeometry args={[CARD_WIDTH, CARD_HEIGHT]} />
         <meshStandardMaterial map={tex} roughness={0.6} />

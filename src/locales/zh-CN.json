@@ -111,7 +111,10 @@
     "focus": "关注：{{player}}",
     "clearFocus": "取消关注",
     "filter": "筛选…",
-    "noSession": "未加载会话"
+    "noSession": "未加载会话",
+    "hideResults": "隐藏结果（盲审）",
+    "focusSelect": "关注玩家",
+    "choosePlayer": "选择玩家…"
   },
   "table": {
     "pot": "底池",

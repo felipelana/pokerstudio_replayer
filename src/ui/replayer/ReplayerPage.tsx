@@ -59,6 +59,13 @@ export function ReplayerPage() {
     [hands, focusPlayer],
   );
 
+  const sessionHasHero = useMemo(() => hands.some((h) => !!h.heroName), [hands]);
+  const players = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const h of hands) for (const p of h.players) counts.set(p.name, (counts.get(p.name) ?? 0) + 1);
+    return Array.from(counts, ([name, count]) => ({ name, count })).sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+  }, [hands]);
+
   // Publish frame count / jump targets to the store whenever the replay changes.
   useEffect(() => {
     if (!replay) return;
@@ -125,7 +132,16 @@ export function ReplayerPage() {
 
   return (
     <div className="flex h-full">
-      <Sidebar rows={rows} currentIndex={handIndex} skin={skin} heroName={heroName} fmt={fmt} onSelect={goToHand} />
+      <Sidebar
+        rows={rows}
+        currentIndex={handIndex}
+        skin={skin}
+        heroName={heroName}
+        sessionHasHero={sessionHasHero}
+        players={players}
+        fmt={fmt}
+        onSelect={goToHand}
+      />
       <div className="flex min-w-0 flex-1 flex-col">
         <div className="flex min-h-0 flex-1">
           <TableArea replay={replay} frame={frame} heroName={heroName} onSeatClick={onSeatClick} />

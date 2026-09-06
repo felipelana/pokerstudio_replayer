@@ -111,7 +111,10 @@
     "focus": "포커스: {{player}}",
     "clearFocus": "포커스 해제",
     "filter": "필터…",
-    "noSession": "불러온 세션이 없습니다"
+    "noSession": "불러온 세션이 없습니다",
+    "hideResults": "결과 숨기기 (블라인드 리뷰)",
+    "focusSelect": "포커스 플레이어",
+    "choosePlayer": "플레이어 선택…"
   },
   "table": {
     "pot": "팟",

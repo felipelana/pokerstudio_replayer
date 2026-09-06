@@ -19,11 +19,15 @@ interface Props {
   currentIndex: number;
   skin: Skin;
   heroName?: string;
+  /** True when at least one hand of the session names a hero ("Dealt to"). */
+  sessionHasHero: boolean;
+  /** Every player seen in the session, most frequent first (focus picker). */
+  players: { name: string; count: number }[];
   fmt: (v: number) => string;
   onSelect(index: number): void;
 }
 
-export function Sidebar({ rows, currentIndex, skin, heroName, fmt, onSelect }: Props) {
+export function Sidebar({ rows, currentIndex, skin, heroName, sessionHasHero, players, fmt, onSelect }: Props) {
   const { t } = useTranslation();
   const settings = useAppStore((s) => s.settings);
   const updateSettings = useAppStore((s) => s.updateSettings);
@@ -72,7 +76,7 @@ export function Sidebar({ rows, currentIndex, skin, heroName, fmt, onSelect }: P
   };
 
   const resultClass = (row: HandRow) => {
-    if (!settings.colorHintResults || !row.meta.result) return 'result-none';
+    if (settings.hideResults || !settings.colorHintResults || !row.meta.result) return 'result-none';
     if (settings.colorVpipOnly && !row.meta.vpip) return 'result-none';
     return `result-${row.meta.result}`;
   };
@@ -95,10 +99,27 @@ export function Sidebar({ rows, currentIndex, skin, heroName, fmt, onSelect }: P
           <input type="checkbox" checked={settings.colorVpipOnly} onChange={(e) => updateSettings({ colorVpipOnly: e.target.checked })} />
           {t('sidebar.colorVpipOnly')}
         </label>
+        <label className="checkbox">
+          <input type="checkbox" checked={settings.hideResults} onChange={(e) => updateSettings({ hideResults: e.target.checked })} />
+          {t('sidebar.hideResults')}
+        </label>
       </div>
-      {!heroName && (
-        <div className="rounded-md px-2 py-1 text-[11px]" style={{ background: 'color-mix(in srgb, var(--result-break-even) 15%, transparent)' }}>
-          {t('sidebar.noHero')}
+      {!sessionHasHero && (
+        <div className="flex flex-col gap-1 rounded-md px-2 py-1.5 text-[11px]" style={{ background: 'color-mix(in srgb, var(--result-break-even) 15%, transparent)' }}>
+          {!heroName && <span>{t('sidebar.noHero')}</span>}
+          <label className="flex flex-col gap-0.5">
+            <span className="font-semibold uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>
+              {t('sidebar.focusSelect')}
+            </span>
+            <select className="input !py-1 text-xs" value={focusPlayer ?? ''} onChange={(e) => setFocus(e.target.value || undefined)}>
+              <option value="">{t('sidebar.choosePlayer')}</option>
+              {players.map((p) => (
+                <option key={p.name} value={p.name}>
+                  {p.name} ({p.count})
+                </option>
+              ))}
+            </select>
+          </label>
         </div>
       )}
       {focusPlayer && (
@@ -168,7 +189,7 @@ export function Sidebar({ rows, currentIndex, skin, heroName, fmt, onSelect }: P
                           : 'var(--result-lost)',
                   }}
                 >
-                  {r.meta.net !== undefined ? `${r.meta.net > 0 ? '+' : ''}${fmt(r.meta.net)}` : ''}
+                  {r.meta.net !== undefined && !settings.hideResults ? `${r.meta.net > 0 ? '+' : ''}${fmt(r.meta.net)}` : ''}
                 </span>
               </button>
             );

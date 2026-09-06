@@ -111,7 +111,10 @@
     "focus": "Focus: {{player}}",
     "clearFocus": "Clear focus",
     "filter": "Filter…",
-    "noSession": "No session loaded"
+    "noSession": "No session loaded",
+    "hideResults": "Hide results (blind review)",
+    "focusSelect": "Focus player",
+    "choosePlayer": "Choose a player…"
   },
   "table": {
     "pot": "Pot",

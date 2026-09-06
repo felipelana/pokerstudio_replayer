@@ -111,7 +111,10 @@
     "focus": "Fokus: {{player}}",
     "clearFocus": "Fokus aufheben",
     "filter": "Filtern…",
-    "noSession": "Keine Sitzung geladen"
+    "noSession": "Keine Sitzung geladen",
+    "hideResults": "Ergebnisse ausblenden (Blind-Review)",
+    "focusSelect": "Fokusspieler",
+    "choosePlayer": "Spieler wählen…"
   },
   "table": {
     "pot": "Pot",

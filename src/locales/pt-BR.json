@@ -111,7 +111,10 @@
     "focus": "Foco: {{player}}",
     "clearFocus": "Limpar foco",
     "filter": "Filtrar…",
-    "noSession": "Nenhuma sessão carregada"
+    "noSession": "Nenhuma sessão carregada",
+    "hideResults": "Ocultar resultados (review às cegas)",
+    "focusSelect": "Jogador em foco",
+    "choosePlayer": "Escolha um jogador…"
   },
   "table": {
     "pot": "Pote",

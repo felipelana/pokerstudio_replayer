@@ -23,6 +23,8 @@ export interface Settings {
   equityIterations: number;
   renderer: RendererChoice;
   showEquity: boolean;
+  /** Blind review: hide result colours and net amounts in the list/timeline. */
+  hideResults: boolean;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -40,6 +42,7 @@ export const DEFAULT_SETTINGS: Settings = {
   equityIterations: 20000,
   renderer: 'auto',
   showEquity: true,
+  hideResults: false,
 };
 
 export type JumpTarget = 'preflop' | 'hero' | 'flop' | 'turn' | 'river' | 'showdown' | 'end';
@@ -139,7 +142,9 @@ export const useAppStore = create<AppState>((set, get) => ({
     const hands = await repo.getHands(session.handIds);
     hands.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
     const idx = handId ? Math.max(0, hands.findIndex((h) => h.id === handId)) : 0;
-    set({ session, hands, handIndex: idx, frameIndex: 0, playing: false, focusPlayer: undefined });
+    // Focus player is remembered per session (hero-less dealer exports).
+    const focusPlayer = await repo.getSetting<string | undefined>(`focus:${sessionId}`, undefined);
+    set({ session, hands, handIndex: idx, frameIndex: 0, playing: false, focusPlayer });
   },
 
   setHands(session, hands) {
@@ -197,6 +202,8 @@ export const useAppStore = create<AppState>((set, get) => ({
 
   setFocus(player) {
     set({ focusPlayer: player });
+    const session = get().session;
+    if (session) void getRepository().setSetting(`focus:${session.id}`, player);
   },
 
   setImportModalOpen(open) {

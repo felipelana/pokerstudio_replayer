@@ -111,7 +111,10 @@
     "focus": "注目: {{player}}",
     "clearFocus": "注目を解除",
     "filter": "フィルター…",
-    "noSession": "セッションが読み込まれていません"
+    "noSession": "セッションが読み込まれていません",
+    "hideResults": "結果を隠す（ブラインドレビュー）",
+    "focusSelect": "注目プレイヤー",
+    "choosePlayer": "プレイヤーを選択…"
   },
   "table": {
     "pot": "ポット",

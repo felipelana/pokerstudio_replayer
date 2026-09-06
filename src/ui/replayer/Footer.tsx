@@ -33,6 +33,7 @@ export function Footer({ replay, rows, currentIndex, fmt, onSelectHand }: Props)
   const jumpTo = useAppStore((s) => s.jumpTo);
   const jumpTargets = useAppStore((s) => s.jumpTargets);
   const speed = useAppStore((s) => s.settings.speed);
+  const hideResults = useAppStore((s) => s.settings.hideResults);
   const updateSettings = useAppStore((s) => s.updateSettings);
   const logRef = useRef<HTMLOListElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
@@ -154,9 +155,9 @@ export function Footer({ replay, rows, currentIndex, fmt, onSelectHand }: Props)
               data-index={i}
               onClick={() => onSelectHand(i)}
               title={`#${i + 1} · ${r.hand.handNumber}`}
-              className={`flex h-[18px] w-[14px] items-center justify-center rounded-[3px] text-[9px] font-bold leading-none text-white ${r.meta.result ? `result-${r.meta.result}` : ''}`}
+              className={`flex h-[18px] w-[14px] items-center justify-center rounded-[3px] text-[9px] font-bold leading-none text-white ${r.meta.result && !hideResults ? `result-${r.meta.result}` : ''}`}
               style={{
-                background: r.meta.result ? undefined : 'color-mix(in srgb, var(--text) 15%, transparent)',
+                background: r.meta.result && !hideResults ? undefined : 'color-mix(in srgb, var(--text) 15%, transparent)',
                 outline: i === currentIndex ? '2px solid var(--accent)' : undefined,
                 outlineOffset: 1,
               }}
