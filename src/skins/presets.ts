@@ -235,7 +235,7 @@ export const SKIN_GG: Skin = {
     rankFont: 'Inter',
     cornerRadius: 0.09,
     holeLayout: 'overlap',
-    courtStyle: 'figure',
+    courtStyle: 'letter',
   },
   felt: {
     color: '#403a34',
