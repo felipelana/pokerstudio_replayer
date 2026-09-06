@@ -324,7 +324,10 @@
         "plain": "Без узора"
       },
       "rankFont": "Шрифт достоинства",
-      "cornerRadius": "Скругление углов"
+      "cornerRadius": "Скругление углов",
+      "holeLayout": "Карманные карты",
+      "layoutSpread": "Рядом",
+      "layoutOverlap": "Веером (внахлёст)"
     },
     "felt": {
       "title": "Сукно",

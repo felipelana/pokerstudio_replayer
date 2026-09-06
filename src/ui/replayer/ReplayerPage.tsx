@@ -6,6 +6,7 @@ import { computePositions } from '@/model/positions';
 import { useAppStore, useActiveSkin, type JumpTarget } from '@/state/store';
 import { useAmountFormatter } from '@/ui/hooks/useFormat';
 import { ImportPanel } from '@/ui/library/ImportPanel';
+import { IconClose, IconNote } from '@/ui/icons';
 import { Footer } from './Footer';
 import { HelpModal } from './HelpModal';
 import { ReviewPanel } from './ReviewPanel';
@@ -148,8 +149,14 @@ export function ReplayerPage() {
           {reviewOpen ? (
             <ReviewPanel hand={hand} onClose={() => setReviewOpen(false)} />
           ) : (
-            <button type="button" className="btn btn-ghost m-1 self-start" onClick={() => setReviewOpen(true)} title={t('header.review')}>
-              ✎
+            <button
+              type="button"
+              className="btn-icon m-1.5 self-start"
+              onClick={() => setReviewOpen(true)}
+              title={t('header.review')}
+              aria-label={t('header.review')}
+            >
+              <IconNote size={15} />
             </button>
           )}
         </div>
@@ -162,8 +169,8 @@ export function ReplayerPage() {
             <div className="mb-2 flex items-center">
               <h2 className="font-semibold">{t('sidebar.loadHands')}</h2>
               <div className="flex-1" />
-              <button type="button" className="btn btn-ghost" onClick={() => setImportModalOpen(false)} aria-label={t('common.close')}>
-                ✕
+              <button type="button" className="btn-icon" onClick={() => setImportModalOpen(false)} aria-label={t('common.close')}>
+                <IconClose size={15} />
               </button>
             </div>
             <ImportPanel

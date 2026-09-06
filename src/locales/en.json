@@ -318,7 +318,10 @@
         "plain": "Plain"
       },
       "rankFont": "Rank font",
-      "cornerRadius": "Corner radius"
+      "cornerRadius": "Corner radius",
+      "holeLayout": "Hole cards",
+      "layoutSpread": "Side by side",
+      "layoutOverlap": "Fanned (overlapping)"
     },
     "felt": {
       "title": "Felt",

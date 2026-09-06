@@ -318,7 +318,10 @@
         "plain": "Liso"
       },
       "rankFont": "Fuente del valor",
-      "cornerRadius": "Radio de las esquinas"
+      "cornerRadius": "Radio de las esquinas",
+      "holeLayout": "Cartas del jugador",
+      "layoutSpread": "Una al lado de otra",
+      "layoutOverlap": "Superpuestas (abanico)"
     },
     "felt": {
       "title": "Tapete",

@@ -329,6 +329,15 @@ export function AdminPage() {
           <ColorField label={t('admin.deck.backColor')} value={draft.deck.backColor} onChange={(v) => patch('deck', { backColor: v })} />
           <ColorField label={t('admin.deck.backInk')} value={draft.deck.backInk} onChange={(v) => patch('deck', { backInk: v })} />
           <SelectField<BackPattern> label={t('admin.deck.backPattern')} value={draft.deck.backPattern} options={(['diamonds', 'grid', 'dots', 'plain'] as BackPattern[]).map((p) => ({ value: p, label: t(`admin.deck.pattern.${p}`) }))} onChange={(v) => patch('deck', { backPattern: v })} />
+          <SelectField
+            label={t('admin.deck.holeLayout')}
+            value={draft.deck.holeLayout ?? 'spread'}
+            options={[
+              { value: 'spread', label: t('admin.deck.layoutSpread') },
+              { value: 'overlap', label: t('admin.deck.layoutOverlap') },
+            ]}
+            onChange={(v) => patch('deck', { holeLayout: v as 'spread' | 'overlap' })}
+          />
           <SelectField<RankFont> label={t('admin.deck.rankFont')} value={draft.deck.rankFont} options={[{ value: 'Inter', label: 'Inter' }, { value: 'Roboto Mono', label: 'Roboto Mono' }, { value: 'serif', label: 'Serif' }]} onChange={(v) => patch('deck', { rankFont: v })} />
           <RangeField label={t('admin.deck.cornerRadius')} value={draft.deck.cornerRadius} min={0} max={0.3} step={0.01} onChange={(v) => patch('deck', { cornerRadius: v })} />
         </Section>

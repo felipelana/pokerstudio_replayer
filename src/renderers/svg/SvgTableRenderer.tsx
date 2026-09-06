@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import type { TableRendererProps } from '../TableRenderer';
 import { chipBreakdown } from '../layout';
 import { SeatPlate, seatLabels } from '../seats/SeatPlate';
+import { cardWidthFor } from '../cardSize';
 import { CARD_H, CARD_W, cardPrimitives, patternShapes } from '@/ui/cards/primitives';
 import type { DeckSkin } from '@/skins/types';
 
@@ -140,7 +141,7 @@ export function SvgTableRenderer({
         )}
 
         {/* Pot */}
-        <g transform={`translate(${CX} ${CY - 66})`}>
+        <g transform={`translate(${CX} ${CY + 96})`}>
           <rect
             x={-80}
             y={-16}
@@ -156,12 +157,12 @@ export function SvgTableRenderer({
           </text>
         </g>
         {frame.pots.length > 1 && (
-          <text x={CX} y={CY - 34} textAnchor="middle" fontSize={12} fill="rgba(255,255,255,0.8)">
+          <text x={CX} y={CY + 128} textAnchor="middle" fontSize={12} fill="rgba(255,255,255,0.8)">
             {frame.pots.map((p) => `${p.kind === 'main' ? t('table.mainPot') : t('table.sidePot', { index: p.index })} ${fmt(p.amount)}`).join(' · ')}
           </text>
         )}
         {frame.pot > 0 && (
-          <ChipStack chips={chipBreakdown(frame.pot, isCash, 10)} colors={skin.chips.colors} edge={skin.chips.edge} x={CX - 150} y={CY + 6} />
+          <ChipStack chips={chipBreakdown(frame.pot, isCash, 10)} colors={skin.chips.colors} edge={skin.chips.edge} x={CX - 130} y={CY - 62} />
         )}
 
         {/* Board */}
@@ -180,7 +181,8 @@ export function SvgTableRenderer({
               {p.streetBet > 0 && (
                 <g>
                   <ChipStack chips={chipBreakdown(p.streetBet, isCash)} colors={skin.chips.colors} edge={skin.chips.edge} x={bx} y={by} />
-                  {/* Below the stack (chips grow upwards) so the amount never sits on the chips. */}
+                  {/* Away from the centre: below the stack for near seats, above it for
+                      far ones — never on the chips, never on the pot label. */}
                   <text
                     x={bx}
                     y={by + 32}
@@ -212,8 +214,8 @@ export function SvgTableRenderer({
       {/* HTML seat plates */}
       {slots.map((slot) => {
         const p = bySeat.get(slot.seat);
-        const px = ((CX + slot.x * (RX + rail + 12)) / VW) * 100;
-        const py = ((CY + slot.y * (RY + rail + 34)) / VH) * 100;
+        const px = ((CX + slot.x * (RX + rail + 16)) / VW) * 100;
+        const py = ((CY + slot.y * (RY + rail + 52)) / VH) * 100;
         if (!p) {
           return (
             <div
@@ -241,8 +243,8 @@ export function SvgTableRenderer({
               fmt={fmt}
               exact={exact}
               onClick={interactive && onSeatClick ? () => onSeatClick(p.name) : undefined}
-              cardWidth={p.name === heroName ? 64 : 50}
-              scale={slots.length > 8 ? 0.9 : 1}
+              cardWidth={cardWidthFor(slots.length, p.name === heroName)}
+              scale={slots.length > 8 ? 0.88 : 1}
             />
           </div>
         );

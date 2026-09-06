@@ -18,6 +18,12 @@ export interface DeckSkin {
   rankFont: RankFont;
   /** 0..1 as a fraction of card width. */
   cornerRadius: number;
+  /**
+   * How a player's two hole cards sit next to each other.
+   * 'spread' = side by side; 'overlap' = fanned, second card on top.
+   * Undefined behaves as 'spread' (skins saved before this option existed).
+   */
+  holeLayout?: 'spread' | 'overlap';
 }
 
 export interface FeltSkin {

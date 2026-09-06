@@ -318,7 +318,10 @@
         "plain": "無地"
       },
       "rankFont": "ランクのフォント",
-      "cornerRadius": "角の丸み"
+      "cornerRadius": "角の丸み",
+      "holeLayout": "ホールカード",
+      "layoutSpread": "横並び",
+      "layoutOverlap": "重ねて扇状"
     },
     "felt": {
       "title": "フェルト",

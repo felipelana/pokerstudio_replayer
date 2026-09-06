@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import type { HandReplay } from '@/engine/replay';
 import type { Hand } from '@/model/types';
 import { useAppStore, type JumpTarget } from '@/state/store';
+import { IconFirst, IconLast, IconNext, IconPause, IconPlay, IconPrev } from '@/ui/icons';
 import { describeFrame } from './logText';
 import type { HandRow } from './Sidebar';
 
@@ -74,7 +75,12 @@ export function Footer({ replay, rows, currentIndex, fmt, onSelectHand }: Props)
   return (
     <footer className="flex h-[182px] shrink-0 flex-col gap-1.5 border-t p-2" style={{ borderColor: 'var(--border)', background: 'var(--surface)' }}>
       <div className="flex min-h-0 flex-1 gap-3">
-        <ol ref={logRef} className="min-h-0 flex-1 overflow-auto rounded-md p-1 font-mono text-[12px]" aria-label={t('footer.log')} style={{ background: 'var(--surface-2)' }}>
+        <ol
+          ref={logRef}
+          className="min-h-0 flex-1 overflow-auto rounded-lg border p-1.5 font-mono text-[12px] leading-[1.5]"
+          aria-label={t('footer.log')}
+          style={{ background: 'var(--surface-2)', borderColor: 'var(--border)' }}
+        >
           {lines.map((line, i) => (
             <li
               key={i}
@@ -98,21 +104,27 @@ export function Footer({ replay, rows, currentIndex, fmt, onSelectHand }: Props)
               </button>
             ))}
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1.5">
             <button type="button" className="btn-icon" onClick={() => setFrame(0)} title={t('footer.first')} aria-label={t('footer.first')}>
-              ⏮
+              <IconFirst size={15} />
             </button>
             <button type="button" className="btn-icon" onClick={() => { setPlaying(false); prevFrame(); }} title={t('footer.prev')} aria-label={t('footer.prev')}>
-              ◀
+              <IconPrev size={15} />
             </button>
-            <button type="button" className="btn-icon btn-primary min-w-[44px]" onClick={() => setPlaying(!playing)} title={playing ? t('footer.pause') : t('footer.play')} aria-label={playing ? t('footer.pause') : t('footer.play')}>
-              {playing ? '❚❚' : '▶'}
+            <button
+              type="button"
+              className="btn btn-primary !px-3.5"
+              onClick={() => setPlaying(!playing)}
+              title={playing ? t('footer.pause') : t('footer.play')}
+              aria-label={playing ? t('footer.pause') : t('footer.play')}
+            >
+              {playing ? <IconPause size={15} /> : <IconPlay size={15} />}
             </button>
             <button type="button" className="btn-icon" onClick={() => { setPlaying(false); nextFrame(); }} title={t('footer.next')} aria-label={t('footer.next')}>
-              ▶|
+              <IconNext size={15} />
             </button>
             <button type="button" className="btn-icon" onClick={() => setFrame(replay.frames.length - 1)} title={t('footer.last')} aria-label={t('footer.last')}>
-              ⏭
+              <IconLast size={15} />
             </button>
             <span className="ml-1 text-xs tabular-nums" style={{ color: 'var(--text-muted)' }}>
               {t('footer.frame', { current: frameIndex + 1, total: replay.frames.length })}

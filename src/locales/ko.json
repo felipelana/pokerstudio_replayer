@@ -318,7 +318,10 @@
         "plain": "단색"
       },
       "rankFont": "랭크 글꼴",
-      "cornerRadius": "모서리 반경"
+      "cornerRadius": "모서리 반경",
+      "holeLayout": "홀 카드",
+      "layoutSpread": "나란히",
+      "layoutOverlap": "겹쳐서 부채꼴"
     },
     "felt": {
       "title": "펠트",

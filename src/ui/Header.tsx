@@ -1,6 +1,7 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/store';
+import { IconHelp, IconMoon, IconSpade, IconSun } from './icons';
 import { LanguageSelector } from './LanguageSelector';
 
 function navClass({ isActive }: { isActive: boolean }) {
@@ -25,11 +26,10 @@ export function Header() {
     >
       <NavLink to="/" className="mr-2 flex items-center gap-2 font-semibold tracking-tight">
         <span
-          aria-hidden="true"
-          className="inline-flex h-6 w-6 items-center justify-center rounded-md text-xs font-bold text-white"
+          className="inline-flex h-6 w-6 items-center justify-center rounded-md text-white"
           style={{ background: 'var(--accent)' }}
         >
-          ♠
+          <IconSpade size={14} />
         </span>
         <span className="hidden sm:inline">{t('app.title')}</span>
       </NavLink>
@@ -83,7 +83,7 @@ export function Header() {
         aria-label={t('header.toggleTheme')}
         onClick={() => updateSettings({ theme: settings.theme === 'dark' ? 'light' : 'dark' })}
       >
-        {settings.theme === 'dark' ? '☾' : '☀'}
+        {settings.theme === 'dark' ? <IconMoon size={15} /> : <IconSun size={15} />}
       </button>
 
       <LanguageSelector />
@@ -96,7 +96,7 @@ export function Header() {
           aria-label={t('header.help')}
           onClick={() => setHelpOpen(true)}
         >
-          ?
+          <IconHelp size={15} />
         </button>
       )}
     </header>

@@ -51,15 +51,16 @@ export function computeSeatSlots(opts: LayoutOptions): SeatSlot[] {
     const angle = Math.PI / 2 + (2 * Math.PI * i) / n;
     const cos = Math.cos(angle);
     const sin = Math.sin(angle);
-    // Plates sit a little beyond the rail, bets on the felt.
+    // Plates sit beyond the rail; bets sit in front of each player (outer third
+    // of the felt) so the centre stays free for the board, the pot and its label.
     slots.push({
       seat,
       x: cos * 1.0,
       y: sin * 1.0,
-      betX: cos * 0.6,
-      betY: sin * 0.58,
-      buttonX: Math.cos(angle - 0.35) * 0.72,
-      buttonY: Math.sin(angle - 0.35) * 0.7,
+      betX: cos * 0.78,
+      betY: sin * 0.76,
+      buttonX: Math.cos(angle - 0.34) * 0.58,
+      buttonY: Math.sin(angle - 0.34) * 0.56,
       angle,
     });
   }

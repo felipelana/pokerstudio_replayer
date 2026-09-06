@@ -318,7 +318,10 @@
         "plain": "Einfarbig"
       },
       "rankFont": "Schrift der Kartenwerte",
-      "cornerRadius": "Eckenradius"
+      "cornerRadius": "Eckenradius",
+      "holeLayout": "Handkarten",
+      "layoutSpread": "Nebeneinander",
+      "layoutOverlap": "Gefächert (überlappend)"
     },
     "felt": {
       "title": "Filz",

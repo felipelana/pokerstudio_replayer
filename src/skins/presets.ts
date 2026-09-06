@@ -13,6 +13,7 @@ export const DECK_FOUR_COLOR_FILLED: DeckSkin = {
   backInk: 'rgba(255,255,255,0.35)',
   rankFont: 'Inter',
   cornerRadius: 0.1,
+  holeLayout: 'spread',
 };
 
 export const DECK_FOUR_COLOR_OUTLINED: DeckSkin = {
@@ -226,6 +227,7 @@ export const SKIN_GG: Skin = {
     backInk: 'rgba(52, 47, 42, 0.55)',
     rankFont: 'Inter',
     cornerRadius: 0.09,
+    holeLayout: 'overlap',
   },
   felt: {
     color: '#403a34',

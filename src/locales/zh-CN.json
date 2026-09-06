@@ -318,7 +318,10 @@
         "plain": "纯色"
       },
       "rankFont": "点数字体",
-      "cornerRadius": "圆角半径"
+      "cornerRadius": "圆角半径",
+      "holeLayout": "手牌",
+      "layoutSpread": "并排",
+      "layoutOverlap": "扇形（重叠）"
     },
     "felt": {
       "title": "桌布",

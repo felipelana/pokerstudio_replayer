@@ -7,6 +7,7 @@ import type { PositionLabel } from '@/model/positions';
 import { useAppStore } from '@/state/store';
 import type { Skin } from '@/skins/types';
 import { Card } from '@/ui/cards/Card';
+import { IconCheck, IconCopy, IconDice, IconSearch, IconUpload, IconUser } from '@/ui/icons';
 
 export interface HandRow {
   hand: Hand;
@@ -26,6 +27,8 @@ interface Props {
   fmt: (v: number) => string;
   onSelect(index: number): void;
 }
+
+const ROW_HEIGHT = 40;
 
 export function Sidebar({ rows, currentIndex, skin, heroName, sessionHasHero, players, fmt, onSelect }: Props) {
   const { t } = useTranslation();
@@ -53,7 +56,7 @@ export function Sidebar({ rows, currentIndex, skin, heroName, sessionHasHero, pl
   const virtualizer = useVirtualizer({
     count: filtered.length,
     getScrollElement: () => listRef.current,
-    estimateSize: () => 44,
+    estimateSize: () => ROW_HEIGHT,
     overscan: 12,
   });
 
@@ -75,18 +78,28 @@ export function Sidebar({ rows, currentIndex, skin, heroName, sessionHasHero, pl
     }
   };
 
-  const resultClass = (row: HandRow) => {
-    if (settings.hideResults || !settings.colorHintResults || !row.meta.result) return 'result-none';
-    if (settings.colorVpipOnly && !row.meta.vpip) return 'result-none';
-    return `result-${row.meta.result}`;
+  const showResult = (row: HandRow) =>
+    !settings.hideResults &&
+    settings.colorHintResults &&
+    !!row.meta.result &&
+    !(settings.colorVpipOnly && !row.meta.vpip);
+
+  const netColor = (row: HandRow) => {
+    if (settings.hideResults || row.meta.net === undefined || Math.abs(row.meta.net) < 0.005) return 'var(--text-muted)';
+    return row.meta.net > 0 ? 'var(--result-won)' : 'var(--result-lost)';
   };
 
   return (
-    <aside className="flex h-full w-[236px] shrink-0 flex-col gap-2 border-r p-2" style={{ borderColor: 'var(--border)', background: 'var(--surface)' }}>
-      <button type="button" className="btn btn-primary w-full" onClick={() => setImportModalOpen(true)}>
+    <aside
+      className="flex h-full w-[268px] shrink-0 flex-col gap-2 border-r p-2.5"
+      style={{ borderColor: 'var(--border)', background: 'var(--surface)' }}
+    >
+      <button type="button" className="btn btn-primary w-full justify-center" onClick={() => setImportModalOpen(true)}>
+        <IconUpload size={15} />
         {t('sidebar.loadHands')}
       </button>
-      <div className="flex flex-col gap-1 text-xs">
+
+      <div className="flex flex-col gap-1.5 text-xs">
         <label className="checkbox">
           <input type="checkbox" checked={settings.showKnownHands} onChange={(e) => updateSettings({ showKnownHands: e.target.checked })} />
           {t('sidebar.showKnownHands')}
@@ -104,53 +117,71 @@ export function Sidebar({ rows, currentIndex, skin, heroName, sessionHasHero, pl
           {t('sidebar.hideResults')}
         </label>
       </div>
+
       {/* Focus player is pinned for the whole session (every hand where they sit). */}
       <div
-        className="flex flex-col gap-1 rounded-md px-2 py-1.5 text-[11px]"
-        style={{ background: !sessionHasHero && !focusPlayer ? 'color-mix(in srgb, var(--result-break-even) 15%, transparent)' : 'var(--surface-2)' }}
+        className="flex flex-col gap-1 rounded-lg border px-2 py-1.5"
+        style={{
+          borderColor: !sessionHasHero && !focusPlayer ? 'color-mix(in srgb, var(--result-break-even) 55%, transparent)' : 'var(--border)',
+          background: 'var(--surface-2)',
+        }}
       >
-        {!heroName && <span>{t('sidebar.noHero')}</span>}
-        <label className="flex flex-col gap-0.5">
-          <span className="font-semibold uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>
-            {t('sidebar.focusSelect')}
+        <span className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>
+          <IconUser size={12} />
+          {t('sidebar.focusSelect')}
+        </span>
+        <select className="input !py-1 text-xs" value={focusPlayer ?? ''} onChange={(e) => setFocus(e.target.value || undefined)} aria-label={t('sidebar.focusSelect')}>
+          <option value="">{sessionHasHero ? t('sidebar.fileHero') : t('sidebar.choosePlayer')}</option>
+          {players.map((p) => (
+            <option key={p.name} value={p.name}>
+              {p.name} ({p.count})
+            </option>
+          ))}
+        </select>
+        {!heroName && (
+          <span className="text-[10.5px] leading-snug" style={{ color: 'var(--text-muted)' }}>
+            {t('sidebar.noHero')}
           </span>
-          <select className="input !py-1 text-xs" value={focusPlayer ?? ''} onChange={(e) => setFocus(e.target.value || undefined)}>
-            <option value="">{sessionHasHero ? t('sidebar.fileHero') : t('sidebar.choosePlayer')}</option>
-            {players.map((p) => (
-              <option key={p.name} value={p.name}>
-                {p.name} ({p.count})
-              </option>
-            ))}
-          </select>
-        </label>
+        )}
       </div>
-      <button type="button" className="btn w-full" onClick={() => rows.length && onSelect(Math.floor(Math.random() * rows.length))} title={t('sidebar.randomHand')}>
-        🎲 {t('sidebar.randomHand')}
+
+      <button type="button" className="btn w-full justify-center" onClick={() => rows.length && onSelect(Math.floor(Math.random() * rows.length))}>
+        <IconDice size={15} />
+        {t('sidebar.randomHand')}
       </button>
-      {focusPlayer && (
-        <div className="flex items-center gap-1 text-[11px]">
-          <span className="truncate">{t('sidebar.focus', { player: focusPlayer })}</span>
-          <div className="flex-1" />
-          <button type="button" className="btn btn-ghost !px-1 !py-0 text-[11px]" onClick={() => setFocus(undefined)}>
-            {t('sidebar.clearFocus')}
-          </button>
-        </div>
-      )}
-      <div className="flex items-center gap-1">
-        <span className="text-xs font-semibold uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>
-          {t('sidebar.hands')} · {rows.length}
+
+      <div className="flex items-center gap-2">
+        <span className="text-[10px] font-semibold uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>
+          {t('sidebar.hands')}
+        </span>
+        <span className="rounded-full px-1.5 text-[10px] font-semibold tabular-nums" style={{ background: 'var(--surface-2)', color: 'var(--text-muted)' }}>
+          {rows.length}
         </span>
         <div className="flex-1" />
-        <button type="button" className="btn btn-ghost !px-1.5 !py-0.5 text-xs" onClick={() => void copyRaw()} title={t('sidebar.copyRaw')}>
-          {copied ? t('common.copied') : t('common.copy')}
+        <button type="button" className="btn btn-ghost !px-1.5 !py-1" onClick={() => void copyRaw()} title={t('sidebar.copyRaw')} aria-label={t('sidebar.copyRaw')}>
+          {copied ? <IconCheck size={14} /> : <IconCopy size={14} />}
         </button>
       </div>
-      <input className="input !py-1 text-xs" placeholder={t('sidebar.filter')} value={filter} onChange={(e) => setFilter(e.target.value)} />
-      <div ref={listRef} className="min-h-0 flex-1 overflow-auto rounded-md" role="listbox" aria-label={t('sidebar.hands')}>
+
+      <div className="relative">
+        <span className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2" style={{ color: 'var(--text-muted)' }}>
+          <IconSearch size={13} />
+        </span>
+        <input
+          className="input !py-1 pl-7 text-xs"
+          placeholder={t('sidebar.filter')}
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+          aria-label={t('sidebar.filter')}
+        />
+      </div>
+
+      <div ref={listRef} className="-mx-0.5 min-h-0 flex-1 overflow-y-auto overflow-x-hidden" role="listbox" aria-label={t('sidebar.hands')}>
         <div style={{ height: virtualizer.getTotalSize(), position: 'relative' }}>
           {virtualizer.getVirtualItems().map((v) => {
             const { r, i } = filtered[v.index];
             const selected = i === currentIndex;
+            const coloured = showResult(r);
             return (
               <button
                 key={r.hand.id}
@@ -158,18 +189,23 @@ export function Sidebar({ rows, currentIndex, skin, heroName, sessionHasHero, pl
                 role="option"
                 aria-selected={selected}
                 onClick={() => onSelect(i)}
-                className="absolute left-0 flex w-full items-center gap-2 rounded-md px-1.5 text-left text-xs"
+                title={`#${r.hand.handNumber}`}
+                className="absolute left-0 flex w-full items-center gap-2 rounded-md pr-2 text-left text-xs transition-colors"
                 style={{
                   top: v.start,
-                  height: v.size,
-                  background: selected ? 'color-mix(in srgb, var(--accent) 22%, transparent)' : undefined,
+                  height: v.size - 2,
+                  background: selected ? 'color-mix(in srgb, var(--accent) 20%, transparent)' : undefined,
+                  boxShadow: selected ? 'inset 0 0 0 1px color-mix(in srgb, var(--accent) 45%, transparent)' : undefined,
                 }}
               >
-                <span className={`h-8 w-1 shrink-0 rounded ${resultClass(r)}`} style={{ opacity: resultClass(r) === 'result-none' ? 0.15 : 1, background: resultClass(r) === 'result-none' ? 'var(--text)' : undefined }} />
-                <span className="w-7 shrink-0 tabular-nums" style={{ color: 'var(--text-muted)' }}>
+                <span
+                  className={`h-[26px] w-[3px] shrink-0 rounded-full ${coloured ? `result-${r.meta.result}` : ''}`}
+                  style={coloured ? undefined : { background: 'color-mix(in srgb, var(--text) 14%, transparent)' }}
+                />
+                <span className="w-5 shrink-0 text-right tabular-nums" style={{ color: 'var(--text-muted)' }}>
                   {i + 1}
                 </span>
-                <span className="flex w-[50px] shrink-0 gap-[2px]">
+                <span className="flex w-[48px] shrink-0 items-center gap-[2px]">
                   {r.meta.heroCards?.length ? (
                     r.meta.heroCards.map((c) => <Card key={c} card={c} deck={skin.deck} width={22} />)
                   ) : r.meta.heroName ? (
@@ -181,20 +217,13 @@ export function Sidebar({ rows, currentIndex, skin, heroName, sessionHasHero, pl
                     <span style={{ color: 'var(--text-muted)' }}>{t('positions.none')}</span>
                   )}
                 </span>
-                <span className="w-10 shrink-0 font-semibold">{r.position ?? t('positions.none')}</span>
-                <span
-                  className="flex-1 truncate text-right tabular-nums"
-                  title={`#${r.hand.handNumber}`}
-                  style={{
-                    color:
-                      r.meta.net === undefined || Math.abs(r.meta.net) < 0.005
-                        ? 'var(--text-muted)'
-                        : r.meta.net > 0
-                          ? 'var(--result-won)'
-                          : 'var(--result-lost)',
-                  }}
-                >
-                  {r.meta.net !== undefined && !settings.hideResults ? `${r.meta.net > 0 ? '+' : ''}${fmt(r.meta.net)}` : ''}
+                <span className="w-[34px] shrink-0 font-semibold" style={{ color: r.position ? 'var(--text)' : 'var(--text-muted)' }}>
+                  {r.position ?? t('positions.none')}
+                </span>
+                <span className="min-w-0 flex-1 text-right font-medium tabular-nums" style={{ color: netColor(r) }}>
+                  {r.meta.net !== undefined && !settings.hideResults
+                    ? `${r.meta.net > 0 ? '+' : ''}${fmt(r.meta.net)}`
+                    : ''}
                 </span>
               </button>
             );

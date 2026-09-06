@@ -318,7 +318,10 @@
         "plain": "Liso"
       },
       "rankFont": "Fonte do rank",
-      "cornerRadius": "Raio dos cantos"
+      "cornerRadius": "Raio dos cantos",
+      "holeLayout": "Cartas do jogador",
+      "layoutSpread": "Lado a lado",
+      "layoutOverlap": "Sobrepostas (leque)"
     },
     "felt": {
       "title": "Feltro",

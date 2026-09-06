@@ -4,11 +4,12 @@ import { Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { useTranslation } from 'react-i18next';
 import type { TableRendererProps } from '../TableRenderer';
+import { cardWidthFor } from '../cardSize';
 import { chipBreakdown } from '../layout';
 import { SeatPlate, seatLabels, type SeatLabels } from '../seats/SeatPlate';
 import { SvgTableRenderer } from '../svg/SvgTableRenderer';
 import { cardCanvas } from '@/ui/cards/cardTexture';
-import type { DeckSkin, FeltSkin, Skin } from '@/skins/types';
+import type { DeckSkin, FeltSkin, Skin, TableSkin } from '@/skins/types';
 import { CARD_H, CARD_W } from '@/ui/cards/primitives';
 
 /* Table dimensions in world units (x = long axis, z = towards the viewer). */
@@ -63,11 +64,19 @@ function feltTexture(felt: FeltSkin): THREE.CanvasTexture {
       d[i + 2] = Math.max(0, Math.min(255, d[i + 2] + n));
     }
     ctx.putImageData(img, 0, 0);
-    // Vignette
-    const g = ctx.createRadialGradient(size / 2, size / 2, size * 0.2, size / 2, size / 2, size * 0.62);
-    g.addColorStop(0, 'rgba(0,0,0,0)');
+    // Soft pool of light in the middle, fading into the vignette.
+    const g = ctx.createRadialGradient(size / 2, size * 0.46, size * 0.08, size / 2, size / 2, size * 0.6);
+    g.addColorStop(0, `rgba(255,255,255,${0.06 + felt.textureIntensity * 0.05})`);
+    g.addColorStop(0.45, 'rgba(0,0,0,0)');
     g.addColorStop(1, hexToRgba(felt.vignetteColor, felt.vignetteStrength));
     ctx.fillStyle = g;
+    ctx.fillRect(0, 0, size, size);
+    // Inner shadow cast by the rail onto the felt (outermost ~8% of the radius).
+    const inner = ctx.createRadialGradient(size / 2, size / 2, size * 0.44, size / 2, size / 2, size * 0.5);
+    inner.addColorStop(0, 'rgba(0,0,0,0)');
+    inner.addColorStop(0.6, hexToRgba(felt.vignetteColor, 0.28));
+    inner.addColorStop(1, hexToRgba(felt.vignetteColor, 0.8));
+    ctx.fillStyle = inner;
     ctx.fillRect(0, 0, size, size);
     if (felt.logoText) {
       ctx.font = `700 ${size * 0.09}px Inter, system-ui, sans-serif`;
@@ -77,6 +86,73 @@ function feltTexture(felt: FeltSkin): THREE.CanvasTexture {
     }
     tex = new THREE.CanvasTexture(c);
     tex.colorSpace = THREE.SRGBColorSpace;
+    textureCache.set(key, tex);
+  }
+  return tex;
+}
+
+/** Procedural wood grain for the rail, built from the skin's two rail colours. */
+function woodTexture(table: TableSkin): THREE.CanvasTexture {
+  const key = `wood|${JSON.stringify(table)}`;
+  let tex = textureCache.get(key);
+  if (!tex) {
+    const w = 1024;
+    const h = 256;
+    const c = document.createElement('canvas');
+    c.width = w;
+    c.height = h;
+    const ctx = c.getContext('2d')!;
+    ctx.fillStyle = table.railColor;
+    ctx.fillRect(0, 0, w, h);
+    // Grain: long, slightly wavy strokes alternating between the two tones.
+    let seed = 987654321;
+    const rand = () => ((seed = (seed * 1664525 + 1013904223) >>> 0) >>> 8) / 16777216;
+    for (let i = 0; i < 260; i++) {
+      const y = rand() * h;
+      const amp = 2 + rand() * 6;
+      const alpha = 0.04 + rand() * 0.16;
+      ctx.strokeStyle = rand() > 0.45 ? hexToRgba(table.railHighlight, alpha) : `rgba(0,0,0,${alpha * 0.8})`;
+      ctx.lineWidth = 0.6 + rand() * 2.2;
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      for (let x = 0; x <= w; x += 32) ctx.lineTo(x, y + Math.sin((x / w) * Math.PI * (1 + rand()) + i) * amp);
+      ctx.stroke();
+    }
+    // Top-lit sheen across the rail width.
+    const sheen = ctx.createLinearGradient(0, 0, 0, h);
+    sheen.addColorStop(0, `rgba(255,255,255,${0.05 + table.railShine * 0.16})`);
+    sheen.addColorStop(0.5, 'rgba(0,0,0,0.05)');
+    sheen.addColorStop(1, 'rgba(0,0,0,0.28)');
+    ctx.fillStyle = sheen;
+    ctx.fillRect(0, 0, w, h);
+    tex = new THREE.CanvasTexture(c);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.wrapS = THREE.RepeatWrapping;
+    tex.wrapT = THREE.RepeatWrapping;
+    tex.repeat.set(0.09, 0.09);
+    tex.anisotropy = 8;
+    textureCache.set(key, tex);
+  }
+  return tex;
+}
+
+/** Radial fade used as the table's drop shadow on the page background. */
+function shadowTexture(): THREE.CanvasTexture {
+  const key = 'table-shadow';
+  let tex = textureCache.get(key);
+  if (!tex) {
+    const size = 512;
+    const c = document.createElement('canvas');
+    c.width = size;
+    c.height = size;
+    const ctx = c.getContext('2d')!;
+    const g = ctx.createRadialGradient(size / 2, size / 2, size * 0.16, size / 2, size / 2, size * 0.5);
+    g.addColorStop(0, 'rgba(0,0,0,0.55)');
+    g.addColorStop(0.55, 'rgba(0,0,0,0.28)');
+    g.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, size, size);
+    tex = new THREE.CanvasTexture(c);
     textureCache.set(key, tex);
   }
   return tex;
@@ -99,6 +175,8 @@ function Table({ skin }: { skin: Skin }) {
   const rz = RX * skin.table.aspect;
   const railW = skin.table.railWidth * RX * 2;
   const felt = useMemo(() => feltTexture(skin.felt), [skin.felt]);
+  const wood = useMemo(() => woodTexture(skin.table), [skin.table]);
+  const shadow = useMemo(() => shadowTexture(), []);
 
   const feltGeo = useMemo(() => {
     const shape = new THREE.Shape();
@@ -114,6 +192,7 @@ function Table({ skin }: { skin: Skin }) {
     return geo;
   }, [rz]);
 
+  /** Rail body: rounded outer edge, thin inner lip, extruded downwards. */
   const railGeo = useMemo(() => {
     const outer = new THREE.Shape();
     outer.absellipse(0, 0, RX + railW, rz + railW, 0, Math.PI * 2, false, 0);
@@ -121,33 +200,64 @@ function Table({ skin }: { skin: Skin }) {
     hole.absellipse(0, 0, RX, rz, 0, Math.PI * 2, true, 0);
     outer.holes.push(hole);
     return new THREE.ExtrudeGeometry(outer, {
-      depth: 0.22,
+      depth: 0.5,
       bevelEnabled: true,
-      bevelThickness: 0.08,
-      bevelSize: 0.08,
-      bevelSegments: 3,
-      curveSegments: 96,
+      bevelThickness: 0.16,
+      bevelSize: 0.14,
+      bevelSegments: 6,
+      curveSegments: 128,
     });
   }, [rz, railW]);
 
+  /** Dark lip between rail and felt — reads as the sunken felt edge. */
+  const lipGeo = useMemo(() => {
+    const outer = new THREE.Shape();
+    outer.absellipse(0, 0, RX + 0.06, rz + 0.06, 0, Math.PI * 2, false, 0);
+    const hole = new THREE.Path();
+    hole.absellipse(0, 0, RX - 0.16, rz - 0.16, 0, Math.PI * 2, true, 0);
+    outer.holes.push(hole);
+    return new THREE.ExtrudeGeometry(outer, {
+      depth: 0.16,
+      bevelEnabled: true,
+      bevelThickness: 0.05,
+      bevelSize: 0.05,
+      bevelSegments: 3,
+      curveSegments: 128,
+    });
+  }, [rz]);
+
   return (
     <group>
-      <mesh geometry={railGeo} rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.16, 0]} castShadow receiveShadow>
-        <meshStandardMaterial color={skin.table.railColor} roughness={0.45 - skin.table.railShine * 0.3} metalness={0.1 + skin.table.railShine * 0.3} />
+      {/* Drop shadow on the page background, so the table reads as a solid object. */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.62, 0.35]} renderOrder={-1}>
+        <planeGeometry args={[(RX + railW) * 2.5, (rz + railW) * 2.8]} />
+        <meshBasicMaterial map={shadow} transparent depthWrite={false} opacity={0.55} />
       </mesh>
+
+      <mesh geometry={railGeo} rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.3, 0]} castShadow receiveShadow>
+        <meshPhysicalMaterial
+          map={wood}
+          color={skin.table.railColor}
+          roughness={0.62 - skin.table.railShine * 0.28}
+          metalness={0.04}
+          clearcoat={0.35 + skin.table.railShine * 0.5}
+          clearcoatRoughness={0.35}
+        />
+      </mesh>
+
+      <mesh geometry={lipGeo} rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.1, 0]} receiveShadow>
+        <meshStandardMaterial color={skin.felt.vignetteColor} roughness={0.85} metalness={0} />
+      </mesh>
+
       <mesh geometry={feltGeo} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
-        <meshStandardMaterial map={felt} roughness={0.95} metalness={0} />
+        <meshStandardMaterial map={felt} roughness={0.96} metalness={0} />
       </mesh>
-      {/* Inner line */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.002, 0]}>
-        <ringGeometry args={[0.98, 1, 128]} />
-        <meshBasicMaterial color="#ffffff" transparent opacity={0.12} />
-        <primitive object={new THREE.Object3D()} attach="userData" />
-      </mesh>
-      <group scale={[RX - 0.35, rz - 0.3, 1]} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.003, 0]}>
+
+      {/* Betting line */}
+      <group scale={[RX - 0.55, rz - 0.45, 1]} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.004, 0]}>
         <mesh>
-          <ringGeometry args={[0.985, 1, 160]} />
-          <meshBasicMaterial color="#ffffff" transparent opacity={0.12} />
+          <ringGeometry args={[0.99, 1, 192]} />
+          <meshBasicMaterial color="#ffffff" transparent opacity={0.1} depthWrite={false} />
         </mesh>
       </group>
     </group>
@@ -270,10 +380,12 @@ function Scene(props: TableRendererProps & { labels: SceneLabels }) {
 
   return (
     <>
-      <ambientLight intensity={0.55} />
+      <ambientLight intensity={0.6} />
+      {/* Pool of light over the felt, like a lamp above the table. */}
+      <spotLight position={[0, 11, 1.5]} angle={0.8} penumbra={0.9} intensity={180} distance={30} decay={2} color="#fff6e6" />
       <directionalLight
         position={[3, 12, 5]}
-        intensity={1.4}
+        intensity={1.15}
         castShadow
         shadow-mapSize-width={2048}
         shadow-mapSize-height={2048}
@@ -290,19 +402,21 @@ function Scene(props: TableRendererProps & { labels: SceneLabels }) {
       {/* Board */}
       {frame.board.map((c, i) => (
         <Appear key={c} enabled={animations} delay={i * 40}>
-          <CardMesh card={c} deck={skin.deck} position={[boardX0 + i * (CARD_WIDTH + boardGap), 0.01, 0.5]} />
+          <CardMesh card={c} deck={skin.deck} position={[boardX0 + i * (CARD_WIDTH + boardGap), 0.01, 0.72]} />
         </Appear>
       ))}
 
       {/* Pot chips */}
       {frame.pot > 0 && (
         <Appear enabled={animations}>
-          <ChipStack3D chips={chipBreakdown(frame.pot, isCash, 10)} skin={skin} position={[-2.4, 0, -0.9]} />
+          <ChipStack3D chips={chipBreakdown(frame.pot, isCash, 10)} skin={skin} position={[-2.15, 0, -0.55]} />
         </Appear>
       )}
 
       {/* Pot label */}
-      <Html position={[0, 0.05, -1.55]} center zIndexRange={[5, 0]} style={{ pointerEvents: 'none' }}>
+      {/* Pot sits under the board: the middle of the felt is otherwise empty and
+          the bet ring stays clear. */}
+      <Html position={[0, 0.05, 1.62]} center zIndexRange={[5, 0]} style={{ pointerEvents: 'none' }}>
         <div
           className="whitespace-nowrap rounded-full border px-3 py-1 text-[15px] font-semibold text-white"
           style={{ background: 'rgba(0,0,0,0.62)', borderColor: skin.plates.activeBorder }}
@@ -321,14 +435,16 @@ function Scene(props: TableRendererProps & { labels: SceneLabels }) {
         const p = bySeat.get(slot.seat);
         const bx = slot.betX * RX;
         const bz = slot.betY * rz;
-        const px = slot.x * (RX + railW + 0.55);
-        const pz = slot.y * (rz + railW + 0.75);
+        const px = slot.x * (RX + railW + 0.28);
+        const pz = slot.y * (rz + railW + 1.15);
         return (
           <group key={slot.seat}>
             {p && p.streetBet > 0 && (
               <Appear enabled={animations}>
                 <ChipStack3D chips={chipBreakdown(p.streetBet, isCash)} skin={skin} position={[bx, 0, bz]} />
-                {/* Label sits in front of (below on screen) the stack so it never covers the chips. */}
+                {/* Label sits in front of (below on screen) the stack, so it never
+                    covers the chips. The pot label lives under the board, out of
+                    this ring, so the two can't meet. */}
                 <Html position={[bx, 0, bz + 0.62]} center zIndexRange={[5, 0]} style={{ pointerEvents: 'none' }}>
                   <div className="whitespace-nowrap text-[13px] font-semibold text-white" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.9)' }}>
                     {fmt(p.streetBet)}
@@ -353,8 +469,8 @@ function Scene(props: TableRendererProps & { labels: SceneLabels }) {
                   fmt={fmt}
                   exact={exact}
                   onClick={interactive && onSeatClick ? () => onSeatClick(p.name) : undefined}
-                  cardWidth={p.name === heroName ? 64 : 50}
-                  scale={slots.length > 8 ? 0.9 : 1}
+                  cardWidth={cardWidthFor(slots.length, p.name === heroName)}
+                  scale={slots.length > 8 ? 0.88 : 1}
                 />
               ) : (
                 <div className="rounded-md border px-2 py-1 text-[10px] uppercase tracking-wide" style={{ borderColor: 'rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.35)' }}>
@@ -406,7 +522,7 @@ export function ThreeTableRenderer(props: TableRendererProps) {
   }, []);
 
   const camera = useMemo(
-    () => ({ position: [0, 9.6, rz + 6.8] as [number, number, number], fov: 40, near: 0.1, far: 100 }),
+    () => ({ position: [0, 9.9, rz + 7.1] as [number, number, number], fov: 43, near: 0.1, far: 100 }),
     [rz],
   );
   return (
