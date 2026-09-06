@@ -171,7 +171,18 @@ export function SvgTableRenderer({
               {p.streetBet > 0 && (
                 <g>
                   <ChipStack chips={chipBreakdown(p.streetBet, isCash)} colors={skin.chips.colors} edge={skin.chips.edge} x={bx} y={by} />
-                  <text x={bx + 18} y={by + 5} fontSize={14} fontWeight={600} fill="#fff" stroke="rgba(0,0,0,0.6)" strokeWidth={2.5} paintOrder="stroke">
+                  {/* Below the stack (chips grow upwards) so the amount never sits on the chips. */}
+                  <text
+                    x={bx}
+                    y={by + 32}
+                    textAnchor="middle"
+                    fontSize={14}
+                    fontWeight={600}
+                    fill="#fff"
+                    stroke="rgba(0,0,0,0.6)"
+                    strokeWidth={2.5}
+                    paintOrder="stroke"
+                  >
                     {fmt(p.streetBet)}
                   </text>
                 </g>

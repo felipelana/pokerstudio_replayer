@@ -302,7 +302,7 @@ function Scene(props: TableRendererProps & { labels: SceneLabels }) {
       )}
 
       {/* Pot label */}
-      <Html position={[0, 0.05, -1.75]} center zIndexRange={[5, 0]} style={{ pointerEvents: 'none' }}>
+      <Html position={[0, 0.05, -1.15]} center zIndexRange={[5, 0]} style={{ pointerEvents: 'none' }}>
         <div className="whitespace-nowrap rounded-full px-3 py-1 text-[15px] font-semibold text-white" style={{ background: 'rgba(0,0,0,0.5)' }}>
           {labels.pot}: {fmt(frame.totalPot)}
           {frame.pots.length > 1 && (
@@ -325,7 +325,8 @@ function Scene(props: TableRendererProps & { labels: SceneLabels }) {
             {p && p.streetBet > 0 && (
               <Appear enabled={animations}>
                 <ChipStack3D chips={chipBreakdown(p.streetBet, isCash)} skin={skin} position={[bx, 0, bz]} />
-                <Html position={[bx + 0.3, 0.1, bz]} zIndexRange={[5, 0]} style={{ pointerEvents: 'none' }}>
+                {/* Label sits in front of (below on screen) the stack so it never covers the chips. */}
+                <Html position={[bx, 0, bz + 0.62]} center zIndexRange={[5, 0]} style={{ pointerEvents: 'none' }}>
                   <div className="whitespace-nowrap text-[13px] font-semibold text-white" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.9)' }}>
                     {fmt(p.streetBet)}
                   </div>
