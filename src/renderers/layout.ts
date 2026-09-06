@@ -59,8 +59,9 @@ export function computeSeatSlots(opts: LayoutOptions): SeatSlot[] {
       y: sin * 1.0,
       betX: cos * 0.78,
       betY: sin * 0.76,
-      buttonX: Math.cos(angle - 0.34) * 0.58,
-      buttonY: Math.sin(angle - 0.34) * 0.56,
+      // Between the board and the bet ring, so the button never lands on a card.
+      buttonX: Math.cos(angle - 0.34) * 0.68,
+      buttonY: Math.sin(angle - 0.34) * 0.66,
       angle,
     });
   }

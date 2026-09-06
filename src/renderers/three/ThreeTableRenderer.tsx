@@ -464,21 +464,21 @@ function Scene(props: TableRendererProps & { labels: SceneLabels }) {
       {/* Board */}
       {frame.board.map((c, i) => (
         <Appear key={c} enabled={animations} delay={i * 40}>
-          <CardMesh card={c} deck={skin.deck} position={[boardX0 + i * (CARD_WIDTH + boardGap), 0.01, 0.72]} />
+          <CardMesh card={c} deck={skin.deck} position={[boardX0 + i * (CARD_WIDTH + boardGap), 0.01, -0.7]} />
         </Appear>
       ))}
 
       {/* Pot chips */}
       {frame.pot > 0 && (
         <Appear enabled={animations}>
-          <ChipStack3D chips={chipBreakdown(frame.pot, isCash, 10)} skin={skin} position={[-2.15, 0, -0.55]} />
+          <ChipStack3D chips={chipBreakdown(frame.pot, isCash, 10)} skin={skin} position={[-2.5, 0, 0.55]} />
         </Appear>
       )}
 
       {/* Pot label */}
-      {/* Pot sits under the board: the middle of the felt is otherwise empty and
-          the bet ring stays clear. */}
-      <Html position={[0, 0.05, 1.62]} center zIndexRange={[5, 0]} style={{ pointerEvents: 'none' }}>
+      {/* Pot in the middle of the felt, board just above it: both clear of the
+          bet ring, so no two pieces of information can overlap. */}
+      <Html position={[0, 0.05, 0.62]} center zIndexRange={[5, 0]} style={{ pointerEvents: 'none' }}>
         <div
           className="whitespace-nowrap rounded-full border px-3 py-1 text-[15px] font-semibold text-white"
           style={{ background: 'rgba(0,0,0,0.62)', borderColor: skin.plates.activeBorder }}

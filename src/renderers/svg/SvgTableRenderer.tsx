@@ -97,10 +97,12 @@ export function SvgTableRenderer({
 
   const bySeat = new Map(frame.players.map((p) => [p.seat, p]));
   const winners = new Set(frame.kind === 'end' ? frame.players.filter((p) => p.collected > 0).map((p) => p.name) : []);
-  const boardW = 80;
-  const boardGap = 10;
+  const boardW = 70;
+  const boardGap = 9;
   const boardX0 = CX - (5 * boardW + 4 * boardGap) / 2;
-  const boardY = CY - (boardW * CARD_H) / CARD_W / 2 + 10;
+  // Board sits just above the middle; the pot label takes the centre, and the
+  // gap above the board keeps the dealer button off the cards.
+  const boardY = CY - (boardW * CARD_H) / CARD_W / 2 - 34;
 
   return (
     <div className="relative h-full w-full select-none" style={{ aspectRatio: `${VW} / ${VH}` }}>
@@ -176,7 +178,7 @@ export function SvgTableRenderer({
         )}
 
         {/* Pot */}
-        <g transform={`translate(${CX} ${CY + 96})`}>
+        <g transform={`translate(${CX} ${CY + 42})`}>
           <rect
             x={-80}
             y={-16}
@@ -192,12 +194,12 @@ export function SvgTableRenderer({
           </text>
         </g>
         {frame.pots.length > 1 && (
-          <text x={CX} y={CY + 128} textAnchor="middle" fontSize={12} fill="rgba(255,255,255,0.8)">
+          <text x={CX} y={CY + 76} textAnchor="middle" fontSize={12} fill="rgba(255,255,255,0.8)">
             {frame.pots.map((p) => `${p.kind === 'main' ? t('table.mainPot') : t('table.sidePot', { index: p.index })} ${fmt(p.amount)}`).join(' · ')}
           </text>
         )}
         {frame.pot > 0 && (
-          <ChipStack chips={chipBreakdown(frame.pot, isCash, 10)} colors={skin.chips.colors} edge={skin.chips.edge} x={CX - 130} y={CY - 62} />
+          <ChipStack chips={chipBreakdown(frame.pot, isCash, 10)} colors={skin.chips.colors} edge={skin.chips.edge} x={CX - 190} y={CY + 46} />
         )}
 
         {/* Board */}
