@@ -507,7 +507,12 @@ function Scene(props: TableRendererProps & { labels: SceneLabels }) {
                 {/* Label sits in front of (below on screen) the stack, so it never
                     covers the chips. The pot label lives under the board, out of
                     this ring, so the two can't meet. */}
-                <Html position={[bx, 0, bz + 0.62]} center zIndexRange={[5, 0]} style={{ pointerEvents: 'none' }}>
+                <Html
+                  position={[bx, 0, Math.min(bz + 0.62, rz * 0.88)]}
+                  center
+                  zIndexRange={[5, 0]}
+                  style={{ pointerEvents: 'none' }}
+                >
                   <div className="whitespace-nowrap text-[13px] font-semibold text-white" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.9)' }}>
                     {fmt(p.streetBet)}
                   </div>
@@ -534,11 +539,7 @@ function Scene(props: TableRendererProps & { labels: SceneLabels }) {
                   cardWidth={cardWidthFor(slots.length, p.name === heroName)}
                   scale={slots.length > 8 ? 0.88 : 1}
                 />
-              ) : (
-                <div className="rounded-md border px-2 py-1 text-[10px] uppercase tracking-wide" style={{ borderColor: 'rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.35)' }}>
-                  {labels.seat(slot.seat)}
-                </div>
-              )}
+              ) : null}
             </Html>
           </group>
         );

@@ -91,7 +91,7 @@ export const SeatPlate = memo(function SeatPlate({
       {hasCards && (
         <div
           className="flex items-end justify-center"
-          style={{ height: rowHeight, marginBottom: overlap ? -10 : -8 }}
+          style={{ height: rowHeight, marginBottom: -6, zIndex: 0 }}
           aria-label={known ? player.cards!.join(' ') : labels.unknownCards}
         >
           {faces.map((c, i) => (
@@ -120,6 +120,8 @@ export const SeatPlate = memo(function SeatPlate({
         onClick={onClick}
         className="relative min-w-[124px] max-w-[168px] rounded-lg border-2 px-2.5 py-1 text-center shadow-lg"
         style={{
+          // Above the cards, so a neighbouring pair can never cover the name.
+          zIndex: 1,
           background: p.bg,
           borderColor: border,
           color: p.text,

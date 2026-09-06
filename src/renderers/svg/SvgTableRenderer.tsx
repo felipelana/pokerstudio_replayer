@@ -218,9 +218,10 @@ export function SvgTableRenderer({
                   <ChipStack chips={chipBreakdown(p.streetBet, isCash)} colors={skin.chips.colors} edge={skin.chips.edge} x={bx} y={by} />
                   {/* Away from the centre: below the stack for near seats, above it for
                       far ones — never on the chips, never on the pot label. */}
+                  {/* Clamped to the cloth so the amount never lands on the rail. */}
                   <text
                     x={bx}
-                    y={by + 32}
+                    y={Math.min(by + 32, CY + RY * 0.88)}
                     textAnchor="middle"
                     fontSize={14}
                     fontWeight={600}
@@ -251,17 +252,8 @@ export function SvgTableRenderer({
         const p = bySeat.get(slot.seat);
         const px = ((CX + slot.x * (RX + rail + 16)) / VW) * 100;
         const py = ((CY + slot.y * (RY + rail + 52)) / VH) * 100;
-        if (!p) {
-          return (
-            <div
-              key={slot.seat}
-              className="absolute -translate-x-1/2 -translate-y-1/2 rounded-md border px-2 py-1 text-[10px] uppercase tracking-wide"
-              style={{ left: `${px}%`, top: `${py}%`, borderColor: 'rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.35)' }}
-            >
-              {t('game.seat', { seat: slot.seat })}
-            </div>
-          );
-        }
+        // Empty seats are simply left blank — no placeholder chrome.
+        if (!p) return null;
         return (
           <div key={slot.seat} className="absolute -translate-x-1/2 -translate-y-1/2" style={{ left: `${px}%`, top: `${py}%` }}>
             <SeatPlate
