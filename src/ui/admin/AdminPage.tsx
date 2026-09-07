@@ -135,6 +135,17 @@ function newId(): string {
 /* Page                                                                */
 /* ------------------------------------------------------------------ */
 
+/** Current background, or a sensible starting point built from the UI colours. */
+function defaultBackground(ui: Skin['ui']): NonNullable<Skin['ui']['background']> {
+  return (
+    ui.background ?? {
+      mode: 'color',
+      color: ui.bg,
+      gradient: { type: 'linear', angle: 180, stops: [{ color: ui.bg, at: 0 }, { color: ui.bgEnd, at: 1 }] },
+    }
+  );
+}
+
 export function AdminPage() {
   const { t } = useTranslation();
   const skins = useAppStore((s) => s.skins);
@@ -147,6 +158,7 @@ export function AdminPage() {
   const importInput = useRef<HTMLInputElement>(null);
   const logoInput = useRef<HTMLInputElement>(null);
   const cornerLogoInput = useRef<HTMLInputElement>(null);
+  const bgInput = useRef<HTMLInputElement>(null);
   const { hand, frame } = useDemo();
 
   useEffect(() => {
@@ -231,6 +243,16 @@ export function AdminPage() {
     const id = `logo-${Date.now().toString(36)}`;
     await getRepository().saveAsset(id, file);
     patch('felt', { logoAssetId: id });
+  };
+
+  const uploadBackground = async (file: File) => {
+    if (file.size > 6 * 1024 * 1024) {
+      setNotice(t('admin.background.tooLarge'));
+      return;
+    }
+    const id = `bg-${Date.now().toString(36)}`;
+    await getRepository().saveAsset(id, file);
+    patch('ui', { background: { ...defaultBackground(draft.ui), mode: 'image', imageAssetId: id } });
   };
 
   const uploadCornerLogo = async (file: File) => {
@@ -414,6 +436,102 @@ export function AdminPage() {
           <ColorField label={t('admin.chips.edge')} value={draft.chips.edge} onChange={(v) => patch('chips', { edge: v })} />
           <ColorField label={t('admin.chips.dealerButton')} value={draft.chips.dealerButton} onChange={(v) => patch('chips', { dealerButton: v })} />
           <ColorField label={t('admin.chips.dealerButtonInk')} value={draft.chips.dealerButtonInk} onChange={(v) => patch('chips', { dealerButtonInk: v })} />
+        </Section>
+
+        <Section title={t('admin.background.title')}>
+          <SelectField
+            label={t('admin.background.mode')}
+            value={draft.ui.background?.mode ?? 'color'}
+            options={[
+              { value: 'color', label: t('admin.background.modeColor') },
+              { value: 'gradient', label: t('admin.background.modeGradient') },
+              { value: 'image', label: t('admin.background.modeImage') },
+            ]}
+            onChange={(v) => patch('ui', { background: { ...defaultBackground(draft.ui), mode: v as 'color' | 'gradient' | 'image' } })}
+          />
+          <ColorField
+            label={t('admin.background.color')}
+            value={draft.ui.background?.color ?? draft.ui.bg}
+            onChange={(v) => patch('ui', { background: { ...defaultBackground(draft.ui), color: v } })}
+          />
+          {(draft.ui.background?.mode ?? 'color') === 'gradient' && (
+            <>
+              <ColorField
+                label={t('admin.background.gradientTo')}
+                value={draft.ui.background?.gradient?.stops[1]?.color ?? draft.ui.bgEnd}
+                onChange={(v) => {
+                  const b = defaultBackground(draft.ui);
+                  patch('ui', { background: { ...b, gradient: { ...b.gradient!, stops: [b.gradient!.stops[0], { color: v, at: 1 }] } } });
+                }}
+              />
+              <RangeField
+                label={t('admin.background.angle')}
+                value={draft.ui.background?.gradient?.angle ?? 180}
+                min={0}
+                max={360}
+                step={5}
+                onChange={(v) => {
+                  const b = defaultBackground(draft.ui);
+                  patch('ui', { background: { ...b, gradient: { ...b.gradient!, angle: v } } });
+                }}
+              />
+            </>
+          )}
+          {(draft.ui.background?.mode ?? 'color') === 'image' && (
+            <>
+              <div className="flex items-center gap-2 py-1 text-xs">
+                <span className="flex-1">{t('admin.background.image')}</span>
+                <button type="button" className="btn !py-0.5 text-[11px]" onClick={() => bgInput.current?.click()}>
+                  {t('common.import')}
+                </button>
+                {draft.ui.background?.imageAssetId && (
+                  <button
+                    type="button"
+                    className="btn !py-0.5 text-[11px]"
+                    onClick={() => patch('ui', { background: { ...defaultBackground(draft.ui), imageAssetId: undefined } })}
+                  >
+                    {t('admin.felt.removeLogo')}
+                  </button>
+                )}
+                <input
+                  ref={bgInput}
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp,image/svg+xml"
+                  hidden
+                  onChange={(e) => {
+                    const f = e.target.files?.[0];
+                    if (f) void uploadBackground(f);
+                    e.target.value = '';
+                  }}
+                />
+              </div>
+              <SelectField
+                label={t('admin.background.fit')}
+                value={draft.ui.background?.imageFit ?? 'cover'}
+                options={(['cover', 'contain', 'repeat', 'center'] as const).map((v) => ({ value: v, label: t(`admin.background.fit_${v}`) }))}
+                onChange={(v) => patch('ui', { background: { ...defaultBackground(draft.ui), imageFit: v as 'cover' | 'contain' | 'repeat' | 'center' } })}
+              />
+              <RangeField
+                label={t('admin.background.opacity')}
+                value={draft.ui.background?.imageOpacity ?? 1}
+                min={0}
+                max={1}
+                step={0.05}
+                onChange={(v) => patch('ui', { background: { ...defaultBackground(draft.ui), imageOpacity: v } })}
+              />
+              <RangeField
+                label={t('admin.background.blur')}
+                value={draft.ui.background?.blur ?? 0}
+                min={0}
+                max={12}
+                step={1}
+                onChange={(v) => patch('ui', { background: { ...defaultBackground(draft.ui), blur: v } })}
+              />
+            </>
+          )}
+          <button type="button" className="btn !py-0.5 text-[11px]" onClick={() => patch('ui', { background: undefined })}>
+            {t('common.reset')}
+          </button>
         </Section>
 
         <Section title={t('admin.logo.title')}>

@@ -411,6 +411,25 @@
       "bottom-right": "右下",
       "size": "大小",
       "opacity": "不透明度"
+    },
+    "background": {
+      "title": "背景",
+      "mode": "模式",
+      "modeColor": "纯色",
+      "modeGradient": "渐变",
+      "modeImage": "图片",
+      "color": "底色",
+      "gradientTo": "渐变结束色",
+      "angle": "角度",
+      "image": "图片",
+      "fit": "适配",
+      "fit_cover": "填充",
+      "fit_contain": "适应",
+      "fit_repeat": "平铺",
+      "fit_center": "居中",
+      "opacity": "不透明度",
+      "blur": "模糊",
+      "tooLarge": "图片过大（最大 6 MB）。"
     }
   },
   "warnings": {

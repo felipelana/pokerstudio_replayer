@@ -411,6 +411,25 @@
       "bottom-right": "Bottom right",
       "size": "Size",
       "opacity": "Opacity"
+    },
+    "background": {
+      "title": "Background",
+      "mode": "Mode",
+      "modeColor": "Solid colour",
+      "modeGradient": "Gradient",
+      "modeImage": "Image",
+      "color": "Base colour",
+      "gradientTo": "Gradient end",
+      "angle": "Angle",
+      "image": "Image",
+      "fit": "Fit",
+      "fit_cover": "Cover",
+      "fit_contain": "Contain",
+      "fit_repeat": "Repeat",
+      "fit_center": "Centre",
+      "opacity": "Opacity",
+      "blur": "Blur",
+      "tooLarge": "Image too large (max 6 MB)."
     }
   },
   "warnings": {

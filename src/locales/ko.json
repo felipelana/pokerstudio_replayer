@@ -411,6 +411,25 @@
       "bottom-right": "오른쪽 아래",
       "size": "크기",
       "opacity": "불투명도"
+    },
+    "background": {
+      "title": "배경",
+      "mode": "모드",
+      "modeColor": "단색",
+      "modeGradient": "그라데이션",
+      "modeImage": "이미지",
+      "color": "기본 색상",
+      "gradientTo": "그라데이션 끝",
+      "angle": "각도",
+      "image": "이미지",
+      "fit": "맞춤",
+      "fit_cover": "채우기",
+      "fit_contain": "맞추기",
+      "fit_repeat": "반복",
+      "fit_center": "가운데",
+      "opacity": "불투명도",
+      "blur": "흐림",
+      "tooLarge": "이미지가 너무 큽니다(최대 6MB)."
     }
   },
   "warnings": {

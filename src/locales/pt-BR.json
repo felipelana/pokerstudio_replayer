@@ -411,6 +411,25 @@
       "bottom-right": "Inferior direito",
       "size": "Tamanho",
       "opacity": "Opacidade"
+    },
+    "background": {
+      "title": "Fundo",
+      "mode": "Modo",
+      "modeColor": "Cor sólida",
+      "modeGradient": "Gradiente",
+      "modeImage": "Imagem",
+      "color": "Cor base",
+      "gradientTo": "Fim do gradiente",
+      "angle": "Ângulo",
+      "image": "Imagem",
+      "fit": "Ajuste",
+      "fit_cover": "Preencher",
+      "fit_contain": "Conter",
+      "fit_repeat": "Repetir",
+      "fit_center": "Centralizar",
+      "opacity": "Opacidade",
+      "blur": "Desfoque",
+      "tooLarge": "Imagem muito grande (máx. 6 MB)."
     }
   },
   "warnings": {

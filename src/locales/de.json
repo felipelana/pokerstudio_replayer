@@ -411,6 +411,25 @@
       "bottom-right": "Unten rechts",
       "size": "Größe",
       "opacity": "Deckkraft"
+    },
+    "background": {
+      "title": "Hintergrund",
+      "mode": "Modus",
+      "modeColor": "Vollfarbe",
+      "modeGradient": "Verlauf",
+      "modeImage": "Bild",
+      "color": "Grundfarbe",
+      "gradientTo": "Verlaufsende",
+      "angle": "Winkel",
+      "image": "Bild",
+      "fit": "Anpassung",
+      "fit_cover": "Füllen",
+      "fit_contain": "Einpassen",
+      "fit_repeat": "Kacheln",
+      "fit_center": "Zentriert",
+      "opacity": "Deckkraft",
+      "blur": "Weichzeichnen",
+      "tooLarge": "Bild zu groß (max. 6 MB)."
     }
   },
   "warnings": {

@@ -63,6 +63,24 @@ export interface TableSkin {
   neonColor?: string;
 }
 
+export interface BackgroundSkin {
+  mode: 'color' | 'gradient' | 'image';
+  /** Base colour; also the layer an image composites over. */
+  color: string;
+  gradient?: {
+    type: 'linear' | 'radial';
+    /** degrees, linear only */
+    angle: number;
+    stops: { color: string; at: number }[];
+  };
+  imageAssetId?: string;
+  /** 0..1 */
+  imageOpacity?: number;
+  imageFit?: 'cover' | 'contain' | 'repeat' | 'center';
+  /** px */
+  blur?: number;
+}
+
 export type LogoCorner = 'none' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 
 export interface UiSkin {
@@ -74,6 +92,8 @@ export interface UiSkin {
   textMuted: string;
   accent: string;
   border: string;
+  /** Backdrop behind the table (R15). Undefined = the bg/bgEnd gradient. */
+  background?: BackgroundSkin;
   /** Logo pinned to a corner of the table area (IndexedDB asset id). */
   logoAssetId?: string;
   logoCorner?: LogoCorner;

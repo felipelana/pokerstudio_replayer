@@ -411,6 +411,25 @@
       "bottom-right": "右下",
       "size": "サイズ",
       "opacity": "不透明度"
+    },
+    "background": {
+      "title": "背景",
+      "mode": "モード",
+      "modeColor": "単色",
+      "modeGradient": "グラデーション",
+      "modeImage": "画像",
+      "color": "ベースカラー",
+      "gradientTo": "グラデーション終点",
+      "angle": "角度",
+      "image": "画像",
+      "fit": "フィット",
+      "fit_cover": "カバー",
+      "fit_contain": "含む",
+      "fit_repeat": "繰り返し",
+      "fit_center": "中央",
+      "opacity": "不透明度",
+      "blur": "ぼかし",
+      "tooLarge": "画像が大きすぎます（最大 6 MB）。"
     }
   },
   "warnings": {
