@@ -32,6 +32,8 @@ enum UserPlan {
 enum AuthProvider {
   PASSWORD
   GOOGLE
+  FACEBOOK
+  APPLE
 }
 
 enum EmailTokenType {
@@ -65,6 +67,8 @@ enum AccessEvent {
   EMAIL_SETTINGS_CHANGED
   GOOGLE_LINKED
   GOOGLE_UNLINKED
+  PROVIDER_LINKED
+  PROVIDER_UNLINKED
 }
 
 enum DeviceType {

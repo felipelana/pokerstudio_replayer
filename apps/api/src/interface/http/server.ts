@@ -8,7 +8,7 @@ import { authRoutes } from './routes/auth.js';
 import { skinRoutes } from './routes/skins.js';
 import { adminRoutes } from './routes/admin.js';
 import { referralRoutes } from './routes/referrals.js';
-import { googleRoutes } from './routes/google.js';
+import { oauthRoutes } from './routes/oauth.js';
 import { twoFactorRoutes } from './routes/twofactor.js';
 import { reviewRoutes } from './routes/reviews.js';
 import { usageRoutes } from './routes/usage.js';
@@ -89,7 +89,7 @@ export async function buildServer(container: AppContainer): Promise<FastifyInsta
       await skinRoutes(api, container);
       await adminRoutes(api, container);
       await referralRoutes(api, container);
-      await googleRoutes(api, container, container.google);
+      await oauthRoutes(api, container);
       await twoFactorRoutes(api, container);
       await reviewRoutes(api, container);
       await usageRoutes(api, container);

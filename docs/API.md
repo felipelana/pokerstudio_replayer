@@ -26,11 +26,12 @@ Níveis de acesso:
 | POST | `/auth/change-password` | usuário | troca a senha (ou define a primeira) | ✅ |
 | DELETE | `/auth/me` | usuário | encerra a conta (anonimiza e revoga tudo) | ✅ |
 | GET | `/auth/me/export` | usuário | exporta os dados em JSON | ✅ |
-| GET | `/auth/providers` | público | quais provedores estão configurados (`{ google }`) | ✅ |
-| GET | `/auth/google` | público | inicia OAuth (Authorization Code + PKCE) | ✅ |
-| GET | `/auth/google/callback` | público | conclui OAuth e abre sessão | ✅ |
-| GET | `/auth/google/link` | usuário | diz se a conta já tem o Google vinculado | ✅ |
-| DELETE | `/auth/google/link` | usuário | desvincula o Google (409 se for a única credencial) | ✅ |
+| GET | `/auth/providers` | público | provedores configurados (`{ google, facebook, apple }`) | ✅ |
+| GET | `/auth/{google,facebook,apple}` | público | inicia o OAuth do provedor | ✅ |
+| GET | `/auth/{google,facebook}/callback` | público | conclui e abre sessão | ✅ |
+| GET/POST | `/auth/apple/callback` | público | idem, Apple responde por `form_post` | ✅ |
+| GET | `/auth/identities` | usuário | formas de entrar desta conta | ✅ |
+| DELETE | `/auth/identities/:provider` | usuário | desvincula (409 se for a última) | ✅ |
 | GET | `/skins` | usuário | skins salvas na conta | ✅ |
 | PUT | `/skins` | usuário | salva/atualiza uma skin da conta | ✅ |
 | DELETE | `/skins/:skinId` | usuário | remove uma skin | ✅ |
@@ -70,7 +71,7 @@ Níveis de acesso:
 - Login e recuperação respondem igual para conta existente e inexistente.
 - Nenhuma rota devolve `passwordHash`, token ou segredo.
 
-## Entrar com o Google
+## Entrar com um provedor
 
 ### Fluxo
 
@@ -97,6 +98,18 @@ Qualquer falha volta para `${APP_URL}/login?error=<código>`, nunca com detalhe 
 `GET /auth/google/link` responde `{ linked }`. `DELETE /auth/google/link` desvincula, mas responde
 409 `password_required` quando o Google é a única forma de entrar — o usuário precisa definir uma
 senha antes.
+
+### Facebook e Apple
+
+O fluxo é o mesmo para os três; só o objeto do provedor muda.
+
+- **Facebook** é OAuth 2.0 puro, sem `id_token`: o perfil é lido no Graph API pelo canal
+  servidor-a-servidor, com `appsecret_proof` (HMAC-SHA256 do access token sob o app secret), de
+  modo que um token roubado não serve fora do nosso servidor. Conta sem e-mail é recusada.
+- **Apple** não tem client secret: ele é um JWT **ES256** assinado por nós com a chave `.p8`,
+  válido por uma hora. O `id_token` é verificado contra a JWKS da Apple, aceitando `aud` como
+  lista e `email_verified` como a string `"true"`, que é o que a Apple manda. Como a Apple
+  responde por `form_post`, o cookie de estado desse provedor vai com `SameSite=None; Secure`.
 
 ### O parâmetro `redirect`
 

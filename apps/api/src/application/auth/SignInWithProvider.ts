@@ -10,10 +10,10 @@ import type {
   UserRepository,
 } from '../../domain/repositories/index.js';
 import type { Clock, GeoIpResolver, TokenGenerator, UserAgentParser } from '../ports/index.js';
-import type { OAuthProfile } from '../ports/oauth.js';
+import type { OAuthProfile, OAuthProviderName } from '../ports/oauth.js';
 import type { User } from '../../domain/entities/User.js';
 
-export interface GoogleSignInDeps {
+export interface ProviderSignInDeps {
   users: UserRepository;
   sessions: SessionRepository;
   identities: IdentityRepository;
@@ -27,7 +27,8 @@ export interface GoogleSignInDeps {
   languages: readonly string[];
 }
 
-export interface GoogleSignInInput {
+export interface ProviderSignInInput {
+  provider: OAuthProviderName;
   profile: OAuthProfile;
   /** Referral code carried through the OAuth `state`, so it survives the redirect. */
   referralCode?: string;
@@ -38,24 +39,27 @@ export interface GoogleSignInInput {
 const SESSION_MS = 30 * 24 * 60 * 60 * 1000;
 
 /**
- * Signs in with Google, creating or linking an account.
+ * Signs in with an identity provider — Google, Facebook or Apple — creating or
+ * linking an account. Nothing here is specific to any of them: they all arrive
+ * as a verified e-mail plus a stable id.
  *
  * The linking rule is the security-critical part: an existing account is only
  * linked automatically when its e-mail was already verified here. Linking to an
  * unverified local account would let anyone who registered someone else's
- * address take that account over by signing in with Google.
+ * address take that account over by signing in with the provider.
  */
-export async function signInWithGoogle(
-  deps: GoogleSignInDeps,
-  input: GoogleSignInInput,
+export async function signInWithProvider(
+  deps: ProviderSignInDeps,
+  input: ProviderSignInInput,
 ): Promise<Result<{ user: User; token: string; expiresAt: Date; created: boolean; needsProfile: boolean }>> {
-  const { profile } = input;
+  const { profile, provider } = input;
+  const label = provider.charAt(0) + provider.slice(1).toLowerCase();
   if (!profile.emailVerified) {
-    return fail(appError('google_email_unverified', 'Your Google e-mail is not verified.', 403));
+    return fail(appError('provider_email_unverified', `Your ${label} e-mail is not verified.`, 403));
   }
 
   const now = deps.clock.now();
-  const existingIdentity = await deps.identities.find('GOOGLE', profile.providerUserId);
+  const existingIdentity = await deps.identities.find(provider, profile.providerUserId);
   let user = existingIdentity ? await deps.users.findById(existingIdentity.userId) : undefined;
   let created = false;
 
@@ -68,7 +72,7 @@ export async function signInWithGoogle(
           email: byEmail.email,
           event: 'BLOCKED_ATTEMPT',
           ip: input.ip,
-          detail: { method: 'GOOGLE' },
+          detail: { method: provider },
         });
         return fail(Errors.accountUnavailable());
       }
@@ -77,7 +81,7 @@ export async function signInWithGoogle(
         return fail(
           appError(
             'link_requires_verification',
-            'This e-mail already has an account. Sign in with your password, or verify the address first, to link Google.',
+            `This e-mail already has an account. Sign in with your password, or verify the address first, to link ${label}.`,
             409,
           ),
         );
@@ -95,25 +99,31 @@ export async function signInWithGoogle(
           : undefined,
         marketingOptIn: false,
         role: deps.adminEmails.includes(profile.email) ? 'ADMIN' : 'USER',
-        // Google already proved the address, so the account starts usable.
+        // The provider already proved the address, so the account starts usable.
         status: 'ACTIVE',
       });
       created = true;
       await deps.users.update(user.id, { emailVerifiedAt: now });
       user = { ...user, emailVerifiedAt: now };
       if (input.referralCode) await deps.referrals.markAccepted(input.referralCode.toUpperCase(), user.id, now);
-      await deps.log.record({ userId: user.id, email: user.email, event: 'SIGNUP', ip: input.ip, detail: { method: 'GOOGLE' } });
+      await deps.log.record({ userId: user.id, email: user.email, event: 'SIGNUP', ip: input.ip, detail: { method: provider } });
     }
 
     await deps.identities.link({
       userId: user.id,
-      provider: 'GOOGLE',
+      provider,
       providerUserId: profile.providerUserId,
       email: profile.email,
       avatarUrl: profile.avatarUrl,
     });
     if (!created) {
-      await deps.log.record({ userId: user.id, email: user.email, event: 'GOOGLE_LINKED', ip: input.ip });
+      await deps.log.record({
+        userId: user.id,
+        email: user.email,
+        event: provider === 'GOOGLE' ? 'GOOGLE_LINKED' : 'PROVIDER_LINKED',
+        ip: input.ip,
+        detail: { provider },
+      });
     }
   }
 
@@ -123,7 +133,7 @@ export async function signInWithGoogle(
       email: user.email,
       event: 'BLOCKED_ATTEMPT',
       ip: input.ip,
-      detail: { method: 'GOOGLE' },
+      detail: { method: provider },
     });
     return fail(Errors.accountUnavailable());
   }
@@ -146,7 +156,7 @@ export async function signInWithGoogle(
     country: deps.geo.countryFor(input.ip),
     userAgent: input.userAgent,
     ...deps.ua.parse(input.userAgent),
-    detail: { method: 'GOOGLE' },
+    detail: { method: provider },
   });
 
   // Google never reports a country: it stays a suggestion the user confirms.

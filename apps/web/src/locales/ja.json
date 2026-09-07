@@ -576,16 +576,16 @@
     "offline": "サーバーに接続できませんでした。しばらくしてお試しください。",
     "offlineBanner": "サーバーに接続できません — ローカルデータのみで動作中です。",
     "or": "または",
-    "continueWithGoogle": "Google で続行",
-    "signUpWithGoogle": "Google で登録",
     "oauthError": {
-      "google_cancelled": "Google ログインがキャンセルされました。",
-      "google_state": "ログイン要求の有効期限が切れました。もう一度お試しください。",
-      "google_failed": "Google ログインを完了できませんでした。もう一度お試しください。",
-      "google_email_unverified": "Google のメールアドレスが未確認です。Google で確認してからお試しください。",
       "link_requires_verification": "このメールアドレスのアカウントが既にあります。パスワードでログインし、先にメールを確認してください。",
-      "account_unavailable": "このアカウントは利用できません。サポートにお問い合わせください。"
-    }
+      "account_unavailable": "このアカウントは利用できません。サポートにお問い合わせください。",
+      "oauth_cancelled": "ログインがキャンセルされました。",
+      "oauth_state": "ログイン要求の有効期限が切れました。もう一度お試しください。",
+      "oauth_failed": "ログインを完了できませんでした。もう一度お試しください。",
+      "provider_email_unverified": "このアカウントには確認済みのメールがありません。提供元で確認してからお試しください。"
+    },
+    "continueWith": "{{provider}} で続行",
+    "signUpWith": "{{provider}} で登録"
   },
   "account": {
     "title": "マイアカウント",

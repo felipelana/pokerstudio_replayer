@@ -576,16 +576,16 @@
     "offline": "无法连接服务器，请稍后再试。",
     "offlineBanner": "服务器不可用 — 仅使用本地数据。",
     "or": "或",
-    "continueWithGoogle": "使用 Google 继续",
-    "signUpWithGoogle": "使用 Google 注册",
     "oauthError": {
-      "google_cancelled": "Google 登录已取消。",
-      "google_state": "登录请求已过期，请重试。",
-      "google_failed": "无法完成 Google 登录，请重试。",
-      "google_email_unverified": "您的 Google 邮箱尚未验证。请在 Google 验证后重试。",
       "link_requires_verification": "该邮箱已有账户。请先用密码登录并确认邮箱。",
-      "account_unavailable": "该账户不可用。请联系客服。"
-    }
+      "account_unavailable": "该账户不可用。请联系客服。",
+      "oauth_cancelled": "登录已取消。",
+      "oauth_state": "登录请求已过期，请重试。",
+      "oauth_failed": "无法完成登录，请重试。",
+      "provider_email_unverified": "该账户没有已验证的邮箱。请在对应平台验证后重试。"
+    },
+    "continueWith": "使用 {{provider}} 继续",
+    "signUpWith": "使用 {{provider}} 注册"
   },
   "account": {
     "title": "我的账户",

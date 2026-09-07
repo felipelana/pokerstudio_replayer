@@ -26,13 +26,26 @@ const schema = z.object({
   GOOGLE_CLIENT_ID: z.string().optional(),
   GOOGLE_CLIENT_SECRET: z.string().optional(),
   GOOGLE_REDIRECT_URI: z.string().optional(),
+
+  FACEBOOK_APP_ID: z.string().optional(),
+  FACEBOOK_APP_SECRET: z.string().optional(),
+  FACEBOOK_REDIRECT_URI: z.string().optional(),
+
+  /** Sign in with Apple: the Services ID, plus the key that signs the secret. */
+  APPLE_CLIENT_ID: z.string().optional(),
+  APPLE_TEAM_ID: z.string().optional(),
+  APPLE_KEY_ID: z.string().optional(),
+  APPLE_PRIVATE_KEY: z.string().optional(),
+  APPLE_REDIRECT_URI: z.string().optional(),
 });
 
 export type Config = z.infer<typeof schema> & {
   adminEmails: string[];
   isProduction: boolean;
-  /** Google sign-in is offered only when fully configured. */
+  /** Each provider is offered only when it is fully configured. */
   googleEnabled: boolean;
+  facebookEnabled: boolean;
+  appleEnabled: boolean;
 };
 
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
@@ -42,5 +55,13 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     adminEmails: parsed.ADMIN_EMAILS.split(',').map((e) => e.trim().toLowerCase()).filter(Boolean),
     isProduction: parsed.NODE_ENV === 'production',
     googleEnabled: !!(parsed.GOOGLE_CLIENT_ID && parsed.GOOGLE_CLIENT_SECRET && parsed.GOOGLE_REDIRECT_URI),
+    facebookEnabled: !!(parsed.FACEBOOK_APP_ID && parsed.FACEBOOK_APP_SECRET && parsed.FACEBOOK_REDIRECT_URI),
+    appleEnabled: !!(
+      parsed.APPLE_CLIENT_ID &&
+      parsed.APPLE_TEAM_ID &&
+      parsed.APPLE_KEY_ID &&
+      parsed.APPLE_PRIVATE_KEY &&
+      parsed.APPLE_REDIRECT_URI
+    ),
   };
 }

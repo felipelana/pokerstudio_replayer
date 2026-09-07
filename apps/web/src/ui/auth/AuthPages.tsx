@@ -8,7 +8,7 @@ import { useAuthStore } from '@/state/authStore';
 import { useAppStore } from '@/state/store';
 import brandMark from '@/assets/pokerstudio-mark.png';
 import { IconDevice, IconLock, IconLogout, IconPalette, IconShare, IconUser } from '@/ui/icons';
-import { GoogleButton, OrDivider } from './GoogleButton';
+import { ProviderButton, ProviderButtons, useProviders, type ProviderName } from './ProviderButtons';
 import { LanguageSelector } from '@/ui/LanguageSelector';
 import { LanguageChoice } from '@/ui/LanguageChoice';
 import { PasswordSection, ProfileEditor } from './AccountSettings';
@@ -46,18 +46,6 @@ function AuthShell({ title, subtitle, children }: { title: string; subtitle?: st
   );
 }
 
-/** True when this deployment has Google configured. */
-function useGoogleEnabled(): boolean {
-  const [enabled, setEnabled] = useState(false);
-  useEffect(() => {
-    void accountApi
-      .providers()
-      .then((p) => setEnabled(p.google))
-      .catch(() => setEnabled(false));
-  }, []);
-  return enabled;
-}
-
 function useApiError() {
   const { t } = useTranslation();
   const [error, setError] = useState('');
@@ -79,7 +67,6 @@ export function LoginPage() {
   const [capsLock, setCapsLock] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const { error, setError, handle } = useApiError();
-  const googleEnabled = useGoogleEnabled();
   const [params] = useSearchParams();
   const oauthError = params.get('error');
 
@@ -101,15 +88,10 @@ export function LoginPage() {
     <AuthShell title={t('auth.loginTitle')} subtitle={t('auth.loginSubtitle')}>
       {oauthError && (
         <p className="mb-3 rounded-md px-3 py-2 text-sm" role="alert" style={{ background: 'color-mix(in srgb, var(--result-lost) 18%, transparent)' }}>
-          {t(`auth.oauthError.${oauthError}`, { defaultValue: t('auth.oauthError.google_failed') })}
+          {t(`auth.oauthError.${oauthError}`, { defaultValue: t('auth.oauthError.oauth_failed') })}
         </p>
       )}
-      {googleEnabled && (
-        <div className="mb-4 flex flex-col gap-3">
-          <GoogleButton redirect="/" />
-          <OrDivider />
-        </div>
-      )}
+      <ProviderButtons redirect="/" />
       <form onSubmit={submit} className="flex flex-col gap-3">
         <label className="flex flex-col gap-1 text-sm">
           {t('auth.email')}
@@ -186,7 +168,6 @@ export function SignUpPage() {
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState(false);
   const { error, setError, handle } = useApiError();
-  const googleEnabled = useGoogleEnabled();
 
   const set = <K extends keyof typeof form>(key: K, value: (typeof form)[K]) => setForm((f) => ({ ...f, [key]: value }));
 
@@ -227,12 +208,7 @@ export function SignUpPage() {
 
   return (
     <AuthShell title={t('auth.signupTitle')} subtitle={t('auth.signupSubtitle')}>
-      {googleEnabled && (
-        <div className="mb-4 flex flex-col gap-3">
-          <GoogleButton redirect="/" label={t('auth.signUpWithGoogle')} />
-          <OrDivider />
-        </div>
-      )}
+      <ProviderButtons redirect="/" signUp />
       <form onSubmit={submit} className="flex flex-col gap-3">
         <label className="flex flex-col gap-1 text-sm">
           {t('auth.name')}
@@ -451,61 +427,74 @@ export function ReferralLanding() {
 }
 
 /**
- * Which providers this account can sign in with. Only rendered when Google is
- * configured for the deployment, or when the account is already linked to it.
+ * Which providers this account can sign in with. Each row is shown when the
+ * deployment offers that provider, or when this account is already linked to
+ * it — an account never loses sight of a link it has.
  */
 function ConnectedAccounts({ identities }: { identities: string[] }) {
   const { t } = useTranslation();
-  const googleEnabled = useGoogleEnabled();
+  const available = useProviders();
   const [error, setError] = useState('');
-  const [busy, setBusy] = useState(false);
-  const linked = identities.includes('GOOGLE');
+  const [busy, setBusy] = useState('');
 
-  if (!googleEnabled && !linked) return null;
+  const rows: { provider: ProviderName; name: 'GOOGLE' | 'FACEBOOK' | 'APPLE'; label: string }[] = [
+    { provider: 'google', name: 'GOOGLE', label: 'Google' },
+    { provider: 'facebook', name: 'FACEBOOK', label: 'Facebook' },
+    { provider: 'apple', name: 'APPLE', label: 'Apple' },
+  ].filter((row) => available[row.provider as ProviderName] || identities.includes(row.name)) as never;
 
-  const unlink = async () => {
-    setBusy(true);
+  if (rows.length === 0) return null;
+
+  const unlink = async (name: 'GOOGLE' | 'FACEBOOK' | 'APPLE') => {
+    setBusy(name);
     setError('');
     try {
-      await accountApi.unlinkGoogle();
+      await accountApi.unlinkProvider(name);
       window.location.reload();
     } catch (err) {
       setError(err instanceof ApiError ? err.problem.title : t('auth.offline'));
     } finally {
-      setBusy(false);
+      setBusy('');
     }
   };
 
   return (
     <section className="panel p-4">
       <h2 className="mb-2 font-semibold">{t('account.connected')}</h2>
-      <div className="flex items-center gap-3 text-sm">
-        <span className="flex-1">
-          Google
-          {linked ? (
-            <span className="ml-2 chip-tag">{t('account.linked')}</span>
-          ) : (
-            <span className="ml-2" style={{ color: 'var(--text-muted)' }}>
-              {t('account.notLinked')}
-            </span>
-          )}
-        </span>
-        {linked ? (
-          <button type="button" className="btn" onClick={unlink} disabled={busy}>
-            {busy ? t('auth.working') : t('account.unlink')}
-          </button>
-        ) : (
-          <span className="w-[220px]">
-            <GoogleButton redirect="/account" />
-          </span>
-        )}
-      </div>
+      <ul className="flex flex-col gap-2">
+        {rows.map((row) => {
+          const linked = identities.includes(row.name);
+          return (
+            <li key={row.name} className="flex items-center gap-3 text-sm">
+              <span className="flex-1">
+                {row.label}
+                {linked ? (
+                  <span className="ml-2 chip-tag">{t('account.linked')}</span>
+                ) : (
+                  <span className="ml-2" style={{ color: 'var(--text-muted)' }}>
+                    {t('account.notLinked')}
+                  </span>
+                )}
+              </span>
+              {linked ? (
+                <button type="button" className="btn" disabled={busy === row.name} onClick={() => void unlink(row.name)}>
+                  {busy === row.name ? t('auth.working') : t('account.unlink')}
+                </button>
+              ) : (
+                <span className="w-[220px]">
+                  <ProviderButton provider={row.provider} redirect="/account" />
+                </span>
+              )}
+            </li>
+          );
+        })}
+      </ul>
       {error && (
         <p className="mt-2 text-sm" role="alert" style={{ color: 'var(--result-lost)' }}>
           {error}
         </p>
       )}
-      {linked && !identities.includes('PASSWORD') && (
+      {!identities.includes('PASSWORD') && (
         <p className="mt-2 text-xs" style={{ color: 'var(--text-muted)' }}>
           {t('account.setPasswordHint')}
         </p>

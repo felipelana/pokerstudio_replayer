@@ -1,6 +1,6 @@
 import { createHash, createSign, generateKeyPairSync } from 'node:crypto';
 import { describe, expect, it } from 'vitest';
-import { signInWithGoogle } from '../src/application/auth/SignInWithGoogle.js';
+import { signInWithProvider } from '../src/application/auth/SignInWithProvider.js';
 import { verifyIdToken } from '../src/infrastructure/oauth/google.js';
 import { signUpUser } from '../src/application/auth/SignUpUser.js';
 import { LANGUAGE_CODES } from '@pokerstudio/shared';
@@ -145,7 +145,7 @@ const profile: OAuthProfile = {
 describe('sign in with Google', () => {
   it('creates an account on first use, already verified and in the reported language', async () => {
     const deps = googleDeps();
-    const result = await signInWithGoogle(deps, { profile });
+    const result = await signInWithProvider(deps, { provider: 'GOOGLE', profile });
     expect(result.ok).toBe(true);
     if (!result.ok) return;
     expect(result.value.created).toBe(true);
@@ -158,8 +158,8 @@ describe('sign in with Google', () => {
 
   it('signs the same person in again without duplicating the account', async () => {
     const deps = googleDeps();
-    await signInWithGoogle(deps, { profile });
-    const second = await signInWithGoogle(deps, { profile });
+    await signInWithProvider(deps, { provider: 'GOOGLE', profile });
+    const second = await signInWithProvider(deps, { provider: 'GOOGLE', profile });
     expect(second.ok).toBe(true);
     expect(deps.raw.users.all).toHaveLength(1);
     expect(deps.raw.identities.rows).toHaveLength(1);
@@ -180,7 +180,7 @@ describe('sign in with Google', () => {
     });
     await deps.users.update(local.id, { emailVerifiedAt: new Date('2026-01-01') });
 
-    const result = await signInWithGoogle(deps, { profile });
+    const result = await signInWithProvider(deps, { provider: 'GOOGLE', profile });
     expect(result.ok).toBe(true);
     if (!result.ok) return;
     expect(result.value.user.id).toBe(local.id);
@@ -203,7 +203,7 @@ describe('sign in with Google', () => {
       status: 'PENDING',
     });
 
-    const result = await signInWithGoogle(deps, { profile });
+    const result = await signInWithProvider(deps, { provider: 'GOOGLE', profile });
     expect(result.ok).toBe(false);
     if (!result.ok) expect(result.error.code).toBe('link_requires_verification');
     expect(deps.raw.identities.rows).toHaveLength(0);
@@ -223,7 +223,7 @@ describe('sign in with Google', () => {
     });
     await deps.users.update(local.id, { emailVerifiedAt: new Date(), status: 'BLOCKED' });
 
-    const result = await signInWithGoogle(deps, { profile });
+    const result = await signInWithProvider(deps, { provider: 'GOOGLE', profile });
     expect(result.ok).toBe(false);
     if (!result.ok) expect(result.error.code).toBe('account_unavailable');
     expect(deps.raw.sessions.all).toHaveLength(0);
@@ -231,9 +231,9 @@ describe('sign in with Google', () => {
 
   it('refuses a profile whose provider e-mail is not verified', async () => {
     const deps = googleDeps();
-    const result = await signInWithGoogle(deps, { profile: { ...profile, emailVerified: false } });
+    const result = await signInWithProvider(deps, { provider: 'GOOGLE', profile: { ...profile, emailVerified: false } });
     expect(result.ok).toBe(false);
-    if (!result.ok) expect(result.error.code).toBe('google_email_unverified');
+    if (!result.ok) expect(result.error.code).toBe('provider_email_unverified');
   });
 
   it('keeps the referral code that survived the redirect', async () => {
@@ -264,14 +264,14 @@ describe('sign in with Google', () => {
     );
     if (!signup.ok) throw new Error('setup failed');
 
-    const result = await signInWithGoogle(deps, { profile, referralCode: signup.value.user.referralCode });
+    const result = await signInWithProvider(deps, { provider: 'GOOGLE', profile, referralCode: signup.value.user.referralCode });
     expect(result.ok && result.value.user.referredById).toBe(signup.value.user.id);
     expect(deps.referrals.accepted).toHaveLength(1);
   });
 
   it('records the sign-in method in the access log', async () => {
     const deps = googleDeps();
-    await signInWithGoogle(deps, { profile, ip: '10.0.0.9' });
+    await signInWithProvider(deps, { provider: 'GOOGLE', profile, ip: '10.0.0.9' });
     const login = deps.log.entries.find((e) => e.event === 'LOGIN_OK');
     expect(login?.detail).toMatchObject({ method: 'GOOGLE' });
   });

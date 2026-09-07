@@ -37,7 +37,9 @@ import {
   createUserRepository,
 } from './infrastructure/database/prisma/repositories.js';
 import { createGoogleProvider } from './infrastructure/oauth/google.js';
-import type { OAuthProvider } from './application/ports/oauth.js';
+import { createFacebookProvider } from './infrastructure/oauth/facebook.js';
+import { createAppleProvider } from './infrastructure/oauth/apple.js';
+import type { OAuthProvider, OAuthProviderName } from './application/ports/oauth.js';
 import type { Config } from './shared/config.js';
 
 /**
@@ -69,8 +71,8 @@ export interface AppContainer {
   breach: PasswordBreachCheck;
   /** False while no e-mail provider is configured (5B.5). */
   requireVerification: boolean;
-  /** Undefined when the Google credentials are not set — the button then hides. */
-  google?: OAuthProvider;
+  /** Only the providers this deployment has credentials for. The buttons follow. */
+  oauth: Partial<Record<OAuthProviderName, OAuthProvider>>;
 }
 
 export async function createContainer(config: Config, prisma = new PrismaClient()): Promise<AppContainer> {
@@ -111,12 +113,37 @@ export async function createContainer(config: Config, prisma = new PrismaClient(
     cipher: createCipher(config.ENCRYPTION_KEY),
     breach: config.isProduction ? hibpBreachCheck : { isBreached: async () => false },
     requireVerification: settings?.requireVerification ?? false,
-    google: config.googleEnabled
-      ? createGoogleProvider({
-          clientId: config.GOOGLE_CLIENT_ID!,
-          clientSecret: config.GOOGLE_CLIENT_SECRET!,
-          redirectUri: config.GOOGLE_REDIRECT_URI!,
-        })
-      : undefined,
+    oauth: {
+      ...(config.googleEnabled
+        ? {
+            GOOGLE: createGoogleProvider({
+              clientId: config.GOOGLE_CLIENT_ID!,
+              clientSecret: config.GOOGLE_CLIENT_SECRET!,
+              redirectUri: config.GOOGLE_REDIRECT_URI!,
+            }),
+          }
+        : {}),
+      ...(config.facebookEnabled
+        ? {
+            FACEBOOK: createFacebookProvider({
+              appId: config.FACEBOOK_APP_ID!,
+              appSecret: config.FACEBOOK_APP_SECRET!,
+              redirectUri: config.FACEBOOK_REDIRECT_URI!,
+            }),
+          }
+        : {}),
+      ...(config.appleEnabled
+        ? {
+            APPLE: createAppleProvider({
+              clientId: config.APPLE_CLIENT_ID!,
+              teamId: config.APPLE_TEAM_ID!,
+              keyId: config.APPLE_KEY_ID!,
+              // The .p8 is stored with escaped newlines in the environment.
+              privateKey: config.APPLE_PRIVATE_KEY!.replace(/\\n/g, '\n'),
+              redirectUri: config.APPLE_REDIRECT_URI!,
+            }),
+          }
+        : {}),
+    },
   };
 }

@@ -1,7 +1,7 @@
 export type UserStatus = 'PENDING' | 'ACTIVE' | 'BLOCKED' | 'DELETED';
 export type UserRole = 'USER' | 'ADMIN';
 export type UserPlan = 'FREE' | 'PAID';
-export type AuthProvider = 'PASSWORD' | 'GOOGLE';
+export type AuthProvider = 'PASSWORD' | 'GOOGLE' | 'FACEBOOK' | 'APPLE';
 
 /** Domain entity — no Prisma types cross this line. */
 export interface User {

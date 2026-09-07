@@ -1,7 +1,9 @@
 /**
- * Identity provider port. The use case knows nothing about Google: swapping or
- * adding a provider never touches `domain`.
+ * Identity provider port. The use case knows nothing about any particular
+ * provider: adding one never touches `domain`.
  */
+export type OAuthProviderName = 'GOOGLE' | 'FACEBOOK' | 'APPLE';
+
 export interface OAuthStart {
   authorizationUrl: string;
   state: string;
@@ -21,7 +23,7 @@ export interface OAuthProfile {
 }
 
 export interface OAuthProvider {
-  readonly name: 'GOOGLE';
+  readonly name: OAuthProviderName;
   /** Builds the authorisation URL with PKCE, state and nonce. */
   start(): OAuthStart;
   /**

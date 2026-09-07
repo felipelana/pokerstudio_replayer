@@ -576,16 +576,16 @@
     "offline": "Der Server war nicht erreichbar. Versuch es gleich noch einmal.",
     "offlineBanner": "Server nicht erreichbar — es wird nur mit lokalen Daten gearbeitet.",
     "or": "oder",
-    "continueWithGoogle": "Weiter mit Google",
-    "signUpWithGoogle": "Mit Google registrieren",
     "oauthError": {
-      "google_cancelled": "Die Anmeldung mit Google wurde abgebrochen.",
-      "google_state": "Die Anmeldeanfrage ist abgelaufen. Bitte erneut versuchen.",
-      "google_failed": "Die Anmeldung mit Google konnte nicht abgeschlossen werden. Bitte erneut versuchen.",
-      "google_email_unverified": "Deine Google-Adresse ist nicht bestätigt. Bestätige sie bei Google und versuche es erneut.",
       "link_requires_verification": "Für diese E-Mail gibt es bereits ein Konto. Melde dich mit deinem Passwort an und bestätige zuerst die E-Mail.",
-      "account_unavailable": "Dieses Konto ist nicht verfügbar. Wende dich an den Support."
-    }
+      "account_unavailable": "Dieses Konto ist nicht verfügbar. Wende dich an den Support.",
+      "oauth_cancelled": "Die Anmeldung wurde abgebrochen.",
+      "oauth_state": "Die Anmeldeanfrage ist abgelaufen. Bitte erneut versuchen.",
+      "oauth_failed": "Die Anmeldung konnte nicht abgeschlossen werden. Bitte erneut versuchen.",
+      "provider_email_unverified": "Dieses Konto hat keine bestätigte E-Mail. Bestätige sie beim Anbieter und versuche es erneut."
+    },
+    "continueWith": "Weiter mit {{provider}}",
+    "signUpWith": "Mit {{provider}} registrieren"
   },
   "account": {
     "title": "Mein Konto",

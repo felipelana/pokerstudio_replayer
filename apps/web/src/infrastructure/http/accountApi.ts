@@ -32,9 +32,9 @@ export interface SignUpPayload {
 
 export const accountApi = {
   /** Which sign-in providers this deployment offers. */
-  providers: () => api.get<{ google: boolean }>('/auth/providers'),
-  googleLinked: () => api.get<{ linked: boolean }>('/auth/google/link'),
-  unlinkGoogle: () => api.delete<void>('/auth/google/link'),
+  providers: () => api.get<{ google: boolean; facebook: boolean; apple: boolean }>('/auth/providers'),
+  identities: () => api.get<{ identities: string[] }>('/auth/identities'),
+  unlinkProvider: (provider: 'GOOGLE' | 'FACEBOOK' | 'APPLE') => api.delete<void>(`/auth/identities/${provider}`),
   me: () => api.get<Me>('/auth/me'),
   updateProfile: (patch: {
     name?: string;

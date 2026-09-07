@@ -11,7 +11,7 @@ dito explicitamente.
 | Tipos da API | `tsc -p apps/api` | ✅ sem erros |
 | Lint (com as regras de fronteira) | `npm run lint` | ✅ sem erros |
 | Testes do replayer | `npm test -w @pokerstudio/web` | ✅ **87 testes** |
-| Testes da API | `npm test -w @pokerstudio/api` | ✅ **63 testes** (15 auth + 14 Google + 9 TOTP + 10 conta + 7 reviews + 8 e2e, todos contra PostgreSQL real onde há tabela) |
+| Testes da API | `npm test -w @pokerstudio/api` | ✅ **69 testes** (auth, Google, Apple/Facebook, TOTP, conta, reviews e e2e contra PostgreSQL real) |
 | Chaves de i18n | `npm run check:locales` | ✅ **597 chaves × 8 idiomas**, nenhuma faltando |
 | Build de produção | `npm run build` | ✅ |
 | Migrações | `prisma migrate deploy` | ✅ 18 tabelas + os eventos TOTP no enum `AccessEvent`, aplicadas em `pokerstudio_dev` e `pokerstudio_test` |
@@ -30,7 +30,8 @@ dito explicitamente.
 | Relatório | marcar mão, capturar mesa, exportar | ✅ PDF e DOCX gerados (`pokerstars-demo-txt.pdf/.docx`) |
 | Marca d'água | skins padrão | ✅ logo PokerStudio centralizado, preto removido por alfa |
 | **Botão do Google** | `/login` e `/signup` com as credenciais preenchidas | ✅ marca oficial de quatro cores sobre branco, separador "ou" acima do formulário |
-| **Botão escondido sem credenciais** | subir a API sem `GOOGLE_CLIENT_ID` | ✅ `GET /auth/providers` → `{"google":false}`, nada é renderizado |
+| **Botões escondidos sem credenciais** | subir a API sem as variáveis do provedor | ✅ `GET /auth/providers` responde `false` e o botão não é renderizado |
+| **Três provedores** | API com Google, Facebook e Apple configurados | ✅ os três botões aparecem com a marca de cada um, e `/auth/{google,facebook,apple}` devolvem 302 para o endereço correto do provedor |
 | **Início do OAuth** | `GET /api/v1/auth/google?redirect=/&ref=…` | ✅ 302 para `accounts.google.com` com `scope=openid email profile`, `code_challenge_method=S256`, `prompt=select_account` e cookie `ps_oauth` httpOnly/SameSite=Lax/600 s |
 | **Erro do OAuth na tela** | `/login?error=link_requires_verification` | ✅ aviso traduzido acima do botão, sem detalhe técnico |
 | **Tela de entrada com a marca** | `/login`, `/signup`, `/forgot-password` | ✅ fundo preto com halo vermelho, logotipo PokerStudio e botão primário vermelho |

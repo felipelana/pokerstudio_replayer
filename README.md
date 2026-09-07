@@ -53,31 +53,58 @@ e último frame · `Space` play/pause · `1–5` preflop/herói/flop/turn/river 
 3. Coloque hand histories reais em `apps/web/src/parsers/<sala>/fixtures/` e
    escreva os testes a partir delas — **não invente o formato**.
 
-## Entrar com o Google
+## Entrar com uma rede social
 
-O botão "Continuar com o Google" só aparece quando as três variáveis estão preenchidas em
-`apps/api/.env` — sem elas o app segue funcionando apenas com e-mail e senha.
+Os botões só aparecem quando as variáveis do provedor estão preenchidas em
+`apps/api/.env` — sem elas o app segue funcionando com e-mail e senha.
+
+### Google
 
 1. No [Google Cloud Console](https://console.cloud.google.com/), crie um projeto e abra
    **APIs e serviços → Tela de permissão OAuth**. Tipo **Externo**, nome "PokerStudio Replayer",
-   e-mail de suporte, logotipo e o link da política de privacidade (`/privacy`) e dos termos (`/terms`).
+   e-mail de suporte, logotipo e o link da política de privacidade (`/privacidade`) e dos termos (`/termos`).
 2. Em **Escopos**, use apenas `openid`, `.../auth/userinfo.email` e `.../auth/userinfo.profile`.
-   Nada além disso — escopos sensíveis exigiriam verificação do Google.
-3. Em **Credenciais → Criar credenciais → ID do cliente OAuth**, tipo **Aplicativo da Web**:
-   - Origens JavaScript autorizadas: `http://localhost:5173` e `https://replayer.pokerstudio.com.br`
-   - URIs de redirecionamento autorizados:
-     `http://localhost:3001/api/v1/auth/google/callback` e
-     `https://replayer.pokerstudio.com.br/api/v1/auth/google/callback`
-4. Copie o ID e o segredo para `apps/api/.env`:
+3. Em **Credenciais → ID do cliente OAuth**, tipo **Aplicativo da Web**:
+   - Origens: `http://localhost:5173` e `https://replayer.pokerstudio.com.br`
+   - Redirecionamento: `.../api/v1/auth/google/callback` nos dois domínios
+4. `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REDIRECT_URI`.
 
-```env
-GOOGLE_CLIENT_ID="....apps.googleusercontent.com"
-GOOGLE_CLIENT_SECRET="...."
-GOOGLE_REDIRECT_URI="http://localhost:3001/api/v1/auth/google/callback"
-```
+### Facebook
 
-O segredo vive **só no servidor**. Nunca use o prefixo `VITE_`: tudo que começa com `VITE_` vai
-para dentro do bundle e ficaria público.
+1. Em [developers.facebook.com](https://developers.facebook.com/), crie um app do tipo
+   **Consumidor** e adicione o produto **Login do Facebook → Web**.
+2. Em **Configurações → Básico**, preencha a URL da política de privacidade e o e-mail de contato;
+   sem isso o app não sai do modo de desenvolvimento.
+3. Em **Login do Facebook → Configurações**, informe o URI de redirecionamento
+   `.../api/v1/auth/facebook/callback`.
+4. Peça a permissão **email** na revisão do app — sem ela, contas criadas por telefone chegam sem
+   endereço e o login é recusado.
+5. `FACEBOOK_APP_ID`, `FACEBOOK_APP_SECRET`, `FACEBOOK_REDIRECT_URI`.
+
+### Apple (iCloud)
+
+Exige a conta paga do **Apple Developer Program**.
+
+1. Em **Certificates, Identifiers & Profiles**, crie um **App ID** e depois um **Services ID**
+   (ex.: `com.pokerstudio.replayer.web`) com *Sign in with Apple* habilitado.
+2. No Services ID, configure o domínio `replayer.pokerstudio.com.br` e o *Return URL*
+   `https://replayer.pokerstudio.com.br/api/v1/auth/apple/callback`. A Apple **não aceita
+   `localhost`**: para testar em desenvolvimento use um túnel HTTPS.
+3. Em **Keys**, crie uma chave com *Sign in with Apple* e baixe o `.p8` (só é possível uma vez).
+4. `APPLE_CLIENT_ID` (o Services ID), `APPLE_TEAM_ID`, `APPLE_KEY_ID`, `APPLE_PRIVATE_KEY`
+   (conteúdo do `.p8`, com `\\n` no lugar das quebras de linha) e `APPLE_REDIRECT_URI`.
+
+### Duas coisas que não dá para fazer
+
+- **Instagram não serve para login.** A API Basic Display foi desligada em dezembro de 2024, e o
+  que restou (*Instagram API with Instagram Login*) atende contas **business/creator**, não devolve
+  e-mail e não é um provedor de identidade. Quem usa Instagram entra pelo Facebook.
+- **Nenhum provedor devolve telefone.** O Google exige escopo sensível com verificação do app e
+  ainda assim só entrega se a pessoa publicou o número; o Facebook removeu esse acesso; a Apple
+  nunca forneceu. O telefone continua sendo um campo que o usuário preenche na conta.
+
+Os segredos vivem **só no servidor**. Nunca use o prefixo `VITE_`: tudo que começa com `VITE_`
+entra no bundle e fica público.
 
 ## Deploy
 
