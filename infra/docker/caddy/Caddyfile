@@ -1,0 +1,21 @@
+# TLS is issued and renewed automatically by Caddy.
+replayer.pokerstudio.com.br {
+	encode zstd gzip
+
+	# The API keeps its own prefix; everything else is the static replayer.
+	handle /api/* {
+		reverse_proxy api:3001
+	}
+
+	handle {
+		reverse_proxy web:80
+	}
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+		-Server
+	}
+}

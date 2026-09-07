@@ -1,4 +1,4 @@
-name: CI / CD
+name: Deploy
 
 on:
   push:
@@ -9,22 +9,7 @@ env:
   IMAGE: ghcr.io/${{ github.repository }}
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-      - run: npm ci
-      - run: npm run check:locales
-      - run: npm run lint
-      - run: npm test -- --run
-      - run: npm run build
-
   docker:
-    needs: test
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:

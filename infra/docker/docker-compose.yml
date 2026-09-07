@@ -1,7 +1,71 @@
 services:
-  replayer:
-    image: ${REPLAYER_IMAGE:-ghcr.io/OWNER/lana-replayer:latest}
-    container_name: lana-replayer
+  postgres:
+    image: postgres:16-alpine
     restart: unless-stopped
+    environment:
+      POSTGRES_USER: pokerstudio
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+      POSTGRES_DB: pokerstudio
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./backups:/backups
+    # Never published: only the compose network reaches the database.
+    expose:
+      - '5432'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U pokerstudio']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.api
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DATABASE_URL: postgresql://pokerstudio:${POSTGRES_PASSWORD}@postgres:5432/pokerstudio?schema=public
+      SESSION_SECRET: ${SESSION_SECRET:?set SESSION_SECRET}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY:?set ENCRYPTION_KEY}
+      APP_URL: https://replayer.pokerstudio.com.br
+      COOKIE_DOMAIN: .pokerstudio.com.br
+      ADMIN_EMAILS: ${ADMIN_EMAILS:-}
+      EMAIL_FROM: nao-responda@pokerstudio.com.br
+      EMAIL_FROM_NAME: PokerStudio Replayer
+      EMAIL_PROVIDER_KEY: ${EMAIL_PROVIDER_KEY:-}
+      TURNSTILE_SECRET: ${TURNSTILE_SECRET:-}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      GOOGLE_REDIRECT_URI: https://replayer.pokerstudio.com.br/api/v1/auth/google/callback
+    expose:
+      - '3001'
+
+  web:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile
+    restart: unless-stopped
+    expose:
+      - '80'
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on: [web, api]
     ports:
-      - '${REPLAYER_PORT:-8080}:80'
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  pgdata:
+  caddy_data:
+  caddy_config:

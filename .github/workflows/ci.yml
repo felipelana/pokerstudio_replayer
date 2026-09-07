@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  web:
+    name: Replayer
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run check:locales
+      - run: npm run lint
+      - run: npm test -w @pokerstudio/web
+      - run: npm run build
+
+  api:
+    name: API
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: pokerstudio
+          POSTGRES_PASSWORD: pokerstudio
+          POSTGRES_DB: pokerstudio_test
+        options: >-
+          --health-cmd "pg_isready -U pokerstudio"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports: ['5432:5432']
+    env:
+      DATABASE_URL: postgresql://pokerstudio:pokerstudio@localhost:5432/pokerstudio_test?schema=public
+      TEST_DATABASE_URL: postgresql://pokerstudio:pokerstudio@localhost:5432/pokerstudio_test?schema=public
+      SESSION_SECRET: ci-session-secret-that-is-long-enough-to-pass
+      ENCRYPTION_KEY: '0000000000000000000000000000000000000000000000000000000000000000'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx prisma generate --schema apps/api/prisma/schema.prisma
+      - name: Apply migrations
+        run: npm run db:migrate -w @pokerstudio/api
+      - name: Migrations match the schema
+        run: npx prisma migrate diff --from-migrations apps/api/prisma/migrations --to-schema-datamodel apps/api/prisma/schema.prisma --shadow-database-url "$DATABASE_URL" --exit-code
+      - run: npm run build -w @pokerstudio/api
+      - run: npm test -w @pokerstudio/api
+
+  audit:
+    name: Dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm audit --audit-level=high

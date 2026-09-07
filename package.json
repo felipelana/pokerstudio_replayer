@@ -14,7 +14,12 @@
     "test": "npm run test --workspaces --if-present",
     "lint": "eslint . --ext .ts,.tsx",
     "format": "prettier --write \"apps/**/src/**/*.{ts,tsx,css,json}\" \"packages/**/src/**/*.ts\"",
-    "check:locales": "npm run check:locales -w @pokerstudio/web"
+    "check:locales": "npm run check:locales -w @pokerstudio/web",
+    "dev:api": "npm run dev -w @pokerstudio/api",
+    "db:migrate": "npm run db:migrate -w @pokerstudio/api",
+    "db:seed": "npm run db:seed -w @pokerstudio/api",
+    "db:reset": "npm run db:reset -w @pokerstudio/api",
+    "db:studio": "npm run db:studio -w @pokerstudio/api"
   },
   "devDependencies": {
     "prettier": "^3.3.3",
