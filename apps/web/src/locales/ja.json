@@ -106,8 +106,6 @@
     "statusDone": "完了",
     "statusOpen": "未着手",
     "statusAt": "{{total}} 中 {{current}} ハンド目",
-    "markDone": "完了にする",
-    "markOpen": "再開する",
     "colFile": "ファイル",
     "colImported": "取り込み日時",
     "colOpened": "最終アクセス",
@@ -138,7 +136,8 @@
     "storageLocal": "未保存のみ",
     "sort": "並び替え",
     "storageHint": "「このブラウザのみ」のセッションはここにしかありません。ブラウザを消すと失われます。アカウントに保存すれば残り、別の端末でも開けます。",
-    "confirmDeleteSaved": "そのうち {{count}} 件はアカウントに保存されており、このブラウザだけでなくデータベースからも削除されます。"
+    "confirmDeleteSaved": "そのうち {{count}} 件はアカウントに保存されており、このブラウザだけでなくデータベースからも削除されます。",
+    "statusInProgress": "進行中"
   },
   "sidebar": {
     "loadHands": "ハンド履歴を読み込む",

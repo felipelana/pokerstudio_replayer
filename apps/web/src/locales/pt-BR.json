@@ -106,8 +106,6 @@
     "statusDone": "finalizada",
     "statusOpen": "não iniciada",
     "statusAt": "mão {{current}} de {{total}}",
-    "markDone": "Marcar finalizada",
-    "markOpen": "Reabrir",
     "colFile": "Arquivo",
     "colImported": "Importada em",
     "colOpened": "Último acesso",
@@ -138,7 +136,8 @@
     "storageLocal": "Só as da sessão",
     "sort": "Ordenar por",
     "storageHint": "As sessões marcadas como “Na sessão” estão só neste navegador — limpar o navegador perde tudo. Salve na sua conta para guardar e abrir em outra máquina.",
-    "confirmDeleteSaved": "{{count}} delas estão gravadas na sua conta e serão excluídas também do banco de dados, não apenas deste navegador."
+    "confirmDeleteSaved": "{{count}} delas estão gravadas na sua conta e serão excluídas também do banco de dados, não apenas deste navegador.",
+    "statusInProgress": "Em andamento"
   },
   "sidebar": {
     "loadHands": "Carregar hand histories",

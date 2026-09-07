@@ -106,8 +106,6 @@
     "statusDone": "已完成",
     "statusOpen": "未开始",
     "statusAt": "第 {{current}} / {{total}} 手",
-    "markDone": "标记为完成",
-    "markOpen": "重新打开",
     "colFile": "文件",
     "colImported": "导入时间",
     "colOpened": "最近打开",
@@ -138,7 +136,8 @@
     "storageLocal": "未保存",
     "sort": "排序方式",
     "storageHint": "标记为“仅本浏览器”的会话只存在于此处，清空浏览器就会丢失。保存到账户即可长期保留，并在其他机器上打开。",
-    "confirmDeleteSaved": "其中 {{count}} 个已保存在你的账户中，将一并从数据库删除，而不仅是本浏览器。"
+    "confirmDeleteSaved": "其中 {{count}} 个已保存在你的账户中，将一并从数据库删除，而不仅是本浏览器。",
+    "statusInProgress": "进行中"
   },
   "sidebar": {
     "loadHands": "加载牌局记录",

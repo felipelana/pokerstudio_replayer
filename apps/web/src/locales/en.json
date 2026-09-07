@@ -106,8 +106,6 @@
     "statusDone": "finished",
     "statusOpen": "not started",
     "statusAt": "hand {{current}} of {{total}}",
-    "markDone": "Mark finished",
-    "markOpen": "Reopen",
     "colFile": "File",
     "colImported": "Imported",
     "colOpened": "Last opened",
@@ -138,7 +136,8 @@
     "storageLocal": "Not saved",
     "sort": "Sort by",
     "storageHint": "Sessions marked “This browser” live only here — clearing the browser loses them. Save one to your account to keep it and open it on another machine.",
-    "confirmDeleteSaved": "{{count}} of them are stored on your account and will be deleted from the database as well, not only from this browser."
+    "confirmDeleteSaved": "{{count}} of them are stored on your account and will be deleted from the database as well, not only from this browser.",
+    "statusInProgress": "In progress"
   },
   "sidebar": {
     "loadHands": "Load hand histories",

@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import type { Session } from '@/model/types';
 import {
-  IconCheck,
   IconCloudCheck,
   IconCloudDown,
   IconCloudOff,
@@ -107,9 +106,26 @@ export function LibraryPage() {
     }
   };
 
-  const toggleStatus = async (session: Session) => {
+  /** Sets the review's situation from the grid. */
+  const setStatus = async (session: Session, value: 'open' | 'progress' | 'completed') => {
+    const patch =
+      value === 'completed'
+        ? { status: 'completed' as const }
+        : value === 'open'
+          ? { status: 'in-progress' as const, lastHandIndex: 0, lastFrameIndex: 0 }
+          : // "In progress" with nothing recorded starts at the first hand.
+            { status: 'in-progress' as const, lastHandIndex: Math.max(1, session.lastHandIndex ?? 1) };
+    await getRepository().saveSessionProgress(session.id, patch);
+    await refresh();
+  };
+
+  /** Moves the recorded hand, so the next open lands there. */
+  const setCurrentHand = async (session: Session, oneBased: number) => {
+    const index = Math.min(Math.max(1, oneBased || 1), session.handCount) - 1;
     await getRepository().saveSessionProgress(session.id, {
-      status: session.status === 'completed' ? 'in-progress' : 'completed',
+      lastHandIndex: index,
+      lastFrameIndex: 0,
+      status: 'in-progress',
     });
     await refresh();
   };
@@ -567,7 +583,33 @@ export function LibraryPage() {
                     </td>
                     <td className="px-3 py-2 text-right tabular-nums">{s.handCount}</td>
                     <td className="whitespace-nowrap px-3 py-2">
-                      {s.status === 'completed' ? (
+                      {s.handIds.length ? (
+                        // Editable in place: the reader is the one who knows
+                        // whether a review is done, and where they left it.
+                        <span className="inline-flex items-center gap-1">
+                          <select
+                            className="input !w-auto !py-0.5 text-[11px]"
+                            value={s.status === 'completed' ? 'completed' : s.lastHandIndex ? 'progress' : 'open'}
+                            aria-label={t('library.colStatus')}
+                            onChange={(e) => void setStatus(s, e.target.value as 'open' | 'progress' | 'completed')}
+                          >
+                            <option value="open">{t('library.statusOpen')}</option>
+                            <option value="progress">{t('library.statusInProgress')}</option>
+                            <option value="completed">{t('library.statusDone')}</option>
+                          </select>
+                          {s.status !== 'completed' && !!s.lastHandIndex && (
+                            <input
+                              type="number"
+                              className="input !w-[58px] !py-0.5 text-[11px] tabular-nums"
+                              min={1}
+                              max={s.handCount}
+                              value={(s.lastHandIndex ?? 0) + 1}
+                              aria-label={t('library.statusAt', { current: (s.lastHandIndex ?? 0) + 1, total: s.handCount })}
+                              onChange={(e) => void setCurrentHand(s, Number(e.target.value))}
+                            />
+                          )}
+                        </span>
+                      ) : s.status === 'completed' ? (
                         <span className="chip-tag" style={{ color: 'var(--result-won)', borderColor: 'var(--result-won)' }}>
                           {t('library.statusDone')}
                         </span>
@@ -637,16 +679,6 @@ export function LibraryPage() {
                             <IconPencil size={15} />
                           </button>
                         )}
-                        <button
-                          type="button"
-                          className="btn-icon"
-                          title={s.status === 'completed' ? t('library.markOpen') : t('library.markDone')}
-                          aria-label={s.status === 'completed' ? t('library.markOpen') : t('library.markDone')}
-                          style={s.status === 'completed' ? { color: 'var(--result-won)' } : undefined}
-                          onClick={() => void toggleStatus(s)}
-                        >
-                          <IconCheck size={15} />
-                        </button>
                         <button
                           type="button"
                           className="btn-icon"

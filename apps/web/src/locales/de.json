@@ -106,8 +106,6 @@
     "statusDone": "abgeschlossen",
     "statusOpen": "nicht begonnen",
     "statusAt": "Hand {{current}} von {{total}}",
-    "markDone": "Als erledigt markieren",
-    "markOpen": "Wieder öffnen",
     "colFile": "Datei",
     "colImported": "Importiert",
     "colOpened": "Zuletzt geöffnet",
@@ -138,7 +136,8 @@
     "storageLocal": "Nicht gespeichert",
     "sort": "Sortieren nach",
     "storageHint": "Sitzungen mit „Nur hier\" liegen ausschließlich in diesem Browser — wird er geleert, sind sie weg. Im Konto gespeichert bleiben sie und lassen sich an einem anderen Rechner öffnen.",
-    "confirmDeleteSaved": "{{count}} davon liegen in deinem Konto und werden auch aus der Datenbank gelöscht, nicht nur aus diesem Browser."
+    "confirmDeleteSaved": "{{count}} davon liegen in deinem Konto und werden auch aus der Datenbank gelöscht, nicht nur aus diesem Browser.",
+    "statusInProgress": "Läuft"
   },
   "sidebar": {
     "loadHands": "Hand-Histories laden",

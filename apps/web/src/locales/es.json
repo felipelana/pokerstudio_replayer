@@ -106,8 +106,6 @@
     "statusDone": "terminada",
     "statusOpen": "sin empezar",
     "statusAt": "mano {{current}} de {{total}}",
-    "markDone": "Marcar terminada",
-    "markOpen": "Reabrir",
     "colFile": "Archivo",
     "colImported": "Importada",
     "colOpened": "Último acceso",
@@ -138,7 +136,8 @@
     "storageLocal": "Sin guardar",
     "sort": "Ordenar por",
     "storageHint": "Las sesiones marcadas como «Solo aquí» viven únicamente en este navegador: si lo limpias, se pierden. Guárdalas en tu cuenta para conservarlas y abrirlas en otro equipo.",
-    "confirmDeleteSaved": "{{count}} de ellas están guardadas en tu cuenta y se eliminarán también de la base de datos, no solo de este navegador."
+    "confirmDeleteSaved": "{{count}} de ellas están guardadas en tu cuenta y se eliminarán también de la base de datos, no solo de este navegador.",
+    "statusInProgress": "En curso"
   },
   "sidebar": {
     "loadHands": "Cargar historiales",
