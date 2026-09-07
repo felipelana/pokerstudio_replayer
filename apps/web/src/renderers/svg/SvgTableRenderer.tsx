@@ -161,15 +161,19 @@ export function SvgTableRenderer({
 
   const bySeat = new Map(frame.players.map((p) => [p.seat, p]));
   const winners = new Set(frame.kind === 'end' ? frame.players.filter((p) => p.collected > 0).map((p) => p.name) : []);
-  const boardW = 64;
+  // The card as drawn, zoom included: spacing and centring both follow it, so
+  // a bigger card never eats its own gap or hangs below the middle of the felt.
+  const boardW = 64 * zoomCards;
+  const boardH = (boardW * CARD_H) / CARD_W;
   // The skin sets the spacing; the quick controls can override it for the
   // session in front of you.
   const boardGap = boardW * (boardGapRatio ?? skin.deck.boardGap ?? 0.36);
   // Centre on the cards actually dealt (flop = 3, turn = 4, river = 5).
   const boardCount = Math.max(1, frame.board.length);
-  const boardX0 = CX - (boardCount * boardW + (boardCount - 1) * boardGap) / 2;
+  const boardWidth = boardCount * boardW + (boardCount - 1) * boardGap;
+  const boardX0 = CX - boardWidth / 2;
   // Board dead centre; the pot block sits below it.
-  const boardY = CY - (boardW * CARD_H) / CARD_W / 2;
+  const boardY = CY - boardH / 2;
 
   // Ink and halo follow the felt colour so on-table text always passes AA (R16).
   const ink = readableInk(skin.felt.color);
@@ -179,8 +183,8 @@ export function SvgTableRenderer({
   const boardZone: FeltBox = {
     x: 0,
     y: 0,
-    hw: (boardCount * boardW + (boardCount - 1) * boardGap) / 2 / RX + 0.02,
-    hh: (boardW * CARD_H) / CARD_W / 2 / RY + 0.02,
+    hw: boardWidth / 2 / RX + 0.02,
+    hh: boardH / 2 / RY + 0.02,
   };
   const potZone: FeltBox = { x: 0, y: 84 / RY, hw: 95 / RX, hh: 40 / RY };
   // The pot's own chip stack is a band too, so a bet label never lands on the
@@ -326,7 +330,7 @@ export function SvgTableRenderer({
 
         {/* Board */}
         {(hideBoard ? [] : frame.board).map((c, i) => (
-          <CardShape key={c} card={c} deck={skin.deck} x={boardX0 + i * (boardW + boardGap)} y={boardY} w={boardW * zoomCards} art={deckArt?.[c[0]]} />
+          <CardShape key={c} card={c} deck={skin.deck} x={boardX0 + i * (boardW + boardGap)} y={boardY} w={boardW} art={deckArt?.[c[0]]} />
         ))}
 
         {/* Bets and dealer button — every group is kept inside the felt (R2) and

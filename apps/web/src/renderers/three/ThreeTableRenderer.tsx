@@ -453,7 +453,7 @@ function CardMesh({
   const tex = useMemo(() => cardTexture(card, deck, art), [card, deck, art]);
   const back = useMemo(() => cardTexture('back', deck), [deck]);
   // Lift the card so its bottom edge rests on the felt once tilted.
-  const lift = (CARD_HEIGHT / 2) * Math.sin(CARD_TILT) + 0.01;
+  const lift = (CARD_HEIGHT / 2) * Math.sin(CARD_TILT) * scale + 0.01;
   return (
     <group position={[position[0], position[1] + lift, position[2]]} rotation={[-Math.PI / 2 + CARD_TILT, 0, rotationY]} scale={scale}>
       <mesh castShadow renderOrder={5}>
@@ -569,11 +569,16 @@ function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTM
 
   // The skin sets the spacing; the quick controls can override it for the
   // session in front of you.
-  const boardGap = CARD_WIDTH * (boardGapRatio ?? skin.deck.boardGap ?? 0.36);
+  // Spacing follows the card the reader actually sees, so the gap stays the
+  // set fraction of a card at any zoom instead of closing up as cards grow.
+  const boardCardW = CARD_WIDTH * zoomCards;
+  const boardCardH = CARD_HEIGHT * zoomCards;
+  const boardGap = boardCardW * (boardGapRatio ?? skin.deck.boardGap ?? 0.36);
   // Centre on the cards actually dealt, so the flop and turn are never
   // left-aligned inside an empty five-card row.
   const boardCount = Math.max(1, frame.board.length);
-  const boardX0 = -((boardCount * CARD_WIDTH + (boardCount - 1) * boardGap) / 2) + CARD_WIDTH / 2;
+  const boardWidth = boardCount * boardCardW + (boardCount - 1) * boardGap;
+  const boardX0 = -(boardWidth / 2) + boardCardW / 2;
 
   // Ink follows the felt so on-table text always passes AA (R16).
   const ink = readableInk(skin.felt.color);
@@ -584,8 +589,8 @@ function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTM
   const boardZone: FeltBox = {
     x: 0,
     y: 0,
-    hw: (boardCount * CARD_WIDTH + (boardCount - 1) * boardGap) / 2 / RX + 0.04,
-    hh: (CARD_HEIGHT * 0.8) / rz + 0.04,
+    hw: boardWidth / 2 / RX + 0.04,
+    hh: (boardCardH * 0.8) / rz + 0.04,
   };
   // The pot block is as wide as its widest line: the total, or the row of side
   // pots underneath it.
@@ -619,7 +624,7 @@ function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTM
       {/* Board */}
       {(hideBoard ? [] : frame.board).map((c, i) => (
         <Appear key={c} enabled={animations} delay={i * 40}>
-          <CardMesh card={c} deck={skin.deck} position={[boardX0 + i * (CARD_WIDTH + boardGap), 0.05, 0]} scale={zoomCards} art={deckArt?.[c[0]]} />
+          <CardMesh card={c} deck={skin.deck} position={[boardX0 + i * (boardCardW + boardGap), 0.05, 0]} scale={zoomCards} art={deckArt?.[c[0]]} />
         </Appear>
       ))}
 
