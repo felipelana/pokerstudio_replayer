@@ -14,6 +14,11 @@ export interface DeckSkin {
    * Only the ranks present here override the suit colour; the rest follow it.
    */
   rankColors?: Partial<Record<string, string>>;
+  /**
+   * Artwork per rank, by asset id. A card with art keeps its corner indices and
+   * loses the centre pip; the rest of the deck stays drawn.
+   */
+  rankImages?: Partial<Record<string, string>>;
   cardBg: string;
   /** Rank/pip colour used on filled cards (usually white). */
   inkOnFilled: string;
@@ -24,16 +29,11 @@ export interface DeckSkin {
   /** 0..1 as a fraction of card width. */
   cornerRadius: number;
   /**
-   * How a player's two hole cards sit next to each other.
-   * 'spread' = side by side; 'overlap' = fanned, second card on top.
-   * Undefined behaves as 'spread' (skins saved before this option existed).
+   * How a player's two hole cards sit next to each other. 'spread' = side by
+   * side; 'overlap' = the second card resting on the first; 'fan' = overlapped
+   * and tilted apart, the way a hand is held. Undefined behaves as 'spread'.
    */
-  holeLayout?: 'spread' | 'overlap';
-  /**
-   * J/Q/K artwork: 'letter' keeps the plain rank + big pip, 'figure' draws the
-   * jack, queen and king silhouettes like a real deck. Undefined = 'letter'.
-   */
-  courtStyle?: 'letter' | 'figure';
+  holeLayout?: 'spread' | 'overlap' | 'fan';
 }
 
 export interface FeltSkin {

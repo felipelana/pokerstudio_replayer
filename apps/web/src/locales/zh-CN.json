@@ -364,10 +364,7 @@
       "cornerRadius": "圆角半径",
       "holeLayout": "手牌",
       "layoutSpread": "并排",
-      "layoutOverlap": "扇形（重叠）",
-      "courtStyle": "J / Q / K",
-      "courtLetter": "仅字母",
-      "courtFigure": "人物图案（K、Q、J）",
+      "layoutOverlap": "重叠",
       "front": "正面",
       "back": "牌背",
       "pattern_diamonds": "菱形",
@@ -375,7 +372,13 @@
       "pattern_dots": "圆点",
       "pattern_plain": "纯色",
       "perCard": "按牌设置颜色",
-      "perCardHint": "在此设定的点数会忽略花色颜色；留空则跟随花色。"
+      "perCardHint": "在此设定的点数会忽略花色颜色；留空则跟随花色。",
+      "layoutFan": "倾斜扇形",
+      "artUpload": "图片",
+      "artChange": "更换",
+      "artReset": "皮肤默认",
+      "artTooLarge": "文件超过 2 MB，请换更小的。",
+      "artHint": "首选 SVG（永不模糊）。带透明的 PNG 或 WebP 也可以 — 约 500 × 700 像素，与牌面同比例。"
     },
     "felt": {
       "title": "桌布",
@@ -686,9 +689,9 @@
     "confirmDelete": "从账户中移除“{{title}}”？本地副本会保留。"
   },
   "replayer": {
-    "resumeQuestion": "你上次停在第 {{current}} / {{total}} 手，要从那里继续吗？",
-    "resume": "继续",
     "startOver": "从头开始",
-    "boardGap": "公共牌间距"
+    "boardGap": "公共牌间距",
+    "resumedAt": "已从上次停下的地方继续 — 第 {{current}} / {{total}} 手。",
+    "keepGoing": "好"
   }
 }

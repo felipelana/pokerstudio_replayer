@@ -12,7 +12,7 @@ export interface Repository {
   saveSession(session: Session, hands: Hand[]): Promise<{ added: number; duplicates: number }>;
   renameSession(id: string, name: string): Promise<void>;
   /** Remembers where the review stopped and whether it is finished. */
-  saveSessionProgress(id: string, patch: { lastHandIndex?: number; status?: 'in-progress' | 'completed'; lastOpenedAt?: Date }): Promise<void>;
+  saveSessionProgress(id: string, patch: { lastHandIndex?: number; lastFrameIndex?: number; status?: 'in-progress' | 'completed'; lastOpenedAt?: Date }): Promise<void>;
   deleteSession(id: string): Promise<void>;
 
   getHands(ids: string[]): Promise<Hand[]>;
@@ -87,7 +87,7 @@ export class IndexedDbRepository implements Repository {
     await this.db.sessions.update(id, { name });
   }
 
-  async saveSessionProgress(id: string, patch: { lastHandIndex?: number; status?: 'in-progress' | 'completed'; lastOpenedAt?: Date }) {
+  async saveSessionProgress(id: string, patch: { lastHandIndex?: number; lastFrameIndex?: number; status?: 'in-progress' | 'completed'; lastOpenedAt?: Date }) {
     await this.db.sessions.update(id, {
       ...patch,
       ...(patch.status === 'completed' ? { completedAt: new Date() } : {}),

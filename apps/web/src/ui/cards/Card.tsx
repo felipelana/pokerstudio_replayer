@@ -3,6 +3,9 @@ import type { CardCode } from '@/model/cards';
 import type { DeckSkin } from '@/skins/types';
 import { CARD_H, CARD_W, cardPrimitives, glossStops, patternShapes } from './primitives';
 
+/** Margin left around uploaded artwork, in card units. */
+const ART_INSET = 8;
+
 interface Props {
   card: CardCode | 'back';
   deck: DeckSkin;
@@ -11,11 +14,16 @@ interface Props {
   className?: string;
   dimmed?: boolean;
   title?: string;
+  /** Artwork for this card's rank, when the skin sets one. */
+  art?: HTMLImageElement;
 }
 
 /** SVG playing card — used for hand-list mini-cards, board previews and the SVG table. */
-export const Card = memo(function Card({ card, deck, width = 40, className, dimmed, title }: Props) {
-  const prims = cardPrimitives(card, deck);
+export const Card = memo(function Card({ card, deck, width = 40, className, dimmed, title, art }: Props) {
+  // The back is never replaced by artwork — a marked deck would be worse than
+  // a plain one.
+  const showArt = card !== 'back' ? art : undefined;
+  const prims = cardPrimitives(card, deck, !!showArt);
   const height = (width * CARD_H) / CARD_W;
   const glossId = useId();
   return (
@@ -29,6 +37,16 @@ export const Card = memo(function Card({ card, deck, width = 40, className, dimm
       aria-label={title ?? (card === 'back' ? 'card back' : card)}
     >
       {title && <title>{title}</title>}
+      {showArt && (
+        <image
+          href={showArt.src}
+          x={ART_INSET}
+          y={ART_INSET}
+          width={CARD_W - ART_INSET * 2}
+          height={CARD_H - ART_INSET * 2}
+          preserveAspectRatio="xMidYMid meet"
+        />
+      )}
       {prims.map((p, i) => {
         switch (p.kind) {
           case 'rect':

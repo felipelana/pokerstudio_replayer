@@ -4,18 +4,17 @@ import { getRepository } from '@/db/repository';
 import type { Session } from '@/model/types';
 
 /**
- * Asks once, when a session that was left half-reviewed is opened again,
- * whether to pick up where it stopped or start from the first hand.
+ * A session left half-reviewed reopens exactly where it stopped, so nothing is
+ * lost by walking away. This says so, and offers the one thing the reader might
+ * want instead: starting over.
  */
 export function ResumePrompt({
   session,
   handCount,
-  currentIndex,
   onGoTo,
 }: {
   session: Session | undefined;
   handCount: number;
-  currentIndex: number;
   onGoTo(index: number): void;
 }) {
   const { t } = useTranslation();
@@ -34,16 +33,11 @@ export function ResumePrompt({
     setAsked(session.id);
   }, [session, handCount, asked]);
 
-  if (saved === undefined || saved === currentIndex) return null;
-
-  const resume = () => {
-    onGoTo(saved);
-    setSaved(undefined);
-  };
+  if (saved === undefined) return null;
 
   const restart = () => {
     onGoTo(0);
-    if (session) void getRepository().saveSessionProgress(session.id, { lastHandIndex: 0, status: 'in-progress' });
+    if (session) void getRepository().saveSessionProgress(session.id, { lastHandIndex: 0, lastFrameIndex: 0, status: 'in-progress' });
     setSaved(undefined);
   };
 
@@ -54,13 +48,13 @@ export function ResumePrompt({
       aria-live="polite"
       style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}
     >
-      <p className="text-sm">{t('replayer.resumeQuestion', { current: saved + 1, total: handCount })}</p>
+      <p className="text-sm">{t('replayer.resumedAt', { current: saved + 1, total: handCount })}</p>
       <div className="mt-2 flex justify-end gap-2">
-        <button type="button" className="btn" onClick={restart}>
-          {t('replayer.startOver')}
+        <button type="button" className="btn" onClick={() => setSaved(undefined)}>
+          {t('replayer.keepGoing')}
         </button>
-        <button type="button" className="btn btn-primary" onClick={resume}>
-          {t('replayer.resume')}
+        <button type="button" className="btn btn-primary" onClick={restart}>
+          {t('replayer.startOver')}
         </button>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useDeckArt } from '@/ui/hooks/useDeckArt';
 import { useTranslation } from 'react-i18next';
 import type { Frame, HandReplay } from '@/engine/replay';
 import { potOddsFor } from '@/engine/replay';
@@ -44,6 +45,9 @@ export function TableArea({ replay, frame, heroName, onSeatClick }: Props) {
 
   const potOdds = useMemo(() => potOddsFor(frame, heroName), [frame, heroName]);
 
+  // Artwork the skin sets per card, loaded once for the whole table.
+  const deckArt = useDeckArt(skin.deck);
+
   const rendererProps: TableRendererProps = {
     hand,
     frame,
@@ -56,6 +60,7 @@ export function TableArea({ replay, frame, heroName, onSeatClick }: Props) {
     holeLayout: settings.holeLayoutOverride === 'skin' ? undefined : settings.holeLayoutOverride,
     zoomCards: settings.zoomCards,
     boardGapRatio: settings.boardGap,
+    deckArt,
     zoomChips: settings.zoomChips,
     chipDenominations: settings.chipDenominations,
     lookupUrlFor: settings.playerLookupUrl

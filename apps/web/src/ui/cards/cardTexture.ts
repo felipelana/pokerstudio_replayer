@@ -12,8 +12,11 @@ function deckKey(deck: DeckSkin): string {
  * Draw a card into a canvas using the same primitives as the SVG component.
  * Cached by (card, deck). Used as a Three.js texture.
  */
-export function cardCanvas(card: CardCode | 'back', deck: DeckSkin, scale = 4): HTMLCanvasElement {
-  const key = `${card}|${scale}|${deckKey(deck)}`;
+export function cardCanvas(card: CardCode | 'back', deck: DeckSkin, scale = 4, art?: HTMLImageElement): HTMLCanvasElement {
+  // The back is never replaced by artwork — a marked deck would be worse than
+  // a plain one.
+  const face = card === 'back' ? undefined : art;
+  const key = `${card}|${scale}|${face?.src ?? ''}|${deckKey(deck)}`;
   const hit = cache.get(key);
   if (hit) return hit;
 
@@ -24,7 +27,33 @@ export function cardCanvas(card: CardCode | 'back', deck: DeckSkin, scale = 4): 
   ctx.scale(scale, scale);
   ctx.clearRect(0, 0, CARD_W, CARD_H);
 
-  for (const p of cardPrimitives(card, deck)) {
+  const prims = cardPrimitives(card, deck, !!face);
+  const [background, ...rest] = prims;
+  if (background?.kind === 'rect') {
+    ctx.beginPath();
+    ctx.roundRect(background.x, background.y, background.w, background.h, background.rx);
+    ctx.fillStyle = background.fill;
+    ctx.fill();
+    if (background.stroke) {
+      ctx.strokeStyle = background.stroke;
+      ctx.lineWidth = background.strokeWidth ?? 1;
+      ctx.stroke();
+    }
+    ctx.save();
+    ctx.clip();
+  }
+  if (face) {
+    // Behind the indices, inside the same margin the SVG card uses.
+    const inset = 8;
+    const boxW = CARD_W - inset * 2;
+    const boxH = CARD_H - inset * 2;
+    const ratio = Math.min(boxW / face.naturalWidth, boxH / face.naturalHeight) || 1;
+    const w = face.naturalWidth * ratio;
+    const h = face.naturalHeight * ratio;
+    ctx.drawImage(face, inset + (boxW - w) / 2, inset + (boxH - h) / 2, w, h);
+  }
+
+  for (const p of (background?.kind === 'rect' ? rest : prims)) {
     switch (p.kind) {
       case 'rect': {
         ctx.beginPath();
@@ -92,6 +121,7 @@ export function cardCanvas(card: CardCode | 'back', deck: DeckSkin, scale = 4): 
       }
     }
   }
+  if (background?.kind === 'rect') ctx.restore();
   cache.set(key, canvas);
   return canvas;
 }

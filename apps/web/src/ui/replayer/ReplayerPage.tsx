@@ -82,15 +82,18 @@ export function ReplayerPage() {
   useCloudProgress(sessionId, handIndex, hands.length);
 
   // And always locally, so "continue where you left off" works offline too.
+  // The frame goes with it: stopping in the middle of hand 12 and coming back
+  // should land on that same moment, not at the top of the hand.
   useEffect(() => {
     if (!sessionId || hands.length === 0 || session?.id !== sessionId) return;
     void getRepository().saveSessionProgress(sessionId, {
       lastHandIndex: handIndex,
+      lastFrameIndex: frameIndex,
       lastOpenedAt: new Date(),
       // Reaching the last hand marks the review finished; the library can undo it.
       ...(handIndex >= hands.length - 1 ? { status: 'completed' as const } : {}),
     });
-  }, [sessionId, session?.id, handIndex, hands.length]);
+  }, [sessionId, session?.id, handIndex, frameIndex, hands.length]);
   const heroName = useMemo(() => {
     if (!hand) return undefined;
     if (focusPlayer && hand.players.some((p) => p.name === focusPlayer)) return focusPlayer;
@@ -218,7 +221,7 @@ export function ReplayerPage() {
       />
       <div className="flex min-w-0 flex-1 flex-col">
         <div className="relative flex min-h-0 flex-1">
-          <ResumePrompt session={session} handCount={hands.length} currentIndex={handIndex} onGoTo={goToHand} />
+          <ResumePrompt session={session} handCount={hands.length} onGoTo={goToHand} />
           <TableArea replay={replay} frame={frame} heroName={heroName} onSeatClick={onSeatClick} />
           {reviewOpen ? (
             <ReviewPanel hand={hand} onClose={() => setReviewOpen(false)} />

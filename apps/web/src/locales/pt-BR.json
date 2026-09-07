@@ -364,10 +364,7 @@
       "cornerRadius": "Raio dos cantos",
       "holeLayout": "Cartas do jogador",
       "layoutSpread": "Lado a lado",
-      "layoutOverlap": "Sobrepostas (leque)",
-      "courtStyle": "J / Q / K",
-      "courtLetter": "Somente a letra",
-      "courtFigure": "Figuras (rei, dama, valete)",
+      "layoutOverlap": "Sobrepostas",
       "front": "Frente",
       "back": "Costa",
       "pattern_diamonds": "Losangos",
@@ -375,7 +372,13 @@
       "pattern_dots": "Pontos",
       "pattern_plain": "Liso",
       "perCard": "Cor por carta",
-      "perCardHint": "A carta definida aqui ignora a cor do naipe. Deixe em branco para seguir o naipe."
+      "perCardHint": "A carta definida aqui ignora a cor do naipe. Deixe em branco para seguir o naipe.",
+      "layoutFan": "Leque angular",
+      "artUpload": "Imagem",
+      "artChange": "Trocar",
+      "artReset": "padrão da skin",
+      "artTooLarge": "O arquivo passa de 2 MB — use um mais leve.",
+      "artHint": "SVG é o ideal (nunca perde nitidez). PNG ou WebP com transparência também servem — cerca de 500 × 700 px, a proporção da própria carta."
     },
     "felt": {
       "title": "Feltro",
@@ -686,9 +689,9 @@
     "confirmDelete": "Remover “{{title}}” da conta? A cópia local continua."
   },
   "replayer": {
-    "resumeQuestion": "Você parou na mão {{current}} de {{total}}. Continuar dali?",
-    "resume": "Continuar",
     "startOver": "Começar do início",
-    "boardGap": "Espaço entre as cartas"
+    "boardGap": "Espaço entre as cartas",
+    "resumedAt": "Retomado onde você parou — mão {{current}} de {{total}}.",
+    "keepGoing": "Beleza"
   }
 }

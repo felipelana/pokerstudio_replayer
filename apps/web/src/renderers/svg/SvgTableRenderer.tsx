@@ -18,14 +18,33 @@ const CX = VW / 2;
 const CY = 300;
 const RX = 360;
 
-function CardShape({ card, deck, x, y, w }: { card: string | 'back'; deck: DeckSkin; x: number; y: number; w: number }) {
+function CardShape({
+  card,
+  deck,
+  x,
+  y,
+  w,
+  art,
+}: {
+  card: string | 'back';
+  deck: DeckSkin;
+  x: number;
+  y: number;
+  w: number;
+  art?: HTMLImageElement;
+}) {
   const s = w / CARD_W;
+  // The back keeps its printed pattern; only faces take artwork.
+  const face = card === 'back' ? undefined : art;
   // Outer <g> carries the SVG transform; the inner one takes the CSS animation
   // (a CSS transform would otherwise override the attribute).
   return (
     <g transform={`translate(${x} ${y}) scale(${s})`}>
       <g className="card-in" style={{ transformBox: 'fill-box', transformOrigin: 'center' }}>
-      {cardPrimitives(card, deck).map((p, i) => {
+      {face && (
+        <image href={face.src} x={8} y={8} width={CARD_W - 16} height={CARD_H - 16} preserveAspectRatio="xMidYMid meet" />
+      )}
+      {cardPrimitives(card, deck, !!face).map((p, i) => {
         switch (p.kind) {
           case 'rect':
             return <rect key={i} x={p.x} y={p.y} width={p.w} height={p.h} rx={p.rx} fill={p.fill} stroke={p.stroke} strokeWidth={p.strokeWidth} />;
@@ -116,6 +135,7 @@ export function SvgTableRenderer({
   holeLayout,
   zoomCards = 1,
   boardGapRatio = 0.18,
+  deckArt,
   zoomChips = 1,
   chipDenominations = true,
   fmt,
@@ -301,7 +321,7 @@ export function SvgTableRenderer({
 
         {/* Board */}
         {frame.board.map((c, i) => (
-          <CardShape key={c} card={c} deck={skin.deck} x={boardX0 + i * (boardW + boardGap)} y={boardY} w={boardW * zoomCards} />
+          <CardShape key={c} card={c} deck={skin.deck} x={boardX0 + i * (boardW + boardGap)} y={boardY} w={boardW * zoomCards} art={deckArt?.[c[0]]} />
         ))}
 
         {/* Bets and dealer button — every group is kept inside the felt (R2) and
@@ -368,6 +388,7 @@ export function SvgTableRenderer({
         return (
           <div key={slot.seat} className="absolute -translate-x-1/2 -translate-y-1/2" style={{ left: `${px}%`, top: `${py}%` }}>
             <SeatPlate
+              deckArt={deckArt}
               player={p}
               skin={skin}
               labels={labels}

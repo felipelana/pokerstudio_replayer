@@ -14,7 +14,6 @@ export const DECK_FOUR_COLOR_FILLED: DeckSkin = {
   rankFont: 'Inter',
   cornerRadius: 0.1,
   holeLayout: 'spread',
-  courtStyle: 'letter',
 };
 
 export const DECK_FOUR_COLOR_OUTLINED: DeckSkin = {
@@ -243,7 +242,6 @@ export const SKIN_GG: Skin = {
     rankFont: 'Inter',
     cornerRadius: 0.09,
     holeLayout: 'overlap',
-    courtStyle: 'letter',
   },
   felt: {
     color: '#403a34',
@@ -326,7 +324,6 @@ export const SKIN_FLAT: Skin = {
     rankFont: 'Inter',
     cornerRadius: 0.16,
     holeLayout: 'overlap',
-    courtStyle: 'letter',
   },
   felt: {
     color: '#1a1a1d',

@@ -364,10 +364,7 @@
       "cornerRadius": "모서리 반경",
       "holeLayout": "홀 카드",
       "layoutSpread": "나란히",
-      "layoutOverlap": "겹쳐서 부채꼴",
-      "courtStyle": "J / Q / K",
-      "courtLetter": "문자만",
-      "courtFigure": "그림 카드 (킹·퀸·잭)",
+      "layoutOverlap": "겹치기",
       "front": "앞면",
       "back": "뒷면",
       "pattern_diamonds": "다이아몬드",
@@ -375,7 +372,13 @@
       "pattern_dots": "점",
       "pattern_plain": "단색",
       "perCard": "카드별 색상",
-      "perCardHint": "여기서 지정한 랭크는 무늬 색을 무시합니다. 비워 두면 무늬를 따릅니다."
+      "perCardHint": "여기서 지정한 랭크는 무늬 색을 무시합니다. 비워 두면 무늬를 따릅니다.",
+      "layoutFan": "기울인 부채꼴",
+      "artUpload": "이미지",
+      "artChange": "변경",
+      "artReset": "스킨 기본값",
+      "artTooLarge": "파일이 2 MB를 넘습니다. 더 가벼운 파일을 쓰세요.",
+      "artHint": "SVG가 가장 좋습니다(흐려지지 않음). 투명 PNG나 WebP도 됩니다 — 약 500 × 700 px, 카드와 같은 비율."
     },
     "felt": {
       "title": "펠트",
@@ -686,9 +689,9 @@
     "confirmDelete": "계정에서 “{{title}}”을(를) 지울까요? 로컬 사본은 남습니다."
   },
   "replayer": {
-    "resumeQuestion": "{{total}}핸드 중 {{current}}에서 멈췄습니다. 거기서 이어서 볼까요?",
-    "resume": "이어서 보기",
     "startOver": "처음부터",
-    "boardGap": "보드 카드 간격"
+    "boardGap": "보드 카드 간격",
+    "resumedAt": "멈춘 곳에서 이어서 — {{total}}핸드 중 {{current}}.",
+    "keepGoing": "확인"
   }
 }

@@ -125,7 +125,7 @@ export function cardColors(suit: Suit, deck: DeckSkin, rank?: string): { face: s
   return { face: deck.cardBg, ink: suitColor, edge: 'rgba(0,0,0,0.18)' };
 }
 
-export function cardPrimitives(card: CardCode | 'back', deck: DeckSkin): Primitive[] {
+export function cardPrimitives(card: CardCode | 'back', deck: DeckSkin, hasArt = false): Primitive[] {
   const rx = Math.max(0, Math.min(0.3, deck.cornerRadius)) * CARD_W;
   if (card === 'back') {
     return [
@@ -155,27 +155,13 @@ export function cardPrimitives(card: CardCode | 'back', deck: DeckSkin): Primiti
       anchor: 'start',
     },
     { kind: 'path', d: SUIT_PATHS[suit], fill: ink, x: 8, y: 50, scale: 0.3 },
-    ...centrePiece(rank, suit, ink, deck),
+    ...(hasArt ? [] : centrePiece(suit, ink)),
     { kind: 'gloss', rx, strength: deck.style === 'filled' ? 0.22 : 0.16 },
   ];
 }
 
-/** Big suit pip, or the court figure when the deck asks for face cards. */
-function centrePiece(rank: string, suit: Suit, ink: string, deck: DeckSkin): Primitive[] {
-  const isCourt = rank === 'J' || rank === 'Q' || rank === 'K';
-  if (isCourt && deck.courtStyle === 'figure') {
-    const scale = 0.62;
-    const x = (CARD_W - 100 * scale) / 2;
-    const y = CARD_H - 100 * scale - 8;
-    return COURT_PATHS[rank as 'J' | 'Q' | 'K'].map((d) => ({
-      kind: 'path' as const,
-      d,
-      fill: ink,
-      x,
-      y,
-      scale,
-    }));
-  }
+/** The big suit pip in the middle of the card. */
+function centrePiece(suit: Suit, ink: string): Primitive[] {
   return [{ kind: 'path', d: SUIT_PATHS[suit], fill: ink, x: 33, y: 68, scale: 0.64 }];
 }
 

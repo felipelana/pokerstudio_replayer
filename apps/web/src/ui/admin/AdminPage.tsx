@@ -168,6 +168,7 @@ export function AdminPage() {
   const signedIn = useAuthStore((s) => s.phase === 'authenticated');
   const importInput = useRef<HTMLInputElement>(null);
   const logoInput = useRef<HTMLInputElement>(null);
+  const cardArtInputs = useRef<Record<string, HTMLInputElement | null>>({});
   const cornerLogoInput = useRef<HTMLInputElement>(null);
   const bgInput = useRef<HTMLInputElement>(null);
   const { hand, frame } = useDemo();
@@ -265,6 +266,16 @@ export function AdminPage() {
     const id = `logo-${Date.now().toString(36)}`;
     await getRepository().saveAsset(id, file);
     patch('felt', { logoAssetId: id });
+  };
+
+  const uploadCardArt = async (rank: string, file: File) => {
+    if (file.size > 2 * 1024 * 1024) {
+      setNotice(t('admin.deck.artTooLarge'));
+      return;
+    }
+    const id = `card-${rank}-${Date.now().toString(36)}`;
+    await getRepository().saveAsset(id, file);
+    patch('deck', { rankImages: { ...draft.deck.rankImages, [rank]: id } });
   };
 
   const uploadBackground = async (file: File) => {
@@ -368,9 +379,9 @@ export function AdminPage() {
         <SelectField label={t('admin.theme')} value={draft.theme} options={[{ value: 'dark', label: t('header.themeDark') }, { value: 'light', label: t('header.themeLight') }]} onChange={(v) => { setDraft({ ...draft, theme: v }); setDirty(true); }} />
 
         <Section title={t('admin.deck.title')} defaultOpen>
-          <div className="mb-2 flex flex-wrap gap-1">
+          <div className="mb-2 grid grid-cols-2 gap-1">
             {DECK_PRESETS.map((p) => (
-              <button key={p.id} type="button" className="btn !px-2 !py-0.5 text-[11px]" onClick={() => patch('deck', p.deck)}>
+              <button key={p.id} type="button" className="btn justify-center !px-2 !py-1 text-[11px]" onClick={() => patch('deck', p.deck)}>
                 {p.name}
               </button>
             ))}
@@ -397,14 +408,28 @@ export function AdminPage() {
           <ColorField label={t('admin.deck.backColor')} value={draft.deck.backColor} onChange={(v) => patch('deck', { backColor: v })} />
           <ColorField label={t('admin.deck.backInk')} value={draft.deck.backInk} onChange={(v) => patch('deck', { backInk: v })} />
 
+          <SelectField<BackPattern> label={t('admin.deck.backPattern')} value={draft.deck.backPattern} options={(['diamonds', 'grid', 'dots', 'plain'] as BackPattern[]).map((p) => ({ value: p, label: t(`admin.deck.pattern.${p}`) }))} onChange={(v) => patch('deck', { backPattern: v })} />
+          <SelectField
+            label={t('admin.deck.holeLayout')}
+            value={draft.deck.holeLayout ?? 'spread'}
+            options={[
+              { value: 'spread', label: t('admin.deck.layoutSpread') },
+              { value: 'overlap', label: t('admin.deck.layoutOverlap') },
+              { value: 'fan', label: t('admin.deck.layoutFan') },
+            ]}
+            onChange={(v) => patch('deck', { holeLayout: v as 'spread' | 'overlap' | 'fan' })}
+          />
+          <SelectField<RankFont> label={t('admin.deck.rankFont')} value={draft.deck.rankFont} options={[{ value: 'Inter', label: 'Inter' }, { value: 'Roboto Mono', label: 'Roboto Mono' }, { value: 'serif', label: 'Serif' }]} onChange={(v) => patch('deck', { rankFont: v })} />
+          <RangeField label={t('admin.deck.cornerRadius')} value={draft.deck.cornerRadius} min={0} max={0.3} step={0.01} onChange={(v) => patch('deck', { cornerRadius: v })} />
+
           {/* A card at a time: a rank listed here ignores its suit colour. */}
           <div className="mt-2 flex items-center gap-2">
             <span className="label !mb-0 flex-1">{t('admin.deck.perCard')}</span>
             <button
               type="button"
               className="btn !px-2 !py-0.5 text-[11px]"
-              disabled={!draft.deck.rankColors || Object.keys(draft.deck.rankColors).length === 0}
-              onClick={() => patch('deck', { rankColors: undefined })}
+              disabled={!draft.deck.rankColors && !draft.deck.rankImages}
+              onClick={() => patch('deck', { rankColors: undefined, rankImages: undefined })}
             >
               {t('common.reset')}
             </button>
@@ -412,11 +437,15 @@ export function AdminPage() {
           <p className="text-[11px]" style={{ color: 'var(--text-muted)' }}>
             {t('admin.deck.perCardHint')}
           </p>
-          <div className="grid grid-cols-2 gap-x-3">
+          <p className="text-[11px]" style={{ color: 'var(--text-muted)' }}>
+            {t('admin.deck.artHint')}
+          </p>
+          <div className="flex flex-col">
             {RANKS.map((rank) => {
               const chosen = draft.deck.rankColors?.[rank];
+              const artId = draft.deck.rankImages?.[rank];
               return (
-                <label key={rank} className="flex items-center gap-2 py-0.5 text-xs">
+                <div key={rank} className="flex items-center gap-2 border-t py-1 text-xs" style={{ borderColor: 'var(--border)' }}>
                   <span className="w-6 font-mono">{rank === 'T' ? '10' : rank}</span>
                   <input
                     type="color"
@@ -425,45 +454,50 @@ export function AdminPage() {
                     onChange={(e) => patch('deck', { rankColors: { ...draft.deck.rankColors, [rank]: e.target.value } })}
                     aria-label={`${t('admin.deck.perCard')} ${rank}`}
                   />
-                  {chosen && (
+                  <button
+                    type="button"
+                    className="btn !px-2 !py-0.5 text-[11px]"
+                    onClick={() => cardArtInputs.current[rank]?.click()}
+                  >
+                    {artId ? t('admin.deck.artChange') : t('admin.deck.artUpload')}
+                  </button>
+                  <input
+                    ref={(el) => {
+                      cardArtInputs.current[rank] = el;
+                    }}
+                    type="file"
+                    accept="image/svg+xml,image/png,image/webp"
+                    hidden
+                    onChange={(e) => {
+                      const f = e.target.files?.[0];
+                      if (f) void uploadCardArt(rank, f);
+                      e.target.value = '';
+                    }}
+                  />
+                  <div className="flex-1" />
+                  {(chosen || artId) && (
                     <button
                       type="button"
                       className="text-[11px] underline"
                       style={{ color: 'var(--text-muted)' }}
                       onClick={() => {
-                        const next = { ...draft.deck.rankColors };
-                        delete next[rank];
-                        patch('deck', { rankColors: Object.keys(next).length ? next : undefined });
+                        const colors = { ...draft.deck.rankColors };
+                        const images = { ...draft.deck.rankImages };
+                        delete colors[rank];
+                        delete images[rank];
+                        patch('deck', {
+                          rankColors: Object.keys(colors).length ? colors : undefined,
+                          rankImages: Object.keys(images).length ? images : undefined,
+                        });
                       }}
                     >
-                      {t('common.clear')}
+                      {t('admin.deck.artReset')}
                     </button>
                   )}
-                </label>
+                </div>
               );
             })}
           </div>
-          <SelectField<BackPattern> label={t('admin.deck.backPattern')} value={draft.deck.backPattern} options={(['diamonds', 'grid', 'dots', 'plain'] as BackPattern[]).map((p) => ({ value: p, label: t(`admin.deck.pattern.${p}`) }))} onChange={(v) => patch('deck', { backPattern: v })} />
-          <SelectField
-            label={t('admin.deck.courtStyle')}
-            value={draft.deck.courtStyle ?? 'letter'}
-            options={[
-              { value: 'letter', label: t('admin.deck.courtLetter') },
-              { value: 'figure', label: t('admin.deck.courtFigure') },
-            ]}
-            onChange={(v) => patch('deck', { courtStyle: v as 'letter' | 'figure' })}
-          />
-          <SelectField
-            label={t('admin.deck.holeLayout')}
-            value={draft.deck.holeLayout ?? 'spread'}
-            options={[
-              { value: 'spread', label: t('admin.deck.layoutSpread') },
-              { value: 'overlap', label: t('admin.deck.layoutOverlap') },
-            ]}
-            onChange={(v) => patch('deck', { holeLayout: v as 'spread' | 'overlap' })}
-          />
-          <SelectField<RankFont> label={t('admin.deck.rankFont')} value={draft.deck.rankFont} options={[{ value: 'Inter', label: 'Inter' }, { value: 'Roboto Mono', label: 'Roboto Mono' }, { value: 'serif', label: 'Serif' }]} onChange={(v) => patch('deck', { rankFont: v })} />
-          <RangeField label={t('admin.deck.cornerRadius')} value={draft.deck.cornerRadius} min={0} max={0.3} step={0.01} onChange={(v) => patch('deck', { cornerRadius: v })} />
         </Section>
 
         <Section title={t('admin.felt.title')}>

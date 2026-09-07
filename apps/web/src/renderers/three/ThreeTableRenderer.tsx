@@ -29,11 +29,11 @@ const CARD_TILT = 0.72;
 
 const textureCache = new Map<string, THREE.CanvasTexture>();
 
-function cardTexture(card: string | 'back', deck: DeckSkin): THREE.CanvasTexture {
-  const key = `${card}|${JSON.stringify(deck)}`;
+function cardTexture(card: string | 'back', deck: DeckSkin, art?: HTMLImageElement): THREE.CanvasTexture {
+  const key = `${card}|${art?.src ?? ''}|${JSON.stringify(deck)}`;
   let tex = textureCache.get(key);
   if (!tex) {
-    tex = new THREE.CanvasTexture(cardCanvas(card, deck, 6));
+    tex = new THREE.CanvasTexture(cardCanvas(card, deck, 6, art));
     tex.colorSpace = THREE.SRGBColorSpace;
     tex.anisotropy = 16;
     tex.minFilter = THREE.LinearMipmapLinearFilter;
@@ -430,6 +430,7 @@ function CardMesh({
   position,
   rotationY = 0,
   scale = 1,
+  art,
 }: {
   card: string;
   deck: DeckSkin;
@@ -437,8 +438,10 @@ function CardMesh({
   rotationY?: number;
   /** Card zoom (R21). */
   scale?: number;
+  /** Artwork for this card's rank, when the skin sets one. */
+  art?: HTMLImageElement;
 }) {
-  const tex = useMemo(() => cardTexture(card, deck), [card, deck]);
+  const tex = useMemo(() => cardTexture(card, deck, art), [card, deck, art]);
   const back = useMemo(() => cardTexture('back', deck), [deck]);
   // Lift the card so its bottom edge rests on the felt once tilted.
   const lift = (CARD_HEIGHT / 2) * Math.sin(CARD_TILT) + 0.01;
@@ -548,7 +551,7 @@ interface SceneLabels {
 }
 
 function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTMLImageElement }) {
-  const { hand, frame, skin, slots, heroName, positions, showKnownHands, hideHeroCards, lookupUrlFor, holeLayout, zoomCards = 1, zoomChips = 1, boardGapRatio = 0.18, chipDenominations = true, fmt, exact, onSeatClick, interactive = true, animations, labels, feltLogo } = props;
+  const { hand, frame, skin, slots, heroName, positions, showKnownHands, hideHeroCards, lookupUrlFor, holeLayout, zoomCards = 1, zoomChips = 1, boardGapRatio = 0.18, deckArt, chipDenominations = true, fmt, exact, onSeatClick, interactive = true, animations, labels, feltLogo } = props;
   const rz = RX * skin.table.aspect;
   const railW = skin.table.railWidth * RX * 2;
   const isCash = hand.currency !== 'chips';
@@ -598,7 +601,7 @@ function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTM
       {/* Board */}
       {frame.board.map((c, i) => (
         <Appear key={c} enabled={animations} delay={i * 40}>
-          <CardMesh card={c} deck={skin.deck} position={[boardX0 + i * (CARD_WIDTH + boardGap), 0.05, 0]} scale={zoomCards} />
+          <CardMesh card={c} deck={skin.deck} position={[boardX0 + i * (CARD_WIDTH + boardGap), 0.05, 0]} scale={zoomCards} art={deckArt?.[c[0]]} />
         </Appear>
       ))}
 
@@ -697,6 +700,7 @@ function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTM
                   lookupUrl={lookupUrlFor?.(p.name)}
                   forceFaceDown={hideHeroCards && p.name === heroName}
                   layout={holeLayout}
+                  deckArt={deckArt}
                   cardWidth={cardWidthFor(slots.length, p.name === heroName)}
                   scale={slots.length > 8 ? 0.88 : 1}
                 />

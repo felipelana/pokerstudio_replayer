@@ -170,8 +170,9 @@ export function LibraryPage() {
                 {sessions.map((s) => (
                   <tr key={s.id} className="border-t align-middle" style={{ borderColor: 'var(--border)' }}>
                     <td className="px-3 py-2">
+                      {/* A dash when the session was never given a name of its own. */}
                       <button type="button" className="font-medium hover:underline" onClick={() => navigate(`/replay/${s.id}`)}>
-                        {s.name}
+                        {s.sourceFileName && s.name !== s.sourceFileName ? s.name : '—'}
                       </button>
                       {s.warnings.length > 0 && (
                         <span className="ml-2 chip-tag" title={s.warnings.slice(0, 10).join('\n')}>
@@ -180,7 +181,7 @@ export function LibraryPage() {
                       )}
                     </td>
                     <td className="max-w-[200px] truncate px-3 py-2" style={{ color: 'var(--text-muted)' }} title={s.sourceFileName}>
-                      {s.sourceFileName ?? '—'}
+                      {s.sourceFileName ?? s.name}
                     </td>
                     <td className="whitespace-nowrap px-3 py-2">{siteName(s.site)}</td>
                     <td className="px-3 py-2 text-right tabular-nums">{s.handCount}</td>

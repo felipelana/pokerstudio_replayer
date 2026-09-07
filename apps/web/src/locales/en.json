@@ -364,10 +364,7 @@
       "cornerRadius": "Corner radius",
       "holeLayout": "Hole cards",
       "layoutSpread": "Side by side",
-      "layoutOverlap": "Fanned (overlapping)",
-      "courtStyle": "J / Q / K",
-      "courtLetter": "Letter only",
-      "courtFigure": "Court figures",
+      "layoutOverlap": "Overlapping",
       "front": "Front",
       "back": "Back",
       "pattern_diamonds": "Diamonds",
@@ -375,7 +372,13 @@
       "pattern_dots": "Dots",
       "pattern_plain": "Plain",
       "perCard": "Colour by card",
-      "perCardHint": "A rank set here ignores its suit colour. Leave a rank untouched to follow the suit."
+      "perCardHint": "A rank set here ignores its suit colour. Leave a rank untouched to follow the suit.",
+      "layoutFan": "Angled fan",
+      "artUpload": "Image",
+      "artChange": "Change",
+      "artReset": "skin default",
+      "artTooLarge": "That file is over 2 MB — use a lighter one.",
+      "artHint": "SVG is best (it never blurs). PNG or WebP with transparency also work — around 500 × 700 px, the card's own proportion."
     },
     "felt": {
       "title": "Felt",
@@ -686,9 +689,9 @@
     "confirmDelete": "Remove “{{title}}” from the account? The local copy stays."
   },
   "replayer": {
-    "resumeQuestion": "You stopped at hand {{current}} of {{total}}. Carry on from there?",
-    "resume": "Carry on",
     "startOver": "Start over",
-    "boardGap": "Board spacing"
+    "boardGap": "Board spacing",
+    "resumedAt": "Picked up where you stopped — hand {{current}} of {{total}}.",
+    "keepGoing": "Fine"
   }
 }

@@ -364,10 +364,7 @@
       "cornerRadius": "Radio de las esquinas",
       "holeLayout": "Cartas del jugador",
       "layoutSpread": "Una al lado de otra",
-      "layoutOverlap": "Superpuestas (abanico)",
-      "courtStyle": "J / Q / K",
-      "courtLetter": "Solo la letra",
-      "courtFigure": "Figuras (rey, dama, sota)",
+      "layoutOverlap": "Superpuestas",
       "front": "Cara",
       "back": "Dorso",
       "pattern_diamonds": "Rombos",
@@ -375,7 +372,13 @@
       "pattern_dots": "Puntos",
       "pattern_plain": "Liso",
       "perCard": "Color por carta",
-      "perCardHint": "La carta definida aquí ignora el color del palo. Déjala sin tocar para seguir al palo."
+      "perCardHint": "La carta definida aquí ignora el color del palo. Déjala sin tocar para seguir al palo.",
+      "layoutFan": "Abanico inclinado",
+      "artUpload": "Imagen",
+      "artChange": "Cambiar",
+      "artReset": "valor de la skin",
+      "artTooLarge": "El archivo supera 2 MB: usa uno más ligero.",
+      "artHint": "SVG es lo mejor (nunca se pixela). PNG o WebP con transparencia también sirven, unos 500 × 700 px, la proporción de la carta."
     },
     "felt": {
       "title": "Tapete",
@@ -686,9 +689,9 @@
     "confirmDelete": "¿Quitar «{{title}}» de la cuenta? La copia local se queda."
   },
   "replayer": {
-    "resumeQuestion": "Te quedaste en la mano {{current}} de {{total}}. ¿Seguir desde ahí?",
-    "resume": "Seguir",
     "startOver": "Empezar de cero",
-    "boardGap": "Separación del board"
+    "boardGap": "Separación del board",
+    "resumedAt": "Retomado donde lo dejaste: mano {{current}} de {{total}}.",
+    "keepGoing": "Vale"
   }
 }

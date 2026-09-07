@@ -24,6 +24,8 @@ export interface TableRendererProps {
   zoomCards?: number;
   /** Gap between board cards, as a share of a card width. */
   boardGapRatio?: number;
+  /** Artwork per rank, when the skin sets any. */
+  deckArt?: Record<string, HTMLImageElement>;
   zoomChips?: number;
   /** Denomination printed on the chips (R22). */
   chipDenominations?: boolean;

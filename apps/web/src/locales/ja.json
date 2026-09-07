@@ -364,10 +364,7 @@
       "cornerRadius": "角の丸み",
       "holeLayout": "ホールカード",
       "layoutSpread": "横並び",
-      "layoutOverlap": "重ねて扇状",
-      "courtStyle": "J / Q / K",
-      "courtLetter": "文字のみ",
-      "courtFigure": "絵札（キング・クイーン・ジャック）",
+      "layoutOverlap": "重ねる",
       "front": "表",
       "back": "裏",
       "pattern_diamonds": "ダイヤ柄",
@@ -375,7 +372,13 @@
       "pattern_dots": "ドット",
       "pattern_plain": "無地",
       "perCard": "カードごとの色",
-      "perCardHint": "ここで設定したランクはスートの色を無視します。未設定ならスートに従います。"
+      "perCardHint": "ここで設定したランクはスートの色を無視します。未設定ならスートに従います。",
+      "layoutFan": "斜めの扇",
+      "artUpload": "画像",
+      "artChange": "変更",
+      "artReset": "スキン既定",
+      "artTooLarge": "2 MB を超えています。軽いファイルにしてください。",
+      "artHint": "SVG が最適です（ぼやけません）。透過 PNG や WebP でも可 — 500 × 700 px 程度、カードと同じ比率で。"
     },
     "felt": {
       "title": "フェルト",
@@ -686,9 +689,9 @@
     "confirmDelete": "「{{title}}」をアカウントから削除しますか？ローカルのコピーは残ります。"
   },
   "replayer": {
-    "resumeQuestion": "{{total}} 中 {{current}} ハンド目で止まっています。そこから続けますか？",
-    "resume": "続ける",
     "startOver": "最初から",
-    "boardGap": "ボードの間隔"
+    "boardGap": "ボードの間隔",
+    "resumedAt": "前回の続きから — {{total}} 中 {{current}} ハンド目。",
+    "keepGoing": "了解"
   }
 }

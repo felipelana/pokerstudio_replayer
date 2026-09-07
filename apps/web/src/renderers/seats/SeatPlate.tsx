@@ -48,7 +48,9 @@ interface Props {
   /** Force this player's cards face down (R8). */
   forceFaceDown?: boolean;
   /** Overrides the skin's hole-card layout (R8). */
-  layout?: 'spread' | 'overlap';
+  layout?: 'spread' | 'overlap' | 'fan';
+  /** Artwork per rank, when the skin sets any. */
+  deckArt?: Record<string, HTMLImageElement>;
   cardWidth?: number;
   /** Extra shrink for crowded tables. */
   scale?: number;
@@ -71,7 +73,7 @@ function actingGlow(p: Skin['plates']): string {
 
 /** Fanned pair: the second card sits on top, both tilted outwards. */
 const OVERLAP_RATIO = 0.44;
-const TILT_DEG = 6;
+const TILT_DEG = 9;
 
 /** HTML plate rendered over the canvas (crisp text, i18n-friendly). */
 export const SeatPlate = memo(function SeatPlate({
@@ -89,6 +91,7 @@ export const SeatPlate = memo(function SeatPlate({
   lookupUrl,
   forceFaceDown,
   layout,
+  deckArt,
   cardWidth = 50,
   scale = 1,
 }: Props) {
@@ -100,10 +103,13 @@ export const SeatPlate = memo(function SeatPlate({
   const showFaces = known && !forceFaceDown && (showCards || isHero || player.revealed);
   const faces: (string | 'back')[] = showFaces ? player.cards! : ['back', 'back'];
 
-  const overlap = (layout ?? skin.deck.holeLayout) === 'overlap';
+  const mode = layout ?? skin.deck.holeLayout ?? 'spread';
+  const stacked = mode === 'overlap' || mode === 'fan';
+  // Only the fan tilts: overlapped cards sit square, one resting on the other.
+  const tilt = mode === 'fan' ? TILT_DEG : 0;
   const cardHeight = (cardWidth * CARD_H) / CARD_W;
   // Fanned cards need a little vertical slack for the rotation.
-  const rowHeight = overlap ? cardHeight + cardWidth * 0.1 : cardHeight;
+  const rowHeight = stacked ? cardHeight + cardWidth * 0.1 : cardHeight;
 
   return (
     <div
@@ -121,10 +127,10 @@ export const SeatPlate = memo(function SeatPlate({
               key={`${c}-${i}`}
               className="flip-in"
               style={
-                overlap
+                stacked
                   ? {
                       marginLeft: i === 0 ? 0 : -cardWidth * OVERLAP_RATIO,
-                      transform: `rotate(${i === 0 ? -TILT_DEG : TILT_DEG}deg)`,
+                      transform: tilt ? `rotate(${i === 0 ? -tilt : tilt}deg)` : undefined,
                       transformOrigin: 'bottom center',
                       zIndex: i,
                       filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.5))',
@@ -132,7 +138,7 @@ export const SeatPlate = memo(function SeatPlate({
                   : { marginLeft: i === 0 ? 0 : 3, zIndex: i }
               }
             >
-              <Card card={c} deck={skin.deck} width={cardWidth} />
+              <Card card={c} deck={skin.deck} width={cardWidth} art={c === 'back' ? undefined : deckArt?.[c[0]]} />
             </div>
           ))}
         </div>

@@ -232,10 +232,17 @@ export const useAppStore = create<AppState>((set, get) => ({
     }
     const hands = await repo.getHands(session.handIds);
     hands.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
-    const idx = handId ? Math.max(0, hands.findIndex((h) => h.id === handId)) : 0;
+    // Without a hand in the URL, an unfinished review opens exactly where it
+    // stopped — leaving mid-hand and coming back must not cost the reader
+    // anything. Starting over is one click away, in the prompt over the table.
+    const resumed = session.status !== 'completed' ? (session.lastHandIndex ?? 0) : 0;
+    const idx = handId
+      ? Math.max(0, hands.findIndex((h) => h.id === handId))
+      : Math.min(Math.max(0, resumed), Math.max(0, hands.length - 1));
+    const frame = handId || idx !== resumed ? 0 : (session.lastFrameIndex ?? 0);
     // Focus player is remembered per session (hero-less dealer exports).
     const focusPlayer = await repo.getSetting<string | undefined>(`focus:${sessionId}`, undefined);
-    set({ session, hands, handIndex: idx, frameIndex: 0, playing: false, focusPlayer });
+    set({ session, hands, handIndex: idx, frameIndex: frame, playing: false, focusPlayer });
   },
 
   setHands(session, hands) {

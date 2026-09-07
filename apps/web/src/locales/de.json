@@ -364,10 +364,7 @@
       "cornerRadius": "Eckenradius",
       "holeLayout": "Handkarten",
       "layoutSpread": "Nebeneinander",
-      "layoutOverlap": "Gefächert (überlappend)",
-      "courtStyle": "B / D / K",
-      "courtLetter": "Nur der Buchstabe",
-      "courtFigure": "Figuren (König, Dame, Bube)",
+      "layoutOverlap": "Überlappend",
       "front": "Vorderseite",
       "back": "Rückseite",
       "pattern_diamonds": "Rauten",
@@ -375,7 +372,13 @@
       "pattern_dots": "Punkte",
       "pattern_plain": "Einfarbig",
       "perCard": "Farbe je Karte",
-      "perCardHint": "Ein hier gesetzter Rang ignoriert die Farbe seiner Spielfarbe. Unberührt lassen, um ihr zu folgen."
+      "perCardHint": "Ein hier gesetzter Rang ignoriert die Farbe seiner Spielfarbe. Unberührt lassen, um ihr zu folgen.",
+      "layoutFan": "Schräger Fächer",
+      "artUpload": "Bild",
+      "artChange": "Ersetzen",
+      "artReset": "Skin-Standard",
+      "artTooLarge": "Die Datei ist über 2 MB — nimm eine leichtere.",
+      "artHint": "SVG ist am besten (bleibt immer scharf). PNG oder WebP mit Transparenz gehen auch — etwa 500 × 700 px, das Seitenverhältnis der Karte."
     },
     "felt": {
       "title": "Filz",
@@ -686,9 +689,9 @@
     "confirmDelete": "„{{title}}“ aus dem Konto entfernen? Die lokale Kopie bleibt."
   },
   "replayer": {
-    "resumeQuestion": "Du warst bei Hand {{current}} von {{total}}. Dort weitermachen?",
-    "resume": "Weitermachen",
     "startOver": "Von vorn",
-    "boardGap": "Abstand der Boardkarten"
+    "boardGap": "Abstand der Boardkarten",
+    "resumedAt": "Dort weiter, wo du aufgehört hast — Hand {{current}} von {{total}}.",
+    "keepGoing": "Alles klar"
   }
 }
