@@ -118,7 +118,9 @@
     "focusSelect": "Focus player",
     "choosePlayer": "Choose a player…",
     "randomHand": "Random hand",
-    "fileHero": "Hero from the file (Dealt to)"
+    "fileHero": "Hero from the file (Dealt to)",
+    "skipPosts": "Skip to the hero action",
+    "skipPostsHint": "Do not step through ante and blind postings"
   },
   "table": {
     "pot": "Pot",

@@ -116,6 +116,10 @@ export function Sidebar({ rows, currentIndex, skin, heroName, sessionHasHero, pl
           <input type="checkbox" checked={settings.hideResults} onChange={(e) => updateSettings({ hideResults: e.target.checked })} />
           {t('sidebar.hideResults')}
         </label>
+        <label className="checkbox" title={t('sidebar.skipPostsHint')}>
+          <input type="checkbox" checked={settings.skipPosts} onChange={(e) => updateSettings({ skipPosts: e.target.checked })} />
+          {t('sidebar.skipPosts')}
+        </label>
       </div>
 
       {/* Focus player is pinned for the whole session (every hand where they sit). */}

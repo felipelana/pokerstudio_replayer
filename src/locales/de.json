@@ -118,7 +118,9 @@
     "focusSelect": "Fokusspieler",
     "choosePlayer": "Spieler wählen…",
     "randomHand": "Zufällige Hand",
-    "fileHero": "Hero aus der Datei (Dealt to)"
+    "fileHero": "Hero aus der Datei (Dealt to)",
+    "skipPosts": "Direkt zur Hero-Aktion",
+    "skipPostsHint": "Ante- und Blind-Einsätze nicht einzeln durchgehen"
   },
   "table": {
     "pot": "Pot",

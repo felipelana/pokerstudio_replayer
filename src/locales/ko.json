@@ -118,7 +118,9 @@
     "focusSelect": "포커스 플레이어",
     "choosePlayer": "플레이어 선택…",
     "randomHand": "무작위 핸드",
-    "fileHero": "파일의 히어로 (Dealt to)"
+    "fileHero": "파일의 히어로 (Dealt to)",
+    "skipPosts": "히어로 액션으로 바로 이동",
+    "skipPostsHint": "앤티와 블라인드 포스팅을 단계별로 보지 않음"
   },
   "table": {
     "pot": "팟",

@@ -118,7 +118,9 @@
     "focusSelect": "关注玩家",
     "choosePlayer": "选择玩家…",
     "randomHand": "随机牌局",
-    "fileHero": "文件中的主角（Dealt to）"
+    "fileHero": "文件中的主角（Dealt to）",
+    "skipPosts": "直接跳到主角行动",
+    "skipPostsHint": "不逐步播放前注和盲注"
   },
   "table": {
     "pot": "底池",

@@ -79,7 +79,8 @@ export function ReplayerPage() {
       end: replay.streetStart.end,
       hero: replay.heroFirstAction,
     };
-    setReplayMeta(replay.frames.length, targets);
+    const postFrames = replay.frames.filter((f) => f.kind === 'post').map((f) => f.index);
+    setReplayMeta(replay.frames.length, targets, postFrames);
   }, [replay, setReplayMeta]);
 
   // Keep the URL in sync with the selected hand.

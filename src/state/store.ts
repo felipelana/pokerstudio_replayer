@@ -16,6 +16,8 @@ export interface Settings {
   colorHintResults: boolean;
   colorVpipOnly: boolean;
   startAtHero: boolean;
+  /** Skip ante/blind posting frames while navigating (R6). */
+  skipPosts: boolean;
   rotateToHero: boolean;
   animations: boolean;
   /** Playback speed multiplier 0.5..3 */
@@ -36,6 +38,7 @@ export const DEFAULT_SETTINGS: Settings = {
   colorHintResults: true,
   colorVpipOnly: false,
   startAtHero: true,
+  skipPosts: false,
   rotateToHero: true,
   animations: true,
   speed: 1,
@@ -62,6 +65,8 @@ interface AppState {
   frameCount: number;
   /** Street start indices of the current replay (from HandReplay.streetStart + hero). */
   jumpTargets: Partial<Record<JumpTarget, number>>;
+  /** Indices of ante/blind posting frames, used by the skip flag. */
+  postFrames: number[];
   importModalOpen: boolean;
   helpOpen: boolean;
   reviewOpen: boolean;
@@ -81,7 +86,7 @@ interface AppState {
   prevFrame(): void;
   jumpTo(target: JumpTarget): void;
   setPlaying(playing: boolean): void;
-  setReplayMeta(frameCount: number, jumpTargets: Partial<Record<JumpTarget, number>>): void;
+  setReplayMeta(frameCount: number, jumpTargets: Partial<Record<JumpTarget, number>>, postFrames?: number[]): void;
   setFocus(player: string | undefined): void;
   setImportModalOpen(open: boolean): void;
   setHelpOpen(open: boolean): void;
@@ -101,6 +106,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   focusPlayer: undefined,
   frameCount: 0,
   jumpTargets: {},
+  postFrames: [],
   importModalOpen: false,
   helpOpen: false,
   reviewOpen: false,
@@ -171,14 +177,23 @@ export const useAppStore = create<AppState>((set, get) => ({
   },
 
   nextFrame() {
-    const { frameIndex, frameCount } = get();
-    if (frameIndex < frameCount - 1) set({ frameIndex: frameIndex + 1 });
-    else set({ playing: false });
+    const { frameIndex, frameCount, postFrames, settings } = get();
+    if (frameIndex >= frameCount - 1) {
+      set({ playing: false });
+      return;
+    }
+    let next = frameIndex + 1;
+    // With the flag on, ante/blind postings are not walked through one by one.
+    if (settings.skipPosts) while (next < frameCount - 1 && postFrames.includes(next)) next += 1;
+    set({ frameIndex: next });
   },
 
   prevFrame() {
-    const { frameIndex } = get();
-    if (frameIndex > 0) set({ frameIndex: frameIndex - 1 });
+    const { frameIndex, postFrames, settings } = get();
+    if (frameIndex <= 0) return;
+    let prev = frameIndex - 1;
+    if (settings.skipPosts) while (prev > 0 && postFrames.includes(prev)) prev -= 1;
+    set({ frameIndex: prev });
   },
 
   jumpTo(target) {
@@ -190,11 +205,12 @@ export const useAppStore = create<AppState>((set, get) => ({
     set({ playing });
   },
 
-  setReplayMeta(frameCount, jumpTargets) {
+  setReplayMeta(frameCount, jumpTargets, postFrames = []) {
     const { frameIndex } = get();
     set({
       frameCount,
       jumpTargets,
+      postFrames,
       frameIndex: Math.min(frameIndex, Math.max(0, frameCount - 1)),
     });
   },

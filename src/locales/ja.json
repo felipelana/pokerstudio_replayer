@@ -118,7 +118,9 @@
     "focusSelect": "注目プレイヤー",
     "choosePlayer": "プレイヤーを選択…",
     "randomHand": "ランダムなハンド",
-    "fileHero": "ファイルのヒーロー（Dealt to）"
+    "fileHero": "ファイルのヒーロー（Dealt to）",
+    "skipPosts": "ヒーローのアクションへ直行",
+    "skipPostsHint": "アンティとブラインドの投入を1手ずつ表示しない"
   },
   "table": {
     "pot": "ポット",

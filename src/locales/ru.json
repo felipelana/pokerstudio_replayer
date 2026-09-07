@@ -124,7 +124,9 @@
     "focusSelect": "Игрок в фокусе",
     "choosePlayer": "Выберите игрока…",
     "randomHand": "Случайная раздача",
-    "fileHero": "Герой из файла (Dealt to)"
+    "fileHero": "Герой из файла (Dealt to)",
+    "skipPosts": "Сразу к действию героя",
+    "skipPostsHint": "Не проходить анте и блайнды по шагам"
   },
   "table": {
     "pot": "Банк",
