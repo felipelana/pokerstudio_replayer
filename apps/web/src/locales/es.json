@@ -659,5 +659,20 @@
     "recoveryBody": "Cada uno sirve una vez y solo se muestran ahora. Guárdalos en un lugar seguro: son la vuelta si pierdes el teléfono.",
     "copy": "Copiar",
     "saved": "Ya los guardé"
+  },
+  "cloud": {
+    "title": "Repasos en mi cuenta",
+    "hint": "Una copia en el servidor para seguir desde otro equipo. La biblioteca sigue en este dispositivo.",
+    "quota": "{{used}} de {{perDay}} hoy",
+    "withHistory": "Incluir los historiales de manos",
+    "chooseSession": "Elige una sesión…",
+    "push": "Enviar a mi cuenta",
+    "pull": "Traer a este equipo",
+    "here": "aquí",
+    "completed": "terminado",
+    "progress": "mano {{current}} de {{total}}",
+    "empty": "Todavía no hay nada guardado en la cuenta.",
+    "noHistory": "Este repaso se guardó sin los historiales, así que no se puede reconstruir aquí.",
+    "confirmDelete": "¿Quitar «{{title}}» de la cuenta? La copia local se queda."
   }
 }

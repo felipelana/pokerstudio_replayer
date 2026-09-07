@@ -659,5 +659,20 @@
     "recoveryBody": "Jeder Code funktioniert einmal und sie werden nur jetzt angezeigt. Bewahre sie sicher auf — sie sind der Weg zurück, wenn das Telefon weg ist.",
     "copy": "Kopieren",
     "saved": "Gespeichert"
+  },
+  "cloud": {
+    "title": "Analysen in meinem Konto",
+    "hint": "Eine Kopie auf dem Server, um an einem anderen Rechner weiterzumachen. Die Bibliothek bleibt auf diesem Gerät.",
+    "quota": "{{used}} von {{perDay}} heute",
+    "withHistory": "Handverläufe mitschicken",
+    "chooseSession": "Sitzung wählen…",
+    "push": "An mein Konto senden",
+    "pull": "Auf dieses Gerät holen",
+    "here": "hier",
+    "completed": "abgeschlossen",
+    "progress": "Hand {{current}} von {{total}}",
+    "empty": "Im Konto ist noch nichts gespeichert.",
+    "noHistory": "Diese Analyse wurde ohne Handverläufe gespeichert und lässt sich hier nicht wiederherstellen.",
+    "confirmDelete": "„{{title}}“ aus dem Konto entfernen? Die lokale Kopie bleibt."
   }
 }

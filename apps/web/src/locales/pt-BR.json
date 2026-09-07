@@ -659,5 +659,20 @@
     "recoveryBody": "Cada um funciona uma vez e eles só aparecem agora. Guarde em lugar seguro — é o caminho de volta se você perder o celular.",
     "copy": "Copiar",
     "saved": "Já guardei"
+  },
+  "cloud": {
+    "title": "Reviews na minha conta",
+    "hint": "Uma cópia guardada no servidor para continuar de outra máquina. A biblioteca em si continua neste aparelho.",
+    "quota": "{{used}} de {{perDay}} hoje",
+    "withHistory": "Incluir os hand histories",
+    "chooseSession": "Escolha uma sessão…",
+    "push": "Enviar para a conta",
+    "pull": "Trazer para este aparelho",
+    "here": "aqui",
+    "completed": "concluída",
+    "progress": "mão {{current}} de {{total}}",
+    "empty": "Nada guardado na conta ainda.",
+    "noHistory": "Esta review foi salva sem os hand histories, então não dá para reconstruir aqui.",
+    "confirmDelete": "Remover “{{title}}” da conta? A cópia local continua."
   }
 }

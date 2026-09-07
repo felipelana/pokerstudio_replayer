@@ -11,6 +11,8 @@ const schema = z.object({
   SESSION_SECRET: z.string().min(32),
   ENCRYPTION_KEY: z.string().length(64, 'ENCRYPTION_KEY must be 32 bytes in hex'),
   APP_URL: z.string().url().default('http://localhost:5173'),
+  /** Review sessions one account may push to the server per day. */
+  REVIEW_UPLOADS_PER_DAY: z.coerce.number().int().min(1).default(20),
   COOKIE_DOMAIN: z.string().optional(),
   ADMIN_EMAILS: z.string().default(''),
   ADMIN_BOOTSTRAP_EMAIL: z.string().email().optional(),

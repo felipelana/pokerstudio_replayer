@@ -52,7 +52,11 @@ Níveis de acesso:
 | POST | `/admin/2fa/verify` | admin (sem 2FA) | confirma o código e libera a sessão | ✅ |
 | POST | `/admin/2fa/recovery` | admin (sem 2FA) | queima um código de recuperação | ✅ |
 | DELETE | `/admin/2fa` | admin (sem 2FA) | desativa o TOTP (exige um código válido) | ✅ |
-| GET/POST | `/reviews` | usuário | salvar e retomar review (5C) | ⏳ |
+| GET | `/reviews` | usuário | reviews da conta + quota do dia | ✅ |
+| GET | `/reviews/:id` | usuário | uma review com mãos e anotações | ✅ |
+| PUT | `/reviews/:id` | usuário | envia (ou substitui) uma review | ✅ |
+| PATCH | `/reviews/:id` | usuário | grava a posição atual da review | ✅ |
+| DELETE | `/reviews/:id` | usuário | remove a review da conta | ✅ |
 | POST | `/usage` | usuário/anônimo | evento de uso (só com consentimento) | ⏳ |
 
 ✅ implementado e coberto por teste · ⏳ especificado, ainda não implementado
@@ -127,3 +131,22 @@ apenas o papel `ADMIN`. Se exigissem, ninguém conseguiria se inscrever da prime
 - `DELETE /auth/me` exige a senha quando existe uma. A linha permanece como `DELETED` com nome,
   telefone e senha apagados e o e-mail substituído por `deleted+<id>@invalid`, para que cadastros,
   indicações e o log continuem fechando as contas. Os vínculos e as sessões caem junto.
+
+## Reviews na conta (5C)
+
+A biblioteca continua **local** (IndexedDB). O que vai para o servidor é uma cópia, para retomar
+o estudo em outra máquina.
+
+- O **id é do cliente**: é o id da sessão local. Mandar a mesma review duas vezes atualiza a linha
+  em vez de criar outra — e só uma review nova conta contra a quota.
+- **Quota**: `REVIEW_UPLOADS_PER_DAY` (padrão 20, resposta 3 do questionário), contada por
+  `ReviewSession.createdAt` desde a meia-noite UTC. Estourou, `429 quota_exceeded`; atualizar uma
+  review que já existe continua funcionando.
+- `storeHandHistory` decide se o texto cru das mãos sobe. Sem o "sim", o servidor guarda o formato
+  da review (resultado, posição, anotações) e **nenhum hand history**.
+- `PUT` substitui as mãos por inteiro, para que o que está guardado seja igual ao que o cliente
+  acabou de mandar — não é um merge de dois históricos de edição.
+- `PATCH` é a escrita barata que o replayer faz enquanto o usuário anda pelas mãos, com 4 s de
+  debounce; ao chegar na última mão a review vira `COMPLETED`.
+- Toda rota é filtrada por `userId`: a review de outra conta não aparece, não é lida, não é
+  alterada e não é apagada (`403`/`404`, nunca o dado do outro).

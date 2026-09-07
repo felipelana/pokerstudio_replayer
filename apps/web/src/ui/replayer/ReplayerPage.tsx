@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useCloudProgress } from './useCloudProgress';
 import { useTranslation } from 'react-i18next';
 import { buildReplay, quickResult } from '@/engine/replay';
 import { computePositions } from '@/model/positions';
@@ -74,6 +75,9 @@ export function ReplayerPage() {
   }, [sessionId, handId, session?.id, loadSession]);
 
   const hand = hands[handIndex];
+
+  // Mirrors the position onto the account when this review is also stored there.
+  useCloudProgress(sessionId, handIndex, hands.length);
   const heroName = useMemo(() => {
     if (!hand) return undefined;
     if (focusPlayer && hand.players.some((p) => p.name === focusPlayer)) return focusPlayer;

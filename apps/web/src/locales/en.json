@@ -659,5 +659,20 @@
     "recoveryBody": "Each one works once, and they are shown only now. Keep them somewhere safe — they are the way back in if you lose the phone.",
     "copy": "Copy",
     "saved": "I saved them"
+  },
+  "cloud": {
+    "title": "Reviews on my account",
+    "hint": "A copy kept on the server so you can carry on from another machine. The library itself stays on this device.",
+    "quota": "{{used}} of {{perDay}} today",
+    "withHistory": "Include the hand histories",
+    "chooseSession": "Choose a session…",
+    "push": "Send to my account",
+    "pull": "Bring to this device",
+    "here": "here",
+    "completed": "finished",
+    "progress": "hand {{current}} of {{total}}",
+    "empty": "Nothing saved to the account yet.",
+    "noHistory": "This review was saved without the hand histories, so it cannot be rebuilt here.",
+    "confirmDelete": "Remove “{{title}}” from the account? The local copy stays."
   }
 }

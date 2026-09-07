@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import type { Session } from '@/model/types';
+import { CloudReviews } from './CloudReviews';
 import { getRepository } from '@/db/repository';
 import type { ImportSummary } from '@/parsers/importer';
 import { importText } from '@/parsers/importer';
@@ -192,6 +193,8 @@ export function LibraryPage() {
           </div>
         )}
       </section>
+
+      <CloudReviews sessions={sessions} onImported={() => void refresh()} />
 
       <footer className="mt-6 flex items-center gap-4 pb-4 text-xs" style={{ color: 'var(--text-muted)' }}>
         <Link to="/privacidade" className="hover:underline">

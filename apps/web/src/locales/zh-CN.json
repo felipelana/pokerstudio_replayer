@@ -659,5 +659,20 @@
     "recoveryBody": "每个恢复码只能使用一次，并且只在此刻显示。请妥善保管——手机丢失时它们是唯一的退路。",
     "copy": "复制",
     "saved": "已保存"
+  },
+  "cloud": {
+    "title": "账户中的复盘",
+    "hint": "服务器上的副本，方便你换台机器继续。牌局库本身仍保存在本设备。",
+    "quota": "今日 {{used}} / {{perDay}}",
+    "withHistory": "包含手牌记录",
+    "chooseSession": "选择一个会话…",
+    "push": "上传到我的账户",
+    "pull": "下载到本设备",
+    "here": "本地已有",
+    "completed": "已完成",
+    "progress": "第 {{current}} / {{total}} 手",
+    "empty": "账户中还没有保存任何内容。",
+    "noHistory": "该复盘保存时未包含手牌记录，无法在此重建。",
+    "confirmDelete": "从账户中移除“{{title}}”？本地副本会保留。"
   }
 }
