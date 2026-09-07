@@ -97,7 +97,7 @@ export function TableArea({ replay, frame, heroName, onSeatClick }: Props) {
       : `${t('game.cash')} · ${fmt(hand.blinds.sb)}/${fmt(hand.blinds.bb)} · ${hand.tableName}`;
 
   return (
-    <div className="relative flex h-full min-w-0 flex-1 flex-col">
+    <div className="relative flex h-full min-w-0 flex-1 flex-col" data-tour="table">
       {sessionTitle && (
         <div className="truncate px-3 pt-1.5 text-sm font-semibold" title={sessionTitle}>
           {sessionTitle}
@@ -123,6 +123,7 @@ export function TableArea({ replay, frame, heroName, onSeatClick }: Props) {
         <button
           type="button"
           className="btn-icon"
+          data-tour="fullscreen"
           onClick={() => setFullscreen(!fullscreen)}
           title={t('footer.fullscreen')}
           aria-label={t('footer.fullscreen')}

@@ -183,6 +183,7 @@ export function Sidebar({
 
   return (
     <aside
+      data-tour="hands"
       ref={asideRef}
       className="relative flex h-full shrink-0 flex-col gap-2 border-r p-2.5"
       style={{ width: settings.sidebarWidth, borderColor: 'var(--border)', background: 'var(--surface)' }}

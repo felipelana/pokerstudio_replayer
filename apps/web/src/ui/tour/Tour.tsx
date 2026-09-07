@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAppStore } from '@/state/store';
+import { useAppStore, type TourFlow } from '@/state/store';
 import { IconClose, IconHelp } from '../icons';
 
 interface Step {
@@ -13,17 +13,32 @@ interface Step {
 }
 
 /**
- * The steps of the first run, in the order someone actually meets the app:
- * bring hands in, open one, make it yours, then say what is missing.
+ * Two runs, because there are two places to learn. The library one is about
+ * getting hands in and finding your way around; the replayer one names every
+ * control on the table screen, one at a time.
  */
-const STEPS: Step[] = [
-  { key: 'welcome' },
-  { key: 'import', target: 'import', route: '/' },
-  { key: 'sessions', target: 'sessions', route: '/' },
-  { key: 'settings', target: 'settings' },
-  { key: 'skins', target: 'skins' },
-  { key: 'feedback', target: 'account' },
-];
+const FLOWS: Record<TourFlow, Step[]> = {
+  library: [
+    { key: 'welcome' },
+    { key: 'import', target: 'import', route: '/' },
+    { key: 'sessions', target: 'sessions', route: '/' },
+    { key: 'settings', target: 'settings' },
+    { key: 'skins', target: 'skins' },
+    { key: 'feedback', target: 'account' },
+  ],
+  replayer: [
+    { key: 'replayWelcome' },
+    { key: 'replayHands', target: 'hands' },
+    { key: 'replayTable', target: 'table' },
+    { key: 'replayQuick', target: 'quick' },
+    { key: 'replayFullscreen', target: 'fullscreen' },
+    { key: 'replayNotes', target: 'notes' },
+    { key: 'replayLog', target: 'log' },
+    { key: 'replayStreets', target: 'streets' },
+    { key: 'replayTransport', target: 'transport' },
+    { key: 'replayTimeline', target: 'timeline' },
+  ],
+};
 
 const PADDING = 8;
 const CARD_WIDTH = 320;
@@ -60,6 +75,7 @@ export function Tour() {
   const navigate = useNavigate();
   const location = useLocation();
   const open = useAppStore((s) => s.tourOpen);
+  const flow = useAppStore((s) => s.tourFlow);
   const setOpen = useAppStore((s) => s.setTourOpen);
   const settings = useAppStore((s) => s.settings);
   const settingsLoaded = useAppStore((s) => s.settingsLoaded);
@@ -68,15 +84,22 @@ export function Tour() {
   const [index, setIndex] = useState(0);
   const [spot, setSpot] = useState<Spot>();
 
-  const step = STEPS[Math.min(index, STEPS.length - 1)];
+  const steps = FLOWS[flow];
+  const step = steps[Math.min(index, steps.length - 1)];
+  const inReplayer = location.pathname.startsWith('/replay');
 
-  // First run: offer the tour once, and never again unasked.
+  // First run, on each screen that has something to say. Offered once, and
+  // never again unasked.
   useEffect(() => {
-    if (settingsLoaded && !settings.tourSeen) {
+    if (!settingsLoaded || open) return;
+    if (inReplayer && !settings.tourReplayerSeen) {
       setIndex(0);
-      setOpen(true);
+      setOpen(true, 'replayer');
+    } else if (!inReplayer && !settings.tourSeen) {
+      setIndex(0);
+      setOpen(true, 'library');
     }
-  }, [settingsLoaded, settings.tourSeen, setOpen]);
+  }, [settingsLoaded, open, inReplayer, settings.tourSeen, settings.tourReplayerSeen, setOpen]);
 
   // A step may live on another page; go there before pointing at anything.
   useEffect(() => {
@@ -102,23 +125,25 @@ export function Tour() {
   const finish = useCallback(() => {
     setOpen(false);
     setIndex(0);
-    if (!settings.tourSeen) updateSettings({ tourSeen: true });
-  }, [setOpen, settings.tourSeen, updateSettings]);
+    // Whichever run this was, it has now been offered.
+    if (flow === 'replayer' && !settings.tourReplayerSeen) updateSettings({ tourReplayerSeen: true });
+    if (flow === 'library' && !settings.tourSeen) updateSettings({ tourSeen: true });
+  }, [setOpen, flow, settings.tourSeen, settings.tourReplayerSeen, updateSettings]);
 
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') finish();
-      if (e.key === 'ArrowRight') setIndex((i) => Math.min(i + 1, STEPS.length - 1));
+      if (e.key === 'ArrowRight') setIndex((i) => Math.min(i + 1, steps.length - 1));
       if (e.key === 'ArrowLeft') setIndex((i) => Math.max(i - 1, 0));
     };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
-  }, [open, finish]);
+  }, [open, finish, steps.length]);
 
   if (!open) return null;
 
-  const last = index === STEPS.length - 1;
+  const last = index === steps.length - 1;
 
   // The card sits under the lit area, or over it when there is no room below.
   const viewportW = window.innerWidth;
@@ -180,7 +205,7 @@ export function Tour() {
 
         <div className="mt-3 flex items-center gap-2">
           <span className="text-xs tabular-nums" style={{ color: 'var(--text-muted)' }}>
-            {index + 1} / {STEPS.length}
+            {index + 1} / {steps.length}
           </span>
           <div className="flex-1" />
           <button type="button" className="btn" onClick={finish}>

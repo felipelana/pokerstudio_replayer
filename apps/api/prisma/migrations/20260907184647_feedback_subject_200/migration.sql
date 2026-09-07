@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Feedback" ALTER COLUMN "subject" SET DATA TYPE VARCHAR(200);

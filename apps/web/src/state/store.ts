@@ -74,8 +74,9 @@ export interface Settings {
   hideResults: boolean;
   /** Glowing edge on the felt (colour and strength come from the skin). */
   neon: boolean;
-  /** The guided first run has been offered once. */
+  /** Each guided run has been offered once: the library, and the replayer. */
   tourSeen: boolean;
+  tourReplayerSeen: boolean;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -110,7 +111,11 @@ export const DEFAULT_SETTINGS: Settings = {
   hideResults: false,
   neon: true,
   tourSeen: false,
+  tourReplayerSeen: false,
 };
+
+/** The two guided runs: the library you land on, and the replayer itself. */
+export type TourFlow = 'library' | 'replayer';
 
 export type JumpTarget = 'preflop' | 'hero' | 'flop' | 'turn' | 'river' | 'showdown' | 'end';
 
@@ -156,9 +161,10 @@ interface AppState {
   saveProgress(patch: { lastHandIndex?: number; lastFrameIndex?: number; status?: 'in-progress' | 'completed'; resumeNoticeSeen?: boolean }): Promise<void>;
   /** The screen name this account plays under in each room, from the server.
    *  Used to recognise the reader in a history that names no hero. */
-  /** The guided tour, while it is running. */
+  /** The guided tour, while it is running, and which of the two it is. */
   tourOpen: boolean;
-  setTourOpen(open: boolean): void;
+  tourFlow: TourFlow;
+  setTourOpen(open: boolean, flow?: TourFlow): void;
   /** Answers about the tool, raised from the header or from the tour. */
   helpCenterOpen: boolean;
   setHelpCenterOpen(open: boolean): void;
@@ -317,8 +323,9 @@ export const useAppStore = create<AppState>((set, get) => ({
   },
 
   tourOpen: false,
-  setTourOpen(open) {
-    set({ tourOpen: open });
+  tourFlow: 'library',
+  setTourOpen(open, flow) {
+    set({ tourOpen: open, ...(flow ? { tourFlow: flow } : {}) });
   },
 
   helpCenterOpen: false,

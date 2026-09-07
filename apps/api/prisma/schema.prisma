@@ -466,7 +466,7 @@ model Feedback {
   id         String         @id @default(uuid())
   userId     String?
   kind       FeedbackKind   @default(SUGGESTION)
-  subject    String         @db.VarChar(160)
+  subject    String         @db.VarChar(200)
   body       String
   status     FeedbackStatus @default(NEW)
   /// What the team decided, read only by the team.

@@ -757,8 +757,8 @@
     "vision": "The replayer is only the kick-off. PokerStudio means to be the reference in tools that help poker players study, play and perform better at the tables."
   },
   "feedback": {
-    "title": "Suggestions and improvements",
-    "subtitle": "Tell us what is missing, what gets in the way, or what would be better. The team reads all of it.",
+    "title": "Suggestions",
+    "subtitle": "Tell us what is missing or what would be better. The team reads all of it.",
     "kind": "Kind",
     "subject": "Subject",
     "subjectHint": "In one line",
@@ -810,6 +810,46 @@
       "feedback": {
         "title": "5. Talk to us",
         "body": "Your account menu holds Suggestions and improvements, and About. Whatever you write there goes straight into our queue."
+      },
+      "replayWelcome": {
+        "title": "The table, up close",
+        "body": "One step per control: what every button, icon and bar on this screen does."
+      },
+      "replayHands": {
+        "title": "Your hands",
+        "body": "The left column lists every hand in the review, with position and result. Click one to jump straight to it. Above it are the filters, the focus player and the report button."
+      },
+      "replayTable": {
+        "title": "The table",
+        "body": "This is where the hand plays out. Click a name plate to focus that player; the chair beside the name moves where the hero sits; the magnifier opens an external lookup."
+      },
+      "replayQuick": {
+        "title": "Quick controls",
+        "body": "Skin, deck colours, how the hero cards are laid out, zoom for table, cards and chips, how close the seats sit and the board spacing — without leaving the hand."
+      },
+      "replayFullscreen": {
+        "title": "Full screen",
+        "body": "Everything but the table gets out of the way. Good for looking at one hand properly, and for recording."
+      },
+      "replayNotes": {
+        "title": "Notes",
+        "body": "Opens the review panel for this hand: your notes, leak tags and what goes into the report."
+      },
+      "replayLog": {
+        "title": "What happened",
+        "body": "The hand told action by action. Click a line to jump to that moment."
+      },
+      "replayStreets": {
+        "title": "Jump to a street",
+        "body": "Preflop, the hero’s first action, flop, turn and river. Every one has a keyboard shortcut — press ? for the list."
+      },
+      "replayTransport": {
+        "title": "Drive the replay",
+        "body": "First, previous, play/pause, next and last. Beside them: the frame counter, the result-bar mode and the speed."
+      },
+      "replayTimeline": {
+        "title": "The hand bar",
+        "body": "One square per hand in the review, coloured by result. Click to go straight there, and use it to spot the big hands at a glance."
       }
     }
   },

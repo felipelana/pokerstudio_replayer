@@ -62,6 +62,7 @@ export function Footer({ replay, rows, visible, currentIndex, fmt, onSelectHand 
       <div className="flex min-h-0 flex-1 gap-3">
         <ol
           ref={logRef}
+          data-tour="log"
           className="min-h-0 flex-1 overflow-auto rounded-lg border p-1.5 font-mono text-[12px] leading-[1.5]"
           aria-label={t('footer.log')}
           style={{ background: 'var(--surface-2)', borderColor: 'var(--border)' }}
@@ -82,14 +83,14 @@ export function Footer({ replay, rows, visible, currentIndex, fmt, onSelectHand 
           ))}
         </ol>
         <div className="flex w-[420px] shrink-0 flex-col gap-2">
-          <div className="flex gap-1">
+          <div className="flex gap-1" data-tour="streets">
             {JUMPS.map((j) => (
               <button key={j.target} type="button" className="btn flex-1" disabled={jumpTargets[j.target] === undefined} onClick={() => jumpTo(j.target)} title={`${t(j.label)} (${j.key})`}>
                 {t(j.label)}
               </button>
             ))}
           </div>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1.5" data-tour="transport">
             <button type="button" className="btn-icon" onClick={() => setFrame(0)} title={t('footer.first')} aria-label={t('footer.first')}>
               <IconFirst size={15} />
             </button>
@@ -150,6 +151,7 @@ export function Footer({ replay, rows, visible, currentIndex, fmt, onSelectHand 
       {timelineMode !== 'hidden' && (
       <div
         ref={timelineRef}
+        data-tour="timeline"
         className="flex shrink-0 items-end gap-[3px] overflow-x-auto overflow-y-hidden"
         style={{ height: timelineMode === 'compact' ? 18 : 30 }}
         aria-label={t('footer.timeline')}

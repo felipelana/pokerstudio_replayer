@@ -4,8 +4,21 @@ import { useLocation } from 'react-router-dom';
 import { useAppStore } from '@/state/store';
 import { IconClose, IconCompass, IconKeyboard, IconMegaphone } from '../icons';
 
-/** The topics the tour walks through, read here as plain answers. */
-const TOPICS = ['import', 'sessions', 'settings', 'skins', 'feedback'] as const;
+/** The topics each run walks through, read here as plain answers. */
+const TOPICS = {
+  library: ['import', 'sessions', 'settings', 'skins', 'feedback'],
+  replayer: [
+    'replayHands',
+    'replayTable',
+    'replayQuick',
+    'replayFullscreen',
+    'replayNotes',
+    'replayLog',
+    'replayStreets',
+    'replayTransport',
+    'replayTimeline',
+  ],
+} as const;
 
 /**
  * Questions about the tool, answered in one place. It says the same things the
@@ -59,7 +72,7 @@ export function HelpCenter({ open, onClose }: { open: boolean; onClose(): void }
         <div className="min-h-0 flex-1 overflow-y-auto px-5 pb-5 text-sm">
           <h3 className="mt-3 font-semibold">{t('help.howTo')}</h3>
           <dl className="mt-2">
-            {TOPICS.map((topic) => (
+            {TOPICS[inReplayer ? 'replayer' : 'library'].map((topic) => (
               <div key={topic} className="mb-3">
                 <dt className="font-semibold">{t(`tour.steps.${topic}.title`)}</dt>
                 <dd className="leading-relaxed" style={{ color: 'var(--text-muted)' }}>
@@ -75,7 +88,7 @@ export function HelpCenter({ open, onClose }: { open: boolean; onClose(): void }
               className="btn btn-primary"
               onClick={() => {
                 onClose();
-                setTourOpen(true);
+                setTourOpen(true, inReplayer ? 'replayer' : 'library');
               }}
             >
               <IconCompass size={15} />

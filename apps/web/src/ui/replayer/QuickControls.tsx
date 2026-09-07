@@ -36,6 +36,7 @@ export function QuickControls({ hand }: { hand: Hand }) {
       <button
         type="button"
         className="btn-icon"
+        data-tour="quick"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         title={t('quick.title')}

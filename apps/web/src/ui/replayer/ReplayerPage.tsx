@@ -261,6 +261,7 @@ export function ReplayerPage() {
             <button
               type="button"
               className="btn-icon m-1.5 self-start"
+              data-tour="notes"
               onClick={() => setReviewOpen(true)}
               title={t('header.review')}
               aria-label={t('header.review')}

@@ -5,6 +5,10 @@ import { feedbackApi, type FeedbackKind, type MyFeedbackRow } from '@/infrastruc
 import { ApiError } from '@/infrastructure/http/client';
 import { IconClose } from '../icons';
 
+/** What the two fields will take: a subject line, and a note worth reading. */
+const SUBJECT_MAX = 200;
+const BODY_MAX = 1000;
+
 const KINDS: FeedbackKind[] = ['SUGGESTION', 'IMPROVEMENT', 'PROBLEM', 'OTHER'];
 
 /** Colour per state, so a list of notes can be read at a glance. */
@@ -116,7 +120,7 @@ export function FeedbackDialog({ open, onClose }: { open: boolean; onClose(): vo
                 className="input"
                 required
                 minLength={3}
-                maxLength={160}
+                maxLength={SUBJECT_MAX}
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
                 placeholder={t('feedback.subjectHint')}
@@ -128,11 +132,19 @@ export function FeedbackDialog({ open, onClose }: { open: boolean; onClose(): vo
                 className="input min-h-[120px]"
                 required
                 minLength={10}
-                maxLength={4000}
+                maxLength={BODY_MAX}
                 value={body}
                 onChange={(e) => setBody(e.target.value)}
                 placeholder={t('feedback.bodyHint')}
               />
+              {/* The count sits under the field, so the limit is visible while
+                  writing rather than discovered at the end. */}
+              <span
+                className="self-end text-xs tabular-nums"
+                style={{ color: body.length >= BODY_MAX ? 'var(--result-lost)' : 'var(--text-muted)' }}
+              >
+                {body.length} / {BODY_MAX}
+              </span>
             </label>
 
             {error && (

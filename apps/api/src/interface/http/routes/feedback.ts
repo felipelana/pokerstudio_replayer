@@ -28,8 +28,8 @@ export async function feedbackRoutes(app: FastifyInstance, container: AppContain
     const body = z
       .object({
         kind: z.enum(KINDS).default('SUGGESTION'),
-        subject: z.string().trim().min(3).max(160),
-        body: z.string().trim().min(10).max(4000),
+        subject: z.string().trim().min(3).max(200),
+        body: z.string().trim().min(10).max(1000),
         appSurface: z.string().max(40).optional(),
         appVersion: z.string().max(40).optional(),
       })

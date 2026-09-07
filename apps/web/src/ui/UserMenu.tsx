@@ -95,7 +95,7 @@ export function UserMenu() {
             className="menu-item"
             onClick={() => {
               setOpen(false);
-              setTourOpen(true);
+              setTourOpen(true, window.location.pathname.startsWith('/replay') ? 'replayer' : 'library');
             }}
           >
             <IconCompass size={15} />

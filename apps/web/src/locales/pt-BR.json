@@ -757,8 +757,8 @@
     "vision": "O replayer é o pontapé inicial. A PokerStudio quer ser referência em ferramentas que ajudam jogadores de poker a estudar, jogar e performar melhor nas mesas."
   },
   "feedback": {
-    "title": "Sugestões e melhorias",
-    "subtitle": "Conte o que falta, o que atrapalha ou o que ficaria melhor. A equipe lê tudo.",
+    "title": "Sugestões",
+    "subtitle": "Conte o que falta ou o que ficaria melhor. A equipe lê tudo.",
     "kind": "Tipo",
     "subject": "Assunto",
     "subjectHint": "Em uma linha",
@@ -810,6 +810,46 @@
       "feedback": {
         "title": "5. Fale com a gente",
         "body": "No menu da sua conta estão Sugestões e melhorias e o Sobre. O que você escrever cai direto na nossa fila de trabalho."
+      },
+      "replayWelcome": {
+        "title": "A mesa, por dentro",
+        "body": "Um passo por controle: o que faz cada botão, cada ícone e cada barra desta tela."
+      },
+      "replayHands": {
+        "title": "Suas mãos",
+        "body": "A coluna da esquerda lista todas as mãos da review, com posição e resultado. Clique para pular direto para uma. Em cima ficam os filtros, o foco em um jogador e o botão de relatório."
+      },
+      "replayTable": {
+        "title": "A mesa",
+        "body": "Aqui a mão acontece. Clique numa plaquinha para focar naquele jogador; a cadeirinha ao lado do nome muda onde o herói senta; a lupa abre a busca externa do jogador."
+      },
+      "replayQuick": {
+        "title": "Controles rápidos",
+        "body": "Skin, cores do baralho, formato das cartas do herói, zoom de mesa, cartas e fichas, distância dos assentos e espaçamento do board — tudo sem sair da mão."
+      },
+      "replayFullscreen": {
+        "title": "Tela cheia",
+        "body": "Esconde tudo menos a mesa. Bom para olhar uma mão com calma, e para gravar."
+      },
+      "replayNotes": {
+        "title": "Anotações",
+        "body": "Abre o painel de review da mão: suas notas, tags de leak e o que entra no relatório."
+      },
+      "replayLog": {
+        "title": "O que aconteceu",
+        "body": "A narração da mão, ação por ação. Clique numa linha para saltar para aquele momento."
+      },
+      "replayStreets": {
+        "title": "Pular para uma rua",
+        "body": "Preflop, a primeira ação do herói, flop, turn e river. Cada botão tem atalho de teclado — aperte ? para ver todos."
+      },
+      "replayTransport": {
+        "title": "Controlar a reprodução",
+        "body": "Início, anterior, play/pause, próximo e fim. Ao lado ficam o contador de frames, o modo da barra de resultados e a velocidade."
+      },
+      "replayTimeline": {
+        "title": "A barra de mãos",
+        "body": "Um quadradinho por mão da review, colorido pelo resultado. Clique para ir direto, e use-a para achar as mãos grandes de relance."
       }
     }
   },
