@@ -8,7 +8,8 @@
     "replayer": "Replayer",
     "settings": "Settings",
     "admin": "Skins",
-    "admstudio": "Administration"
+    "admstudio": "Administration",
+    "back": "Back"
   },
   "common": {
     "cancel": "Cancel",

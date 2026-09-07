@@ -140,7 +140,7 @@ interface AppState {
   loadSession(sessionId: string, handId?: string): Promise<void>;
   setHands(session: Session | undefined, hands: Hand[]): void;
   /** Records where the review stopped, in the database and in this store. */
-  saveProgress(patch: { lastHandIndex?: number; lastFrameIndex?: number; status?: 'in-progress' | 'completed' }): Promise<void>;
+  saveProgress(patch: { lastHandIndex?: number; lastFrameIndex?: number; status?: 'in-progress' | 'completed'; resumeNoticeSeen?: boolean }): Promise<void>;
   /** Hand a reopened session landed on, until the notice is dismissed. */
   resumedFrom?: number;
   clearResumed(): void;
@@ -248,8 +248,12 @@ export const useAppStore = create<AppState>((set, get) => ({
     // walking away mid-hand must not cost the reader anything. "Finished" is a
     // label the library sets, not a reason to lose the place.
     const saved = Math.min(Math.max(0, session.lastHandIndex ?? 0), Math.max(0, hands.length - 1));
+    // A hand in the URL is an explicit request and wins; without one the saved
+    // hand does. Either way, landing on the saved hand restores the saved
+    // moment inside it — reloading the page the replayer itself wrote into the
+    // address bar must not cost the reader the action they were looking at.
     const idx = handId ? Math.max(0, hands.findIndex((h) => h.id === handId)) : saved;
-    const frame = handId || idx !== saved ? 0 : (session.lastFrameIndex ?? 0);
+    const frame = idx === saved ? (session.lastFrameIndex ?? 0) : 0;
     // Focus player is remembered per session (hero-less dealer exports).
     const focusPlayer = await repo.getSetting<string | undefined>(`focus:${sessionId}`, undefined);
     set({
@@ -259,13 +263,19 @@ export const useAppStore = create<AppState>((set, get) => ({
       frameIndex: frame,
       playing: false,
       focusPlayer,
-      // The notice only makes sense when reopening actually moved the reader.
-      resumedFrom: !handId && saved > 0 ? saved : undefined,
+      // The notice explains what the replayer just did; once that is known,
+      // repeating it on every return is noise.
+      resumedFrom: saved > 0 && idx === saved && !session.resumeNoticeSeen ? saved : undefined,
     });
   },
 
   clearResumed() {
+    const { session } = get();
     set({ resumedFrom: undefined });
+    if (session && !session.resumeNoticeSeen) {
+      set({ session: { ...session, resumeNoticeSeen: true } });
+      void getRepository().saveSessionProgress(session.id, { resumeNoticeSeen: true });
+    }
   },
 
   async saveProgress(patch) {

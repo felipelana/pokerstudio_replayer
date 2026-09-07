@@ -1,7 +1,7 @@
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/store';
-import { IconHelp, IconLibrary, IconMoon, IconNeon, IconPalette, IconSliders, IconSun } from './icons';
+import { IconBack, IconHelp, IconLibrary, IconMoon, IconNeon, IconPalette, IconSliders, IconSun } from './icons';
 import brandMark from '@/assets/pokerstudio-mark.png';
 import { LanguageSelector } from './LanguageSelector';
 import { UserMenu } from './UserMenu';
@@ -24,6 +24,7 @@ export function Header() {
   const user = useAuthStore((s) => s.user);
   const setHelpOpen = useAppStore((s) => s.setHelpOpen);
   const location = useLocation();
+  const navigate = useNavigate();
   const inReplayer = location.pathname.startsWith('/replay');
   const inAuth = AUTH_PATHS.some((path) => location.pathname.startsWith(path));
 
@@ -57,6 +58,18 @@ export function Header() {
           PokerStudio <span style={{ color: 'var(--accent)' }}>Replayer</span>
         </span>
       </NavLink>
+      {/* Anywhere but the library, a way back to where you came from. */}
+      {location.pathname !== '/' && (
+        <button
+          type="button"
+          className="btn-icon"
+          title={t('nav.back')}
+          aria-label={t('nav.back')}
+          onClick={() => navigate(-1)}
+        >
+          <IconBack size={16} />
+        </button>
+      )}
       <nav className="flex items-center gap-1" aria-label="main">
         <NavLink to="/" end className={navClass}>
           <IconLibrary size={15} />

@@ -170,6 +170,8 @@ export interface Session {
   lastHandIndex?: number;
   /** And which frame of that hand, so the spot is exact. */
   lastFrameIndex?: number;
+  /** The "picked up where you stopped" line is an introduction, shown once. */
+  resumeNoticeSeen?: boolean;
   /** Marked by hand — or on its own when the last hand is reached. */
   status?: 'in-progress' | 'completed';
   /** When the review was finished. */

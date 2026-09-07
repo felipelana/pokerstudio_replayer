@@ -323,3 +323,11 @@ export const IconUndo = (p: Props) => (
     <path d="m8 5-4 4 4 4" />
   </Svg>
 );
+
+/** Back: an arrow pointing left. */
+export const IconBack = (p: Props) => (
+  <Svg {...p}>
+    <path d="M19 12H5" />
+    <path d="m11 6-6 6 6 6" />
+  </Svg>
+);
