@@ -1,114 +1,85 @@
-# Poker Hand Replayer
+# PokerStudio Replayer
 
-Browser-only replayer for poker hand histories. Import PokerStars files (cash and tournament), step through every action on a 3D-lite table, see equity and pot odds per frame, and keep local review notes. Nothing leaves the browser — hands live in IndexedDB.
+Replayer de hand histories para estudo: importa, reproduz mão a mão, anota
+leaks e gera relatório. Roda no navegador; a conta guarda perfil, skins e
+indicações.
 
-- Vite + React 18 + TypeScript (strict) + Tailwind, Zustand, Dexie, i18next (8 languages)
-- Table rendered with Three.js / React Three Fiber; automatic SVG fallback without WebGL
-- Pluggable parsers: PokerStars implemented; WPN, GGPoker, 888, iPoker, Chico and CoinPoker are detected but not parsed until real fixtures exist
-- 7-card evaluator + Monte Carlo equity in a Web Worker (exact enumeration on turn/river)
+```
+apps/web        replayer (Vite + React 18 + TypeScript)
+apps/api        backend (Node 22 + Fastify 5 + Prisma 5 + PostgreSQL 16)
+packages/shared contratos compartilhados (tipos, países, idiomas, salas)
+infra           Docker, Caddy, scripts de backup
+docs            arquitetura, setup, segurança, API, QA
+```
 
-## Run locally
+## Começar
 
-```bash
+```powershell
 npm install
-npm run dev
+Copy-Item apps\api\.env.example apps\api\.env.local   # edite as variáveis
+npm run db:migrate
+npm run db:seed
+npm run dev:api      # API em http://localhost:3001
+npm run dev          # replayer em http://localhost:5173
 ```
 
-Open http://localhost:5173, drop a `.txt` hand history (or click **Load the demo sample**).
+O passo a passo completo (PostgreSQL 16 no Windows 11, role, base, e-mail em
+desenvolvimento) está em **[docs/DEV-SETUP.md](docs/DEV-SETUP.md)**.
 
-| Script                  | What it does                                            |
-| ----------------------- | ------------------------------------------------------- |
-| `npm run dev`           | Vite dev server                                         |
-| `npm test`              | Vitest (parser, engine, evaluator, sample invariants)   |
-| `npm run build`         | Type-check + production build into `dist/`              |
-| `npm run lint`          | ESLint                                                  |
-| `npm run check:locales` | Verifies all 8 locale files have exactly `en.json` keys |
-| `node scripts/gen-sample.ts` | Regenerates `samples/pokerstars-demo.txt`         |
+## Comandos
 
-## Keyboard shortcuts
+| Comando | O que faz |
+|---|---|
+| `npm run dev` | replayer em modo desenvolvimento |
+| `npm run dev:api` | API com recarga automática |
+| `npm run build` | build de produção do replayer |
+| `npm test` | testes de todos os workspaces |
+| `npm run lint` | ESLint, incluindo as regras de fronteira entre camadas |
+| `npm run check:locales` | garante que nenhum idioma tem chave faltando |
+| `npm run db:migrate` / `db:seed` / `db:reset` / `db:studio` | banco |
 
-| Key         | Action                                     |
-| ----------- | ------------------------------------------ |
-| `→` / `←`   | Next / previous action                     |
-| `↓` / `↑`   | Next / previous hand                       |
-| `Home`/`End`| First / last frame                         |
-| `Space`     | Play / pause                               |
-| `1`…`5`     | Preflop / Hero / Flop / Turn / River       |
-| `B`         | Chips ↔ big blinds                         |
-| `T`         | Dark ↔ light theme                         |
-| `C`         | Cycle skins                                |
-| `S`         | Show known hands                           |
-| `?`         | Shortcut panel                             |
+## Atalhos do replayer
 
-Shortcuts pause while a text field has focus.
+`→` próxima ação · `←` anterior · `↑`/`↓` troca de mão · `Home`/`End` primeiro
+e último frame · `Space` play/pause · `1–5` preflop/herói/flop/turn/river ·
+`B` fichas/BB · `T` tema · `C` skin · `S` mostrar cartas conhecidas ·
+`F` tela cheia · `[` recolher a lista · `+`/`-` zoom · `?` ajuda.
 
-## Project layout
+## Adicionar um parser
 
-```
-src/model      canonical Hand/Action types, cards, positions, number formatting
-src/parsers    HandHistoryParser interface, registry, PokerStars parser + fixtures/tests, stubs
-src/engine     pure replay reducer, frame builder, side pots, pot odds, quick results
-src/equity     evaluator, Monte Carlo, worker, React hook
-src/renderers  layout math, SeatPlate (HTML), SvgTableRenderer, ThreeTableRenderer
-src/ui         pages (library, replayer, settings, admin), cards, flags, hooks
-src/skins      Skin type + built-in presets; src/locales the 8 translation files
-src/db         Dexie schema and the Repository interface (IndexedDb implementation)
-```
+1. Crie `apps/web/src/parsers/<sala>/index.ts` implementando
+   `HandHistoryParser` (`detect`, `split`, `parse`).
+2. Registre em `apps/web/src/parsers/registry.ts`.
+3. Coloque hand histories reais em `apps/web/src/parsers/<sala>/fixtures/` e
+   escreva os testes a partir delas — **não invente o formato**.
 
-## Adding a parser
+## Deploy
 
-1. Create `src/parsers/<site>/index.ts` implementing `HandHistoryParser` (`detect`, `split`, `parse`). Never throw on unknown lines — push to `warnings`.
-2. Put real, anonymised hand histories in `src/parsers/<site>/fixtures/` and write tests that assert hand count, final stacks, pots, winners, board and known cards.
-3. Replace the stub in `src/parsers/stubs.ts` with the new parser in `src/parsers/registry.ts`.
+- `infra/docker/docker-compose.yml` sobe `postgres`, `api`, `web` e `caddy`.
+  O Caddy emite TLS para `replayer.pokerstudio.com.br` e roteia `/api/*`.
+- As migrações rodam antes da API subir (ver `Dockerfile.api`).
+- Backup diário e restore: `infra/scripts/backup.sh` e `restore.sh`.
+- Segredos obrigatórios no ambiente: `POSTGRES_PASSWORD`, `SESSION_SECRET`,
+  `ENCRYPTION_KEY`. Opcionais: `EMAIL_PROVIDER_KEY`, `TURNSTILE_SECRET`,
+  `GOOGLE_CLIENT_*`.
 
-The replay engine only consumes the canonical model, so a correct parser gets the full UI for free.
+### DNS do e-mail
 
-## Deploy on the VPS (Docker + Nginx)
+No provedor (Resend), publique para `pokerstudio.com.br`: **SPF**, **DKIM** e
+**DMARC**. Sem provedor configurado, as mensagens ficam na fila `EmailOutbox` e
+o cadastro continua funcionando.
 
-The image is built by GitHub Actions on every push to `main`, pushed to GHCR, and pulled on the VPS over SSH.
+### Promover um admin
 
-### One-time VPS setup
+Inclua o e-mail em `ADMIN_EMAILS` (promoção no cadastro) ou rode
+`npm run db:seed` com `ADMIN_BOOTSTRAP_EMAIL`/`ADMIN_BOOTSTRAP_PASSWORD`.
+A senha nunca entra no repositório: só o hash Argon2id vai para o banco.
 
-```bash
-# on the VPS
-sudo apt-get install -y docker.io docker-compose-plugin
-sudo usermod -aG docker $USER   # re-login afterwards
-mkdir -p ~/lana-replayer && cd ~/lana-replayer
-curl -O https://raw.githubusercontent.com/<owner>/<repo>/main/docker-compose.yml
-echo "REPLAYER_IMAGE=ghcr.io/<owner>/<repo>:latest" > .env
-echo "REPLAYER_PORT=8080" >> .env
-docker compose up -d
-```
+## Documentação
 
-Put a reverse proxy (Caddy, Traefik or the host Nginx) in front of port 8080 for TLS.
-
-### GitHub secrets
-
-| Secret        | Value                                              |
-| ------------- | -------------------------------------------------- |
-| `VPS_HOST`    | VPS hostname or IP                                 |
-| `VPS_USER`    | SSH user (member of the `docker` group)            |
-| `VPS_SSH_KEY` | Private key for that user                          |
-| `VPS_PORT`    | SSH port (optional, default 22)                    |
-| `VPS_APP_DIR` | Directory containing `docker-compose.yml` on the VPS |
-
-`GITHUB_TOKEN` is provided automatically and is used to log in to GHCR from the VPS. If the package is private, create a classic PAT with `read:packages` and use it instead in the deploy step.
-
-### Manual build
-
-```bash
-docker build -t lana-replayer .
-docker run -p 8080:80 lana-replayer
-```
-
-## Data & privacy
-
-- Hands, sessions, reviews, settings and custom skins are stored in IndexedDB (`lana-replayer` database).
-- The app makes no network requests at runtime except Google Fonts (Inter / Roboto Mono / Noto CJK).
-- **Library → Export** downloads a JSON backup; **Import** restores it. `Hand.id` is the SHA-256 of the normalised raw text so re-imports never duplicate.
-
-## Roadmap (phase 2)
-
-- `HttpRepository` against a backend on the VPS with login and synced reviews
-- Parsers for the other sites once fixtures arrive
-- Screenshot export via `renderer.domElement.toDataURL()` + HTML overlay
+- [Arquitetura e regras de dependência](docs/ARCHITECTURE.md)
+- [Setup de desenvolvimento](docs/DEV-SETUP.md)
+- [Segurança](docs/SECURITY.md)
+- [Inventário da API](docs/API.md)
+- [Relatório de QA](docs/QA-REPORT.md)
+- [Plano das Partes 3 e 4](docs/PLAN-partes-3-4.md)
