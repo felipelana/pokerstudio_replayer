@@ -127,7 +127,18 @@
     "anySite": "Beliebiger Raum",
     "from": "Von",
     "to": "Bis",
-    "showing": "{{count}} angezeigt"
+    "showing": "{{count}} angezeigt",
+    "colStorage": "Speicher",
+    "storedSaved": "Gespeichert",
+    "storedLocal": "Nur hier",
+    "saveToAccount": "Im Konto speichern",
+    "storage": "Speicher",
+    "storageAll": "Alle",
+    "storageSaved": "Nur gespeicherte",
+    "storageLocal": "Nicht gespeichert",
+    "sort": "Sortieren nach",
+    "storageHint": "Sitzungen mit „Nur hier\" liegen ausschließlich in diesem Browser — wird er geleert, sind sie weg. Im Konto gespeichert bleiben sie und lassen sich an einem anderen Rechner öffnen.",
+    "confirmDeleteSaved": "{{count}} davon liegen in deinem Konto und werden auch aus der Datenbank gelöscht, nicht nur aus diesem Browser."
   },
   "sidebar": {
     "loadHands": "Hand-Histories laden",

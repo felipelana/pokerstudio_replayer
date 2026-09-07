@@ -331,3 +331,35 @@ export const IconBack = (p: Props) => (
     <path d="m11 6-6 6 6 6" />
   </Svg>
 );
+
+/** Stored on the account. */
+export const IconCloudCheck = (p: Props) => (
+  <Svg {...p}>
+    <path d="M7 18h9a4 4 0 0 0 .6-7.95 6 6 0 0 0-11.5 1.2A3.5 3.5 0 0 0 7 18z" />
+    <path d="m9.5 13.5 2 2 3.5-3.5" />
+  </Svg>
+);
+
+/** In this browser only. */
+export const IconCloudOff = (p: Props) => (
+  <Svg {...p}>
+    <path d="M7 18h9a4 4 0 0 0 .6-7.95 6 6 0 0 0-11.5 1.2A3.5 3.5 0 0 0 7 18z" />
+    <path d="m4 4 16 16" />
+  </Svg>
+);
+
+/** Send this one to the account. */
+export const IconCloudUp = (p: Props) => (
+  <Svg {...p}>
+    <path d="M7 18h9a4 4 0 0 0 .6-7.95 6 6 0 0 0-11.5 1.2A3.5 3.5 0 0 0 7 18z" />
+    <path d="M12 15V9m-2.5 2.5L12 9l2.5 2.5" />
+  </Svg>
+);
+
+/** Bring this one down to this browser. */
+export const IconCloudDown = (p: Props) => (
+  <Svg {...p}>
+    <path d="M7 18h9a4 4 0 0 0 .6-7.95 6 6 0 0 0-11.5 1.2A3.5 3.5 0 0 0 7 18z" />
+    <path d="M12 9v6m-2.5-2.5L12 15l2.5-2.5" />
+  </Svg>
+);

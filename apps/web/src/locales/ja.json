@@ -127,7 +127,18 @@
     "anySite": "すべてのルーム",
     "from": "開始",
     "to": "終了",
-    "showing": "{{count}} 件を表示"
+    "showing": "{{count}} 件を表示",
+    "colStorage": "保存先",
+    "storedSaved": "保存済み",
+    "storedLocal": "このブラウザのみ",
+    "saveToAccount": "アカウントに保存",
+    "storage": "保存先",
+    "storageAll": "すべて",
+    "storageSaved": "保存済みのみ",
+    "storageLocal": "未保存のみ",
+    "sort": "並び替え",
+    "storageHint": "「このブラウザのみ」のセッションはここにしかありません。ブラウザを消すと失われます。アカウントに保存すれば残り、別の端末でも開けます。",
+    "confirmDeleteSaved": "そのうち {{count}} 件はアカウントに保存されており、このブラウザだけでなくデータベースからも削除されます。"
   },
   "sidebar": {
     "loadHands": "ハンド履歴を読み込む",

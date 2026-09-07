@@ -127,7 +127,18 @@
     "anySite": "Any room",
     "from": "From",
     "to": "To",
-    "showing": "{{count}} shown"
+    "showing": "{{count}} shown",
+    "colStorage": "Storage",
+    "storedSaved": "Saved",
+    "storedLocal": "This browser",
+    "saveToAccount": "Save to my account",
+    "storage": "Storage",
+    "storageAll": "All",
+    "storageSaved": "Saved only",
+    "storageLocal": "Not saved",
+    "sort": "Sort by",
+    "storageHint": "Sessions marked “This browser” live only here — clearing the browser loses them. Save one to your account to keep it and open it on another machine.",
+    "confirmDeleteSaved": "{{count}} of them are stored on your account and will be deleted from the database as well, not only from this browser."
   },
   "sidebar": {
     "loadHands": "Load hand histories",

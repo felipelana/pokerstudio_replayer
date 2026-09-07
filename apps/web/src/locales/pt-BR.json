@@ -127,7 +127,18 @@
     "anySite": "Qualquer sala",
     "from": "De",
     "to": "Até",
-    "showing": "{{count}} exibidas"
+    "showing": "{{count}} exibidas",
+    "colStorage": "Gravação",
+    "storedSaved": "Gravada",
+    "storedLocal": "Na sessão",
+    "saveToAccount": "Salvar na minha conta",
+    "storage": "Gravação",
+    "storageAll": "Todas",
+    "storageSaved": "Só as gravadas",
+    "storageLocal": "Só as da sessão",
+    "sort": "Ordenar por",
+    "storageHint": "As sessões marcadas como “Na sessão” estão só neste navegador — limpar o navegador perde tudo. Salve na sua conta para guardar e abrir em outra máquina.",
+    "confirmDeleteSaved": "{{count}} delas estão gravadas na sua conta e serão excluídas também do banco de dados, não apenas deste navegador."
   },
   "sidebar": {
     "loadHands": "Carregar hand histories",

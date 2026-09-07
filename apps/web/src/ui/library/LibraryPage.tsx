@@ -2,10 +2,22 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import type { Session } from '@/model/types';
-import { IconCheck, IconDownload, IconPencil, IconPlay, IconTrash } from '@/ui/icons';
+import {
+  IconCheck,
+  IconCloudCheck,
+  IconCloudDown,
+  IconCloudOff,
+  IconCloudUp,
+  IconDownload,
+  IconPencil,
+  IconPlay,
+  IconTrash,
+} from '@/ui/icons';
 import { ConfirmDialog } from '@/ui/ConfirmDialog';
+import { reviewApi, type CloudReviewRow } from '@/infrastructure/http/reviewApi';
+import { buildCloudReview } from './CloudReviews';
+import { forgetKnownReviews } from '@/ui/replayer/useCloudProgress';
 import { PromptDialog } from '@/ui/PromptDialog';
-import { CloudReviews } from './CloudReviews';
 import { getRepository } from '@/db/repository';
 import type { ImportSummary } from '@/parsers/importer';
 import { importText } from '@/parsers/importer';
@@ -40,6 +52,14 @@ export function LibraryPage() {
   const [confirming, setConfirming] = useState<'all' | 'selected' | undefined>(undefined);
   const [pageIndex, setPageIndex] = useState(0);
   const [query, setQuery] = useState('');
+  /** What the account holds, so each row can say where it lives — and so a
+   *  review saved from another machine can be brought down here. */
+  const [cloud, setCloud] = useState<CloudReviewRow[]>([]);
+  const savedIds = useMemo(() => new Set(cloud.map((row) => row.id)), [cloud]);
+  const [savingId, setSavingId] = useState('');
+  const [pulling, setPulling] = useState('');
+  const [storage, setStorage] = useState<'all' | 'saved' | 'local'>('all');
+  const [sort, setSort] = useState<'imported' | 'opened' | 'name'>('imported');
   const [siteFilter, setSiteFilter] = useState('');
   const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
@@ -52,13 +72,24 @@ export function LibraryPage() {
   const [lastImport, setLastImport] = useState<ImportSummary[]>([]);
   const [notice] = useState<string>('');
 
+  /** Asks the account which reviews it holds; silent when signed out. */
+  const refreshSaved = useCallback(async () => {
+    try {
+      const data = await reviewApi.list();
+      setCloud(data.items);
+    } catch {
+      setCloud([]);
+    }
+  }, []);
+
   const refresh = useCallback(async () => {
     setSessions(await getRepository().listSessions());
   }, []);
 
   useEffect(() => {
     void refresh();
-  }, [refresh]);
+    void refreshSaved();
+  }, [refresh, refreshSaved]);
 
   const onImported = useCallback(
     (summaries: ImportSummary[]) => {
@@ -122,7 +153,7 @@ export function LibraryPage() {
     const q = query.trim().toLowerCase();
     const after = from ? new Date(`${from}T00:00:00`) : undefined;
     const before = to ? new Date(`${to}T23:59:59`) : undefined;
-    return sessions.filter((session) => {
+    const rows = sessions.filter((session) => {
       if (siteFilter && session.site !== siteFilter) return false;
       const imported = new Date(session.importedAt);
       if (after && imported < after) return false;
@@ -132,7 +163,47 @@ export function LibraryPage() {
         .filter(Boolean)
         .some((value) => value!.toLowerCase().includes(q));
     });
-  }, [sessions, query, siteFilter, from, to, siteName]);
+
+    const stored = rows.filter((session) => {
+      if (storage === 'saved') return savedIds.has(session.id);
+      if (storage === 'local') return !savedIds.has(session.id);
+      return true;
+    });
+
+    const at = (d?: Date) => (d ? new Date(d).getTime() : 0);
+    const local = [...stored].sort((a, b) => {
+      if (sort === 'name') return a.name.localeCompare(b.name);
+      if (sort === 'opened') return at(b.lastOpenedAt) - at(a.lastOpenedAt);
+      return at(b.importedAt) - at(a.importedAt);
+    });
+
+    // A review saved from another machine is not in this browser yet; it still
+    // belongs in the list, with the one action that makes sense for it.
+    const localIds = new Set(sessions.map((session) => session.id));
+    const q2 = query.trim().toLowerCase();
+    const elsewhere =
+      storage === 'local'
+        ? []
+        : cloud
+            .filter((row) => !localIds.has(row.id))
+            .filter((row) => !q2 || row.title.toLowerCase().includes(q2))
+            .map(
+              (row): Session => ({
+                id: row.id,
+                name: row.title,
+                site: (row.roomDetected as Session['site']) ?? 'unknown',
+                handIds: [],
+                handCount: row.handCount,
+                importedAt: new Date(row.lastOpenedAt),
+                players: [],
+                warnings: [],
+                lastHandIndex: row.currentHandIndex,
+                status: row.status === 'COMPLETED' ? 'completed' : 'in-progress',
+              }),
+            );
+
+    return [...local, ...elsewhere];
+  }, [sessions, query, siteFilter, from, to, siteName, storage, savedIds, sort, cloud]);
 
   /** Ten at a time keeps the table readable on any screen. */
   const pageCount = Math.max(1, Math.ceil(matching.length / PAGE_SIZE));
@@ -170,6 +241,45 @@ export function LibraryPage() {
     setRenaming(undefined);
   };
 
+  /** How many of the sessions about to go are also stored on the account. */
+  const deletingSaved = (confirming === 'all' ? matching.map((row) => row.id) : [...selected]).filter((id) =>
+    savedIds.has(id),
+  ).length;
+
+  /** Rebuilds a review saved elsewhere into this browser. */
+  const pullFromAccount = async (id: string) => {
+    setPulling(id);
+    try {
+      const full = await reviewApi.get(id);
+      const text = full.hands
+        .map((hand) => hand.rawHistory)
+        .filter((raw): raw is string => !!raw)
+        .join('\n\n');
+      if (text) {
+        await importText(full.title, text);
+        await refresh();
+      }
+    } catch {
+      // Offline, or saved without the hand histories: nothing to rebuild.
+    } finally {
+      setPulling('');
+    }
+  };
+
+  /** Stores this session on the account, hand histories included. */
+  const saveToAccount = async (session: Session) => {
+    setSavingId(session.id);
+    try {
+      await reviewApi.save(session.id, await buildCloudReview(session, true));
+      forgetKnownReviews();
+      await refreshSaved();
+    } catch {
+      // Signed out or offline: the row simply stays "this browser only".
+    } finally {
+      setSavingId('');
+    }
+  };
+
   /** Hands back every selected session as one hand-history file. */
   const downloadSelected = async () => {
     const chosen = sessions.filter((row) => selected.has(row.id));
@@ -186,14 +296,30 @@ export function LibraryPage() {
     URL.revokeObjectURL(url);
   };
 
-  /** Runs the deletion the dialog just confirmed. */
+  /**
+   * Runs the deletion the dialog just confirmed. A session stored on the
+   * account is removed there too — leaving the copy behind would contradict
+   * what the dialog says.
+   */
   const deleteChosen = async () => {
-    const ids = confirming === 'all' ? sessions.map((row) => row.id) : [...selected];
-    for (const id of ids) await getRepository().deleteSession(id);
+    const ids = confirming === 'all' ? matching.map((row) => row.id) : [...selected];
+    for (const id of ids) {
+      if (savedIds.has(id)) {
+        try {
+          await reviewApi.remove(id);
+        } catch {
+          // Offline: the local copy still goes, and the row will show as saved
+          // again on the next refresh rather than pretending it is gone.
+        }
+      }
+      await getRepository().deleteSession(id);
+    }
+    forgetKnownReviews();
     setSelected(new Set());
     setConfirming(undefined);
     setPageIndex(0);
     await refresh();
+    await refreshSaved();
   };
 
 
@@ -223,12 +349,9 @@ export function LibraryPage() {
         </div>
       )}
 
-      <section className="panel overflow-hidden">
+      <section className="panel shrink-0 overflow-hidden">
         <header className="flex items-center gap-2 border-b px-4 py-3" style={{ borderColor: 'var(--border)' }}>
           <h2 className="font-semibold">{t('library.sessions')}</h2>
-          <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
-            {t('common.hands', { count: sessions.reduce((s, x) => s + x.handCount, 0) })}
-          </span>
           <div className="flex-1" />
           {selected.size > 0 && (
             <>
@@ -247,9 +370,6 @@ export function LibraryPage() {
               </button>
             </>
           )}
-          <button type="button" className="btn" disabled={!sessions.length} onClick={() => setConfirming('all')}>
-            {t('library.deleteAll')}
-          </button>
         </header>
         <div className="flex flex-wrap items-end gap-2 border-b px-4 py-2 text-xs" style={{ borderColor: 'var(--border)' }}>
           <label className="flex flex-col gap-1">
@@ -306,7 +426,34 @@ export function LibraryPage() {
               }}
             />
           </label>
-          {(query || siteFilter || from || to) && (
+          <label className="flex flex-col gap-1">
+            <span className="label-caps">{t('library.storage')}</span>
+            <select
+              className="input !py-1 !w-auto text-xs"
+              value={storage}
+              onChange={(e) => {
+                setPageIndex(0);
+                setStorage(e.target.value as 'all' | 'saved' | 'local');
+              }}
+            >
+              <option value="all">{t('library.storageAll')}</option>
+              <option value="saved">{t('library.storageSaved')}</option>
+              <option value="local">{t('library.storageLocal')}</option>
+            </select>
+          </label>
+          <label className="flex flex-col gap-1">
+            <span className="label-caps">{t('library.sort')}</span>
+            <select
+              className="input !py-1 !w-auto text-xs"
+              value={sort}
+              onChange={(e) => setSort(e.target.value as 'imported' | 'opened' | 'name')}
+            >
+              <option value="imported">{t('library.colImported')}</option>
+              <option value="opened">{t('library.colOpened')}</option>
+              <option value="name">{t('library.colName')}</option>
+            </select>
+          </label>
+          {(query || siteFilter || from || to || storage !== 'all') && (
             <button
               type="button"
               className="btn !py-1 text-xs"
@@ -315,6 +462,7 @@ export function LibraryPage() {
                 setSiteFilter('');
                 setFrom('');
                 setTo('');
+                setStorage('all');
                 setPageIndex(0);
               }}
             >
@@ -324,6 +472,10 @@ export function LibraryPage() {
           <div className="flex-1" />
           <span style={{ color: 'var(--text-muted)' }}>{t('library.showing', { count: matching.length })}</span>
         </div>
+
+        <p className="px-4 pb-2 text-xs" style={{ color: 'var(--text-muted)' }}>
+          {t('library.storageHint')}
+        </p>
 
         {notice && (
           <div className="px-4 py-2 text-xs" style={{ color: 'var(--text-muted)' }}>
@@ -365,6 +517,7 @@ export function LibraryPage() {
                   </th>
                   <th className="px-3 py-2 text-right">{t('library.colHands')}</th>
                   <th className="px-3 py-2">{t('library.colStatus')}</th>
+                  <th className="px-3 py-2">{t('library.colStorage')}</th>
                   <th className="px-3 py-2">{t('library.colImported')}</th>
                   <th className="px-3 py-2">{t('library.colOpened')}</th>
                   <th className="px-3 py-2 text-right">{t('library.colActions')}</th>
@@ -426,6 +579,19 @@ export function LibraryPage() {
                         </span>
                       )}
                     </td>
+                    <td className="whitespace-nowrap px-3 py-2">
+                      {savedIds.has(s.id) ? (
+                        <span className="inline-flex items-center gap-1.5" style={{ color: 'var(--result-won)' }}>
+                          <IconCloudCheck size={14} />
+                          {t('library.storedSaved')}
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1.5" style={{ color: 'var(--text-muted)' }}>
+                          <IconCloudOff size={14} />
+                          {t('library.storedLocal')}
+                        </span>
+                      )}
+                    </td>
                     <td className="whitespace-nowrap px-3 py-2 tabular-nums" style={{ color: 'var(--text-muted)' }}>
                       {df.dateTime(s.importedAt)}
                     </td>
@@ -434,15 +600,43 @@ export function LibraryPage() {
                     </td>
                     <td className="whitespace-nowrap px-3 py-2 text-right">
                       <span className="inline-flex gap-0.5">
+                        {!s.handIds.length && (
+                          <button
+                            type="button"
+                            className="btn-icon"
+                            title={t('cloud.pull')}
+                            aria-label={t('cloud.pull')}
+                            disabled={pulling === s.id}
+                            onClick={() => void pullFromAccount(s.id)}
+                          >
+                            <IconCloudDown size={15} />
+                          </button>
+                        )}
                         <button type="button" className="btn-icon" title={t('library.open')} aria-label={t('library.open')} onClick={() => navigate(`/replay/${s.id}`)}>
                           <IconPlay size={15} />
                         </button>
-                        <button type="button" className="btn-icon" title={t('library.download')} aria-label={t('library.download')} onClick={() => void download(s)}>
-                          <IconDownload size={15} />
-                        </button>
-                        <button type="button" className="btn-icon" title={t('common.rename')} aria-label={t('common.rename')} onClick={() => void rename(s)}>
-                          <IconPencil size={15} />
-                        </button>
+                        {!!s.handIds.length && !savedIds.has(s.id) && (
+                          <button
+                            type="button"
+                            className="btn-icon"
+                            title={t('library.saveToAccount')}
+                            aria-label={t('library.saveToAccount')}
+                            disabled={savingId === s.id}
+                            onClick={() => void saveToAccount(s)}
+                          >
+                            <IconCloudUp size={15} />
+                          </button>
+                        )}
+                        {!!s.handIds.length && (
+                          <button type="button" className="btn-icon" title={t('library.download')} aria-label={t('library.download')} onClick={() => void download(s)}>
+                            <IconDownload size={15} />
+                          </button>
+                        )}
+                        {!!s.handIds.length && (
+                          <button type="button" className="btn-icon" title={t('common.rename')} aria-label={t('common.rename')} onClick={() => void rename(s)}>
+                            <IconPencil size={15} />
+                          </button>
+                        )}
                         <button
                           type="button"
                           className="btn-icon"
@@ -500,18 +694,17 @@ export function LibraryPage() {
       <ConfirmDialog
         open={confirming !== undefined}
         title={t('library.confirmDeleteTitle')}
-        body={
+        body={`${
           confirming === 'all'
-            ? t('library.confirmDeleteAll', { count: sessions.length })
+            ? t('library.confirmDeleteAll', { count: matching.length })
             : t('library.confirmDeleteSelected', { count: selected.size })
-        }
+        }${deletingSaved ? ` ${t('library.confirmDeleteSaved', { count: deletingSaved })}` : ''}`}
         confirmLabel={t('common.delete')}
         danger
         onCancel={() => setConfirming(undefined)}
         onConfirm={() => void deleteChosen()}
       />
 
-      <CloudReviews sessions={sessions} onImported={() => void refresh()} />
 
       <footer className="mt-6 flex items-center gap-4 pb-4 text-xs" style={{ color: 'var(--text-muted)' }}>
         <Link to="/privacidade" className="hover:underline">

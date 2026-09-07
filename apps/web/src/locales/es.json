@@ -127,7 +127,18 @@
     "anySite": "Cualquier sala",
     "from": "Desde",
     "to": "Hasta",
-    "showing": "{{count}} mostradas"
+    "showing": "{{count}} mostradas",
+    "colStorage": "Almacenamiento",
+    "storedSaved": "Guardada",
+    "storedLocal": "Solo aquí",
+    "saveToAccount": "Guardar en mi cuenta",
+    "storage": "Almacenamiento",
+    "storageAll": "Todas",
+    "storageSaved": "Solo guardadas",
+    "storageLocal": "Sin guardar",
+    "sort": "Ordenar por",
+    "storageHint": "Las sesiones marcadas como «Solo aquí» viven únicamente en este navegador: si lo limpias, se pierden. Guárdalas en tu cuenta para conservarlas y abrirlas en otro equipo.",
+    "confirmDeleteSaved": "{{count}} de ellas están guardadas en tu cuenta y se eliminarán también de la base de datos, no solo de este navegador."
   },
   "sidebar": {
     "loadHands": "Cargar historiales",

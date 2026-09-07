@@ -139,6 +139,7 @@ export function CloudReviews({ sessions, onImported }: { sessions: Session[]; on
   };
 
   const localIds = new Set(sessions.map((s) => s.id));
+  const missing = rows.filter((row) => !localIds.has(row.id));
 
   return (
     <section className="panel overflow-hidden">
@@ -172,13 +173,13 @@ export function CloudReviews({ sessions, onImported }: { sessions: Session[]; on
         </p>
       )}
 
-      {rows.length === 0 ? (
+      {missing.length === 0 ? (
         <p className="p-4 text-sm" style={{ color: 'var(--text-muted)' }}>
           {t('cloud.empty')}
         </p>
       ) : (
         <ul className="text-sm">
-          {rows.map((row) => (
+          {missing.map((row) => (
             <li key={row.id} className="flex flex-wrap items-center gap-2 border-t px-4 py-2" style={{ borderColor: 'var(--border)' }}>
               <span className="min-w-[180px] flex-1 font-medium">
                 {row.title}
