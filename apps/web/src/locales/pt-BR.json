@@ -574,7 +574,21 @@
     "linked": "Conectada",
     "notLinked": "Não conectada",
     "unlink": "Desconectar",
-    "setPasswordHint": "Você entra apenas com o Google. Defina uma senha se quiser outra forma de acesso."
+    "setPasswordHint": "Você entra apenas com o Google. Defina uma senha se quiser outra forma de acesso.",
+    "save": "Salvar",
+    "changePassword": "Trocar a senha",
+    "changePasswordHint": "Ao trocar, todos os outros dispositivos são desconectados.",
+    "setPassword": "Definir uma senha",
+    "currentPassword": "Senha atual",
+    "newPassword": "Nova senha",
+    "passwordChanged": "Senha alterada.",
+    "yourData": "Seus dados",
+    "yourDataHint": "Baixe tudo o que esta conta guarda, ou encerre a conta de vez.",
+    "exportData": "Baixar meus dados",
+    "deleteAccount": "Encerrar minha conta",
+    "deleteConfirm": "Sim, encerrar",
+    "deleteHint": "Encerrar apaga seu nome, telefone e senha. As mãos guardadas neste aparelho continuam aqui.",
+    "cancel": "Cancelar"
   },
   "admstudio": {
     "title": "Administração",

@@ -36,6 +36,18 @@ export const accountApi = {
   googleLinked: () => api.get<{ linked: boolean }>('/auth/google/link'),
   unlinkGoogle: () => api.delete<void>('/auth/google/link'),
   me: () => api.get<Me>('/auth/me'),
+  updateProfile: (patch: {
+    name?: string;
+    phone?: string | null;
+    phoneCountry?: string;
+    countryCode?: string;
+    language?: string;
+    marketingOptIn?: boolean;
+  }) => api.patch<Me>('/auth/me', patch),
+  changePassword: (newPassword: string, currentPassword?: string) =>
+    api.post<{ ok: true }>('/auth/change-password', { newPassword, currentPassword }),
+  exportData: () => api.get<Record<string, unknown>>('/auth/me/export'),
+  deleteAccount: (password?: string) => api.delete<void>('/auth/me', password ? { password } : undefined),
   signUp: (payload: SignUpPayload) => api.post<{ id: string; emailVerificationRequired: boolean }>('/auth/signup', payload),
   login: (email: string, password: string, rememberMe?: boolean) =>
     api.post<Me>('/auth/login', { email, password, rememberMe }),

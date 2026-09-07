@@ -1,12 +1,19 @@
 import type { FastifyInstance } from 'fastify';
 import { z } from 'zod';
-import { LANGUAGE_CODES } from '@pokerstudio/shared';
+import { COUNTRIES, LANGUAGE_CODES } from '@pokerstudio/shared';
 import { signUpUser } from '../../../application/auth/SignUpUser.js';
 import { loginUser } from '../../../application/auth/LoginUser.js';
 import { verifyEmail } from '../../../application/auth/VerifyEmail.js';
 import { requestPasswordReset, resetPassword } from '../../../application/auth/ResetPassword.js';
 import { Errors } from '../../../domain/errors/index.js';
 import { problem } from '../errors.js';
+import {
+  changePassword,
+  deleteAccount,
+  exportAccount,
+  setFirstPassword,
+  updateProfile,
+} from '../../../application/account/ManageAccount.js';
 import { clearSessionCookie, clientIp, requireUser, setSessionCookie } from '../context.js';
 import type { AppContainer } from '../../../main-container.js';
 import type { User } from '../../../domain/entities/User.js';
@@ -139,6 +146,69 @@ export async function authRoutes(app: FastifyInstance, container: AppContainer) 
     return reply.send(toMe(user, identities));
   });
 
+  app.patch('/auth/me', async (request, reply) => {
+    const user = requireUser(request, reply);
+    if (!user) return;
+    const patch = z
+      .object({
+        name: z.string().max(120).optional(),
+        phone: z.string().max(30).nullable().optional(),
+        phoneCountry: z.string().length(2).optional(),
+        countryCode: z.string().length(2).optional(),
+        language: z.string().max(10).optional(),
+        marketingOptIn: z.boolean().optional(),
+      })
+      .parse(request.body);
+
+    const result = await updateProfile(accountDeps(container), { user, patch, ip: clientIp(request) });
+    if (!result.ok) return problem(reply, result.error);
+    const identities = await container.identities.listForUser(user.id);
+    return reply.send(toMe(result.value, identities));
+  });
+
+  app.post('/auth/change-password', async (request, reply) => {
+    const user = requireUser(request, reply);
+    if (!user) return;
+    const body = z
+      .object({ currentPassword: z.string().optional(), newPassword: z.string() })
+      .parse(request.body);
+
+    // Without a password yet (a Google-only account), this sets the first one.
+    const result = user.passwordHash
+      ? await changePassword(accountDeps(container), {
+          user,
+          currentPassword: body.currentPassword ?? '',
+          newPassword: body.newPassword,
+          keepSessionId: request.currentSessionId!,
+          ip: clientIp(request),
+        })
+      : await setFirstPassword(accountDeps(container), { user, newPassword: body.newPassword, ip: clientIp(request) });
+
+    if (!result.ok) return problem(reply, result.error);
+    return reply.send({ ok: true });
+  });
+
+  app.get('/auth/me/export', async (request, reply) => {
+    const user = requireUser(request, reply);
+    if (!user) return;
+    const result = await exportAccount(accountDeps(container), user);
+    if (!result.ok) return problem(reply, result.error);
+    return reply
+      .header('content-disposition', 'attachment; filename="pokerstudio-account.json"')
+      .type('application/json')
+      .send(result.value);
+  });
+
+  app.delete('/auth/me', async (request, reply) => {
+    const user = requireUser(request, reply);
+    if (!user) return;
+    const body = z.object({ password: z.string().optional() }).parse(request.body ?? {});
+    const result = await deleteAccount(accountDeps(container), { user, password: body.password, ip: clientIp(request) });
+    if (!result.ok) return problem(reply, result.error);
+    clearSessionCookie(reply, container.config.COOKIE_DOMAIN, container.config.isProduction);
+    return reply.status(204).send();
+  });
+
   app.get('/auth/sessions', async (request, reply) => {
     const user = requireUser(request, reply);
     if (!user) return;
@@ -164,6 +234,22 @@ export async function authRoutes(app: FastifyInstance, container: AppContainer) 
     await container.sessions.revoke(id);
     return reply.status(204).send();
   });
+}
+
+function accountDeps(container: AppContainer) {
+  return {
+    users: container.users,
+    sessions: container.sessions,
+    identities: container.identities,
+    skins: container.skins,
+    referrals: container.referrals,
+    log: container.log,
+    hasher: container.hasher,
+    clock: container.clock,
+    breach: container.breach,
+    countries: COUNTRIES.map((c) => c.code),
+    languages: LANGUAGE_CODES,
+  };
 }
 
 function loginDeps(container: AppContainer) {

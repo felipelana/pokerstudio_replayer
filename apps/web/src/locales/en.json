@@ -574,7 +574,21 @@
     "linked": "Connected",
     "notLinked": "Not connected",
     "unlink": "Disconnect",
-    "setPasswordHint": "You sign in with Google only. Set a password if you want another way in."
+    "setPasswordHint": "You sign in with Google only. Set a password if you want another way in.",
+    "save": "Save",
+    "changePassword": "Change password",
+    "changePasswordHint": "Changing it signs out every other device.",
+    "setPassword": "Set a password",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "passwordChanged": "Password changed.",
+    "yourData": "Your data",
+    "yourDataHint": "Download everything this account holds, or close it for good.",
+    "exportData": "Download my data",
+    "deleteAccount": "Close my account",
+    "deleteConfirm": "Yes, close it",
+    "deleteHint": "Closing removes your name, phone and password. Hands stored on this device stay here.",
+    "cancel": "Cancel"
   },
   "admstudio": {
     "title": "Administration",

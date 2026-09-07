@@ -22,10 +22,10 @@ Níveis de acesso:
 | GET | `/auth/me` | usuário | perfil e identidades vinculadas | ✅ |
 | GET | `/auth/sessions` | usuário | sessões ativas | ✅ |
 | DELETE | `/auth/sessions/:id` | usuário | revoga uma sessão própria | ✅ |
-| PATCH | `/auth/me` | usuário | edita nome, telefone, país, idioma | ⏳ |
-| POST | `/auth/change-password` | usuário | troca a senha autenticado | ⏳ |
-| DELETE | `/auth/me` | usuário | exclusão lógica da conta | ⏳ |
-| GET | `/auth/me/export` | usuário | exporta os dados em JSON | ⏳ |
+| PATCH | `/auth/me` | usuário | edita nome, telefone, país, idioma | ✅ |
+| POST | `/auth/change-password` | usuário | troca a senha (ou define a primeira) | ✅ |
+| DELETE | `/auth/me` | usuário | encerra a conta (anonimiza e revoga tudo) | ✅ |
+| GET | `/auth/me/export` | usuário | exporta os dados em JSON | ✅ |
 | GET | `/auth/providers` | público | quais provedores estão configurados (`{ google }`) | ✅ |
 | GET | `/auth/google` | público | inicia OAuth (Authorization Code + PKCE) | ✅ |
 | GET | `/auth/google/callback` | público | conclui OAuth e abre sessão | ✅ |
@@ -113,3 +113,17 @@ apenas o papel `ADMIN`. Se exigissem, ninguém conseguiria se inscrever da prime
 - O mesmo código **não passa duas vezes**: o passo TOTP aceito fica gravado em `lastUsedStep`.
 - `POST /admin/2fa/recovery` queima um código de recuperação e libera a sessão.
 - `DELETE /admin/2fa` exige um código válido — a sessão sozinha não desliga a proteção.
+
+## Conta do próprio usuário
+
+- `PATCH /auth/me` aceita apenas nome, telefone, país, idioma e a opção de novidades. E-mail,
+  papel, plano e situação **não** se editam por aqui. País e idioma são validados contra as listas
+  do pacote `shared`; telefone vazio limpa o campo.
+- `POST /auth/change-password` exige a senha atual, recusa senha vazada (HIBP) e **revoga todas
+  as sessões**, mantendo apenas a que fez a troca. Numa conta criada pelo Google (sem senha), a
+  mesma rota define a primeira senha.
+- `GET /auth/me/export` devolve perfil, formas de entrada, sessões, skins, indicações e o log de
+  acesso — sem nenhum hash nem token (LGPD art. 18, V).
+- `DELETE /auth/me` exige a senha quando existe uma. A linha permanece como `DELETED` com nome,
+  telefone e senha apagados e o e-mail substituído por `deleted+<id>@invalid`, para que cadastros,
+  indicações e o log continuem fechando as contas. Os vínculos e as sessões caem junto.

@@ -8,6 +8,7 @@ import { useAuthStore } from '@/state/authStore';
 import { useAppStore } from '@/state/store';
 import brandMark from '@/assets/pokerstudio-mark.png';
 import { GoogleButton, OrDivider } from './GoogleButton';
+import { DangerZone, PasswordSection, ProfileEditor } from './AccountSettings';
 
 /** Shell shared by every authentication screen. */
 function AuthShell({ title, subtitle, children }: { title: string; subtitle?: string; children: React.ReactNode }) {
@@ -539,8 +540,6 @@ export function AccountPage() {
       <section className="panel p-4">
         <h2 className="mb-2 font-semibold">{t('account.profile')}</h2>
         <dl className="grid grid-cols-2 gap-y-1 text-sm">
-          <dt style={{ color: 'var(--text-muted)' }}>{t('auth.name')}</dt>
-          <dd>{user.name}</dd>
           <dt style={{ color: 'var(--text-muted)' }}>{t('auth.email')}</dt>
           <dd>
             {user.email}{' '}
@@ -550,17 +549,18 @@ export function AccountPage() {
               </span>
             )}
           </dd>
-          <dt style={{ color: 'var(--text-muted)' }}>{t('auth.country')}</dt>
-          <dd>{user.countryCode}</dd>
           <dt style={{ color: 'var(--text-muted)' }}>{t('account.plan')}</dt>
           <dd>{user.plan}</dd>
         </dl>
+        <ProfileEditor user={user} />
         <button type="button" className="btn mt-3" onClick={() => void logout()}>
           {t('account.signOut')}
         </button>
       </section>
 
       <ConnectedAccounts identities={user.identities} />
+
+      <PasswordSection hasPassword={user.identities.includes('PASSWORD')} />
 
       <section className="panel p-4">
         <h2 className="mb-2 font-semibold">{t('account.skins')}</h2>
@@ -639,6 +639,8 @@ export function AccountPage() {
           ))}
         </ul>
       </section>
+
+      <DangerZone hasPassword={user.identities.includes('PASSWORD')} />
     </div>
   );
 }
