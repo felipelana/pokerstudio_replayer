@@ -119,7 +119,8 @@
     "pageOf": "Page {{page}} of {{pages}}",
     "confirmDeleteTitle": "Delete imported sessions",
     "confirmDeleteSelected": "{{count}} session(s) will be removed from this device, along with their hands and notes. This cannot be undone.",
-    "confirmDeleteAll": "All {{count}} session(s) will be removed from this device, along with their hands and notes. This cannot be undone."
+    "confirmDeleteAll": "All {{count}} session(s) will be removed from this device, along with their hands and notes. This cannot be undone.",
+    "openHint": "Double-click to open"
   },
   "sidebar": {
     "loadHands": "Load hand histories",

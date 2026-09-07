@@ -119,7 +119,8 @@
     "pageOf": "Página {{page}} de {{pages}}",
     "confirmDeleteTitle": "Eliminar sesiones importadas",
     "confirmDeleteSelected": "Se quitarán {{count}} sesión(es) de este dispositivo, con sus manos y notas. No se puede deshacer.",
-    "confirmDeleteAll": "Se quitarán las {{count}} sesiones de este dispositivo, con sus manos y notas. No se puede deshacer."
+    "confirmDeleteAll": "Se quitarán las {{count}} sesiones de este dispositivo, con sus manos y notas. No se puede deshacer.",
+    "openHint": "Doble clic para abrir"
   },
   "sidebar": {
     "loadHands": "Cargar historiales",

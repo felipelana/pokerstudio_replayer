@@ -243,11 +243,11 @@ export function LibraryPage() {
           </div>
         ) : (
           <div className="max-h-[52vh] overflow-auto">
-            <table className="w-full min-w-[980px] text-sm">
+            <table className="table-zebra w-full min-w-[980px] text-sm">
               <thead className="sticky top-0 z-10" style={{ background: 'var(--surface)' }}>
                 <tr className="text-left text-xs uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>
                   {/* The first three columns stay put while the rest scrolls. */}
-                  <th className="w-9 px-2 py-2" style={{ background: 'var(--surface)', position: 'sticky', left: 0, zIndex: 2 }}>
+                  <th className="w-9 px-2 py-2" style={{ background: 'var(--row-bg, var(--surface))', position: 'sticky', left: 0, zIndex: 2 }}>
                     <input
                       type="checkbox"
                       aria-label={t('library.selectAll')}
@@ -255,13 +255,13 @@ export function LibraryPage() {
                       onChange={(e) => togglePage(e.target.checked)}
                     />
                   </th>
-                  <th className="px-3 py-2" style={{ ...frozen(0), background: 'var(--surface)' }}>
+                  <th className="px-3 py-2" style={{ ...frozen(0), background: 'var(--row-bg, var(--surface))' }}>
                     {t('library.colName')}
                   </th>
                   <th className="px-3 py-2" style={{ ...frozen(1), background: 'var(--surface)' }}>
                     {t('library.colFile')}
                   </th>
-                  <th className="px-3 py-2" style={{ ...frozen(2), background: 'var(--surface)' }}>
+                  <th className="px-3 py-2" style={{ ...frozen(2), background: 'var(--row-bg, var(--surface))' }}>
                     {t('library.colSite')}
                   </th>
                   <th className="px-3 py-2 text-right">{t('library.colHands')}</th>
@@ -273,8 +273,14 @@ export function LibraryPage() {
               </thead>
               <tbody>
                 {pageRows.map((s) => (
-                  <tr key={s.id} className="border-t align-middle" style={{ borderColor: 'var(--border)' }}>
-                    <td className="w-9 px-2 py-2" style={{ background: 'var(--surface)', position: 'sticky', left: 0, zIndex: 2 }}>
+                  <tr
+                    key={s.id}
+                    className="cursor-default border-t align-middle"
+                    style={{ borderColor: 'var(--border)' }}
+                    onDoubleClick={() => navigate(`/replay/${s.id}`)}
+                    title={t('library.openHint')}
+                  >
+                    <td className="w-9 px-2 py-2" style={{ background: 'var(--row-bg, var(--surface))', position: 'sticky', left: 0, zIndex: 2 }}>
                       <input
                         type="checkbox"
                         aria-label={s.name}
@@ -284,7 +290,7 @@ export function LibraryPage() {
                     </td>
                     {/* A dash when the session carries no name of its own. Both
                         cells open it, as does the play button on the right. */}
-                    <td className="px-3 py-2" style={{ ...frozen(0), background: 'var(--surface)' }}>
+                    <td className="px-3 py-2" style={{ ...frozen(0), background: 'var(--row-bg, var(--surface))' }}>
                       <button
                         type="button"
                         className="block max-w-full truncate font-medium hover:underline"
@@ -294,7 +300,7 @@ export function LibraryPage() {
                         {s.name === s.sourceFileName ? '—' : s.name}
                       </button>
                     </td>
-                    <td className="px-3 py-2" style={{ ...frozen(1), background: 'var(--surface)', color: 'var(--text-muted)' }}>
+                    <td className="px-3 py-2" style={{ ...frozen(1), background: 'var(--row-bg, var(--surface))', color: 'var(--text-muted)' }}>
                       <button
                         type="button"
                         className="block max-w-full truncate hover:underline"
@@ -304,7 +310,7 @@ export function LibraryPage() {
                         {s.sourceFileName ?? '—'}
                       </button>
                     </td>
-                    <td className="whitespace-nowrap px-3 py-2" style={{ ...frozen(2), background: 'var(--surface)' }}>
+                    <td className="whitespace-nowrap px-3 py-2" style={{ ...frozen(2), background: 'var(--row-bg, var(--surface))' }}>
                       {siteName(s.site)}
                     </td>
                     <td className="px-3 py-2 text-right tabular-nums">{s.handCount}</td>

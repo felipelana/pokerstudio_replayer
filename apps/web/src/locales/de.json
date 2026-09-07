@@ -119,7 +119,8 @@
     "pageOf": "Seite {{page}} von {{pages}}",
     "confirmDeleteTitle": "Importierte Sitzungen löschen",
     "confirmDeleteSelected": "{{count}} Sitzung(en) werden mit Händen und Notizen von diesem Gerät entfernt. Das lässt sich nicht rückgängig machen.",
-    "confirmDeleteAll": "Alle {{count}} Sitzungen werden mit Händen und Notizen von diesem Gerät entfernt. Das lässt sich nicht rückgängig machen."
+    "confirmDeleteAll": "Alle {{count}} Sitzungen werden mit Händen und Notizen von diesem Gerät entfernt. Das lässt sich nicht rückgängig machen.",
+    "openHint": "Doppelklick zum Öffnen"
   },
   "sidebar": {
     "loadHands": "Hand-Histories laden",

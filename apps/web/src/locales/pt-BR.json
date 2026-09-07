@@ -119,7 +119,8 @@
     "pageOf": "Página {{page}} de {{pages}}",
     "confirmDeleteTitle": "Excluir sessões importadas",
     "confirmDeleteSelected": "{{count}} sessão(ões) sairão deste aparelho, junto com as mãos e as anotações. Não dá para desfazer.",
-    "confirmDeleteAll": "Todas as {{count}} sessões sairão deste aparelho, junto com as mãos e as anotações. Não dá para desfazer."
+    "confirmDeleteAll": "Todas as {{count}} sessões sairão deste aparelho, junto com as mãos e as anotações. Não dá para desfazer.",
+    "openHint": "Clique duplo para abrir"
   },
   "sidebar": {
     "loadHands": "Carregar hand histories",

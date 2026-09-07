@@ -223,7 +223,7 @@ export function ReplayerPage() {
       />
       <div className="flex min-w-0 flex-1 flex-col">
         <div className="relative flex min-h-0 flex-1">
-          <ResumePrompt session={session} handCount={hands.length} onGoTo={goToHand} />
+          <ResumePrompt handCount={hands.length} onGoTo={goToHand} />
           <TableArea replay={replay} frame={frame} heroName={heroName} onSeatClick={onSeatClick} />
           {reviewOpen ? (
             <ReviewPanel hand={hand} onClose={() => setReviewOpen(false)} />

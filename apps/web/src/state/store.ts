@@ -141,6 +141,9 @@ interface AppState {
   setHands(session: Session | undefined, hands: Hand[]): void;
   /** Records where the review stopped, in the database and in this store. */
   saveProgress(patch: { lastHandIndex?: number; lastFrameIndex?: number; status?: 'in-progress' | 'completed' }): Promise<void>;
+  /** Hand a reopened session landed on, until the notice is dismissed. */
+  resumedFrom?: number;
+  clearResumed(): void;
   selectHand(index: number, startFrame?: number): void;
   nextHand(): void;
   prevHand(): void;
@@ -241,17 +244,28 @@ export const useAppStore = create<AppState>((set, get) => ({
     }
     const hands = await repo.getHands(session.handIds);
     hands.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
-    // Without a hand in the URL, an unfinished review opens exactly where it
-    // stopped — leaving mid-hand and coming back must not cost the reader
-    // anything. Starting over is one click away, in the prompt over the table.
-    const resumed = session.status !== 'completed' ? (session.lastHandIndex ?? 0) : 0;
-    const idx = handId
-      ? Math.max(0, hands.findIndex((h) => h.id === handId))
-      : Math.min(Math.max(0, resumed), Math.max(0, hands.length - 1));
-    const frame = handId || idx !== resumed ? 0 : (session.lastFrameIndex ?? 0);
+    // Without a hand in the URL, a session opens exactly where it stopped —
+    // walking away mid-hand must not cost the reader anything. "Finished" is a
+    // label the library sets, not a reason to lose the place.
+    const saved = Math.min(Math.max(0, session.lastHandIndex ?? 0), Math.max(0, hands.length - 1));
+    const idx = handId ? Math.max(0, hands.findIndex((h) => h.id === handId)) : saved;
+    const frame = handId || idx !== saved ? 0 : (session.lastFrameIndex ?? 0);
     // Focus player is remembered per session (hero-less dealer exports).
     const focusPlayer = await repo.getSetting<string | undefined>(`focus:${sessionId}`, undefined);
-    set({ session, hands, handIndex: idx, frameIndex: frame, playing: false, focusPlayer });
+    set({
+      session,
+      hands,
+      handIndex: idx,
+      frameIndex: frame,
+      playing: false,
+      focusPlayer,
+      // The notice only makes sense when reopening actually moved the reader.
+      resumedFrom: !handId && saved > 0 ? saved : undefined,
+    });
+  },
+
+  clearResumed() {
+    set({ resumedFrom: undefined });
   },
 
   async saveProgress(patch) {

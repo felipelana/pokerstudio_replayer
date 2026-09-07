@@ -118,8 +118,8 @@ export function QuickControls({ hand }: { hand: Hand }) {
               ['zoomChips', 'quick.zoomChips'],
             ] as const
           ).map(([key, label]) => (
-            <label key={key} className="flex items-center gap-2">
-              <span className="w-[64px] shrink-0 leading-tight" style={{ color: 'var(--text-muted)' }}>
+            <label key={key} className="flex items-center gap-1.5">
+              <span className="w-[52px] shrink-0 text-[10.5px] leading-tight" style={{ color: 'var(--text-muted)' }}>
                 {t(label)}
               </span>
               <input
@@ -129,16 +129,16 @@ export function QuickControls({ hand }: { hand: Hand }) {
                 step={0.05}
                 value={settings[key]}
                 onChange={(e) => update({ [key]: Number(e.target.value) })}
-                className="flex-1"
+                className="w-full min-w-0 flex-1"
                 style={{ accentColor: 'var(--accent)' }}
                 aria-label={t(label)}
               />
-              <span className="w-11 shrink-0 text-right tabular-nums">{Math.round(settings[key] * 100)}%</span>
+              <span className="w-9 shrink-0 text-right text-[10.5px] tabular-nums">{Math.round(settings[key] * 100)}%</span>
             </label>
           ))}
 
           <label className="flex items-center gap-2">
-            <span className="w-[64px] shrink-0 leading-tight" style={{ color: 'var(--text-muted)' }}>
+            <span className="w-[52px] shrink-0 text-[10.5px] leading-tight" style={{ color: 'var(--text-muted)' }}>
               {t('replayer.boardGap')}
             </span>
             <input
@@ -148,11 +148,11 @@ export function QuickControls({ hand }: { hand: Hand }) {
               step={0.02}
               value={settings.boardGapOverride === 'skin' ? (skin.deck.boardGap ?? 0.36) : settings.boardGapOverride}
               onChange={(e) => update({ boardGapOverride: Number(e.target.value) })}
-              className="flex-1"
+              className="w-full min-w-0 flex-1"
               style={{ accentColor: 'var(--accent)' }}
               aria-label={t('replayer.boardGap')}
             />
-            <span className="w-11 shrink-0 text-right tabular-nums">
+            <span className="w-9 shrink-0 text-right text-[10.5px] tabular-nums">
               {Math.round((settings.boardGapOverride === 'skin' ? (skin.deck.boardGap ?? 0.36) : settings.boardGapOverride) * 100)}%
             </span>
           </label>

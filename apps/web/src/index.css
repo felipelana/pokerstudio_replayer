@@ -280,3 +280,20 @@ kbd {
   border-radius: 2px;
   background: linear-gradient(90deg, transparent, var(--accent), transparent);
 }
+
+/* -------------------------------------------------------------------
+   Reading a long table is easier with alternating rows and a row that
+   answers the pointer. The colour lives in --row-bg because the frozen
+   columns paint their own background — they have to use the same value,
+   or a sticky cell would sit on a stripe of a different shade.
+   ------------------------------------------------------------------- */
+.table-zebra tbody tr {
+  --row-bg: var(--surface);
+  background: var(--row-bg);
+}
+.table-zebra tbody tr:nth-child(even) {
+  --row-bg: color-mix(in srgb, var(--text) 4%, var(--surface));
+}
+.table-zebra tbody tr:hover {
+  --row-bg: color-mix(in srgb, var(--text) 11%, var(--surface));
+}
