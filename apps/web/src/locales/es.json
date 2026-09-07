@@ -101,7 +101,15 @@
     "sampleTitle": "¿Aún sin historiales?",
     "loadSample": "Cargar la muestra de demostración",
     "siteOverride": "Forzar sala",
-    "autoDetect": "Detectar automáticamente"
+    "autoDetect": "Detectar automáticamente",
+    "nameLabel": "Nombre de esta sesión",
+    "namePlaceholder": "Opcional: si no, se usa el nombre del archivo",
+    "colStatus": "Estado",
+    "statusDone": "terminada",
+    "statusOpen": "sin empezar",
+    "statusAt": "mano {{current}} de {{total}}",
+    "markDone": "Marcar terminada",
+    "markOpen": "Reabrir"
   },
   "sidebar": {
     "loadHands": "Cargar historiales",
@@ -582,13 +590,7 @@
     "currentPassword": "Contraseña actual",
     "newPassword": "Nueva contraseña",
     "passwordChanged": "Contraseña cambiada.",
-    "yourData": "Tus datos",
-    "yourDataHint": "Descarga todo lo que guarda esta cuenta, o ciérrala definitivamente.",
-    "exportData": "Descargar mis datos",
-    "deleteAccount": "Cerrar mi cuenta",
-    "deleteConfirm": "Sí, cerrarla",
-    "deleteHint": "Al cerrarla se borran tu nombre, teléfono y contraseña. Las manos guardadas en este equipo se quedan.",
-    "cancel": "Cancelar"
+    "security": "Seguridad"
   },
   "admstudio": {
     "title": "Administración",
@@ -674,5 +676,11 @@
     "empty": "Todavía no hay nada guardado en la cuenta.",
     "noHistory": "Este repaso se guardó sin los historiales, así que no se puede reconstruir aquí.",
     "confirmDelete": "¿Quitar «{{title}}» de la cuenta? La copia local se queda."
+  },
+  "replayer": {
+    "resumeQuestion": "Te quedaste en la mano {{current}} de {{total}}. ¿Seguir desde ahí?",
+    "resume": "Seguir",
+    "startOver": "Empezar de cero",
+    "boardGap": "Separación del board"
   }
 }

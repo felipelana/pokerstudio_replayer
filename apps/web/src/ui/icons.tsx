@@ -186,3 +186,58 @@ export const IconSpade = (p: Props) => (
     />
   </Svg>
 );
+
+
+
+/** Sign out: a door with an arrow leaving it. */
+export const IconLogout = (p: Props) => (
+  <Svg {...p}>
+    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+    <path d="m16 17 5-5-5-5" />
+    <path d="M21 12H9" />
+  </Svg>
+);
+
+/** Administration: a shield with a check. */
+export const IconShield = (p: Props) => (
+  <Svg {...p}>
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    <path d="m9 12 2 2 4-4" />
+  </Svg>
+);
+
+/** Security: a closed padlock. */
+export const IconLock = (p: Props) => (
+  <Svg {...p}>
+    <rect x="4" y="10" width="16" height="11" rx="2" />
+    <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+  </Svg>
+);
+
+/** Skins: an artist's palette. */
+export const IconPalette = (p: Props) => (
+  <Svg {...p}>
+    <path d="M12 3a9 9 0 1 0 0 18h1.5a2 2 0 0 0 1.6-3.2l-.2-.3a2 2 0 0 1 1.6-3.2H19a2 2 0 0 0 2-2 9 9 0 0 0-9-9z" />
+    <circle cx="8" cy="11" r="1" fill="currentColor" stroke="none" />
+    <circle cx="12" cy="8" r="1" fill="currentColor" stroke="none" />
+    <circle cx="16" cy="10" r="1" fill="currentColor" stroke="none" />
+  </Svg>
+);
+
+/** Invite a friend: the share glyph. */
+export const IconShare = (p: Props) => (
+  <Svg {...p}>
+    <circle cx="18" cy="5" r="2.5" />
+    <circle cx="6" cy="12" r="2.5" />
+    <circle cx="18" cy="19" r="2.5" />
+    <path d="m8.2 10.8 7.6-4.4M8.2 13.2l7.6 4.4" />
+  </Svg>
+);
+
+/** Sessions: a laptop. */
+export const IconDevice = (p: Props) => (
+  <Svg {...p}>
+    <rect x="3" y="5" width="18" height="12" rx="2" />
+    <path d="M2 20h20" />
+  </Svg>
+);

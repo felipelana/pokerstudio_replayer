@@ -1,8 +1,10 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/store';
-import { IconHelp, IconMoon, IconNeon, IconSpade, IconUser, IconSun } from './icons';
+import { IconHelp, IconMoon, IconNeon, IconSun } from './icons';
+import brandMark from '@/assets/pokerstudio-mark.png';
 import { LanguageSelector } from './LanguageSelector';
+import { UserMenu } from './UserMenu';
 import { useAuthStore } from '@/state/authStore';
 
 /** Screens that render their own brand and must not show the app chrome. */
@@ -50,13 +52,10 @@ export function Header() {
       style={{ borderColor: 'var(--border)', background: 'var(--surface)' }}
     >
       <NavLink to="/" className="mr-2 flex items-center gap-2 font-semibold tracking-tight">
-        <span
-          className="inline-flex h-6 w-6 items-center justify-center rounded-md text-white"
-          style={{ background: 'var(--accent)' }}
-        >
-          <IconSpade size={14} />
+        <img src={brandMark} alt="" className="h-7 w-7 select-none" draggable={false} />
+        <span className="hidden sm:inline">
+          PokerStudio <span style={{ color: 'var(--accent)' }}>Replayer</span>
         </span>
-        <span className="hidden sm:inline">{t('app.title')}</span>
       </NavLink>
       <nav className="flex items-center gap-1" aria-label="main">
         <NavLink to="/" end className={navClass}>
@@ -68,11 +67,7 @@ export function Header() {
         <NavLink to="/admin" className={navClass}>
           {t('nav.admin')}
         </NavLink>
-        {user?.role === 'ADMIN' && (
-          <NavLink to="/admstudio" className={navClass}>
-            {t('nav.admstudio')}
-          </NavLink>
-        )}
+
       </nav>
       <div className="flex-1" />
 
@@ -122,10 +117,7 @@ export function Header() {
       )}
 
       {user ? (
-        <NavLink to="/account" className="btn" title={t('account.title')}>
-          <IconUser size={14} />
-          <span className="max-w-[120px] truncate">{user.name}</span>
-        </NavLink>
+        <UserMenu />
       ) : (
         <NavLink to="/login" className="btn">
           {t('auth.signIn')}

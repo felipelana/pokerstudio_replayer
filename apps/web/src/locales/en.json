@@ -101,7 +101,15 @@
     "sampleTitle": "No hand histories yet?",
     "loadSample": "Load the demo sample",
     "siteOverride": "Force site",
-    "autoDetect": "Auto-detect"
+    "autoDetect": "Auto-detect",
+    "nameLabel": "Name for this session",
+    "namePlaceholder": "Optional — the file name is used otherwise",
+    "colStatus": "Status",
+    "statusDone": "finished",
+    "statusOpen": "not started",
+    "statusAt": "hand {{current}} of {{total}}",
+    "markDone": "Mark finished",
+    "markOpen": "Reopen"
   },
   "sidebar": {
     "loadHands": "Load hand histories",
@@ -582,13 +590,7 @@
     "currentPassword": "Current password",
     "newPassword": "New password",
     "passwordChanged": "Password changed.",
-    "yourData": "Your data",
-    "yourDataHint": "Download everything this account holds, or close it for good.",
-    "exportData": "Download my data",
-    "deleteAccount": "Close my account",
-    "deleteConfirm": "Yes, close it",
-    "deleteHint": "Closing removes your name, phone and password. Hands stored on this device stay here.",
-    "cancel": "Cancel"
+    "security": "Security"
   },
   "admstudio": {
     "title": "Administration",
@@ -674,5 +676,11 @@
     "empty": "Nothing saved to the account yet.",
     "noHistory": "This review was saved without the hand histories, so it cannot be rebuilt here.",
     "confirmDelete": "Remove “{{title}}” from the account? The local copy stays."
+  },
+  "replayer": {
+    "resumeQuestion": "You stopped at hand {{current}} of {{total}}. Carry on from there?",
+    "resume": "Carry on",
+    "startOver": "Start over",
+    "boardGap": "Board spacing"
   }
 }

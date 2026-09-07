@@ -11,6 +11,7 @@ import { referralRoutes } from './routes/referrals.js';
 import { googleRoutes } from './routes/google.js';
 import { twoFactorRoutes } from './routes/twofactor.js';
 import { reviewRoutes } from './routes/reviews.js';
+import { usageRoutes } from './routes/usage.js';
 import type { AppContainer } from '../../main-container.js';
 
 /** Methods that change state must carry the header and a same-site origin. */
@@ -91,6 +92,7 @@ export async function buildServer(container: AppContainer): Promise<FastifyInsta
       await googleRoutes(api, container, container.google);
       await twoFactorRoutes(api, container);
       await reviewRoutes(api, container);
+      await usageRoutes(api, container);
     },
     { prefix: '/api/v1' },
   );

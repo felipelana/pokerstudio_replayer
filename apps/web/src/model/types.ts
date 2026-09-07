@@ -162,6 +162,12 @@ export interface Session {
   lastHandAt?: Date;
   players: string[];
   warnings: string[];
+  /** Where the review stopped, so it can be picked up again. */
+  lastHandIndex?: number;
+  /** Marked by hand — or on its own when the last hand is reached. */
+  status?: 'in-progress' | 'completed';
+  /** When the review was finished. */
+  completedAt?: Date;
 }
 
 export type LeakTag =

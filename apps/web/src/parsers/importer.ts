@@ -3,6 +3,7 @@ import { getRepository } from '@/db/repository';
 import type { ParseRequest, ParseResponse } from './parse.worker';
 import type { ParseResult } from './types';
 import { parseText } from './registry';
+import { track } from '@/infrastructure/usage';
 
 let worker: Worker | undefined;
 let seq = 0;
@@ -81,17 +82,22 @@ export async function importText(name: string, text: string, override?: Site): P
     return { session, result, added: 0, duplicates: 0 };
   }
   const { added, duplicates } = await getRepository().saveSession(session, hands);
+  track('HAND_IMPORT', { meta: { hands: added, site: result.site } });
   return { session, result, added, duplicates };
 }
 
 /** Read File objects (from drop / picker / directory) and import each. */
-export async function importFiles(files: File[], override?: Site): Promise<ImportSummary[]> {
+export async function importFiles(files: File[], override?: Site, name?: string): Promise<ImportSummary[]> {
   const out: ImportSummary[] = [];
   const textFiles = files.filter((f) => /\.txt$/i.test(f.name) || f.type.startsWith('text/'));
-  for (const f of textFiles) {
+  for (const [index, f] of textFiles.entries()) {
     const text = await f.text();
     if (!text.trim()) continue;
-    out.push(await importText(f.name, text, override));
+    // A chosen name wins over the file name; with several files it is numbered
+    // so the sessions stay apart in the library.
+    const chosen = name?.trim();
+    const label = chosen ? (textFiles.length > 1 ? `${chosen} (${index + 1})` : chosen) : f.name;
+    out.push(await importText(label, text, override));
   }
   return out;
 }

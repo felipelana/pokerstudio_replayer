@@ -44,6 +44,13 @@ export function LibraryPage() {
     }
   };
 
+  const toggleStatus = async (session: Session) => {
+    await getRepository().saveSessionProgress(session.id, {
+      status: session.status === 'completed' ? 'in-progress' : 'completed',
+    });
+    await refresh();
+  };
+
   const remove = async (s: Session) => {
     if (window.confirm(t('library.confirmDelete', { name: s.name }))) {
       await getRepository().deleteSession(s.id);
@@ -150,6 +157,7 @@ export function LibraryPage() {
                   <th className="px-4 py-2">{t('library.colName')}</th>
                   <th className="px-4 py-2">{t('library.colSite')}</th>
                   <th className="px-4 py-2 text-right">{t('library.colHands')}</th>
+                  <th className="px-4 py-2">{t('library.colStatus')}</th>
                   <th className="px-4 py-2">{t('library.colDate')}</th>
                   <th className="px-4 py-2">{t('library.colPlayers')}</th>
                   <th className="px-4 py-2" />
@@ -170,6 +178,19 @@ export function LibraryPage() {
                     </td>
                     <td className="px-4 py-2">{siteName(s.site)}</td>
                     <td className="px-4 py-2 text-right tabular-nums">{s.handCount}</td>
+                    <td className="whitespace-nowrap px-4 py-2">
+                      {s.status === 'completed' ? (
+                        <span className="chip-tag" style={{ color: 'var(--result-won)', borderColor: 'var(--result-won)' }}>
+                          {t('library.statusDone')}
+                        </span>
+                      ) : (
+                        <span className="chip-tag" style={{ color: 'var(--text-muted)' }}>
+                          {s.lastHandIndex
+                            ? t('library.statusAt', { current: s.lastHandIndex + 1, total: s.handCount })
+                            : t('library.statusOpen')}
+                        </span>
+                      )}
+                    </td>
                     <td className="px-4 py-2 whitespace-nowrap">{df.dateTime(s.firstHandAt ?? s.importedAt)}</td>
                     <td className="max-w-[320px] truncate px-4 py-2" title={s.players.join(', ')}>
                       {s.players.slice(0, 6).join(', ')}
@@ -181,6 +202,9 @@ export function LibraryPage() {
                       </button>
                       <button type="button" className="btn btn-ghost" onClick={() => void rename(s)}>
                         {t('common.rename')}
+                      </button>
+                      <button type="button" className="btn btn-ghost" onClick={() => void toggleStatus(s)}>
+                        {s.status === 'completed' ? t('library.markOpen') : t('library.markDone')}
                       </button>
                       <button type="button" className="btn btn-ghost" onClick={() => void remove(s)}>
                         {t('common.delete')}

@@ -19,7 +19,7 @@ export const DEFAULT_TAGS: UserTag[] = [
   { id: 'missed-value', label: 'Missed value', color: '#aacc00' },
 ];
 import { skinApi } from '@/infrastructure/http/accountApi';
-import { BUILT_IN_SKINS, SKIN_DEFAULT_DARK } from '@/skins/presets';
+import { BUILT_IN_SKINS, SKIN_DEFAULT_DARK, SKIN_POKERSTUDIO } from '@/skins/presets';
 import { getRepository } from '@/db/repository';
 
 export type RendererChoice = 'auto' | 'three' | 'svg';
@@ -49,6 +49,8 @@ export interface Settings {
   zoomTable: number;
   zoomCards: number;
   zoomChips: number;
+  /** Gap between the board cards, as a share of a card width. */
+  boardGap: number;
   /** Print the denomination on each chip (R22). */
   chipDenominations: boolean;
   /** The user's own leak tags (L1). */
@@ -67,7 +69,7 @@ export interface Settings {
 export const DEFAULT_SETTINGS: Settings = {
   language: 'en',
   theme: 'dark',
-  skinId: SKIN_DEFAULT_DARK.id,
+  skinId: SKIN_POKERSTUDIO.id,
   chipDisplay: 'chips',
   showKnownHands: true,
   colorHintResults: true,
@@ -83,6 +85,7 @@ export const DEFAULT_SETTINGS: Settings = {
   zoomTable: 1,
   zoomCards: 1,
   zoomChips: 1,
+  boardGap: 0.18,
   chipDenominations: true,
   leakTags: DEFAULT_TAGS,
   rotateToHero: true,

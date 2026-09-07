@@ -371,9 +371,9 @@ function Table({ skin, neon, feltLogo }: { skin: Skin; neon: boolean; feltLogo?:
               depthWrite={false}
             />
           </mesh>
-          <group scale={[RX * 0.9, rz * 0.9, 1]} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.02, 0]}>
+          <group scale={[RX * 0.9, rz * 0.9, 1]} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.004, 0]}>
             {/* Below every card: the felt glow must never wash over the board. */}
-            <mesh renderOrder={0}>
+            <mesh renderOrder={-1}>
               <ringGeometry args={[0.982, 1, 192]} />
               <meshBasicMaterial
                 color={neonColor}
@@ -548,14 +548,15 @@ interface SceneLabels {
 }
 
 function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTMLImageElement }) {
-  const { hand, frame, skin, slots, heroName, positions, showKnownHands, hideHeroCards, lookupUrlFor, holeLayout, zoomCards = 1, zoomChips = 1, chipDenominations = true, fmt, exact, onSeatClick, interactive = true, animations, labels, feltLogo } = props;
+  const { hand, frame, skin, slots, heroName, positions, showKnownHands, hideHeroCards, lookupUrlFor, holeLayout, zoomCards = 1, zoomChips = 1, boardGapRatio = 0.18, chipDenominations = true, fmt, exact, onSeatClick, interactive = true, animations, labels, feltLogo } = props;
   const rz = RX * skin.table.aspect;
   const railW = skin.table.railWidth * RX * 2;
   const isCash = hand.currency !== 'chips';
   const bySeat = new Map(frame.players.map((p) => [p.seat, p]));
   const winners = new Set(frame.kind === 'end' ? frame.players.filter((p) => p.collected > 0).map((p) => p.name) : []);
 
-  const boardGap = 0.11;
+  // Chosen in the quick controls, as a share of a card width.
+  const boardGap = CARD_WIDTH * boardGapRatio;
   // Centre on the cards actually dealt, so the flop and turn are never
   // left-aligned inside an empty five-card row.
   const boardCount = Math.max(1, frame.board.length);
@@ -597,7 +598,7 @@ function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTM
       {/* Board */}
       {frame.board.map((c, i) => (
         <Appear key={c} enabled={animations} delay={i * 40}>
-          <CardMesh card={c} deck={skin.deck} position={[boardX0 + i * (CARD_WIDTH + boardGap), 0.01, 0]} scale={zoomCards} />
+          <CardMesh card={c} deck={skin.deck} position={[boardX0 + i * (CARD_WIDTH + boardGap), 0.05, 0]} scale={zoomCards} />
         </Appear>
       ))}
 

@@ -115,6 +115,7 @@ export function SvgTableRenderer({
   lookupUrlFor,
   holeLayout,
   zoomCards = 1,
+  boardGapRatio = 0.18,
   zoomChips = 1,
   chipDenominations = true,
   fmt,
@@ -140,7 +141,8 @@ export function SvgTableRenderer({
   const bySeat = new Map(frame.players.map((p) => [p.seat, p]));
   const winners = new Set(frame.kind === 'end' ? frame.players.filter((p) => p.collected > 0).map((p) => p.name) : []);
   const boardW = 64;
-  const boardGap = 9;
+  // Chosen in the quick controls, as a share of a card width.
+  const boardGap = boardW * boardGapRatio;
   // Centre on the cards actually dealt (flop = 3, turn = 4, river = 5).
   const boardCount = Math.max(1, frame.board.length);
   const boardX0 = CX - (boardCount * boardW + (boardCount - 1) * boardGap) / 2;

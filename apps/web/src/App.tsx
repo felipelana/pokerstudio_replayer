@@ -23,6 +23,7 @@ import { SettingsPage } from '@/ui/settings/SettingsPage';
 import { AdminPage } from '@/ui/admin/AdminPage';
 import { AdmStudioPage } from '@/ui/admstudio/AdmStudioPage';
 import i18n from '@/i18n';
+import { track } from '@/infrastructure/usage';
 
 export function App() {
   const { t } = useTranslation();
@@ -36,6 +37,7 @@ export function App() {
   useEffect(() => {
     void loadSettings();
     void loadSkins();
+    track('APP_OPEN');
   }, [loadSettings, loadSkins]);
 
   // Persisted language wins over browser detection once settings are loaded.

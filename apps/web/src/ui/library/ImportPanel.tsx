@@ -17,6 +17,7 @@ export function ImportPanel({ onImported, compact }: Props) {
   const [busy, setBusy] = useState(false);
   const [paste, setPaste] = useState('');
   const [override, setOverride] = useState<Site | ''>('');
+  const [name, setName] = useState('');
   const [messages, setMessages] = useState<{ kind: 'ok' | 'warn' | 'error'; text: string }[]>([]);
   const fileInput = useRef<HTMLInputElement>(null);
   const dirInput = useRef<HTMLInputElement>(null);
@@ -60,14 +61,15 @@ export function ImportPanel({ onImported, compact }: Props) {
       if (!files.length) return;
       setBusy(true);
       try {
-        report(await importFiles(files, override || undefined));
+        report(await importFiles(files, override || undefined, name));
+        setName('');
       } catch (e) {
         setMessages([{ kind: 'error', text: String(e) }]);
       } finally {
         setBusy(false);
       }
     },
-    [override, report],
+    [override, name, report],
   );
 
   const onDrop = async (e: DragEvent) => {
@@ -81,9 +83,10 @@ export function ImportPanel({ onImported, compact }: Props) {
     if (!paste.trim()) return;
     setBusy(true);
     try {
-      const name = t('library.pasteName', { date: df.dateTime(new Date()) });
-      report([await importText(name, paste, override || undefined)]);
+      const label = name.trim() || t('library.pasteName', { date: df.dateTime(new Date()) });
+      report([await importText(label, paste, override || undefined)]);
       setPaste('');
+      setName('');
     } finally {
       setBusy(false);
     }
@@ -151,6 +154,16 @@ export function ImportPanel({ onImported, compact }: Props) {
             }}
           />
         </div>
+        <label className="flex flex-col gap-1 text-xs" style={{ color: 'var(--text-muted)' }}>
+          {t('library.nameLabel')}
+          <input
+            className="input"
+            value={name}
+            placeholder={t('library.namePlaceholder')}
+            maxLength={80}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </label>
         <label className="flex items-center gap-2 text-xs" style={{ color: 'var(--text-muted)' }}>
           {t('library.siteOverride')}
           <select className="input !w-auto !py-1" value={override} onChange={(e) => setOverride(e.target.value as Site | '')}>
@@ -165,10 +178,8 @@ export function ImportPanel({ onImported, compact }: Props) {
       </div>
 
       <div className="flex flex-1 flex-col gap-2">
-        <label className="label" htmlFor="paste-area">
-          {t('library.pasteLabel')}
-        </label>
         <textarea
+          aria-label={t('library.pasteLabel')}
           id="paste-area"
           className={`input flex-1 font-mono text-xs ${compact ? 'min-h-[120px]' : 'min-h-[200px]'}`}
           placeholder={t('library.pastePlaceholder')}

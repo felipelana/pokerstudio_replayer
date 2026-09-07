@@ -101,7 +101,15 @@
     "sampleTitle": "ハンド履歴がまだありませんか？",
     "loadSample": "デモサンプルを読み込む",
     "siteOverride": "サイトを指定",
-    "autoDetect": "自動検出"
+    "autoDetect": "自動検出",
+    "nameLabel": "このセッションの名前",
+    "namePlaceholder": "任意 — 未入力ならファイル名を使います",
+    "colStatus": "状態",
+    "statusDone": "完了",
+    "statusOpen": "未着手",
+    "statusAt": "{{total}} 中 {{current}} ハンド目",
+    "markDone": "完了にする",
+    "markOpen": "再開する"
   },
   "sidebar": {
     "loadHands": "ハンド履歴を読み込む",
@@ -582,13 +590,7 @@
     "currentPassword": "現在のパスワード",
     "newPassword": "新しいパスワード",
     "passwordChanged": "パスワードを変更しました。",
-    "yourData": "あなたのデータ",
-    "yourDataHint": "このアカウントの内容をすべてダウンロードするか、アカウントを完全に閉じます。",
-    "exportData": "データをダウンロード",
-    "deleteAccount": "アカウントを閉じる",
-    "deleteConfirm": "はい、閉じます",
-    "deleteHint": "閉じると名前・電話番号・パスワードが削除されます。この端末のハンドは残ります。",
-    "cancel": "キャンセル"
+    "security": "セキュリティ"
   },
   "admstudio": {
     "title": "管理",
@@ -674,5 +676,11 @@
     "empty": "アカウントにはまだ何も保存されていません。",
     "noHistory": "このレビューはハンドヒストリーなしで保存されているため、ここでは再構築できません。",
     "confirmDelete": "「{{title}}」をアカウントから削除しますか？ローカルのコピーは残ります。"
+  },
+  "replayer": {
+    "resumeQuestion": "{{total}} 中 {{current}} ハンド目で止まっています。そこから続けますか？",
+    "resume": "続ける",
+    "startOver": "最初から",
+    "boardGap": "ボードの間隔"
   }
 }

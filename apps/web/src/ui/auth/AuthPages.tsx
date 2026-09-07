@@ -7,8 +7,10 @@ import { ApiError } from '@/infrastructure/http/client';
 import { useAuthStore } from '@/state/authStore';
 import { useAppStore } from '@/state/store';
 import brandMark from '@/assets/pokerstudio-mark.png';
+import { IconDevice, IconLock, IconLogout, IconPalette, IconShare, IconUser } from '@/ui/icons';
 import { GoogleButton, OrDivider } from './GoogleButton';
-import { DangerZone, PasswordSection, ProfileEditor } from './AccountSettings';
+import { LanguageSelector } from '@/ui/LanguageSelector';
+import { PasswordSection, ProfileEditor } from './AccountSettings';
 
 /** Shell shared by every authentication screen. */
 function AuthShell({ title, subtitle, children }: { title: string; subtitle?: string; children: React.ReactNode }) {
@@ -27,6 +29,7 @@ function AuthShell({ title, subtitle, children }: { title: string; subtitle?: st
             PokerStudio <span style={{ color: 'var(--accent)' }}>Replayer</span>
           </span>
           <span className="auth-brand-rule" aria-hidden="true" />
+          <LanguageSelector />
         </div>
         <div className="panel p-6">
           <h1 className="text-xl font-semibold">{title}</h1>
@@ -525,6 +528,7 @@ export function AccountPage() {
   const [sessions, setSessions] = useState<Awaited<ReturnType<typeof accountApi.sessions>>>([]);
   const [referral, setReferral] = useState<Awaited<ReturnType<typeof accountApi.referrals>>>();
   const [copied, setCopied] = useState(false);
+  const [tab, setTab] = useState<'profile' | 'security' | 'skins' | 'referral' | 'sessions'>('profile');
 
   useEffect(() => {
     void accountApi.sessions().then(setSessions).catch(() => undefined);
@@ -533,114 +537,148 @@ export function AccountPage() {
 
   if (!user) return null;
 
+  const tabs = [
+    { id: 'profile' as const, label: t('account.profile'), icon: <IconUser size={14} /> },
+    { id: 'security' as const, label: t('account.security'), icon: <IconLock size={14} /> },
+    { id: 'skins' as const, label: t('account.skins'), icon: <IconPalette size={14} /> },
+    { id: 'referral' as const, label: t('account.referral'), icon: <IconShare size={14} /> },
+    { id: 'sessions' as const, label: t('account.sessions'), icon: <IconDevice size={14} /> },
+  ];
+
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4 overflow-auto p-6">
       <h1 className="text-2xl font-semibold">{t('account.title')}</h1>
 
-      <section className="panel p-4">
-        <h2 className="mb-2 font-semibold">{t('account.profile')}</h2>
-        <dl className="grid grid-cols-2 gap-y-1 text-sm">
-          <dt style={{ color: 'var(--text-muted)' }}>{t('auth.email')}</dt>
-          <dd>
-            {user.email}{' '}
-            {!user.emailVerified && (
-              <span className="chip-tag" style={{ color: 'var(--result-break-even)' }}>
-                {t('account.unverified')}
-              </span>
-            )}
-          </dd>
-          <dt style={{ color: 'var(--text-muted)' }}>{t('account.plan')}</dt>
-          <dd>{user.plan}</dd>
-        </dl>
-        <ProfileEditor user={user} />
-        <button type="button" className="btn mt-3" onClick={() => void logout()}>
-          {t('account.signOut')}
-        </button>
-      </section>
+      <nav className="flex flex-wrap gap-1" role="tablist">
+        {tabs.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            role="tab"
+            aria-selected={tab === item.id}
+            className={tab === item.id ? 'btn btn-primary' : 'btn btn-ghost'}
+            onClick={() => setTab(item.id)}
+          >
+            {item.icon}
+            {item.label}
+          </button>
+        ))}
+      </nav>
 
-      <ConnectedAccounts identities={user.identities} />
+      {tab === 'profile' && (
+        <section className="panel p-4">
+          <h2 className="mb-2 font-semibold">{t('account.profile')}</h2>
+          <dl className="grid grid-cols-2 gap-y-1 text-sm">
+            <dt style={{ color: 'var(--text-muted)' }}>{t('auth.email')}</dt>
+            <dd>
+              {user.email}{' '}
+              {!user.emailVerified && (
+                <span className="chip-tag" style={{ color: 'var(--result-break-even)' }}>
+                  {t('account.unverified')}
+                </span>
+              )}
+            </dd>
+            <dt style={{ color: 'var(--text-muted)' }}>{t('account.plan')}</dt>
+            <dd>{user.plan}</dd>
+          </dl>
+          <ProfileEditor user={user} />
+        </section>
+      )}
 
-      <PasswordSection hasPassword={user.identities.includes('PASSWORD')} />
+      {tab === 'security' && (
+        <>
+          <ConnectedAccounts identities={user.identities} />
+          <PasswordSection hasPassword={user.identities.includes('PASSWORD')} />
+        </>
+      )}
 
-      <section className="panel p-4">
-        <h2 className="mb-2 font-semibold">{t('account.skins')}</h2>
-        <p className="mb-2 text-sm" style={{ color: 'var(--text-muted)' }}>
-          {t('account.skinsHint')}
-        </p>
-        <ul className="text-sm">
-          {skins
-            .filter((s) => !s.isBuiltIn)
-            .map((s) => (
-              <li key={s.id} className="border-t py-1" style={{ borderColor: 'var(--border)' }}>
-                {s.name}
-              </li>
-            ))}
-        </ul>
-      </section>
+      {tab === 'skins' && (
+        <section className="panel p-4">
+          <h2 className="mb-2 font-semibold">{t('account.skins')}</h2>
+          <p className="mb-2 text-sm" style={{ color: 'var(--text-muted)' }}>
+            {t('account.skinsHint')}
+          </p>
+          <ul className="text-sm">
+            {skins
+              .filter((s) => !s.isBuiltIn)
+              .map((s) => (
+                <li key={s.id} className="border-t py-1" style={{ borderColor: 'var(--border)' }}>
+                  {s.name}
+                </li>
+              ))}
+          </ul>
+        </section>
+      )}
 
-      <section className="panel p-4">
-        <h2 className="mb-2 font-semibold">{t('account.referral')}</h2>
-        {referral && (
-          <>
-            <div className="flex items-center gap-2">
-              <input className="input flex-1 text-xs" readOnly value={referral.link} />
-              <button
-                type="button"
-                className="btn"
-                onClick={() => {
-                  void navigator.clipboard.writeText(referral.link);
-                  setCopied(true);
-                  window.setTimeout(() => setCopied(false), 1500);
-                }}
-              >
-                {copied ? t('common.copied') : t('common.copy')}
-              </button>
-              <button
-                type="button"
-                className="btn"
-                onClick={async () => {
-                  const res = await accountApi.invite({ channel: 'WHATSAPP' });
-                  if (res.whatsappUrl) window.open(res.whatsappUrl, '_blank', 'noopener,noreferrer');
-                }}
-              >
-                WhatsApp
-              </button>
-            </div>
-            <p className="mt-2 text-sm" style={{ color: 'var(--text-muted)' }}>
-              {t('account.referralCount', { count: referral.accepted })}
-            </p>
-          </>
-        )}
-      </section>
-
-      <section className="panel p-4">
-        <h2 className="mb-2 font-semibold">{t('account.sessions')}</h2>
-        <ul className="text-sm">
-          {sessions.map((s) => (
-            <li key={s.id} className="flex items-center gap-2 border-t py-1" style={{ borderColor: 'var(--border)' }}>
-              <span className="flex-1 truncate">
-                {s.ip ?? '—'} · {s.userAgent?.slice(0, 48) ?? '—'}
-              </span>
-              {s.current ? (
-                <span className="chip-tag">{t('account.currentSession')}</span>
-              ) : (
+      {tab === 'referral' && (
+        <section className="panel p-4">
+          <h2 className="mb-2 font-semibold">{t('account.referral')}</h2>
+          {referral && (
+            <>
+              <div className="flex items-center gap-2">
+                <input className="input flex-1 text-xs" readOnly value={referral.link} />
                 <button
                   type="button"
-                  className="btn btn-ghost"
-                  onClick={async () => {
-                    await accountApi.revokeSession(s.id);
-                    setSessions(await accountApi.sessions());
+                  className="btn"
+                  onClick={() => {
+                    void navigator.clipboard.writeText(referral.link);
+                    setCopied(true);
+                    window.setTimeout(() => setCopied(false), 1500);
                   }}
                 >
-                  {t('account.revoke')}
+                  {copied ? t('common.copied') : t('common.copy')}
                 </button>
-              )}
-            </li>
-          ))}
-        </ul>
-      </section>
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={async () => {
+                    const res = await accountApi.invite({ channel: 'WHATSAPP' });
+                    if (res.whatsappUrl) window.open(res.whatsappUrl, '_blank', 'noopener,noreferrer');
+                  }}
+                >
+                  WhatsApp
+                </button>
+              </div>
+              <p className="mt-2 text-sm" style={{ color: 'var(--text-muted)' }}>
+                {t('account.referralCount', { count: referral.accepted })}
+              </p>
+            </>
+          )}
+        </section>
+      )}
 
-      <DangerZone hasPassword={user.identities.includes('PASSWORD')} />
+      {tab === 'sessions' && (
+        <section className="panel p-4">
+          <h2 className="mb-2 font-semibold">{t('account.sessions')}</h2>
+          <ul className="text-sm">
+            {sessions.map((s) => (
+              <li key={s.id} className="flex items-center gap-2 border-t py-1" style={{ borderColor: 'var(--border)' }}>
+                <span className="flex-1 truncate">
+                  {s.ip ?? '—'} · {s.userAgent?.slice(0, 48) ?? '—'}
+                </span>
+                {s.current ? (
+                  <span className="chip-tag">{t('account.currentSession')}</span>
+                ) : (
+                  <button
+                    type="button"
+                    className="btn btn-ghost"
+                    onClick={async () => {
+                      await accountApi.revokeSession(s.id);
+                      setSessions(await accountApi.sessions());
+                    }}
+                  >
+                    {t('account.revoke')}
+                  </button>
+                )}
+              </li>
+            ))}
+          </ul>
+          <button type="button" className="btn mt-3" onClick={() => void logout()}>
+            <IconLogout size={14} />
+            {t('account.signOut')}
+          </button>
+        </section>
+      )}
     </div>
   );
 }

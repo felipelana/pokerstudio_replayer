@@ -101,7 +101,15 @@
     "sampleTitle": "还没有牌局记录？",
     "loadSample": "加载演示样本",
     "siteOverride": "强制指定平台",
-    "autoDetect": "自动检测"
+    "autoDetect": "自动检测",
+    "nameLabel": "本次会话的名称",
+    "namePlaceholder": "可选 — 留空则使用文件名",
+    "colStatus": "状态",
+    "statusDone": "已完成",
+    "statusOpen": "未开始",
+    "statusAt": "第 {{current}} / {{total}} 手",
+    "markDone": "标记为完成",
+    "markOpen": "重新打开"
   },
   "sidebar": {
     "loadHands": "加载牌局记录",
@@ -582,13 +590,7 @@
     "currentPassword": "当前密码",
     "newPassword": "新密码",
     "passwordChanged": "密码已修改。",
-    "yourData": "你的数据",
-    "yourDataHint": "下载该账户保存的全部内容，或永久关闭账户。",
-    "exportData": "下载我的数据",
-    "deleteAccount": "关闭我的账户",
-    "deleteConfirm": "确认关闭",
-    "deleteHint": "关闭后会删除姓名、电话和密码。本机保存的牌局仍然保留。",
-    "cancel": "取消"
+    "security": "安全"
   },
   "admstudio": {
     "title": "管理后台",
@@ -674,5 +676,11 @@
     "empty": "账户中还没有保存任何内容。",
     "noHistory": "该复盘保存时未包含手牌记录，无法在此重建。",
     "confirmDelete": "从账户中移除“{{title}}”？本地副本会保留。"
+  },
+  "replayer": {
+    "resumeQuestion": "你上次停在第 {{current}} / {{total}} 手，要从那里继续吗？",
+    "resume": "继续",
+    "startOver": "从头开始",
+    "boardGap": "公共牌间距"
   }
 }

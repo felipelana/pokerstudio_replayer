@@ -390,7 +390,70 @@ export const SKIN_FLAT: Skin = {
   },
 };
 
+/**
+ * "PokerStudio" — the brand's own black and red, and what a first-time visitor
+ * sees before choosing anything else. Black felt and rail, red neon inside the
+ * table, red halo on the seat to act.
+ */
+export const SKIN_POKERSTUDIO: Skin = {
+  ...SKIN_FLAT,
+  id: 'pokerstudio',
+  name: 'PokerStudio',
+  theme: 'dark',
+  isBuiltIn: true,
+  deck: {
+    ...SKIN_FLAT.deck,
+    suitColors: { s: '#1b1b1f', h: '#e10600', d: '#e10600', c: '#1b1b1f' },
+    cardBg: '#f7f6f4',
+    backColor: '#e10600',
+    backPattern: 'plain',
+    backInk: 'rgba(0, 0, 0, 0.35)',
+    colorMode: 2,
+  },
+  felt: {
+    color: '#141416',
+    textureIntensity: 0.1,
+    vignetteColor: '#000000',
+    vignetteStrength: 0.88,
+    logoOpacity: 0.07,
+  },
+  table: {
+    ...SKIN_FLAT.table,
+    railColor: '#0e0e10',
+    railHighlight: '#2a2a2e',
+    railShine: 0.06,
+    bevel: { width: 0.008, color: 'rgba(225, 6, 0, 0.35)', opacity: 0.85, inset: 0.08 },
+    neonColor: '#e10600',
+    neonIntensity: 0.3,
+  },
+  ui: {
+    bg: '#101013',
+    bgEnd: '#000000',
+    surface: '#161619',
+    surface2: '#1d1d21',
+    text: '#f2f2f4',
+    textMuted: '#8b8b93',
+    accent: '#e10600',
+    border: 'rgba(255,255,255,0.08)',
+  },
+  chips: {
+    ...SKIN_FLAT.chips,
+    dealerButton: '#e10600',
+    dealerButtonInk: '#ffffff',
+  },
+  plates: {
+    ...SKIN_FLAT.plates,
+    bg: '#1a1a1e',
+    activeBorder: '#e10600',
+    heroBorder: '#e10600',
+    allInLabel: '#ff4d45',
+    activeGlow: '#e10600',
+    activeGlowStrength: 0.9,
+  },
+};
+
 export const BUILT_IN_SKINS: Skin[] = [
+  SKIN_POKERSTUDIO,
   SKIN_DEFAULT_DARK,
   SKIN_DEFAULT_LIGHT,
   SKIN_CLASSIC,

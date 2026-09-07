@@ -22,6 +22,8 @@ export interface TableRendererProps {
   holeLayout?: 'spread' | 'overlap';
   /** Independent scales for cards and for chips/bets (R21). */
   zoomCards?: number;
+  /** Gap between board cards, as a share of a card width. */
+  boardGapRatio?: number;
   zoomChips?: number;
   /** Denomination printed on the chips (R22). */
   chipDenominations?: boolean;

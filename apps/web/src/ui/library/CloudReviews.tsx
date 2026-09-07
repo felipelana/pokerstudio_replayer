@@ -62,7 +62,6 @@ export function CloudReviews({ sessions, onImported }: { sessions: Session[]; on
   const df = useDateFormatter();
   const phase = useAuthStore((s) => s.phase);
   const [rows, setRows] = useState<(CloudReviewRow & { _count: { hands: number } })[]>([]);
-  const [quota, setQuota] = useState<{ perDay: number; usedToday: number }>();
   const [busy, setBusy] = useState('');
   const [error, setError] = useState('');
   const [withHistory, setWithHistory] = useState(true);
@@ -72,7 +71,6 @@ export function CloudReviews({ sessions, onImported }: { sessions: Session[]; on
     try {
       const data = await reviewApi.list();
       setRows(data.items);
-      setQuota(data.quota);
       setError('');
     } catch (err) {
       // Offline is not an error here: the library works without the server.
@@ -145,11 +143,6 @@ export function CloudReviews({ sessions, onImported }: { sessions: Session[]; on
     <section className="panel overflow-hidden">
       <header className="flex flex-wrap items-center gap-2 border-b px-4 py-3" style={{ borderColor: 'var(--border)' }}>
         <h2 className="font-semibold">{t('cloud.title')}</h2>
-        {quota && (
-          <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
-            {t('cloud.quota', { used: quota.usedToday, perDay: quota.perDay })}
-          </span>
-        )}
         <div className="flex-1" />
         <label className="checkbox text-xs">
           <input type="checkbox" checked={withHistory} onChange={(e) => setWithHistory(e.target.checked)} />
@@ -167,10 +160,6 @@ export function CloudReviews({ sessions, onImported }: { sessions: Session[]; on
           {busy !== '' && busy === chosen ? t('auth.working') : t('cloud.push')}
         </button>
       </header>
-
-      <p className="px-4 pt-3 text-xs" style={{ color: 'var(--text-muted)' }}>
-        {t('cloud.hint')}
-      </p>
 
       {error && (
         <p className="px-4 py-2 text-sm" role="alert" style={{ color: 'var(--result-lost)' }}>

@@ -101,7 +101,15 @@
     "sampleTitle": "Noch keine Hand-Histories?",
     "loadSample": "Demo-Beispiel laden",
     "siteOverride": "Anbieter erzwingen",
-    "autoDetect": "Automatisch erkennen"
+    "autoDetect": "Automatisch erkennen",
+    "nameLabel": "Name dieser Sitzung",
+    "namePlaceholder": "Optional — sonst gilt der Dateiname",
+    "colStatus": "Status",
+    "statusDone": "abgeschlossen",
+    "statusOpen": "nicht begonnen",
+    "statusAt": "Hand {{current}} von {{total}}",
+    "markDone": "Als erledigt markieren",
+    "markOpen": "Wieder öffnen"
   },
   "sidebar": {
     "loadHands": "Hand-Histories laden",
@@ -582,13 +590,7 @@
     "currentPassword": "Aktuelles Passwort",
     "newPassword": "Neues Passwort",
     "passwordChanged": "Passwort geändert.",
-    "yourData": "Deine Daten",
-    "yourDataHint": "Lade alles herunter, was dieses Konto enthält, oder schließe es endgültig.",
-    "exportData": "Meine Daten herunterladen",
-    "deleteAccount": "Konto schließen",
-    "deleteConfirm": "Ja, schließen",
-    "deleteHint": "Beim Schließen werden Name, Telefon und Passwort gelöscht. Hände auf diesem Gerät bleiben.",
-    "cancel": "Abbrechen"
+    "security": "Sicherheit"
   },
   "admstudio": {
     "title": "Verwaltung",
@@ -674,5 +676,11 @@
     "empty": "Im Konto ist noch nichts gespeichert.",
     "noHistory": "Diese Analyse wurde ohne Handverläufe gespeichert und lässt sich hier nicht wiederherstellen.",
     "confirmDelete": "„{{title}}“ aus dem Konto entfernen? Die lokale Kopie bleibt."
+  },
+  "replayer": {
+    "resumeQuestion": "Du warst bei Hand {{current}} von {{total}}. Dort weitermachen?",
+    "resume": "Weitermachen",
+    "startOver": "Von vorn",
+    "boardGap": "Abstand der Boardkarten"
   }
 }

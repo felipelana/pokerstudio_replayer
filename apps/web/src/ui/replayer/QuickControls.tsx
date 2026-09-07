@@ -87,7 +87,7 @@ export function QuickControls({ hand }: { hand: Hand }) {
               type="button"
               className="text-[10.5px] underline"
               style={{ color: 'var(--text-muted)' }}
-              onClick={() => update({ zoomTable: 1, zoomCards: 1, zoomChips: 1 })}
+              onClick={() => update({ zoomTable: 1, zoomCards: 1, zoomChips: 1, boardGap: 0.18 })}
             >
               {t('common.reset')}
             </button>
@@ -117,6 +117,24 @@ export function QuickControls({ hand }: { hand: Hand }) {
               <span className="w-9 text-right tabular-nums">{Math.round(settings[key] * 100)}%</span>
             </label>
           ))}
+
+          <label className="flex items-center gap-2">
+            <span className="w-[74px] shrink-0" style={{ color: 'var(--text-muted)' }}>
+              {t('replayer.boardGap')}
+            </span>
+            <input
+              type="range"
+              min={0}
+              max={0.6}
+              step={0.02}
+              value={settings.boardGap}
+              onChange={(e) => update({ boardGap: Number(e.target.value) })}
+              className="flex-1"
+              style={{ accentColor: 'var(--accent)' }}
+              aria-label={t('replayer.boardGap')}
+            />
+            <span className="w-9 text-right tabular-nums">{Math.round(settings.boardGap * 100)}%</span>
+          </label>
 
           <label className="checkbox" title={knownVillainCards ? undefined : t('quick.revealDisabled')}>
             <input

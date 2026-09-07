@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useCloudProgress } from './useCloudProgress';
+import { ResumePrompt } from './ResumePrompt';
+import { getRepository } from '@/db/repository';
 import { useTranslation } from 'react-i18next';
 import { buildReplay, quickResult } from '@/engine/replay';
 import { computePositions } from '@/model/positions';
@@ -78,6 +80,16 @@ export function ReplayerPage() {
 
   // Mirrors the position onto the account when this review is also stored there.
   useCloudProgress(sessionId, handIndex, hands.length);
+
+  // And always locally, so "continue where you left off" works offline too.
+  useEffect(() => {
+    if (!sessionId || hands.length === 0 || session?.id !== sessionId) return;
+    void getRepository().saveSessionProgress(sessionId, {
+      lastHandIndex: handIndex,
+      // Reaching the last hand marks the review finished; the library can undo it.
+      ...(handIndex >= hands.length - 1 ? { status: 'completed' as const } : {}),
+    });
+  }, [sessionId, session?.id, handIndex, hands.length]);
   const heroName = useMemo(() => {
     if (!hand) return undefined;
     if (focusPlayer && hand.players.some((p) => p.name === focusPlayer)) return focusPlayer;
@@ -204,7 +216,8 @@ export function ReplayerPage() {
         onOpenReport={() => navigate(`/report/${sessionId}`)}
       />
       <div className="flex min-w-0 flex-1 flex-col">
-        <div className="flex min-h-0 flex-1">
+        <div className="relative flex min-h-0 flex-1">
+          <ResumePrompt session={session} handCount={hands.length} currentIndex={handIndex} onGoTo={goToHand} />
           <TableArea replay={replay} frame={frame} heroName={heroName} onSeatClick={onSeatClick} />
           {reviewOpen ? (
             <ReviewPanel hand={hand} onClose={() => setReviewOpen(false)} />

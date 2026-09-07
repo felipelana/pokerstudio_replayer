@@ -1,6 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import { z } from 'zod';
 import { blockUser, listUsers, revokeUserSessions, unblockUser } from '../../../application/admin/ManageUsers.js';
+import { readEmailSettings, saveEmailSettings, sendTestEmail } from '../../../application/admin/EmailSettings.js';
 import { problem } from '../errors.js';
 import { requireAdmin } from '../context.js';
 import type { AppContainer } from '../../../main-container.js';
@@ -143,6 +144,47 @@ export async function adminRoutes(app: FastifyInstance, container: AppContainer)
       )
       .join('\n');
     return reply.type('text/csv').header('content-disposition', 'attachment; filename="users.csv"').send(header + rows);
+  });
+
+  const emailDeps = { prisma: container.prisma, log: container.log, clock: container.clock, cipher: container.cipher };
+
+  app.get('/admin/email-settings', async (request, reply) => {
+    const admin = requireAdmin(request, reply);
+    if (!admin) return;
+    const result = await readEmailSettings(emailDeps);
+    if (!result.ok) return problem(reply, result.error);
+    return reply.send(result.value);
+  });
+
+  app.post('/admin/email-settings', async (request, reply) => {
+    const admin = requireAdmin(request, reply);
+    if (!admin) return;
+    const settings = z
+      .object({
+        provider: z.enum(['NONE', 'RESEND', 'SMTP']),
+        fromAddress: z.string().email().optional(),
+        fromName: z.string().max(80).optional(),
+        replyTo: z.string().email().optional(),
+        secret: z.string().max(200).optional(),
+        smtpHost: z.string().max(200).optional(),
+        smtpPort: z.coerce.number().int().min(1).max(65535).optional(),
+        smtpUser: z.string().max(200).optional(),
+        smtpSecure: z.boolean().optional(),
+        requireVerification: z.boolean(),
+      })
+      .parse(request.body);
+    const result = await saveEmailSettings(emailDeps, { adminId: admin.id, settings });
+    if (!result.ok) return problem(reply, result.error);
+    return reply.send(result.value);
+  });
+
+  app.post('/admin/email-settings/test', async (request, reply) => {
+    const admin = requireAdmin(request, reply);
+    if (!admin) return;
+    const { to } = z.object({ to: z.string().email() }).parse(request.body);
+    const result = await sendTestEmail(emailDeps, { to });
+    if (!result.ok) return problem(reply, result.error);
+    return reply.send(result.value);
   });
 
   app.get('/admin/email-outbox', async (request, reply) => {
