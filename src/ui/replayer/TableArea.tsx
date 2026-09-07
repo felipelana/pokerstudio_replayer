@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import type { Frame, HandReplay } from '@/engine/replay';
 import { potOddsFor } from '@/engine/replay';
 import { siteName } from '@/model/sites';
+import { IconCompress, IconExpand } from '@/ui/icons';
 import { computePositions } from '@/model/positions';
 import { anchorSeatFor, computeSeatSlots } from '@/renderers/layout';
 import type { TableRendererProps } from '@/renderers/TableRenderer';
@@ -20,6 +21,8 @@ interface Props {
 export function TableArea({ replay, frame, heroName, onSeatClick }: Props) {
   const { t } = useTranslation();
   const settings = useAppStore((s) => s.settings);
+  const fullscreen = useAppStore((s) => s.fullscreen);
+  const setFullscreen = useAppStore((s) => s.setFullscreen);
   const skin = useActiveSkin();
   const { fmt, exact } = useAmountFormatter(replay.hand);
   const df = useDateFormatter();
@@ -78,6 +81,16 @@ export function TableArea({ replay, frame, heroName, onSeatClick }: Props) {
         <span>{gameLine}</span>
         <span>{df.dateTime(hand.timestamp)}</span>
         <div className="flex-1" />
+        <button
+          type="button"
+          className="btn-icon"
+          onClick={() => setFullscreen(!fullscreen)}
+          title={t('footer.fullscreen')}
+          aria-label={t('footer.fullscreen')}
+          aria-pressed={fullscreen}
+        >
+          {fullscreen ? <IconCompress size={15} /> : <IconExpand size={15} />}
+        </button>
         {potOdds && (
           <div className="flex items-center gap-3 rounded-md px-2 py-1 font-medium tabular-nums" style={{ background: 'var(--surface-2)', color: 'var(--text)' }}>
             <span title={t('table.toCall', { amount: fmt(potOdds.toCall) })}>

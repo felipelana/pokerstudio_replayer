@@ -18,6 +18,11 @@ export interface Settings {
   startAtHero: boolean;
   /** Skip ante/blind posting frames while navigating (R6). */
   skipPosts: boolean;
+  /** Left column collapsed / its width in px (R5). */
+  sidebarCollapsed: boolean;
+  sidebarWidth: number;
+  /** Result bar: full, compact or hidden (R17). */
+  timelineMode: 'normal' | 'compact' | 'hidden';
   rotateToHero: boolean;
   animations: boolean;
   /** Playback speed multiplier 0.5..3 */
@@ -39,6 +44,9 @@ export const DEFAULT_SETTINGS: Settings = {
   colorVpipOnly: false,
   startAtHero: true,
   skipPosts: false,
+  sidebarCollapsed: false,
+  sidebarWidth: 268,
+  timelineMode: 'normal',
   rotateToHero: true,
   animations: true,
   speed: 1,
@@ -67,6 +75,11 @@ interface AppState {
   jumpTargets: Partial<Record<JumpTarget, number>>;
   /** Indices of ante/blind posting frames, used by the skip flag. */
   postFrames: number[];
+  /** Hand-list filters and ordering (R14). */
+  filterPositions: string[];
+  filterResult: 'all' | 'won' | 'lost';
+  sortMode: 'default' | 'potDesc' | 'reverse';
+  fullscreen: boolean;
   importModalOpen: boolean;
   helpOpen: boolean;
   reviewOpen: boolean;
@@ -87,6 +100,14 @@ interface AppState {
   jumpTo(target: JumpTarget): void;
   setPlaying(playing: boolean): void;
   setReplayMeta(frameCount: number, jumpTargets: Partial<Record<JumpTarget, number>>, postFrames?: number[]): void;
+  togglePosition(position: string): void;
+  setFilterResult(value: 'all' | 'won' | 'lost'): void;
+  setSortMode(value: 'default' | 'potDesc' | 'reverse'): void;
+  clearFilters(): void;
+  toggleSidebar(): void;
+  setSidebarWidth(width: number): void;
+  setFullscreen(value: boolean): void;
+  cycleTimelineMode(): void;
   setFocus(player: string | undefined): void;
   setImportModalOpen(open: boolean): void;
   setHelpOpen(open: boolean): void;
@@ -107,6 +128,10 @@ export const useAppStore = create<AppState>((set, get) => ({
   frameCount: 0,
   jumpTargets: {},
   postFrames: [],
+  filterPositions: [],
+  filterResult: 'all',
+  sortMode: 'default',
+  fullscreen: false,
   importModalOpen: false,
   helpOpen: false,
   reviewOpen: false,
@@ -199,6 +224,41 @@ export const useAppStore = create<AppState>((set, get) => ({
   jumpTo(target) {
     const idx = get().jumpTargets[target];
     if (idx !== undefined) set({ frameIndex: idx, playing: false });
+  },
+
+  togglePosition(position) {
+    const current = get().filterPositions;
+    set({ filterPositions: current.includes(position) ? current.filter((p) => p !== position) : [...current, position] });
+  },
+
+  setFilterResult(value) {
+    set({ filterResult: value });
+  },
+
+  setSortMode(value) {
+    set({ sortMode: value });
+  },
+
+  clearFilters() {
+    set({ filterPositions: [], filterResult: 'all', sortMode: 'default' });
+  },
+
+  toggleSidebar() {
+    void get().updateSettings({ sidebarCollapsed: !get().settings.sidebarCollapsed });
+  },
+
+  setSidebarWidth(width) {
+    void get().updateSettings({ sidebarWidth: Math.max(190, Math.min(460, Math.round(width))) });
+  },
+
+  setFullscreen(value) {
+    set({ fullscreen: value });
+  },
+
+  cycleTimelineMode() {
+    const order = ['normal', 'compact', 'hidden'] as const;
+    const next = order[(order.indexOf(get().settings.timelineMode) + 1) % order.length];
+    void get().updateSettings({ timelineMode: next });
   },
 
   setPlaying(playing) {

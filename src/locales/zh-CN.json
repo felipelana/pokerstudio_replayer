@@ -120,7 +120,20 @@
     "randomHand": "随机牌局",
     "fileHero": "文件中的主角（Dealt to）",
     "skipPosts": "直接跳到主角行动",
-    "skipPostsHint": "不逐步播放前注和盲注"
+    "skipPostsHint": "不逐步播放前注和盲注",
+    "sort": "排序",
+    "sortDefault": "文件顺序",
+    "sortPot": "赢得最大底池",
+    "sortReverse": "从最后一手开始",
+    "moreFilters": "更多筛选",
+    "display": "显示",
+    "resultAll": "全部",
+    "resultWon": "赢",
+    "resultLost": "输",
+    "clearFilters": "全部清除",
+    "collapse": "收起列表",
+    "expand": "展开列表",
+    "resize": "调整宽度"
   },
   "table": {
     "pot": "底池",
@@ -159,7 +172,9 @@
     "speed": "速度",
     "timeline": "牌局时间线",
     "frame": "{{current}} / {{total}}",
-    "vpip": "P"
+    "vpip": "P",
+    "timelineMode": "结果条大小",
+    "fullscreen": "全屏"
   },
   "streets": {
     "preflop": "翻前",

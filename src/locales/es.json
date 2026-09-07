@@ -120,7 +120,20 @@
     "randomHand": "Mano aleatoria",
     "fileHero": "Héroe del archivo (Dealt to)",
     "skipPosts": "Ir directo a la acción del héroe",
-    "skipPostsHint": "No recorrer las antes y ciegas paso a paso"
+    "skipPostsHint": "No recorrer las antes y ciegas paso a paso",
+    "sort": "Ordenar",
+    "sortDefault": "Orden del archivo",
+    "sortPot": "Mayor bote ganado",
+    "sortReverse": "De la última a la primera",
+    "moreFilters": "Más filtros",
+    "display": "Visualización",
+    "resultAll": "Todas",
+    "resultWon": "Ganadas",
+    "resultLost": "Perdidas",
+    "clearFilters": "Limpiar todo",
+    "collapse": "Contraer la lista",
+    "expand": "Expandir la lista",
+    "resize": "Redimensionar la lista"
   },
   "table": {
     "pot": "Bote",
@@ -159,7 +172,9 @@
     "speed": "Velocidad",
     "timeline": "Línea de tiempo de manos",
     "frame": "{{current}} / {{total}}",
-    "vpip": "P"
+    "vpip": "P",
+    "timelineMode": "Tamaño de la barra de resultados",
+    "fullscreen": "Pantalla completa"
   },
   "streets": {
     "preflop": "Preflop",

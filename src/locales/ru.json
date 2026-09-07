@@ -126,7 +126,20 @@
     "randomHand": "Случайная раздача",
     "fileHero": "Герой из файла (Dealt to)",
     "skipPosts": "Сразу к действию героя",
-    "skipPostsHint": "Не проходить анте и блайнды по шагам"
+    "skipPostsHint": "Не проходить анте и блайнды по шагам",
+    "sort": "Сортировка",
+    "sortDefault": "Порядок файла",
+    "sortPot": "Самый большой выигранный банк",
+    "sortReverse": "С последней раздачи",
+    "moreFilters": "Ещё фильтры",
+    "display": "Отображение",
+    "resultAll": "Все",
+    "resultWon": "Выигранные",
+    "resultLost": "Проигранные",
+    "clearFilters": "Очистить всё",
+    "collapse": "Свернуть список",
+    "expand": "Развернуть список",
+    "resize": "Изменить ширину"
   },
   "table": {
     "pot": "Банк",
@@ -165,7 +178,9 @@
     "speed": "Скорость",
     "timeline": "Лента раздач",
     "frame": "{{current}} / {{total}}",
-    "vpip": "P"
+    "vpip": "P",
+    "timelineMode": "Размер полосы результатов",
+    "fullscreen": "Полный экран"
   },
   "streets": {
     "preflop": "Префлоп",

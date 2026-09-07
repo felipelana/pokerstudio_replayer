@@ -157,6 +157,18 @@ export const IconEye = (p: Props) => (
   </Svg>
 );
 
+export const IconExpand = (p: Props) => (
+  <Svg {...p}>
+    <path d="M9 4H4v5M15 4h5v5M15 20h5v-5M9 20H4v-5" />
+  </Svg>
+);
+
+export const IconCompress = (p: Props) => (
+  <Svg {...p}>
+    <path d="M4 9h5V4M20 9h-5V4M20 15h-5v5M4 15h5v5" />
+  </Svg>
+);
+
 export const IconNeon = (p: Props) => (
   <Svg {...p}>
     <ellipse cx="12" cy="12" rx="9" ry="6" />

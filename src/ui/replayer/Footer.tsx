@@ -9,6 +9,8 @@ import type { HandRow } from './Sidebar';
 interface Props {
   replay: HandReplay;
   rows: HandRow[];
+  /** Indices into `rows`, filtered and ordered by the page (R14). */
+  visible: number[];
   currentIndex: number;
   fmt: (v: number) => string;
   onSelectHand(index: number): void;
@@ -22,7 +24,7 @@ const JUMPS: { target: JumpTarget; label: string; key: string }[] = [
   { target: 'river', label: 'footer.river', key: '5' },
 ];
 
-export function Footer({ replay, rows, currentIndex, fmt, onSelectHand }: Props) {
+export function Footer({ replay, rows, visible, currentIndex, fmt, onSelectHand }: Props) {
   const { t } = useTranslation();
   const frameIndex = useAppStore((s) => s.frameIndex);
   const playing = useAppStore((s) => s.playing);
@@ -34,6 +36,8 @@ export function Footer({ replay, rows, currentIndex, fmt, onSelectHand }: Props)
   const jumpTargets = useAppStore((s) => s.jumpTargets);
   const speed = useAppStore((s) => s.settings.speed);
   const hideResults = useAppStore((s) => s.settings.hideResults);
+  const timelineMode = useAppStore((s) => s.settings.timelineMode);
+  const cycleTimelineMode = useAppStore((s) => s.cycleTimelineMode);
   const updateSettings = useAppStore((s) => s.updateSettings);
   const logRef = useRef<HTMLOListElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
@@ -111,6 +115,16 @@ export function Footer({ replay, rows, currentIndex, fmt, onSelectHand }: Props)
               {t('footer.frame', { current: frameIndex + 1, total: replay.frames.length })}
             </span>
             <div className="flex-1" />
+            {/* Result bar: normal → compact → hidden (R17). */}
+            <button
+              type="button"
+              className="btn-icon !px-1.5 !py-1 text-[11px]"
+              onClick={cycleTimelineMode}
+              title={t('footer.timelineMode')}
+              aria-label={t('footer.timelineMode')}
+            >
+              {timelineMode === 'normal' ? '▤' : timelineMode === 'compact' ? '▬' : '▭'}
+            </button>
             <label className="flex items-center gap-1 text-xs" title={t('footer.speed')}>
               <span style={{ color: 'var(--text-muted)' }}>{t('footer.speed')}</span>
               <select className="input !w-auto !py-0.5" value={speed} onChange={(e) => updateSettings({ speed: Number(e.target.value) })}>
@@ -133,9 +147,18 @@ export function Footer({ replay, rows, currentIndex, fmt, onSelectHand }: Props)
           />
         </div>
       </div>
-      <div ref={timelineRef} className="flex h-[30px] shrink-0 items-end gap-[3px] overflow-x-auto overflow-y-hidden" aria-label={t('footer.timeline')} role="listbox">
-        {/* Exactly one square per imported hand — no level separators (R11). */}
-        {rows.map((r, i) => (
+      {timelineMode !== 'hidden' && (
+      <div
+        ref={timelineRef}
+        className="flex shrink-0 items-end gap-[3px] overflow-x-auto overflow-y-hidden"
+        style={{ height: timelineMode === 'compact' ? 18 : 30 }}
+        aria-label={t('footer.timeline')}
+        role="listbox"
+      >
+        {/* Exactly one square per hand in the visible set — no level separators (R11/R14). */}
+        {visible.map((i) => rows[i]).map((r, vi) => {
+          const i = visible[vi];
+          return (
           <button
             key={r.hand.id}
             type="button"
@@ -144,17 +167,21 @@ export function Footer({ replay, rows, currentIndex, fmt, onSelectHand }: Props)
             data-index={i}
             onClick={() => onSelectHand(i)}
             title={`#${i + 1} · ${r.hand.handNumber}`}
-            className={`flex h-[22px] w-[18px] shrink-0 items-center justify-center rounded-[4px] text-[10px] font-bold leading-none text-white ${r.meta.result && !hideResults ? `result-${r.meta.result}` : ''}`}
+            className={`flex shrink-0 items-center justify-center rounded-[4px] text-[10px] font-bold leading-none text-white ${r.meta.result && !hideResults ? `result-${r.meta.result}` : ''}`}
             style={{
+              height: timelineMode === 'compact' ? 12 : 22,
+              width: timelineMode === 'compact' ? 10 : 18,
               background: r.meta.result && !hideResults ? undefined : 'color-mix(in srgb, var(--text) 15%, transparent)',
               outline: i === currentIndex ? '2px solid var(--accent)' : undefined,
               outlineOffset: 1,
             }}
           >
-            {r.meta.vpip ? t('footer.vpip') : ''}
+            {timelineMode === 'compact' ? '' : r.meta.vpip ? t('footer.vpip') : ''}
           </button>
-        ))}
+          );
+        })}
       </div>
+      )}
     </footer>
   );
 }

@@ -11,7 +11,8 @@ function isTypingTarget(el: EventTarget | null): boolean {
 /**
  * Global replayer shortcuts. Suspended while an input has focus.
  * → next · ← prev · ↑ prev hand · ↓ next hand · Home/End · Space play ·
- * 1..5 streets · B chips/BB · T theme · C skin · S show known · ? help
+ * 1..5 streets · B chips/BB · T theme · C skin · S show known · ? help ·
+ * F fullscreen · [ collapse the hand list
  */
 export function useReplayerKeyboard(enabled: boolean, onHandChange: (delta: number) => void) {
   useEffect(() => {
@@ -38,6 +39,15 @@ export function useReplayerKeyboard(enabled: boolean, onHandChange: (delta: numb
         case 'ArrowDown':
           e.preventDefault();
           onHandChange(1);
+          break;
+        case 'f':
+        case 'F':
+          e.preventDefault();
+          s.setFullscreen(!s.fullscreen);
+          break;
+        case '[':
+          e.preventDefault();
+          s.toggleSidebar();
           break;
         case 'Home':
           e.preventDefault();

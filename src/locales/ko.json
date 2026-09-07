@@ -120,7 +120,20 @@
     "randomHand": "무작위 핸드",
     "fileHero": "파일의 히어로 (Dealt to)",
     "skipPosts": "히어로 액션으로 바로 이동",
-    "skipPostsHint": "앤티와 블라인드 포스팅을 단계별로 보지 않음"
+    "skipPostsHint": "앤티와 블라인드 포스팅을 단계별로 보지 않음",
+    "sort": "정렬",
+    "sortDefault": "파일 순서",
+    "sortPot": "획득 팟 큰 순",
+    "sortReverse": "최신순",
+    "moreFilters": "추가 필터",
+    "display": "표시",
+    "resultAll": "전체",
+    "resultWon": "승",
+    "resultLost": "패",
+    "clearFilters": "모두 지우기",
+    "collapse": "목록 접기",
+    "expand": "목록 펼치기",
+    "resize": "너비 조절"
   },
   "table": {
     "pot": "팟",
@@ -159,7 +172,9 @@
     "speed": "속도",
     "timeline": "핸드 타임라인",
     "frame": "{{current}} / {{total}}",
-    "vpip": "P"
+    "vpip": "P",
+    "timelineMode": "결과 바 크기",
+    "fullscreen": "전체 화면"
   },
   "streets": {
     "preflop": "프리플랍",

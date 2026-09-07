@@ -120,7 +120,20 @@
     "randomHand": "ランダムなハンド",
     "fileHero": "ファイルのヒーロー（Dealt to）",
     "skipPosts": "ヒーローのアクションへ直行",
-    "skipPostsHint": "アンティとブラインドの投入を1手ずつ表示しない"
+    "skipPostsHint": "アンティとブラインドの投入を1手ずつ表示しない",
+    "sort": "並べ替え",
+    "sortDefault": "ファイル順",
+    "sortPot": "獲得ポットが大きい順",
+    "sortReverse": "新しい順",
+    "moreFilters": "その他の絞り込み",
+    "display": "表示",
+    "resultAll": "すべて",
+    "resultWon": "勝ち",
+    "resultLost": "負け",
+    "clearFilters": "すべて解除",
+    "collapse": "リストを折りたたむ",
+    "expand": "リストを展開",
+    "resize": "幅を変更"
   },
   "table": {
     "pot": "ポット",
@@ -159,7 +172,9 @@
     "speed": "速度",
     "timeline": "ハンドのタイムライン",
     "frame": "{{current}} / {{total}}",
-    "vpip": "P"
+    "vpip": "P",
+    "timelineMode": "結果バーのサイズ",
+    "fullscreen": "全画面"
   },
   "streets": {
     "preflop": "プリフロップ",

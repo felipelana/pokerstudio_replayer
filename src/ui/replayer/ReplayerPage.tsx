@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { buildReplay, quickResult } from '@/engine/replay';
@@ -35,6 +35,39 @@ export function ReplayerPage() {
   const reviewOpen = useAppStore((s) => s.reviewOpen);
   const setReviewOpen = useAppStore((s) => s.setReviewOpen);
   const skin = useActiveSkin();
+  const fullscreen = useAppStore((s) => s.fullscreen);
+  const setFullscreen = useAppStore((s) => s.setFullscreen);
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  // Fullscreen (R17): the browser API and our own state are kept in sync, so
+  // leaving with Esc restores the layout too.
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el) return;
+    if (fullscreen && !document.fullscreenElement) void el.requestFullscreen?.().catch(() => undefined);
+    if (!fullscreen && document.fullscreenElement) void document.exitFullscreen?.().catch(() => undefined);
+  }, [fullscreen]);
+
+  const collapsedBeforeFullscreen = useRef<boolean | undefined>(undefined);
+  useEffect(() => {
+    const store = useAppStore.getState();
+    if (fullscreen) {
+      if (collapsedBeforeFullscreen.current === undefined) {
+        collapsedBeforeFullscreen.current = store.settings.sidebarCollapsed;
+        if (!store.settings.sidebarCollapsed) void store.updateSettings({ sidebarCollapsed: true });
+      }
+    } else if (collapsedBeforeFullscreen.current !== undefined) {
+      const previous = collapsedBeforeFullscreen.current;
+      collapsedBeforeFullscreen.current = undefined;
+      if (!previous) void store.updateSettings({ sidebarCollapsed: false });
+    }
+  }, [fullscreen]);
+
+  useEffect(() => {
+    const onChange = () => setFullscreen(!!document.fullscreenElement);
+    document.addEventListener('fullscreenchange', onChange);
+    return () => document.removeEventListener('fullscreenchange', onChange);
+  }, [setFullscreen]);
 
   useEffect(() => {
     if (sessionId && session?.id !== sessionId) void loadSession(sessionId, handId);
@@ -58,6 +91,25 @@ export function ReplayerPage() {
         return { hand: h, meta, position };
       }),
     [hands, focusPlayer],
+  );
+
+  const filterPositions = useAppStore((s) => s.filterPositions);
+  const filterResult = useAppStore((s) => s.filterResult);
+  const sortMode = useAppStore((s) => s.sortMode);
+
+  /** Indices into `rows`, after filtering and ordering (R14). */
+  const visible = useMemo(() => {
+    let out = rows.map((_, i) => i);
+    if (filterPositions.length) out = out.filter((i) => rows[i].position && filterPositions.includes(rows[i].position!));
+    if (filterResult !== 'all') out = out.filter((i) => rows[i].meta.result === (filterResult === 'won' ? 'won' : 'lost'));
+    if (sortMode === 'potDesc') out = [...out].sort((a, b) => (rows[b].meta.net ?? -Infinity) - (rows[a].meta.net ?? -Infinity));
+    else if (sortMode === 'reverse') out = [...out].reverse();
+    return out;
+  }, [rows, filterPositions, filterResult, sortMode]);
+
+  const availablePositions = useMemo(
+    () => Array.from(new Set(rows.map((r) => r.position).filter(Boolean) as string[])),
+    [rows],
   );
 
   const sessionHasHero = useMemo(() => hands.some((h) => !!h.heroName), [hands]);
@@ -133,7 +185,7 @@ export function ReplayerPage() {
   const frame = replay.frames[Math.min(frameIndex, replay.frames.length - 1)];
 
   return (
-    <div className="flex h-full">
+    <div ref={rootRef} className="flex h-full" style={{ background: fullscreen ? 'var(--bg)' : undefined }}>
       <Sidebar
         rows={rows}
         currentIndex={handIndex}
@@ -141,6 +193,8 @@ export function ReplayerPage() {
         heroName={heroName}
         sessionHasHero={sessionHasHero}
         players={players}
+        visible={visible}
+        availablePositions={availablePositions}
         fmt={fmt}
         onSelect={goToHand}
       />
@@ -161,7 +215,7 @@ export function ReplayerPage() {
             </button>
           )}
         </div>
-        <Footer replay={replay} rows={rows} currentIndex={handIndex} fmt={fmt} onSelectHand={goToHand} />
+        <Footer replay={replay} rows={rows} visible={visible} currentIndex={handIndex} fmt={fmt} onSelectHand={goToHand} />
       </div>
       <HelpModal />
       {importModalOpen && (

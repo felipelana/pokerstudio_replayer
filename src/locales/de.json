@@ -120,7 +120,20 @@
     "randomHand": "Zufällige Hand",
     "fileHero": "Hero aus der Datei (Dealt to)",
     "skipPosts": "Direkt zur Hero-Aktion",
-    "skipPostsHint": "Ante- und Blind-Einsätze nicht einzeln durchgehen"
+    "skipPostsHint": "Ante- und Blind-Einsätze nicht einzeln durchgehen",
+    "sort": "Sortieren",
+    "sortDefault": "Dateireihenfolge",
+    "sortPot": "Größter gewonnener Pot",
+    "sortReverse": "Neueste zuerst",
+    "moreFilters": "Weitere Filter",
+    "display": "Anzeige",
+    "resultAll": "Alle",
+    "resultWon": "Gewonnen",
+    "resultLost": "Verloren",
+    "clearFilters": "Alles zurücksetzen",
+    "collapse": "Liste einklappen",
+    "expand": "Liste ausklappen",
+    "resize": "Liste anpassen"
   },
   "table": {
     "pot": "Pot",
@@ -159,7 +172,9 @@
     "speed": "Geschwindigkeit",
     "timeline": "Hand-Zeitleiste",
     "frame": "{{current}} / {{total}}",
-    "vpip": "P"
+    "vpip": "P",
+    "timelineMode": "Größe der Ergebnisleiste",
+    "fullscreen": "Vollbild"
   },
   "streets": {
     "preflop": "Preflop",
