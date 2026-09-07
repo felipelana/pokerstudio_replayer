@@ -9,6 +9,7 @@ import { skinRoutes } from './routes/skins.js';
 import { adminRoutes } from './routes/admin.js';
 import { referralRoutes } from './routes/referrals.js';
 import { googleRoutes } from './routes/google.js';
+import { twoFactorRoutes } from './routes/twofactor.js';
 import type { AppContainer } from '../../main-container.js';
 
 /** Methods that change state must carry the header and a same-site origin. */
@@ -87,6 +88,7 @@ export async function buildServer(container: AppContainer): Promise<FastifyInsta
       await adminRoutes(api, container);
       await referralRoutes(api, container);
       await googleRoutes(api, container, container.google);
+      await twoFactorRoutes(api, container);
     },
     { prefix: '/api/v1' },
   );

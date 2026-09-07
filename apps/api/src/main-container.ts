@@ -8,6 +8,7 @@ import type {
   SessionRepository,
   SkinRepository,
   UserRepository,
+  TwoFactorRepository,
 } from './domain/repositories/index.js';
 import type {
   Captcha,
@@ -20,7 +21,7 @@ import type {
   TotpProvider,
   UserAgentParser,
 } from './application/ports/index.js';
-import { argon2Hasher, hibpBreachCheck, tokenGenerator, totpProvider } from './infrastructure/crypto/index.js';
+import { argon2Hasher, createCipher, hibpBreachCheck, tokenGenerator, totpProvider } from './infrastructure/crypto/index.js';
 import { createTurnstile } from './infrastructure/captcha/index.js';
 import { createGeoIpResolver, uaParser } from './infrastructure/ua/index.js';
 import { createEmailSender } from './infrastructure/email/index.js';
@@ -32,6 +33,7 @@ import {
   createReferralRepository,
   createSessionRepository,
   createSkinRepository,
+  createTwoFactorRepository,
   createUserRepository,
 } from './infrastructure/database/prisma/repositories.js';
 import { createGoogleProvider } from './infrastructure/oauth/google.js';
@@ -61,6 +63,9 @@ export interface AppContainer {
   geo: GeoIpResolver;
   ua: UserAgentParser;
   totp: TotpProvider;
+  twoFactor: TwoFactorRepository;
+  /** AES-256-GCM for secrets at rest (TOTP seeds). */
+  cipher: ReturnType<typeof createCipher>;
   breach: PasswordBreachCheck;
   /** False while no e-mail provider is configured (5B.5). */
   requireVerification: boolean;
@@ -102,6 +107,8 @@ export async function createContainer(config: Config, prisma = new PrismaClient(
     geo: createGeoIpResolver(config.GEOIP_DB_PATH),
     ua: uaParser,
     totp: totpProvider,
+    twoFactor: createTwoFactorRepository(prisma),
+    cipher: createCipher(config.ENCRYPTION_KEY),
     breach: config.isProduction ? hibpBreachCheck : { isBreached: async () => false },
     requireVerification: settings?.requireVerification ?? false,
     google: config.googleEnabled

@@ -47,8 +47,11 @@ Níveis de acesso:
 | GET | `/admin/export/users.csv` | admin | exporta usuários | ✅ |
 | GET | `/admin/email-outbox` | admin | fila de e-mails pendentes | ✅ |
 | POST | `/admin/email-settings` | admin | configura provedor e envia teste | ⏳ |
-| POST | `/admin/2fa/enroll` | admin | inicia TOTP (QR + códigos de recuperação) | ⏳ |
-| POST | `/admin/2fa/verify` | admin | confirma o código e libera a sessão | ⏳ |
+| GET | `/admin/2fa` | admin (sem 2FA) | situação da inscrição e da sessão | ✅ |
+| POST | `/admin/2fa/enroll` | admin (sem 2FA) | inicia TOTP (chave + `otpauth://`) | ✅ |
+| POST | `/admin/2fa/verify` | admin (sem 2FA) | confirma o código e libera a sessão | ✅ |
+| POST | `/admin/2fa/recovery` | admin (sem 2FA) | queima um código de recuperação | ✅ |
+| DELETE | `/admin/2fa` | admin (sem 2FA) | desativa o TOTP (exige um código válido) | ✅ |
 | GET/POST | `/reviews` | usuário | salvar e retomar review (5C) | ⏳ |
 | POST | `/usage` | usuário/anônimo | evento de uso (só com consentimento) | ⏳ |
 
@@ -95,3 +98,18 @@ senha antes.
 
 Só caminhos internos (`startsWith('/')`) são aceitos; qualquer outra coisa vira `/`. Isso fecha a
 porta para usar o callback como redirecionador aberto.
+
+## Segundo fator (administração)
+
+As rotas `/admin/2fa/*` são as **únicas** sob `/admin` que não exigem o segundo fator já verificado —
+apenas o papel `ADMIN`. Se exigissem, ninguém conseguiria se inscrever da primeira vez.
+
+- `POST /admin/2fa/enroll` sorteia a semente, guarda cifrada (AES-256-GCM) e devolve a chave **uma
+  única vez**, em texto e como `otpauth://`. Uma inscrição já confirmada recusa com
+  `two_factor_already_enrolled`.
+- `POST /admin/2fa/verify` aceita o código de 6 dígitos. O primeiro código válido confirma a
+  inscrição e devolve **10 códigos de recuperação** (mostrados só nessa resposta; ficam salvos
+  apenas como hash). Os seguintes apenas marcam a sessão como verificada.
+- O mesmo código **não passa duas vezes**: o passo TOTP aceito fica gravado em `lastUsedStep`.
+- `POST /admin/2fa/recovery` queima um código de recuperação e libera a sessão.
+- `DELETE /admin/2fa` exige um código válido — a sessão sozinha não desliga a proteção.

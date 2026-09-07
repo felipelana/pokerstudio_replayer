@@ -5,6 +5,9 @@ import { IconHelp, IconMoon, IconNeon, IconSpade, IconUser, IconSun } from './ic
 import { LanguageSelector } from './LanguageSelector';
 import { useAuthStore } from '@/state/authStore';
 
+/** Screens that render their own brand and must not show the app chrome. */
+const AUTH_PATHS = ['/login', '/signup', '/forgot-password', '/reset-password', '/verify-email', '/r/'];
+
 function navClass({ isActive }: { isActive: boolean }) {
   return `rounded-md px-2.5 py-1.5 text-sm font-medium transition-colors ${
     isActive ? 'bg-[color-mix(in_srgb,var(--accent)_18%,transparent)] text-[var(--text)]' : 'text-[var(--text-muted)] hover:text-[var(--text)]'
@@ -20,6 +23,26 @@ export function Header() {
   const setHelpOpen = useAppStore((s) => s.setHelpOpen);
   const location = useLocation();
   const inReplayer = location.pathname.startsWith('/replay');
+  const inAuth = AUTH_PATHS.some((path) => location.pathname.startsWith(path));
+
+  // The sign-in screens carry the brand themselves — the app chrome would only
+  // compete with it. Language and theme stay, since both matter before login.
+  if (inAuth) {
+    return (
+      <header className="flex h-12 shrink-0 items-center justify-end gap-2 px-3">
+        <button
+          type="button"
+          className="btn-icon"
+          title={t('header.toggleTheme')}
+          aria-label={t('header.toggleTheme')}
+          onClick={() => updateSettings({ theme: settings.theme === 'dark' ? 'light' : 'dark' })}
+        >
+          {settings.theme === 'dark' ? <IconMoon size={15} /> : <IconSun size={15} />}
+        </button>
+        <LanguageSelector />
+      </header>
+    );
+  }
 
   return (
     <header
@@ -45,6 +68,11 @@ export function Header() {
         <NavLink to="/admin" className={navClass}>
           {t('nav.admin')}
         </NavLink>
+        {user?.role === 'ADMIN' && (
+          <NavLink to="/admstudio" className={navClass}>
+            {t('nav.admstudio')}
+          </NavLink>
+        )}
       </nav>
       <div className="flex-1" />
 

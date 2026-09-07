@@ -45,7 +45,9 @@ function toMe(user: User, identities: string[]) {
     plan: user.plan,
     emailVerified: !!user.emailVerifiedAt,
     referralCode: user.referralCode,
-    identities,
+    // A password is a way in like any other, so the client sees it listed
+    // alongside the linked providers.
+    identities: user.passwordHash ? ['PASSWORD', ...identities] : identities,
   };
 }
 

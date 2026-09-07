@@ -21,6 +21,7 @@ import { LibraryPage } from '@/ui/library/LibraryPage';
 import { ReplayerPage } from '@/ui/replayer/ReplayerPage';
 import { SettingsPage } from '@/ui/settings/SettingsPage';
 import { AdminPage } from '@/ui/admin/AdminPage';
+import { AdmStudioPage } from '@/ui/admstudio/AdmStudioPage';
 import i18n from '@/i18n';
 
 export function App() {
@@ -68,6 +69,7 @@ export function App() {
           <Route path="/replay/:sessionId/:handId?" element={<RequireAuth><ReplayerPage /></RequireAuth>} />
           <Route path="/settings" element={<RequireAuth><SettingsPage /></RequireAuth>} />
           <Route path="/admin" element={<RequireAuth><AdminPage /></RequireAuth>} />
+          <Route path="/admstudio" element={<RequireAuth><AdmStudioPage /></RequireAuth>} />
           <Route path="/report/:sessionId" element={<RequireAuth><ReportPage /></RequireAuth>} />
           <Route path="/privacidade" element={<LegalPage doc="privacy" />} />
           <Route path="/termos" element={<LegalPage doc="terms" />} />

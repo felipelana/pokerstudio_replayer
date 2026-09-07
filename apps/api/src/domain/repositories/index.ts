@@ -39,6 +39,27 @@ export interface SessionRepository {
   markTwoFactor(id: string, at: Date): Promise<void>;
 }
 
+export interface TwoFactorEnrollment {
+  id: string;
+  secretEnc?: string;
+  confirmedAt?: Date;
+  lastUsedStep?: bigint;
+}
+
+export interface TwoFactorRepository {
+  find(userId: string): Promise<TwoFactorEnrollment | undefined>;
+  /** Starts (or restarts) an enrolment; the previous secret is replaced. */
+  start(input: { userId: string; secretEnc: string }): Promise<void>;
+  confirm(userId: string, at: Date, step: bigint): Promise<void>;
+  markStep(userId: string, step: bigint): Promise<void>;
+  remove(userId: string): Promise<void>;
+  /** Replaces every recovery code — used codes included. */
+  replaceRecoveryCodes(userId: string, hashes: string[]): Promise<void>;
+  /** Burns one code and says whether it was valid and unused. */
+  consumeRecoveryCode(userId: string, hash: string, at: Date): Promise<boolean>;
+  countRecoveryCodes(userId: string): Promise<number>;
+}
+
 export interface EmailTokenRepository {
   create(input: { userId: string; type: 'VERIFY_EMAIL' | 'RESET_PASSWORD' | 'CHANGE_EMAIL'; tokenHash: string; expiresAt: Date }): Promise<void>;
   consume(tokenHash: string, type: 'VERIFY_EMAIL' | 'RESET_PASSWORD' | 'CHANGE_EMAIL', now: Date): Promise<{ userId: string } | undefined>;

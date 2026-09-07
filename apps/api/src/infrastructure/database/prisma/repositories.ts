@@ -8,6 +8,7 @@ import type {
   ReferralRepository,
   SessionRepository,
   SkinRepository,
+  TwoFactorRepository,
   UserRepository,
 } from '../../../domain/repositories/index.js';
 
@@ -326,6 +327,63 @@ export function createReferralRepository(prisma: PrismaClient): ReferralReposito
         where: { code, acceptedById: null },
         data: { acceptedById: userId, acceptedAt: at },
       });
+    },
+  };
+}
+
+/** TOTP enrolment and recovery codes. The seed is stored already encrypted. */
+export function createTwoFactorRepository(prisma: PrismaClient): TwoFactorRepository {
+  const where = (userId: string) => ({ userId_type: { userId, type: 'TOTP' as const } });
+
+  return {
+    async find(userId) {
+      const row = await prisma.twoFactor.findUnique({ where: where(userId) });
+      if (!row) return undefined;
+      return {
+        id: row.id,
+        secretEnc: row.secretEnc ?? undefined,
+        confirmedAt: row.confirmedAt ?? undefined,
+        lastUsedStep: row.lastUsedStep ?? undefined,
+      };
+    },
+    async start({ userId, secretEnc }) {
+      await prisma.twoFactor.upsert({
+        where: where(userId),
+        create: { userId, type: 'TOTP', secretEnc },
+        // Restarting the enrolment throws away the old seed and its confirmation.
+        update: { secretEnc, confirmedAt: null, lastUsedStep: null },
+      });
+    },
+    async confirm(userId, at, step) {
+      await prisma.twoFactor.update({ where: where(userId), data: { confirmedAt: at, lastUsedStep: step } });
+    },
+    async markStep(userId, step) {
+      await prisma.twoFactor.update({ where: where(userId), data: { lastUsedStep: step } });
+    },
+    async remove(userId) {
+      await prisma.$transaction([
+        prisma.twoFactor.deleteMany({ where: { userId, type: 'TOTP' } }),
+        prisma.recoveryCode.deleteMany({ where: { userId } }),
+      ]);
+    },
+    async replaceRecoveryCodes(userId, hashes) {
+      await prisma.$transaction([
+        prisma.recoveryCode.deleteMany({ where: { userId } }),
+        prisma.recoveryCode.createMany({ data: hashes.map((codeHash) => ({ userId, codeHash })) }),
+      ]);
+    },
+    async consumeRecoveryCode(userId, hash, at) {
+      const row = await prisma.recoveryCode.findFirst({ where: { userId, codeHash: hash, usedAt: null } });
+      if (!row) return false;
+      // updateMany with the same guard: two parallel requests cannot both win.
+      const { count } = await prisma.recoveryCode.updateMany({
+        where: { id: row.id, usedAt: null },
+        data: { usedAt: at },
+      });
+      return count === 1;
+    },
+    async countRecoveryCodes(userId) {
+      return prisma.recoveryCode.count({ where: { userId, usedAt: null } });
     },
   };
 }

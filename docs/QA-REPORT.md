@@ -11,10 +11,10 @@ dito explicitamente.
 | Tipos da API | `tsc -p apps/api` | ✅ sem erros |
 | Lint (com as regras de fronteira) | `npm run lint` | ✅ sem erros |
 | Testes do replayer | `npm test -w @pokerstudio/web` | ✅ **87 testes** |
-| Testes da API | `npm test -w @pokerstudio/api` | ✅ **37 testes** (15 auth + 14 Google + 8 e2e contra PostgreSQL real) |
-| Chaves de i18n | `npm run check:locales` | ✅ **503 chaves × 8 idiomas**, nenhuma faltando |
+| Testes da API | `npm test -w @pokerstudio/api` | ✅ **46 testes** (15 auth + 14 Google + 9 TOTP + 8 e2e contra PostgreSQL real) |
+| Chaves de i18n | `npm run check:locales` | ✅ **570 chaves × 8 idiomas**, nenhuma faltando |
 | Build de produção | `npm run build` | ✅ |
-| Migrações | `prisma migrate deploy` | ✅ 18 tabelas criadas em `pokerstudio_dev` e `pokerstudio_test` |
+| Migrações | `prisma migrate deploy` | ✅ 18 tabelas + os eventos TOTP no enum `AccessEvent`, aplicadas em `pokerstudio_dev` e `pokerstudio_test` |
 
 ## 2. Fluxos conferidos no navegador
 
@@ -86,6 +86,27 @@ dito explicitamente.
 - A captura da mesa para o relatório inclui feltro, cartas e fichas, mas **não
   as placas dos jogadores** — elas são HTML sobre o canvas/SVG. Duas saídas:
   desenhar os pods no canvas de captura ou adicionar `html2canvas`.
+
+### /admstudio no navegador
+
+| Fluxo | Como foi verificado | Resultado |
+|---|---|---|
+| Acesso negado sem o papel | abrir `/admstudio` como `USER` | ✅ "Só para administradores", e a API recusa igual |
+| Portão do segundo fator | abrir como `ADMIN` sem TOTP | ✅ a área não aparece; a tela de inscrição toma o lugar |
+| Inscrição TOTP | "Começar" → chave na tela → código gerado pelo autenticador | ✅ confirmada, 10 códigos de recuperação exibidos uma vez |
+| Painel | após a confirmação | ✅ 5 números, duas séries de 30 dias, dispositivos e skins |
+| Usuários | lista, busca, paginação, ficha lateral | ✅ 2 contas, sessões, acessos, bloquear/desbloquear/derrubar sessões |
+| Acessos | filtro por evento e data | ✅ 6 registros, incluindo `TOTP_ENROLL_STARTED` e `TOTP_ENROLLED` |
+| Fila de e-mail | aba E-mail | ✅ mensagem `PENDING` de verificação listada |
+
+A conta de teste usada nessa passagem foi promovida a `ADMIN` só para o exercício e devolvida a
+`USER` em seguida, com a inscrição TOTP apagada.
+
+### O QR ainda não é uma imagem
+
+A tela de inscrição mostra a **chave de configuração** (para digitar no autenticador) e um link
+`otpauth://`, não um QR desenhado: renderizar o código exigiria uma dependência nova
+(`qrcode` ou equivalente), que ainda não foi autorizada. O fluxo funciona por inteiro sem ela.
 
 ### Conta com o Google — o que ainda não foi exercitado
 

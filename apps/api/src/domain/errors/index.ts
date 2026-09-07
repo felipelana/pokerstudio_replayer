@@ -18,4 +18,7 @@ export const Errors = {
   quotaExceeded: (what: string) => appError('quota_exceeded', `Daily limit reached for ${what}.`, 429),
   captchaFailed: () => appError('captcha_failed', 'Could not verify you are human.', 400),
   termsRequired: () => appError('terms_required', 'You must accept the terms to continue.', 422),
+  twoFactorNotEnrolled: () => appError('two_factor_not_enrolled', 'Two-factor is not set up.', 400),
+  twoFactorInvalid: () => appError('two_factor_invalid', 'That code is not valid.', 400),
+  twoFactorAlreadyEnrolled: () => appError('two_factor_already_enrolled', 'Two-factor is already enabled.', 409),
 } as const;

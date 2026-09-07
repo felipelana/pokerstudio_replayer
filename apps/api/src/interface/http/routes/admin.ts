@@ -51,7 +51,13 @@ export async function adminRoutes(app: FastifyInstance, container: AppContainer)
       container.identities.listForUser(id),
       container.referrals.listForUser(id),
     ]);
-    return reply.send({ user: { ...user, passwordHash: undefined }, sessions, logs: logs.items, identities, referrals });
+    return reply.send({
+      user: { ...user, passwordHash: undefined },
+      sessions,
+      logs: logs.items,
+      identities: user.passwordHash ? ['PASSWORD', ...identities] : identities,
+      referrals,
+    });
   });
 
   app.post('/admin/users/:id/block', async (request, reply) => {
