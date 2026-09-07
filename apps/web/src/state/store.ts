@@ -18,6 +18,7 @@ export const DEFAULT_TAGS: UserTag[] = [
   { id: 'preflop-range', label: 'Preflop range', color: '#43a047' },
   { id: 'missed-value', label: 'Missed value', color: '#aacc00' },
 ];
+import { skinApi } from '@/infrastructure/http/accountApi';
 import { BUILT_IN_SKINS, SKIN_DEFAULT_DARK } from '@/skins/presets';
 import { getRepository } from '@/db/repository';
 
@@ -124,6 +125,8 @@ interface AppState {
   loadSettings(): Promise<void>;
   updateSettings(patch: Partial<Settings>): void;
   loadSkins(): Promise<void>;
+  /** Merges the skins saved on the account into the local library. */
+  syncSkinsFromAccount(): Promise<void>;
   cycleSkin(): void;
 
   loadSession(sessionId: string, handId?: string): Promise<void>;
@@ -190,6 +193,24 @@ export const useAppStore = create<AppState>((set, get) => ({
     for (const s of BUILT_IN_SKINS) byId.set(s.id, s);
     for (const s of custom) byId.set(s.id, s);
     set({ skins: Array.from(byId.values()) });
+  },
+
+  /**
+   * Account skins win over a local copy with the same id, so opening the app on
+   * a second device brings the customisation with it.
+   */
+  async syncSkinsFromAccount() {
+    try {
+      const remote = await skinApi.list();
+      const repo = getRepository();
+      for (const row of remote) {
+        const skin = { ...(row.data as Skin), id: row.id, name: row.name, isBuiltIn: false };
+        await repo.saveSkin(skin);
+      }
+      if (remote.length) await get().loadSkins();
+    } catch {
+      // Offline or signed out: the local library stays as it is.
+    }
   },
 
   cycleSkin() {

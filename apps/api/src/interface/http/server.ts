@@ -17,7 +17,6 @@ export async function buildServer(container: AppContainer): Promise<FastifyInsta
   const app = Fastify({
     logger: { level: container.config.isProduction ? 'info' : 'debug' },
     trustProxy: true,
-    disableRequestLogging: false,
   });
 
   await app.register(helmet, {

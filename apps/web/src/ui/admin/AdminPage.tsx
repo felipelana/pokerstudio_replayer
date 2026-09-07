@@ -12,6 +12,8 @@ import { formatAmount } from '@/model/format';
 import { BACK_PRESETS, BUILT_IN_SKINS, DECK_PRESETS, SKIN_DEFAULT_DARK } from '@/skins/presets';
 import { CHIP_DENOMINATIONS, type BackPattern, type DeckStyle, type LogoCorner, type RankFont, type Skin } from '@/skins/types';
 import { useAppStore } from '@/state/store';
+import { useAuthStore } from '@/state/authStore';
+import { skinApi } from '@/infrastructure/http/accountApi';
 import { Card } from '@/ui/cards/Card';
 
 /* ------------------------------------------------------------------ */
@@ -161,6 +163,8 @@ export function AdminPage() {
   const [draft, setDraft] = useState<Skin>(() => skins.find((s) => s.id === settings.skinId) ?? SKIN_DEFAULT_DARK);
   const [dirty, setDirty] = useState(false);
   const [notice, setNotice] = useState('');
+  const [savingToAccount, setSavingToAccount] = useState(false);
+  const signedIn = useAuthStore((s) => s.phase === 'authenticated');
   const importInput = useRef<HTMLInputElement>(null);
   const logoInput = useRef<HTMLInputElement>(null);
   const cornerLogoInput = useRef<HTMLInputElement>(null);
@@ -318,6 +322,26 @@ export function AdminPage() {
           </button>
           <button type="button" className="btn" onClick={() => void remove()} disabled={!!draft.isBuiltIn || !skins.some((s) => s.id === draft.id)}>
             {t('common.delete')}
+          </button>
+          <button
+            type="button"
+            className="btn"
+            disabled={!signedIn || savingToAccount}
+            title={signedIn ? undefined : t('auth.loginTitle')}
+            onClick={async () => {
+              setSavingToAccount(true);
+              try {
+                await save();
+                await skinApi.save(draft);
+                setNotice(t('account.saved'));
+              } catch {
+                setNotice(t('auth.offline'));
+              } finally {
+                setSavingToAccount(false);
+              }
+            }}
+          >
+            {t('account.saveSkin')}
           </button>
           <button type="button" className="btn" onClick={exportJson}>
             {t('admin.exportJson')}

@@ -1,8 +1,9 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/store';
-import { IconHelp, IconMoon, IconNeon, IconSpade, IconSun } from './icons';
+import { IconHelp, IconMoon, IconNeon, IconSpade, IconUser, IconSun } from './icons';
 import { LanguageSelector } from './LanguageSelector';
+import { useAuthStore } from '@/state/authStore';
 
 function navClass({ isActive }: { isActive: boolean }) {
   return `rounded-md px-2.5 py-1.5 text-sm font-medium transition-colors ${
@@ -15,6 +16,7 @@ export function Header() {
   const settings = useAppStore((s) => s.settings);
   const updateSettings = useAppStore((s) => s.updateSettings);
   const skins = useAppStore((s) => s.skins);
+  const user = useAuthStore((s) => s.user);
   const setHelpOpen = useAppStore((s) => s.setHelpOpen);
   const location = useLocation();
   const inReplayer = location.pathname.startsWith('/replay');
@@ -89,6 +91,17 @@ export function Header() {
             <IconNeon size={15} />
           </button>
         </>
+      )}
+
+      {user ? (
+        <NavLink to="/account" className="btn" title={t('account.title')}>
+          <IconUser size={14} />
+          <span className="max-w-[120px] truncate">{user.name}</span>
+        </NavLink>
+      ) : (
+        <NavLink to="/login" className="btn">
+          {t('auth.signIn')}
+        </NavLink>
       )}
 
       <button

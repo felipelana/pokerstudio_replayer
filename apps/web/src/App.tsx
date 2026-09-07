@@ -7,6 +7,16 @@ import { Header } from '@/ui/Header';
 import { ConsentBanner } from '@/ui/ConsentBanner';
 import { LegalPage } from '@/ui/legal/LegalPage';
 import { ReportPage } from '@/ui/report/ReportPage';
+import {
+  AccountPage,
+  ForgotPasswordPage,
+  LoginPage,
+  ReferralLanding,
+  ResetPasswordPage,
+  SignUpPage,
+  VerifyEmailPage,
+} from '@/ui/auth/AuthPages';
+import { RequireAuth } from '@/ui/auth/RequireAuth';
 import { LibraryPage } from '@/ui/library/LibraryPage';
 import { ReplayerPage } from '@/ui/replayer/ReplayerPage';
 import { SettingsPage } from '@/ui/settings/SettingsPage';
@@ -46,14 +56,22 @@ export function App() {
       <Header />
       <main className="min-h-0 flex-1">
         <Routes>
-          <Route path="/" element={<LibraryPage />} />
-          <Route path="/replay/:sessionId/:handId?" element={<ReplayerPage />} />
-          <Route path="/settings" element={<SettingsPage />} />
-          <Route path="/admin" element={<AdminPage />} />
-          <Route path="/report/:sessionId" element={<ReportPage />} />
+          {/* Public: authentication and the legal texts. */}
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/verify-email" element={<VerifyEmailPage />} />
+          <Route path="/r/:code" element={<ReferralLanding />} />
+          <Route path="/" element={<RequireAuth><LibraryPage /></RequireAuth>} />
+          <Route path="/account" element={<RequireAuth><AccountPage /></RequireAuth>} />
+          <Route path="/replay/:sessionId/:handId?" element={<RequireAuth><ReplayerPage /></RequireAuth>} />
+          <Route path="/settings" element={<RequireAuth><SettingsPage /></RequireAuth>} />
+          <Route path="/admin" element={<RequireAuth><AdminPage /></RequireAuth>} />
+          <Route path="/report/:sessionId" element={<RequireAuth><ReportPage /></RequireAuth>} />
           <Route path="/privacidade" element={<LegalPage doc="privacy" />} />
           <Route path="/termos" element={<LegalPage doc="terms" />} />
-          <Route path="*" element={<LibraryPage />} />
+          <Route path="*" element={<RequireAuth><LibraryPage /></RequireAuth>} />
         </Routes>
       </main>
       <ConsentBanner />

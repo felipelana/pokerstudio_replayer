@@ -130,3 +130,4 @@ Duas opções:
 | `P1001 can't reach database` | serviço parado (`Get-Service postgresql*`) ou porta diferente |
 | `permission denied for schema public` | rode `GRANT ALL ON SCHEMA public TO pokerstudio;` no banco |
 | `prisma migrate dev` reclama de ambiente não interativo | use `npm run db:migrate` (deploy) ou rode o comando num terminal interativo |
+| API sobe mas responde 404 estranho | outra aplicação já ocupa a porta 3001 — rode com `PORT=3005` e ajuste o proxy do Vite |

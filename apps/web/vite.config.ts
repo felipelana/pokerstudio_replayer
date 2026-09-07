@@ -11,6 +11,12 @@ export default defineConfig({
       '@pokerstudio/shared': path.resolve(__dirname, '../../packages/shared/src/index.ts'),
     },
   },
+  server: {
+    proxy: {
+      // The API runs on its own port in development; same origin in production.
+      '/api': { target: 'http://localhost:3001', changeOrigin: true },
+    },
+  },
   worker: { format: 'es' },
   test: {
     environment: 'jsdom',
