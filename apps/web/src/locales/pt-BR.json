@@ -121,7 +121,13 @@
     "confirmDeleteTitle": "Excluir sessões importadas",
     "confirmDeleteSelected": "{{count}} sessão(ões) sairão deste aparelho, junto com as mãos e as anotações. Não dá para desfazer.",
     "confirmDeleteAll": "Todas as {{count}} sessões sairão deste aparelho, junto com as mãos e as anotações. Não dá para desfazer.",
-    "openHint": "Clique duplo para abrir"
+    "openHint": "Clique duplo para abrir",
+    "search": "Buscar",
+    "searchHint": "nome, arquivo ou sala",
+    "anySite": "Qualquer sala",
+    "from": "De",
+    "to": "Até",
+    "showing": "{{count}} exibidas"
   },
   "sidebar": {
     "loadHands": "Carregar hand histories",
@@ -133,7 +139,6 @@
     "noHero": "Sem herói neste arquivo — clique em um assento para definir o foco.",
     "focus": "Foco: {{player}}",
     "clearFocus": "Limpar foco",
-    "filter": "Filtrar…",
     "noSession": "Nenhuma sessão carregada",
     "hideResults": "Ocultar resultados (review às cegas)",
     "focusSelect": "Jogador em foco",

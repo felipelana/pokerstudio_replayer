@@ -157,10 +157,16 @@ export function ReplayerPage() {
     setReplayMeta(replay.frames.length, targets, postFrames);
   }, [replay, setReplayMeta]);
 
-  // Keep the URL in sync with the selected hand.
+  // Keep the URL in sync with the selected hand — but only once the store is
+  // actually showing the session named in the route. Opening a second session
+  // used to write the *previous* session's hand into the new URL, and because
+  // hand ids are content hashes, the same file imported twice shares them: the
+  // reopened session then landed on the other one's hand and overwrote its
+  // saved position.
   useEffect(() => {
-    if (hand && sessionId && handId !== hand.id) navigate(`/replay/${sessionId}/${hand.id}`, { replace: true });
-  }, [hand, sessionId, handId, navigate]);
+    if (!hand || !sessionId || session?.id !== sessionId) return;
+    if (handId !== hand.id) navigate(`/replay/${sessionId}/${hand.id}`, { replace: true });
+  }, [hand, sessionId, session?.id, handId, navigate]);
 
   const goToHand = useCallback(
     (index: number) => {

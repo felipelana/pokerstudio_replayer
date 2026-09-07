@@ -121,7 +121,13 @@
     "confirmDeleteTitle": "Eliminar sesiones importadas",
     "confirmDeleteSelected": "Se quitarán {{count}} sesión(es) de este dispositivo, con sus manos y notas. No se puede deshacer.",
     "confirmDeleteAll": "Se quitarán las {{count}} sesiones de este dispositivo, con sus manos y notas. No se puede deshacer.",
-    "openHint": "Doble clic para abrir"
+    "openHint": "Doble clic para abrir",
+    "search": "Buscar",
+    "searchHint": "nombre, archivo o sala",
+    "anySite": "Cualquier sala",
+    "from": "Desde",
+    "to": "Hasta",
+    "showing": "{{count}} mostradas"
   },
   "sidebar": {
     "loadHands": "Cargar historiales",
@@ -133,7 +139,6 @@
     "noHero": "No hay héroe en este archivo: haz clic en un asiento para definir el jugador en foco.",
     "focus": "Foco: {{player}}",
     "clearFocus": "Quitar foco",
-    "filter": "Filtrar…",
     "noSession": "Ninguna sesión cargada",
     "hideResults": "Ocultar resultados (revisión a ciegas)",
     "focusSelect": "Jugador en foco",

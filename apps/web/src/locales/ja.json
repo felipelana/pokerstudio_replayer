@@ -121,7 +121,13 @@
     "confirmDeleteTitle": "取り込んだセッションを削除",
     "confirmDeleteSelected": "{{count}} 件のセッションを、ハンドとメモごとこの端末から削除します。元に戻せません。",
     "confirmDeleteAll": "{{count}} 件すべてのセッションを、ハンドとメモごとこの端末から削除します。元に戻せません。",
-    "openHint": "ダブルクリックで開く"
+    "openHint": "ダブルクリックで開く",
+    "search": "検索",
+    "searchHint": "名前・ファイル・ルーム",
+    "anySite": "すべてのルーム",
+    "from": "開始",
+    "to": "終了",
+    "showing": "{{count}} 件を表示"
   },
   "sidebar": {
     "loadHands": "ハンド履歴を読み込む",
@@ -133,7 +139,6 @@
     "noHero": "このファイルにはヒーローがいません。シートをクリックして注目プレイヤーを設定してください。",
     "focus": "注目: {{player}}",
     "clearFocus": "注目を解除",
-    "filter": "フィルター…",
     "noSession": "セッションが読み込まれていません",
     "hideResults": "結果を隠す（ブラインドレビュー）",
     "focusSelect": "注目プレイヤー",

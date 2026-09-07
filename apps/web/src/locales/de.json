@@ -121,7 +121,13 @@
     "confirmDeleteTitle": "Importierte Sitzungen löschen",
     "confirmDeleteSelected": "{{count}} Sitzung(en) werden mit Händen und Notizen von diesem Gerät entfernt. Das lässt sich nicht rückgängig machen.",
     "confirmDeleteAll": "Alle {{count}} Sitzungen werden mit Händen und Notizen von diesem Gerät entfernt. Das lässt sich nicht rückgängig machen.",
-    "openHint": "Doppelklick zum Öffnen"
+    "openHint": "Doppelklick zum Öffnen",
+    "search": "Suchen",
+    "searchHint": "Name, Datei oder Raum",
+    "anySite": "Beliebiger Raum",
+    "from": "Von",
+    "to": "Bis",
+    "showing": "{{count}} angezeigt"
   },
   "sidebar": {
     "loadHands": "Hand-Histories laden",
@@ -133,7 +139,6 @@
     "noHero": "Kein Hero in dieser Datei – klicke auf einen Platz, um den Fokusspieler zu setzen.",
     "focus": "Fokus: {{player}}",
     "clearFocus": "Fokus aufheben",
-    "filter": "Filtern…",
     "noSession": "Keine Sitzung geladen",
     "hideResults": "Ergebnisse ausblenden (Blind-Review)",
     "focusSelect": "Fokusspieler",

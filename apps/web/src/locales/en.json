@@ -121,7 +121,13 @@
     "confirmDeleteTitle": "Delete imported sessions",
     "confirmDeleteSelected": "{{count}} session(s) will be removed from this device, along with their hands and notes. This cannot be undone.",
     "confirmDeleteAll": "All {{count}} session(s) will be removed from this device, along with their hands and notes. This cannot be undone.",
-    "openHint": "Double-click to open"
+    "openHint": "Double-click to open",
+    "search": "Search",
+    "searchHint": "name, file or room",
+    "anySite": "Any room",
+    "from": "From",
+    "to": "To",
+    "showing": "{{count}} shown"
   },
   "sidebar": {
     "loadHands": "Load hand histories",
@@ -133,7 +139,6 @@
     "noHero": "No hero in this file — click a seat to set the focus player.",
     "focus": "Focus: {{player}}",
     "clearFocus": "Clear focus",
-    "filter": "Filter…",
     "noSession": "No session loaded",
     "hideResults": "Hide results (blind review)",
     "focusSelect": "Focus player",

@@ -7,7 +7,7 @@ import type { PositionLabel } from '@/model/positions';
 import { useAppStore } from '@/state/store';
 import type { Skin } from '@/skins/types';
 import { Card } from '@/ui/cards/Card';
-import { IconCheck, IconClose, IconCopy, IconDice, IconSearch, IconUpload, IconUser } from '@/ui/icons';
+import { IconCheck, IconClose, IconCopy, IconDice, IconUpload, IconUser } from '@/ui/icons';
 
 export interface HandRow {
   hand: Hand;
@@ -90,21 +90,13 @@ export function Sidebar({
   const toggleSidebar = useAppStore((s) => s.toggleSidebar);
   const setSidebarWidth = useAppStore((s) => s.setSidebarWidth);
   const [copied, setCopied] = useState(false);
-  const [filter, setFilter] = useState('');
   const listRef = useRef<HTMLDivElement>(null);
   const asideRef = useRef<HTMLElement>(null);
 
-  const filtered = useMemo(() => {
-    const q = filter.trim().toLowerCase();
-    const indexed = visible.map((i) => ({ r: rows[i], i })).filter((x) => x.r);
-    if (!q) return indexed;
-    return indexed.filter(
-      ({ r }) =>
-        r.hand.handNumber.includes(q) ||
-        r.hand.players.some((p) => p.name.toLowerCase().includes(q)) ||
-        (r.meta.heroCards ?? []).join(' ').toLowerCase().includes(q),
-    );
-  }, [rows, visible, filter]);
+  const filtered = useMemo(
+    () => visible.map((i) => ({ r: rows[i], i })).filter((x) => x.r),
+    [rows, visible],
+  );
 
   const virtualizer = useVirtualizer({
     count: filtered.length,
@@ -161,7 +153,11 @@ export function Sidebar({
     !(settings.colorVpipOnly && !row.meta.vpip);
 
   const netColor = (row: HandRow) => {
+    // The same rule as the colour bar: hidden results, results turned off, or
+    // a hand that was folded before putting money in all read as neutral.
     if (settings.hideResults || row.meta.net === undefined || Math.abs(row.meta.net) < 0.005) return 'var(--text-muted)';
+    if (settings.colorVpipOnly && !row.meta.vpip) return 'var(--text-muted)';
+    if (!settings.colorHintResults) return 'var(--text-muted)';
     return row.meta.net > 0 ? 'var(--result-won)' : 'var(--result-lost)';
   };
 
@@ -210,19 +206,6 @@ export function Sidebar({
         <button type="button" className="btn-icon" onClick={toggleSidebar} title={t('sidebar.collapse')} aria-label={t('sidebar.collapse')}>
           ‹
         </button>
-      </div>
-
-      <div className="relative">
-        <span className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2" style={{ color: 'var(--text-muted)' }}>
-          <IconSearch size={13} />
-        </span>
-        <input
-          className="input !py-1 pl-7 text-xs"
-          placeholder={t('sidebar.filter')}
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-          aria-label={t('sidebar.filter')}
-        />
       </div>
 
       <div className="flex items-center gap-1.5 text-xs">

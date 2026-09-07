@@ -121,7 +121,13 @@
     "confirmDeleteTitle": "가져온 세션 삭제",
     "confirmDeleteSelected": "세션 {{count}}개를 핸드와 메모까지 이 기기에서 지웁니다. 되돌릴 수 없습니다.",
     "confirmDeleteAll": "세션 {{count}}개 전부를 핸드와 메모까지 이 기기에서 지웁니다. 되돌릴 수 없습니다.",
-    "openHint": "두 번 클릭하면 열립니다"
+    "openHint": "두 번 클릭하면 열립니다",
+    "search": "검색",
+    "searchHint": "이름, 파일 또는 룸",
+    "anySite": "모든 룸",
+    "from": "시작",
+    "to": "종료",
+    "showing": "{{count}}건 표시"
   },
   "sidebar": {
     "loadHands": "핸드 히스토리 불러오기",
@@ -133,7 +139,6 @@
     "noHero": "이 파일에는 히어로가 없습니다. 좌석을 클릭해 포커스 플레이어를 지정하세요.",
     "focus": "포커스: {{player}}",
     "clearFocus": "포커스 해제",
-    "filter": "필터…",
     "noSession": "불러온 세션이 없습니다",
     "hideResults": "결과 숨기기 (블라인드 리뷰)",
     "focusSelect": "포커스 플레이어",

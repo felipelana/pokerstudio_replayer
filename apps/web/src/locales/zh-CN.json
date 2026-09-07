@@ -121,7 +121,13 @@
     "confirmDeleteTitle": "删除导入的会话",
     "confirmDeleteSelected": "将从本设备移除 {{count}} 个会话，连同其牌局与笔记。此操作无法撤销。",
     "confirmDeleteAll": "将从本设备移除全部 {{count}} 个会话，连同其牌局与笔记。此操作无法撤销。",
-    "openHint": "双击打开"
+    "openHint": "双击打开",
+    "search": "搜索",
+    "searchHint": "名称、文件或牌室",
+    "anySite": "任意牌室",
+    "from": "起",
+    "to": "止",
+    "showing": "显示 {{count}} 条"
   },
   "sidebar": {
     "loadHands": "加载牌局记录",
@@ -133,7 +139,6 @@
     "noHero": "此文件中没有主角——点击座位以设置关注玩家。",
     "focus": "关注：{{player}}",
     "clearFocus": "取消关注",
-    "filter": "筛选…",
     "noSession": "未加载会话",
     "hideResults": "隐藏结果（盲审）",
     "focusSelect": "关注玩家",

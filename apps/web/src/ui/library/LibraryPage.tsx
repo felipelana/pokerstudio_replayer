@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import type { Session } from '@/model/types';
@@ -39,6 +39,10 @@ export function LibraryPage() {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [confirming, setConfirming] = useState<'all' | 'selected' | undefined>(undefined);
   const [pageIndex, setPageIndex] = useState(0);
+  const [query, setQuery] = useState('');
+  const [siteFilter, setSiteFilter] = useState('');
+  const [from, setFrom] = useState('');
+  const [to, setTo] = useState('');
   const [renaming, setRenaming] = useState<Session>();
   const renameResolver = useRef<((name: string | undefined) => void) | undefined>(undefined);
   const { t } = useTranslation();
@@ -108,10 +112,32 @@ export function LibraryPage() {
     onImported([summary]);
   };
 
+  const siteName = useCallback(
+    (site: Session['site']) => parsers.find((parser) => parser.site === site)?.displayName ?? t('common.unknown'),
+    [t],
+  );
+
+  /** Name, file and room by text; the import date by range. */
+  const matching = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    const after = from ? new Date(`${from}T00:00:00`) : undefined;
+    const before = to ? new Date(`${to}T23:59:59`) : undefined;
+    return sessions.filter((session) => {
+      if (siteFilter && session.site !== siteFilter) return false;
+      const imported = new Date(session.importedAt);
+      if (after && imported < after) return false;
+      if (before && imported > before) return false;
+      if (!q) return true;
+      return [session.name, session.sourceFileName, siteName(session.site)]
+        .filter(Boolean)
+        .some((value) => value!.toLowerCase().includes(q));
+    });
+  }, [sessions, query, siteFilter, from, to, siteName]);
+
   /** Ten at a time keeps the table readable on any screen. */
-  const pageCount = Math.max(1, Math.ceil(sessions.length / PAGE_SIZE));
+  const pageCount = Math.max(1, Math.ceil(matching.length / PAGE_SIZE));
   const page = Math.min(pageIndex, pageCount - 1);
-  const pageRows = sessions.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE);
+  const pageRows = matching.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE);
 
   const toggleOne = (id: string) =>
     setSelected((current) => {
@@ -170,7 +196,6 @@ export function LibraryPage() {
     await refresh();
   };
 
-  const siteName = (site: Session['site']) => parsers.find((p) => p.site === site)?.displayName ?? t('common.unknown');
 
   return (
     <div className="mx-auto flex h-full w-full max-w-[1500px] flex-col gap-5 overflow-auto p-6">
@@ -226,6 +251,80 @@ export function LibraryPage() {
             {t('library.deleteAll')}
           </button>
         </header>
+        <div className="flex flex-wrap items-end gap-2 border-b px-4 py-2 text-xs" style={{ borderColor: 'var(--border)' }}>
+          <label className="flex flex-col gap-1">
+            <span className="label-caps">{t('library.search')}</span>
+            <input
+              className="input !py-1 w-[220px] text-xs"
+              value={query}
+              placeholder={t('library.searchHint')}
+              onChange={(e) => {
+                setPageIndex(0);
+                setQuery(e.target.value);
+              }}
+            />
+          </label>
+          <label className="flex flex-col gap-1">
+            <span className="label-caps">{t('library.colSite')}</span>
+            <select
+              className="input !py-1 !w-auto text-xs"
+              value={siteFilter}
+              onChange={(e) => {
+                setPageIndex(0);
+                setSiteFilter(e.target.value);
+              }}
+            >
+              <option value="">{t('library.anySite')}</option>
+              {parsers.map((parser) => (
+                <option key={parser.site} value={parser.site}>
+                  {parser.displayName}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="flex flex-col gap-1">
+            <span className="label-caps">{t('library.from')}</span>
+            <input
+              type="date"
+              className="input !py-1 !w-auto text-xs"
+              value={from}
+              onChange={(e) => {
+                setPageIndex(0);
+                setFrom(e.target.value);
+              }}
+            />
+          </label>
+          <label className="flex flex-col gap-1">
+            <span className="label-caps">{t('library.to')}</span>
+            <input
+              type="date"
+              className="input !py-1 !w-auto text-xs"
+              value={to}
+              onChange={(e) => {
+                setPageIndex(0);
+                setTo(e.target.value);
+              }}
+            />
+          </label>
+          {(query || siteFilter || from || to) && (
+            <button
+              type="button"
+              className="btn !py-1 text-xs"
+              onClick={() => {
+                setQuery('');
+                setSiteFilter('');
+                setFrom('');
+                setTo('');
+                setPageIndex(0);
+              }}
+            >
+              {t('common.reset')}
+            </button>
+          )}
+          <div className="flex-1" />
+          <span style={{ color: 'var(--text-muted)' }}>{t('library.showing', { count: matching.length })}</span>
+        </div>
+
         {notice && (
           <div className="px-4 py-2 text-xs" style={{ color: 'var(--text-muted)' }}>
             {notice}
