@@ -17,6 +17,7 @@ import { reviewApi, type CloudReviewRow } from '@/infrastructure/http/reviewApi'
 import { buildCloudReview } from './CloudReviews';
 import { forgetKnownReviews } from '@/ui/replayer/useCloudProgress';
 import { PromptDialog } from '@/ui/PromptDialog';
+import { NameSessionsDialog } from './NameSessionsDialog';
 import { getRepository } from '@/db/repository';
 import type { ImportSummary } from '@/parsers/importer';
 import { importText } from '@/parsers/importer';
@@ -50,6 +51,7 @@ export function LibraryPage() {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [confirming, setConfirming] = useState<'all' | 'selected' | undefined>(undefined);
   const [pageIndex, setPageIndex] = useState(0);
+  const [naming, setNaming] = useState<Session[]>([]);
   const [query, setQuery] = useState('');
   /** What the account holds, so each row can say where it lives — and so a
    *  review saved from another machine can be brought down here. */
@@ -93,10 +95,24 @@ export function LibraryPage() {
   const onImported = useCallback(
     (summaries: ImportSummary[]) => {
       setLastImport(summaries);
+      // Naming comes after the import: only now is it clear how many sessions
+      // arrived and what each one holds.
+      setNaming(summaries.filter((s) => s.result.hands.length > 0).map((s) => s.session));
       void refresh();
     },
     [refresh],
   );
+
+  /** Applies the names typed in the dialog. */
+  const applyNames = async (names: Record<string, string>) => {
+    for (const [id, value] of Object.entries(names)) {
+      const name = value.trim();
+      const original = naming.find((session) => session.id === id);
+      if (name && original && name !== original.name) await getRepository().renameSession(id, name);
+    }
+    setNaming([]);
+    await refresh();
+  };
 
   const rename = async (s: Session) => {
     const name = await askName(s);
@@ -359,7 +375,7 @@ export function LibraryPage() {
               className="btn btn-primary"
               onClick={() => navigate(`/replay/${s.session.id}`)}
             >
-              {t('library.openInReplayer')} — {s.session.name}
+              {t('library.openInReplayer')} — {sessions.find((row) => row.id === s.session.id)?.name ?? s.session.name}
             </button>
           ))}
         </div>
@@ -712,6 +728,8 @@ export function LibraryPage() {
           </div>
         )}
       </section>
+
+      <NameSessionsDialog sessions={naming} onCancel={() => setNaming([])} onSave={(names) => void applyNames(names)} />
 
       <PromptDialog
         open={!!renaming}

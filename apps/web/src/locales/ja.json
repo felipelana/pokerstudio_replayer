@@ -75,7 +75,6 @@
     "dropzoneHint": "PokerStars のキャッシュ・トーナメントのハンド履歴に対応。他サイトは認識のみで未対応です。",
     "selectFiles": "ファイルを選択",
     "selectFolder": "フォルダを選択",
-    "pasteLabel": "またはハンド履歴を貼り付け",
     "pastePlaceholder": "ここに1つ以上のハンドを貼り付け…",
     "importPaste": "貼り付けたテキストをインポート",
     "pasteName": "{{date}} に貼り付け",
@@ -100,8 +99,6 @@
     "loadSample": "デモサンプルを読み込む",
     "siteOverride": "サイトを指定",
     "autoDetect": "自動検出",
-    "nameLabel": "このセッションの名前",
-    "namePlaceholder": "任意 — 未入力ならファイル名を使います",
     "colStatus": "状態",
     "statusDone": "完了",
     "statusOpen": "未着手",
@@ -137,7 +134,11 @@
     "sort": "並び替え",
     "storageHint": "「このブラウザのみ」のセッションはここにしかありません。ブラウザを消すと失われます。アカウントに保存すれば残り、別の端末でも開けます。",
     "confirmDeleteSaved": "そのうち {{count}} 件はアカウントに保存されており、このブラウザだけでなくデータベースからも削除されます。",
-    "statusInProgress": "進行中"
+    "statusInProgress": "進行中",
+    "pasteButton": "ハンドヒストリーを貼り付け",
+    "nameDialogTitle": "セッションに名前を付ける",
+    "nameDialogBody": "{{count}} 件を取り込みました。名前を付けるか、ファイル名のままにできます。",
+    "keepFileNames": "ファイル名のまま"
   },
   "sidebar": {
     "loadHands": "ハンド履歴を読み込む",

@@ -75,7 +75,6 @@
     "dropzoneHint": "Historiales de PokerStars de cash y torneo. Otras salas se reconocen pero aún no están soportadas.",
     "selectFiles": "Seleccionar archivos",
     "selectFolder": "Seleccionar carpeta",
-    "pasteLabel": "O pega un historial de manos",
     "pastePlaceholder": "Pega una o más manos aquí…",
     "importPaste": "Importar texto pegado",
     "pasteName": "Pegado el {{date}}",
@@ -100,8 +99,6 @@
     "loadSample": "Cargar la muestra de demostración",
     "siteOverride": "Forzar sala",
     "autoDetect": "Detectar automáticamente",
-    "nameLabel": "Nombre de esta sesión",
-    "namePlaceholder": "Opcional: si no, se usa el nombre del archivo",
     "colStatus": "Estado",
     "statusDone": "terminada",
     "statusOpen": "sin empezar",
@@ -137,7 +134,11 @@
     "sort": "Ordenar por",
     "storageHint": "Las sesiones marcadas como «Solo aquí» viven únicamente en este navegador: si lo limpias, se pierden. Guárdalas en tu cuenta para conservarlas y abrirlas en otro equipo.",
     "confirmDeleteSaved": "{{count}} de ellas están guardadas en tu cuenta y se eliminarán también de la base de datos, no solo de este navegador.",
-    "statusInProgress": "En curso"
+    "statusInProgress": "En curso",
+    "pasteButton": "Pegar historial",
+    "nameDialogTitle": "Nombrar las sesiones",
+    "nameDialogBody": "{{count}} importada(s). Ponle nombre a cada una o conserva el del archivo.",
+    "keepFileNames": "Conservar nombres de archivo"
   },
   "sidebar": {
     "loadHands": "Cargar historiales",

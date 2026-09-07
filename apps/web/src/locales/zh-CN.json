@@ -75,7 +75,6 @@
     "dropzoneHint": "支持 PokerStars 现金桌和锦标赛牌局记录。其他平台可识别但暂不支持。",
     "selectFiles": "选择文件",
     "selectFolder": "选择文件夹",
-    "pasteLabel": "或粘贴牌局记录",
     "pastePlaceholder": "在此粘贴一手或多手牌…",
     "importPaste": "导入粘贴的文本",
     "pasteName": "粘贴于 {{date}}",
@@ -100,8 +99,6 @@
     "loadSample": "加载演示样本",
     "siteOverride": "强制指定平台",
     "autoDetect": "自动检测",
-    "nameLabel": "本次会话的名称",
-    "namePlaceholder": "可选 — 留空则使用文件名",
     "colStatus": "状态",
     "statusDone": "已完成",
     "statusOpen": "未开始",
@@ -137,7 +134,11 @@
     "sort": "排序方式",
     "storageHint": "标记为“仅本浏览器”的会话只存在于此处，清空浏览器就会丢失。保存到账户即可长期保留，并在其他机器上打开。",
     "confirmDeleteSaved": "其中 {{count}} 个已保存在你的账户中，将一并从数据库删除，而不仅是本浏览器。",
-    "statusInProgress": "进行中"
+    "statusInProgress": "进行中",
+    "pasteButton": "粘贴手牌记录",
+    "nameDialogTitle": "为会话命名",
+    "nameDialogBody": "已导入 {{count}} 个。为每个命名，或保留文件名。",
+    "keepFileNames": "保留文件名"
   },
   "sidebar": {
     "loadHands": "加载牌局记录",

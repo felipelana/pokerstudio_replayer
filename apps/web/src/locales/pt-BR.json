@@ -75,7 +75,6 @@
     "dropzoneHint": "Hand histories PokerStars de cash e torneio. Outros sites são reconhecidos, mas ainda não suportados.",
     "selectFiles": "Selecionar arquivos",
     "selectFolder": "Selecionar pasta",
-    "pasteLabel": "Ou cole uma hand history",
     "pastePlaceholder": "Cole uma ou mais mãos aqui…",
     "importPaste": "Importar texto colado",
     "pasteName": "Colado em {{date}}",
@@ -100,8 +99,6 @@
     "loadSample": "Carregar amostra de demonstração",
     "siteOverride": "Forçar site",
     "autoDetect": "Detectar automaticamente",
-    "nameLabel": "Nome desta sessão",
-    "namePlaceholder": "Opcional — sem nome, vale o do arquivo",
     "colStatus": "Situação",
     "statusDone": "finalizada",
     "statusOpen": "não iniciada",
@@ -137,7 +134,11 @@
     "sort": "Ordenar por",
     "storageHint": "As sessões marcadas como “Na sessão” estão só neste navegador — limpar o navegador perde tudo. Salve na sua conta para guardar e abrir em outra máquina.",
     "confirmDeleteSaved": "{{count}} delas estão gravadas na sua conta e serão excluídas também do banco de dados, não apenas deste navegador.",
-    "statusInProgress": "Em andamento"
+    "statusInProgress": "Em andamento",
+    "pasteButton": "Colar hand history",
+    "nameDialogTitle": "Nomear as sessões",
+    "nameDialogBody": "{{count}} importada(s). Dê um nome a cada uma, ou mantenha o nome do arquivo.",
+    "keepFileNames": "Manter nome do arquivo"
   },
   "sidebar": {
     "loadHands": "Carregar hand histories",

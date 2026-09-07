@@ -75,7 +75,6 @@
     "dropzoneHint": "PokerStars cash and tournament hand histories. Other sites are recognised but not supported yet.",
     "selectFiles": "Select files",
     "selectFolder": "Select folder",
-    "pasteLabel": "Or paste a hand history",
     "pastePlaceholder": "Paste one or more hands here…",
     "importPaste": "Import pasted text",
     "pasteName": "Pasted {{date}}",
@@ -100,8 +99,6 @@
     "loadSample": "Load the demo sample",
     "siteOverride": "Force site",
     "autoDetect": "Auto-detect",
-    "nameLabel": "Name for this session",
-    "namePlaceholder": "Optional — the file name is used otherwise",
     "colStatus": "Status",
     "statusDone": "finished",
     "statusOpen": "not started",
@@ -137,7 +134,11 @@
     "sort": "Sort by",
     "storageHint": "Sessions marked “This browser” live only here — clearing the browser loses them. Save one to your account to keep it and open it on another machine.",
     "confirmDeleteSaved": "{{count}} of them are stored on your account and will be deleted from the database as well, not only from this browser.",
-    "statusInProgress": "In progress"
+    "statusInProgress": "In progress",
+    "pasteButton": "Paste hand history",
+    "nameDialogTitle": "Name the sessions",
+    "nameDialogBody": "{{count}} imported. Give each one a name, or keep the file names.",
+    "keepFileNames": "Keep file names"
   },
   "sidebar": {
     "loadHands": "Load hand histories",

@@ -4,6 +4,7 @@ import type { Site } from '@/model/types';
 import { filesFromDataTransfer, importFiles, importText, type ImportSummary } from '@/parsers/importer';
 import { parsers } from '@/parsers/registry';
 import { useDateFormatter } from '@/ui/hooks/useFormat';
+import { IconClose } from '@/ui/icons';
 
 interface Props {
   onImported(summaries: ImportSummary[]): void;
@@ -17,7 +18,7 @@ export function ImportPanel({ onImported, compact }: Props) {
   const [busy, setBusy] = useState(false);
   const [paste, setPaste] = useState('');
   const [override, setOverride] = useState<Site | ''>('');
-  const [name, setName] = useState('');
+  const [pasteOpen, setPasteOpen] = useState(false);
   const [messages, setMessages] = useState<{ kind: 'ok' | 'warn' | 'error'; text: string }[]>([]);
   const fileInput = useRef<HTMLInputElement>(null);
   const dirInput = useRef<HTMLInputElement>(null);
@@ -61,15 +62,14 @@ export function ImportPanel({ onImported, compact }: Props) {
       if (!files.length) return;
       setBusy(true);
       try {
-        report(await importFiles(files, override || undefined, name));
-        setName('');
+        report(await importFiles(files, override || undefined));
       } catch (e) {
         setMessages([{ kind: 'error', text: String(e) }]);
       } finally {
         setBusy(false);
       }
     },
-    [override, name, report],
+    [override, report],
   );
 
   const onDrop = async (e: DragEvent) => {
@@ -83,17 +83,17 @@ export function ImportPanel({ onImported, compact }: Props) {
     if (!paste.trim()) return;
     setBusy(true);
     try {
-      const label = name.trim() || t('library.pasteName', { date: df.dateTime(new Date()) });
+      const label = t('library.pasteName', { date: df.dateTime(new Date()) });
       report([await importText(label, paste, override || undefined)]);
       setPaste('');
-      setName('');
+      setPasteOpen(false);
     } finally {
       setBusy(false);
     }
   };
 
   return (
-    <div className={`flex flex-col gap-3 ${compact ? '' : 'md:flex-row'}`}>
+    <div className="flex flex-col gap-3">
       <div className="flex flex-1 flex-col gap-3">
         <div
           role="button"
@@ -128,6 +128,9 @@ export function ImportPanel({ onImported, compact }: Props) {
             <button type="button" className="btn" onClick={() => dirInput.current?.click()} disabled={busy}>
               {t('library.selectFolder')}
             </button>
+            <button type="button" className="btn" onClick={() => setPasteOpen(true)} disabled={busy}>
+              {t('library.pasteButton')}
+            </button>
           </div>
           <input
             ref={fileInput}
@@ -154,16 +157,6 @@ export function ImportPanel({ onImported, compact }: Props) {
             }}
           />
         </div>
-        <label className="flex flex-col gap-1 text-xs" style={{ color: 'var(--text-muted)' }}>
-          {t('library.nameLabel')}
-          <input
-            className="input"
-            value={name}
-            placeholder={t('library.namePlaceholder')}
-            maxLength={80}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </label>
         <label className="flex items-center gap-2 text-xs" style={{ color: 'var(--text-muted)' }}>
           {t('library.siteOverride')}
           <select className="input !w-auto !py-1" value={override} onChange={(e) => setOverride(e.target.value as Site | '')}>
@@ -177,42 +170,65 @@ export function ImportPanel({ onImported, compact }: Props) {
         </label>
       </div>
 
-      <div className="flex flex-1 flex-col gap-2">
-        <textarea
-          aria-label={t('library.pasteLabel')}
-          id="paste-area"
-          className={`input flex-1 font-mono text-xs ${compact ? 'min-h-[120px]' : 'min-h-[200px]'}`}
-          placeholder={t('library.pastePlaceholder')}
-          value={paste}
-          onChange={(e) => setPaste(e.target.value)}
-          spellCheck={false}
-        />
-        <div className="flex items-center gap-2">
-          <button type="button" className="btn btn-primary" onClick={() => void importPasted()} disabled={busy || !paste.trim()}>
-            {busy ? t('library.importing') : t('library.importPaste')}
-          </button>
+      {messages.length > 0 && (
+        <ul className="flex flex-col gap-1 text-xs" aria-live="polite">
+          {messages.map((m, i) => (
+            <li
+              key={i}
+              className="rounded-md px-2 py-1"
+              style={{
+                background:
+                  m.kind === 'ok'
+                    ? 'color-mix(in srgb, var(--result-won) 18%, transparent)'
+                    : m.kind === 'warn'
+                      ? 'color-mix(in srgb, var(--result-break-even) 18%, transparent)'
+                      : 'color-mix(in srgb, var(--result-lost) 18%, transparent)',
+              }}
+            >
+              {m.text}
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {pasteOpen && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+          style={{ background: 'rgba(0,0,0,0.55)' }}
+          onClick={() => setPasteOpen(false)}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label={t('library.pasteButton')}
+            className="panel flex w-full max-w-[640px] flex-col gap-3 p-5 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-start gap-3">
+              <h2 className="flex-1 text-lg font-semibold">{t('library.pasteButton')}</h2>
+              <button type="button" className="btn-icon" onClick={() => setPasteOpen(false)} aria-label={t('common.cancel')}>
+                <IconClose size={15} />
+              </button>
+            </div>
+            <textarea
+              autoFocus
+              className="input min-h-[240px] font-mono text-xs"
+              placeholder={t('library.pastePlaceholder')}
+              value={paste}
+              onChange={(e) => setPaste(e.target.value)}
+              spellCheck={false}
+            />
+            <div className="flex justify-end gap-2">
+              <button type="button" className="btn" onClick={() => setPasteOpen(false)}>
+                {t('common.cancel')}
+              </button>
+              <button type="button" className="btn btn-primary" onClick={() => void importPasted()} disabled={busy || !paste.trim()}>
+                {busy ? t('library.importing') : t('library.importPaste')}
+              </button>
+            </div>
+          </div>
         </div>
-        {messages.length > 0 && (
-          <ul className="flex flex-col gap-1 text-xs" aria-live="polite">
-            {messages.map((m, i) => (
-              <li
-                key={i}
-                className="rounded-md px-2 py-1"
-                style={{
-                  background:
-                    m.kind === 'ok'
-                      ? 'color-mix(in srgb, var(--result-won) 18%, transparent)'
-                      : m.kind === 'warn'
-                        ? 'color-mix(in srgb, var(--result-break-even) 18%, transparent)'
-                        : 'color-mix(in srgb, var(--result-lost) 18%, transparent)',
-                }}
-              >
-                {m.text}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+      )}
     </div>
   );
 }

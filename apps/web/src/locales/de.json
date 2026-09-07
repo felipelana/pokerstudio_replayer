@@ -75,7 +75,6 @@
     "dropzoneHint": "PokerStars-Hand-Histories für Cashgame und Turnier. Andere Anbieter werden erkannt, aber noch nicht unterstützt.",
     "selectFiles": "Dateien auswählen",
     "selectFolder": "Ordner auswählen",
-    "pasteLabel": "Oder eine Hand-History einfügen",
     "pastePlaceholder": "Eine oder mehrere Hände hier einfügen…",
     "importPaste": "Eingefügten Text importieren",
     "pasteName": "Eingefügt am {{date}}",
@@ -100,8 +99,6 @@
     "loadSample": "Demo-Beispiel laden",
     "siteOverride": "Anbieter erzwingen",
     "autoDetect": "Automatisch erkennen",
-    "nameLabel": "Name dieser Sitzung",
-    "namePlaceholder": "Optional — sonst gilt der Dateiname",
     "colStatus": "Status",
     "statusDone": "abgeschlossen",
     "statusOpen": "nicht begonnen",
@@ -137,7 +134,11 @@
     "sort": "Sortieren nach",
     "storageHint": "Sitzungen mit „Nur hier\" liegen ausschließlich in diesem Browser — wird er geleert, sind sie weg. Im Konto gespeichert bleiben sie und lassen sich an einem anderen Rechner öffnen.",
     "confirmDeleteSaved": "{{count}} davon liegen in deinem Konto und werden auch aus der Datenbank gelöscht, nicht nur aus diesem Browser.",
-    "statusInProgress": "Läuft"
+    "statusInProgress": "Läuft",
+    "pasteButton": "Handverlauf einfügen",
+    "nameDialogTitle": "Sitzungen benennen",
+    "nameDialogBody": "{{count}} importiert. Gib jeder einen Namen oder behalte die Dateinamen.",
+    "keepFileNames": "Dateinamen behalten"
   },
   "sidebar": {
     "loadHands": "Hand-Histories laden",
