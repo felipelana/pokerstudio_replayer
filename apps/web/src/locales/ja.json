@@ -67,7 +67,8 @@
     "help": "キーボードショートカット (?)",
     "review": "レビューメモ",
     "toggleNeon": "テーブルのネオン",
-    "toggle3d": "3D / 2D テーブルを切り替え"
+    "toggle3d": "3D / 2D テーブルを切り替え",
+    "menu": "メニュー"
   },
   "library": {
     "title": "ハンド履歴ライブラリ",
@@ -147,7 +148,6 @@
     "loadHands": "ハンド履歴を読み込む",
     "showKnownHands": "判明しているハンドを表示",
     "colorHintResults": "結果で色分け",
-    "colorVpipOnly": "VPIP のみ色分け",
     "hands": "ハンド",
     "copyRaw": "このハンドの元テキストをコピー",
     "noHero": "このファイルにはヒーローがいません。シートをクリックして注目プレイヤーを設定してください。",

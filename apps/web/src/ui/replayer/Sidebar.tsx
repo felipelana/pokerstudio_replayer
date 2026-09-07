@@ -149,14 +149,12 @@ export function Sidebar({
   const showResult = (row: HandRow) =>
     !settings.hideResults &&
     settings.colorHintResults &&
-    !!row.meta.result &&
-    !(settings.colorVpipOnly && !row.meta.vpip);
+    !!row.meta.result;
 
   const netColor = (row: HandRow) => {
     // The same rule as the colour bar: hidden results, results turned off, or
     // a hand that was folded before putting money in all read as neutral.
     if (settings.hideResults || row.meta.net === undefined || Math.abs(row.meta.net) < 0.005) return 'var(--text-muted)';
-    if (settings.colorVpipOnly && !row.meta.vpip) return 'var(--text-muted)';
     if (!settings.colorHintResults) return 'var(--text-muted)';
     return row.meta.net > 0 ? 'var(--result-won)' : 'var(--result-lost)';
   };
@@ -289,7 +287,6 @@ export function Sidebar({
           [
             ['showKnownHands', 'sidebar.showKnownHands'],
             ['colorHintResults', 'sidebar.colorHintResults'],
-            ['colorVpipOnly', 'sidebar.colorVpipOnly'],
             ['hideResults', 'sidebar.hideResults'],
             ['skipPosts', 'sidebar.skipPosts'],
           ] as const

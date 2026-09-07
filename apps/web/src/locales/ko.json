@@ -67,7 +67,8 @@
     "help": "키보드 단축키 (?)",
     "review": "리뷰 메모",
     "toggleNeon": "테이블 네온",
-    "toggle3d": "3D / 2D 테이블 전환"
+    "toggle3d": "3D / 2D 테이블 전환",
+    "menu": "메뉴"
   },
   "library": {
     "title": "핸드 히스토리 라이브러리",
@@ -147,7 +148,6 @@
     "loadHands": "핸드 히스토리 불러오기",
     "showKnownHands": "알려진 핸드 표시",
     "colorHintResults": "결과별 색상 표시",
-    "colorVpipOnly": "VPIP만 색상 표시",
     "hands": "핸드",
     "copyRaw": "이 핸드의 원본 텍스트 복사",
     "noHero": "이 파일에는 히어로가 없습니다. 좌석을 클릭해 포커스 플레이어를 지정하세요.",

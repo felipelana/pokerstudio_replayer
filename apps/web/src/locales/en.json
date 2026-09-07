@@ -67,7 +67,8 @@
     "help": "Keyboard shortcuts (?)",
     "review": "Review notes",
     "toggleNeon": "Neon table edge",
-    "toggle3d": "Switch between the 3D and 2D table"
+    "toggle3d": "Switch between the 3D and 2D table",
+    "menu": "Menu"
   },
   "library": {
     "title": "Hand history library",
@@ -147,7 +148,6 @@
     "loadHands": "Load hand histories",
     "showKnownHands": "Show known hands",
     "colorHintResults": "Color hint results",
-    "colorVpipOnly": "Color VPIP only",
     "hands": "Hands",
     "copyRaw": "Copy raw text of this hand",
     "noHero": "No hero in this file — click a seat to set the focus player.",

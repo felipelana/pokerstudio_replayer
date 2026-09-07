@@ -34,7 +34,6 @@ export interface Settings {
   dateFormat: 'auto' | 'dmy' | 'mdy';
   showKnownHands: boolean;
   colorHintResults: boolean;
-  colorVpipOnly: boolean;
   startAtHero: boolean;
   /** Skip ante/blind posting frames while navigating (R6). */
   skipPosts: boolean;
@@ -79,7 +78,6 @@ export const DEFAULT_SETTINGS: Settings = {
   dateFormat: 'auto',
   showKnownHands: true,
   colorHintResults: true,
-  colorVpipOnly: false,
   startAtHero: true,
   skipPosts: false,
   sidebarCollapsed: false,

@@ -363,3 +363,10 @@ export const IconCloudDown = (p: Props) => (
     <path d="M12 9v6m-2.5-2.5L12 15l2.5-2.5" />
   </Svg>
 );
+
+/** The menu that holds the header controls on a narrow screen. */
+export const IconMenu = (p: Props) => (
+  <Svg {...p}>
+    <path d="M4 7h16M4 12h16M4 17h16" />
+  </Svg>
+);

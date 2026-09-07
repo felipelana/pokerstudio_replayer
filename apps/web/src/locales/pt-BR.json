@@ -67,7 +67,8 @@
     "help": "Atalhos de teclado (?)",
     "review": "Notas de review",
     "toggleNeon": "Neon na mesa",
-    "toggle3d": "Alternar entre mesa 3D e 2D"
+    "toggle3d": "Alternar entre mesa 3D e 2D",
+    "menu": "Menu"
   },
   "library": {
     "title": "Biblioteca de hand histories",
@@ -147,7 +148,6 @@
     "loadHands": "Carregar hand histories",
     "showKnownHands": "Mostrar mãos conhecidas",
     "colorHintResults": "Colorir por resultado",
-    "colorVpipOnly": "Colorir só VPIP",
     "hands": "Mãos",
     "copyRaw": "Copiar texto bruto desta mão",
     "noHero": "Sem herói neste arquivo — clique em um assento para definir o foco.",

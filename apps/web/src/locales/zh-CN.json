@@ -67,7 +67,8 @@
     "help": "键盘快捷键 (?)",
     "review": "复盘笔记",
     "toggleNeon": "牌桌霓虹边缘",
-    "toggle3d": "切换 3D / 2D 牌桌"
+    "toggle3d": "切换 3D / 2D 牌桌",
+    "menu": "菜单"
   },
   "library": {
     "title": "牌局记录库",
@@ -147,7 +148,6 @@
     "loadHands": "加载牌局记录",
     "showKnownHands": "显示已知手牌",
     "colorHintResults": "按结果着色",
-    "colorVpipOnly": "仅 VPIP 着色",
     "hands": "牌局",
     "copyRaw": "复制此牌局的原始文本",
     "noHero": "此文件中没有主角——点击座位以设置关注玩家。",

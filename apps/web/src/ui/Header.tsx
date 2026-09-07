@@ -5,6 +5,7 @@ import { IconBack, IconHelp, IconLibrary, IconMoon, IconNeon, IconPalette, IconS
 import brandMark from '@/assets/pokerstudio-mark.png';
 import { LanguageSelector } from './LanguageSelector';
 import { UserMenu } from './UserMenu';
+import { HeaderMenu } from './HeaderMenu';
 import { useAuthStore } from '@/state/authStore';
 
 /** Screens that render their own brand and must not show the app chrome. */
@@ -71,22 +72,23 @@ export function Header() {
         </button>
       )}
       <nav className="flex items-center gap-1" aria-label="main">
-        <NavLink to="/" end className={navClass}>
+        <NavLink to="/" end className={navClass} title={t('nav.library')}>
           <IconLibrary size={15} />
-          {t('nav.library')}
+          <span className="hidden md:inline">{t('nav.library')}</span>
         </NavLink>
-        <NavLink to="/settings" className={navClass}>
+        <NavLink to="/settings" className={navClass} title={t('nav.settings')}>
           <IconSliders size={15} />
-          {t('nav.settings')}
+          <span className="hidden md:inline">{t('nav.settings')}</span>
         </NavLink>
-        <NavLink to="/admin" className={navClass}>
+        <NavLink to="/admin" className={navClass} title={t('nav.admin')}>
           <IconPalette size={15} />
-          {t('nav.admin')}
+          <span className="hidden md:inline">{t('nav.admin')}</span>
         </NavLink>
 
       </nav>
       <div className="flex-1" />
 
+      <div className="hidden items-center gap-2 lg:flex">
       <label className="hidden items-center gap-1.5 text-xs lg:flex" title={t('header.cycleSkin')}>
         <span style={{ color: 'var(--text-muted)' }}>{t('header.skin')}</span>
         <select
@@ -132,6 +134,8 @@ export function Header() {
         </>
       )}
 
+      </div>
+
       {user ? (
         <UserMenu />
       ) : (
@@ -142,7 +146,7 @@ export function Header() {
 
       <button
         type="button"
-        className="btn"
+        className="hidden btn lg:inline-flex"
         title={t('header.toggleChips')}
         aria-pressed={settings.chipDisplay === 'bb'}
         onClick={() => updateSettings({ chipDisplay: settings.chipDisplay === 'bb' ? 'chips' : 'bb' })}
@@ -154,7 +158,7 @@ export function Header() {
 
       <button
         type="button"
-        className="btn-icon"
+        className="hidden btn-icon lg:inline-flex"
         title={t('header.toggleTheme')}
         aria-label={t('header.toggleTheme')}
         onClick={() => updateSettings({ theme: settings.theme === 'dark' ? 'light' : 'dark' })}
@@ -162,7 +166,12 @@ export function Header() {
         {settings.theme === 'dark' ? <IconMoon size={15} /> : <IconSun size={15} />}
       </button>
 
-      <LanguageSelector />
+      <span className="hidden lg:inline-flex">
+        <LanguageSelector />
+      </span>
+
+      {/* Everything above, in one place, when the bar runs out of room. */}
+      <HeaderMenu inReplayer={inReplayer} />
 
       {inReplayer && (
         <button

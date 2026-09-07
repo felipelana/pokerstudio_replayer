@@ -67,7 +67,8 @@
     "help": "Tastaturkürzel (?)",
     "review": "Review-Notizen",
     "toggleNeon": "Neonkante am Tisch",
-    "toggle3d": "Zwischen 3D- und 2D-Tisch wechseln"
+    "toggle3d": "Zwischen 3D- und 2D-Tisch wechseln",
+    "menu": "Menü"
   },
   "library": {
     "title": "Hand-History-Bibliothek",
@@ -147,7 +148,6 @@
     "loadHands": "Hand-Histories laden",
     "showKnownHands": "Bekannte Hände zeigen",
     "colorHintResults": "Nach Ergebnis einfärben",
-    "colorVpipOnly": "Nur VPIP einfärben",
     "hands": "Hände",
     "copyRaw": "Rohtext dieser Hand kopieren",
     "noHero": "Kein Hero in dieser Datei – klicke auf einen Platz, um den Fokusspieler zu setzen.",

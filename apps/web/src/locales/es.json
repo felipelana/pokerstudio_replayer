@@ -67,7 +67,8 @@
     "help": "Atajos de teclado (?)",
     "review": "Notas de revisión",
     "toggleNeon": "Neón en la mesa",
-    "toggle3d": "Cambiar entre mesa 3D y 2D"
+    "toggle3d": "Cambiar entre mesa 3D y 2D",
+    "menu": "Menú"
   },
   "library": {
     "title": "Biblioteca de historiales",
@@ -147,7 +148,6 @@
     "loadHands": "Cargar historiales",
     "showKnownHands": "Mostrar manos conocidas",
     "colorHintResults": "Colorear por resultado",
-    "colorVpipOnly": "Colorear solo VPIP",
     "hands": "Manos",
     "copyRaw": "Copiar el texto original de esta mano",
     "noHero": "No hay héroe en este archivo: haz clic en un asiento para definir el jugador en foco.",
