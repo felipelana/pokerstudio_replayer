@@ -399,5 +399,19 @@
   },
   "positions": {
     "none": "—"
+  },
+  "consent": {
+    "title": "Cookies e armazenamento",
+    "body": "Usamos cookies essenciais para manter você conectado. A medição de uso só é gravada se você permitir.",
+    "essentialOnly": "Somente essenciais",
+    "acceptAll": "Aceitar todos",
+    "readPolicy": "Política de privacidade"
+  },
+  "legal": {
+    "privacy": "Privacidade",
+    "terms": "Termos",
+    "updatedAt": "Última atualização: {{date}}",
+    "ptOnly": "Este documento está disponível em português do Brasil.",
+    "draftNote": "Minuta sujeita a revisão jurídica. Os campos entre [[ ]] devem ser preenchidos antes da publicação."
   }
 }

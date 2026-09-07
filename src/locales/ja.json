@@ -399,5 +399,19 @@
   },
   "positions": {
     "none": "—"
+  },
+  "consent": {
+    "title": "Cookie と保存",
+    "body": "ログイン状態の維持に必須の Cookie を使用します。利用状況の計測は許可した場合のみ保存します。",
+    "essentialOnly": "必須のみ",
+    "acceptAll": "すべて許可",
+    "readPolicy": "プライバシーポリシー"
+  },
+  "legal": {
+    "privacy": "プライバシー",
+    "terms": "利用規約",
+    "updatedAt": "最終更新: {{date}}",
+    "ptOnly": "本書類は現在ブラジルポルトガル語のみです。",
+    "draftNote": "法務レビュー前のドラフトです。"
   }
 }

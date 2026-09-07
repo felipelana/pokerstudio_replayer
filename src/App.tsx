@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { useAppStore, useActiveSkin } from '@/state/store';
 import { applySkinCssVariables } from '@/skins/presets';
 import { Header } from '@/ui/Header';
+import { ConsentBanner } from '@/ui/ConsentBanner';
+import { LegalPage } from '@/ui/legal/LegalPage';
 import { LibraryPage } from '@/ui/library/LibraryPage';
 import { ReplayerPage } from '@/ui/replayer/ReplayerPage';
 import { SettingsPage } from '@/ui/settings/SettingsPage';
@@ -47,9 +49,12 @@ export function App() {
           <Route path="/replay/:sessionId/:handId?" element={<ReplayerPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/admin" element={<AdminPage />} />
+          <Route path="/privacidade" element={<LegalPage doc="privacy" />} />
+          <Route path="/termos" element={<LegalPage doc="terms" />} />
           <Route path="*" element={<LibraryPage />} />
         </Routes>
       </main>
+      <ConsentBanner />
     </div>
   );
 }

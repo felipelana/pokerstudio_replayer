@@ -399,5 +399,19 @@
   },
   "positions": {
     "none": "—"
+  },
+  "consent": {
+    "title": "Cookies and storage",
+    "body": "We use essential cookies to keep you signed in. Usage measurement is only stored if you allow it.",
+    "essentialOnly": "Essential only",
+    "acceptAll": "Accept all",
+    "readPolicy": "Privacy policy"
+  },
+  "legal": {
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "updatedAt": "Last updated: {{date}}",
+    "ptOnly": "This document is currently available in Brazilian Portuguese only. A reviewed translation will follow.",
+    "draftNote": "Draft pending legal review. Placeholders in [[ ]] must be filled in before launch."
   }
 }

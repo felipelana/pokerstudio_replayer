@@ -399,5 +399,19 @@
   },
   "positions": {
     "none": "—"
+  },
+  "consent": {
+    "title": "쿠키 및 저장",
+    "body": "로그인 유지를 위해 필수 쿠키를 사용합니다. 사용 통계는 동의한 경우에만 저장됩니다.",
+    "essentialOnly": "필수만",
+    "acceptAll": "모두 허용",
+    "readPolicy": "개인정보 처리방침"
+  },
+  "legal": {
+    "privacy": "개인정보",
+    "terms": "약관",
+    "updatedAt": "최종 업데이트: {{date}}",
+    "ptOnly": "이 문서는 현재 브라질 포르투갈어로만 제공됩니다.",
+    "draftNote": "법률 검토 전 초안입니다."
   }
 }

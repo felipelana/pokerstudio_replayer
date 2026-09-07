@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import type { Session } from '@/model/types';
 import { getRepository } from '@/db/repository';
@@ -192,6 +192,15 @@ export function LibraryPage() {
           </div>
         )}
       </section>
+
+      <footer className="mt-6 flex items-center gap-4 pb-4 text-xs" style={{ color: 'var(--text-muted)' }}>
+        <Link to="/privacidade" className="hover:underline">
+          {t('legal.privacy')}
+        </Link>
+        <Link to="/termos" className="hover:underline">
+          {t('legal.terms')}
+        </Link>
+      </footer>
     </div>
   );
 }

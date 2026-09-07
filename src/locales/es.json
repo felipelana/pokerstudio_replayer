@@ -399,5 +399,19 @@
   },
   "positions": {
     "none": "—"
+  },
+  "consent": {
+    "title": "Cookies y almacenamiento",
+    "body": "Usamos cookies esenciales para mantener tu sesión. La medición de uso solo se guarda si lo permites.",
+    "essentialOnly": "Solo esenciales",
+    "acceptAll": "Aceptar todo",
+    "readPolicy": "Política de privacidad"
+  },
+  "legal": {
+    "privacy": "Privacidad",
+    "terms": "Términos",
+    "updatedAt": "Última actualización: {{date}}",
+    "ptOnly": "Este documento está disponible por ahora solo en portugués de Brasil.",
+    "draftNote": "Borrador pendiente de revisión legal."
   }
 }

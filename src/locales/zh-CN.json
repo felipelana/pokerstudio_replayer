@@ -399,5 +399,19 @@
   },
   "positions": {
     "none": "—"
+  },
+  "consent": {
+    "title": "Cookie 与本地存储",
+    "body": "我们使用必要 Cookie 保持登录状态。使用统计仅在您同意后才会保存。",
+    "essentialOnly": "仅必要",
+    "acceptAll": "全部接受",
+    "readPolicy": "隐私政策"
+  },
+  "legal": {
+    "privacy": "隐私",
+    "terms": "条款",
+    "updatedAt": "最后更新：{{date}}",
+    "ptOnly": "本文件目前仅提供巴西葡萄牙语版本。",
+    "draftNote": "草稿，待法律审核。"
   }
 }

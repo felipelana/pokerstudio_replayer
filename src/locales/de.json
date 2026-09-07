@@ -399,5 +399,19 @@
   },
   "positions": {
     "none": "—"
+  },
+  "consent": {
+    "title": "Cookies und Speicherung",
+    "body": "Wir verwenden essenzielle Cookies, um Sie angemeldet zu halten. Nutzungsmessung wird nur mit Ihrer Zustimmung gespeichert.",
+    "essentialOnly": "Nur essenzielle",
+    "acceptAll": "Alle akzeptieren",
+    "readPolicy": "Datenschutzerklärung"
+  },
+  "legal": {
+    "privacy": "Datenschutz",
+    "terms": "Nutzungsbedingungen",
+    "updatedAt": "Zuletzt aktualisiert: {{date}}",
+    "ptOnly": "Dieses Dokument liegt derzeit nur auf brasilianischem Portugiesisch vor.",
+    "draftNote": "Entwurf, juristische Prüfung ausstehend."
   }
 }
