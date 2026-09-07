@@ -541,7 +541,18 @@
     "hide": "Hide",
     "capsLock": "Caps Lock is on",
     "offline": "Could not reach the server. Try again shortly.",
-    "offlineBanner": "Server unavailable — working with local data only."
+    "offlineBanner": "Server unavailable — working with local data only.",
+    "or": "または",
+    "continueWithGoogle": "Google で続行",
+    "signUpWithGoogle": "Google で登録",
+    "oauthError": {
+      "google_cancelled": "Google ログインがキャンセルされました。",
+      "google_state": "ログイン要求の有効期限が切れました。もう一度お試しください。",
+      "google_failed": "Google ログインを完了できませんでした。もう一度お試しください。",
+      "google_email_unverified": "Google のメールアドレスが未確認です。Google で確認してからお試しください。",
+      "link_requires_verification": "このメールアドレスのアカウントが既にあります。パスワードでログインし、先にメールを確認してください。",
+      "account_unavailable": "このアカウントは利用できません。サポートにお問い合わせください。"
+    }
   },
   "account": {
     "title": "My account",
@@ -557,6 +568,11 @@
     "currentSession": "this device",
     "revoke": "Revoke",
     "saveSkin": "Save to my account",
-    "saved": "Saved"
+    "saved": "Saved",
+    "connected": "連携アカウント",
+    "linked": "連携済み",
+    "notLinked": "未連携",
+    "unlink": "連携を解除",
+    "setPasswordHint": "現在は Google のみでログインしています。別の方法が必要ならパスワードを設定してください。"
   }
 }

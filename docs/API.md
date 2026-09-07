@@ -26,14 +26,17 @@ Níveis de acesso:
 | POST | `/auth/change-password` | usuário | troca a senha autenticado | ⏳ |
 | DELETE | `/auth/me` | usuário | exclusão lógica da conta | ⏳ |
 | GET | `/auth/me/export` | usuário | exporta os dados em JSON | ⏳ |
-| GET | `/auth/google` | público | inicia OAuth (Authorization Code + PKCE) | ⏳ |
-| GET | `/auth/google/callback` | público | conclui OAuth e abre sessão | ⏳ |
+| GET | `/auth/providers` | público | quais provedores estão configurados (`{ google }`) | ✅ |
+| GET | `/auth/google` | público | inicia OAuth (Authorization Code + PKCE) | ✅ |
+| GET | `/auth/google/callback` | público | conclui OAuth e abre sessão | ✅ |
+| GET | `/auth/google/link` | usuário | diz se a conta já tem o Google vinculado | ✅ |
+| DELETE | `/auth/google/link` | usuário | desvincula o Google (409 se for a única credencial) | ✅ |
 | GET | `/skins` | usuário | skins salvas na conta | ✅ |
 | PUT | `/skins` | usuário | salva/atualiza uma skin da conta | ✅ |
 | DELETE | `/skins/:skinId` | usuário | remove uma skin | ✅ |
 | GET | `/referrals/me` | usuário | código, link e indicações | ✅ |
 | POST | `/referrals/invite` | usuário | convite por e-mail ou link do WhatsApp | ✅ |
-| GET | `/r/:code` | público | resolve o código de indicação | ⏳ |
+| GET | `/r/:code` | público | resolve o código de indicação | ✅ |
 | GET | `/admin/users` | admin | lista com busca e filtros | ✅ |
 | GET | `/admin/users/:id` | admin | ficha, sessões, acessos, indicações | ✅ |
 | POST | `/admin/users/:id/block` | admin | bloqueia e revoga sessões | ✅ |
@@ -59,3 +62,36 @@ Níveis de acesso:
   `forgot-password` 10/10 min, `referrals/invite` 20/h.
 - Login e recuperação respondem igual para conta existente e inexistente.
 - Nenhuma rota devolve `passwordHash`, token ou segredo.
+
+## Entrar com o Google
+
+### Fluxo
+
+1. O front pergunta `GET /auth/providers`. Sem `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET`/`GOOGLE_REDIRECT_URI`
+   a resposta é `{ "google": false }` e o botão simplesmente não aparece.
+2. O botão é um link para `GET /auth/google?redirect=/&ref=CODIGO`. A rota sorteia `state`, `nonce` e
+   `code_verifier` (PKCE S256), guarda os três num cookie `ps_oauth` assinado, httpOnly, `SameSite=Lax`,
+   com validade de 10 minutos, e redireciona para o Google.
+3. `GET /auth/google/callback` compara o `state`, troca o `code` pelo `id_token` e valida o token:
+   assinatura RS256 contra a JWKS do Google, `iss`, `aud` igual ao nosso `client_id`, `exp`, `nonce`
+   e `email_verified`.
+4. A conta é resolvida nesta ordem: identidade já vinculada → conta local **com e-mail verificado**
+   (vincula) → conta nova, já ativa. Uma conta local que nunca verificou o e-mail é recusada com
+   `link_requires_verification`, para que ninguém tome uma conta apenas registrando o endereço.
+
+### Erros
+
+Qualquer falha volta para `${APP_URL}/login?error=<código>`, nunca com detalhe técnico na URL:
+`google_cancelled`, `google_state` (pedido expirado ou adulterado), `google_failed`,
+`google_email_unverified`, `link_requires_verification`, `account_unavailable`.
+
+### Vínculo
+
+`GET /auth/google/link` responde `{ linked }`. `DELETE /auth/google/link` desvincula, mas responde
+409 `password_required` quando o Google é a única forma de entrar — o usuário precisa definir uma
+senha antes.
+
+### O parâmetro `redirect`
+
+Só caminhos internos (`startsWith('/')`) são aceitos; qualquer outra coisa vira `/`. Isso fecha a
+porta para usar o callback como redirecionador aberto.

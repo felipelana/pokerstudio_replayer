@@ -11,8 +11,8 @@ dito explicitamente.
 | Tipos da API | `tsc -p apps/api` | ✅ sem erros |
 | Lint (com as regras de fronteira) | `npm run lint` | ✅ sem erros |
 | Testes do replayer | `npm test -w @pokerstudio/web` | ✅ **87 testes** |
-| Testes da API | `npm test -w @pokerstudio/api` | ✅ **23 testes** (15 unitários + 8 e2e contra PostgreSQL real) |
-| Chaves de i18n | `npm run check:locales` | ✅ **489 chaves × 8 idiomas**, nenhuma faltando |
+| Testes da API | `npm test -w @pokerstudio/api` | ✅ **37 testes** (15 auth + 14 Google + 8 e2e contra PostgreSQL real) |
+| Chaves de i18n | `npm run check:locales` | ✅ **503 chaves × 8 idiomas**, nenhuma faltando |
 | Build de produção | `npm run build` | ✅ |
 | Migrações | `prisma migrate deploy` | ✅ 18 tabelas criadas em `pokerstudio_dev` e `pokerstudio_test` |
 
@@ -29,6 +29,11 @@ dito explicitamente.
 | Formatos de mesa | trocar skin (racetrack/oval/elipse) | ✅ contorno, borda, entalhe e neon acompanham |
 | Relatório | marcar mão, capturar mesa, exportar | ✅ PDF e DOCX gerados (`pokerstars-demo-txt.pdf/.docx`) |
 | Marca d'água | skins padrão | ✅ logo PokerStudio centralizado, preto removido por alfa |
+| **Botão do Google** | `/login` e `/signup` com as credenciais preenchidas | ✅ marca oficial de quatro cores sobre branco, separador "ou" acima do formulário |
+| **Botão escondido sem credenciais** | subir a API sem `GOOGLE_CLIENT_ID` | ✅ `GET /auth/providers` → `{"google":false}`, nada é renderizado |
+| **Início do OAuth** | `GET /api/v1/auth/google?redirect=/&ref=…` | ✅ 302 para `accounts.google.com` com `scope=openid email profile`, `code_challenge_method=S256`, `prompt=select_account` e cookie `ps_oauth` httpOnly/SameSite=Lax/600 s |
+| **Erro do OAuth na tela** | `/login?error=link_requires_verification` | ✅ aviso traduzido acima do botão, sem detalhe técnico |
+| **Tela de entrada com a marca** | `/login`, `/signup`, `/forgot-password` | ✅ fundo preto com halo vermelho, logotipo PokerStudio e botão primário vermelho |
 
 ## 3. Segurança conferida por teste
 
@@ -81,6 +86,17 @@ dito explicitamente.
 - A captura da mesa para o relatório inclui feltro, cartas e fichas, mas **não
   as placas dos jogadores** — elas são HTML sobre o canvas/SVG. Duas saídas:
   desenhar os pods no canvas de captura ou adicionar `html2canvas`.
+
+### Conta com o Google — o que ainda não foi exercitado
+
+A **volta completa do Google** (consentimento real → `callback` → sessão) não foi executada:
+depende de um `client_id` de verdade, que só existe depois de criar o projeto no Google Cloud
+(passo a passo no README). O que está coberto: os 14 testes de `tests/google.test.ts` — validação
+do `id_token` (assinatura, `aud`, `iss`, `exp`, `nonce`, `email_verified`), criação de conta,
+vínculo com conta verificada, recusa de conta não verificada e de conta bloqueada, indicação
+preservada e método registrado no log — mais a ida ao Google conferida no navegador.
+A seção "Contas conectadas" da página `/account` foi checada por tipos e build, não por clique
+(exigiria entrar com uma senha real).
 
 ## 5. Anotações operacionais
 

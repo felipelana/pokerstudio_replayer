@@ -53,6 +53,32 @@ e último frame · `Space` play/pause · `1–5` preflop/herói/flop/turn/river 
 3. Coloque hand histories reais em `apps/web/src/parsers/<sala>/fixtures/` e
    escreva os testes a partir delas — **não invente o formato**.
 
+## Entrar com o Google
+
+O botão "Continuar com o Google" só aparece quando as três variáveis estão preenchidas em
+`apps/api/.env` — sem elas o app segue funcionando apenas com e-mail e senha.
+
+1. No [Google Cloud Console](https://console.cloud.google.com/), crie um projeto e abra
+   **APIs e serviços → Tela de permissão OAuth**. Tipo **Externo**, nome "PokerStudio Replayer",
+   e-mail de suporte, logotipo e o link da política de privacidade (`/privacy`) e dos termos (`/terms`).
+2. Em **Escopos**, use apenas `openid`, `.../auth/userinfo.email` e `.../auth/userinfo.profile`.
+   Nada além disso — escopos sensíveis exigiriam verificação do Google.
+3. Em **Credenciais → Criar credenciais → ID do cliente OAuth**, tipo **Aplicativo da Web**:
+   - Origens JavaScript autorizadas: `http://localhost:5173` e `https://replayer.pokerstudio.com.br`
+   - URIs de redirecionamento autorizados:
+     `http://localhost:3001/api/v1/auth/google/callback` e
+     `https://replayer.pokerstudio.com.br/api/v1/auth/google/callback`
+4. Copie o ID e o segredo para `apps/api/.env`:
+
+```env
+GOOGLE_CLIENT_ID="....apps.googleusercontent.com"
+GOOGLE_CLIENT_SECRET="...."
+GOOGLE_REDIRECT_URI="http://localhost:3001/api/v1/auth/google/callback"
+```
+
+O segredo vive **só no servidor**. Nunca use o prefixo `VITE_`: tudo que começa com `VITE_` vai
+para dentro do bundle e ficaria público.
+
 ## Deploy
 
 - `infra/docker/docker-compose.yml` sobe `postgres`, `api`, `web` e `caddy`.

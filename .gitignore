@@ -8,3 +8,6 @@ coverage
 
 .claude/
 /fixture-pokerstars-ko-tournament-dealer-export.txt
+
+# Incremental TypeScript state
+*.tsbuildinfo

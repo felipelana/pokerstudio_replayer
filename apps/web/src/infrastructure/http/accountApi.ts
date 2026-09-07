@@ -31,6 +31,10 @@ export interface SignUpPayload {
 }
 
 export const accountApi = {
+  /** Which sign-in providers this deployment offers. */
+  providers: () => api.get<{ google: boolean }>('/auth/providers'),
+  googleLinked: () => api.get<{ linked: boolean }>('/auth/google/link'),
+  unlinkGoogle: () => api.delete<void>('/auth/google/link'),
   me: () => api.get<Me>('/auth/me'),
   signUp: (payload: SignUpPayload) => api.post<{ id: string; emailVerificationRequired: boolean }>('/auth/signup', payload),
   login: (email: string, password: string, rememberMe?: boolean) =>

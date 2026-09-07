@@ -541,7 +541,18 @@
     "hide": "Hide",
     "capsLock": "Caps Lock is on",
     "offline": "Could not reach the server. Try again shortly.",
-    "offlineBanner": "Server unavailable — working with local data only."
+    "offlineBanner": "Server unavailable — working with local data only.",
+    "or": "or",
+    "continueWithGoogle": "Continue with Google",
+    "signUpWithGoogle": "Sign up with Google",
+    "oauthError": {
+      "google_cancelled": "Google sign-in was cancelled.",
+      "google_state": "The sign-in request expired. Please try again.",
+      "google_failed": "We could not complete the Google sign-in. Please try again.",
+      "google_email_unverified": "Your Google address is not verified. Verify it with Google and try again.",
+      "link_requires_verification": "An account already uses this e-mail. Sign in with your password and confirm your e-mail first.",
+      "account_unavailable": "This account is not available. Contact support."
+    }
   },
   "account": {
     "title": "My account",
@@ -557,6 +568,11 @@
     "currentSession": "this device",
     "revoke": "Revoke",
     "saveSkin": "Save to my account",
-    "saved": "Saved"
+    "saved": "Saved",
+    "connected": "Connected accounts",
+    "linked": "Connected",
+    "notLinked": "Not connected",
+    "unlink": "Disconnect",
+    "setPasswordHint": "You sign in with Google only. Set a password if you want another way in."
   }
 }

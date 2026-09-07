@@ -547,7 +547,18 @@
     "hide": "Hide",
     "capsLock": "Caps Lock is on",
     "offline": "Could not reach the server. Try again shortly.",
-    "offlineBanner": "Server unavailable — working with local data only."
+    "offlineBanner": "Server unavailable — working with local data only.",
+    "or": "или",
+    "continueWithGoogle": "Продолжить с Google",
+    "signUpWithGoogle": "Регистрация через Google",
+    "oauthError": {
+      "google_cancelled": "Вход через Google отменён.",
+      "google_state": "Срок запроса на вход истёк. Попробуйте снова.",
+      "google_failed": "Не удалось завершить вход через Google. Попробуйте снова.",
+      "google_email_unverified": "Ваш адрес Google не подтверждён. Подтвердите его в Google и повторите попытку.",
+      "link_requires_verification": "Аккаунт с этой почтой уже существует. Войдите с паролем и сначала подтвердите почту.",
+      "account_unavailable": "Этот аккаунт недоступен. Обратитесь в поддержку."
+    }
   },
   "account": {
     "title": "My account",
@@ -563,6 +574,11 @@
     "currentSession": "this device",
     "revoke": "Revoke",
     "saveSkin": "Save to my account",
-    "saved": "Saved"
+    "saved": "Saved",
+    "connected": "Связанные аккаунты",
+    "linked": "Связан",
+    "notLinked": "Не связан",
+    "unlink": "Отвязать",
+    "setPasswordHint": "Вы входите только через Google. Задайте пароль, если хотите другой способ входа."
   }
 }

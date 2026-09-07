@@ -31,6 +31,20 @@ Decisões implementadas, com o arquivo onde vivem.
 - Conta `BLOCKED`/`DELETED` não autentica, com mensagem genérica.
 - Tokens de e-mail são de **uso único**: 24 h (verificação) e 1 h (reset).
 
+## Entrar com o Google
+
+- **Authorization Code + PKCE (S256)**. `state`, `nonce` e `code_verifier` ficam num cookie
+  `ps_oauth` **assinado**, httpOnly, `SameSite=Lax`, válido por 10 minutos e apagado no callback.
+- O `id_token` é verificado no servidor: assinatura **RS256** contra a JWKS do Google, `iss`
+  em `accounts.google.com`, `aud` igual ao nosso `client_id`, `exp` e `nonce`.
+- O e-mail do Google só vale se vier com `email_verified`. Vínculo com conta local exige que
+  **essa conta já tenha verificado o e-mail** — caso contrário, `link_requires_verification`.
+  Sem isso, quem registrasse o endereço primeiro tomaria a conta de quem chega pelo Google.
+- `redirect` aceita apenas caminho interno (`/…`); qualquer outro valor vira `/`. Sem redirecionador aberto.
+- Falhas voltam para `/login?error=<código>` — código curto, sem mensagem do provedor na URL.
+- Desvincular exige outra credencial: 409 `password_required` se o Google for a única.
+- `GOOGLE_CLIENT_SECRET` só existe no servidor; nada de `VITE_`, que iria para o bundle.
+
 ## Área administrativa
 
 - `/admstudio` exige **role ADMIN** e sessão com o **segundo fator conferido**;

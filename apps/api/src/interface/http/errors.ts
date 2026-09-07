@@ -36,7 +36,7 @@ export function registerErrorHandler(app: FastifyInstance, isProduction: boolean
     if (status && status >= 400 && status < 500) {
       return problem(reply, {
         code: (err as { code?: string }).code ?? 'bad_request',
-        message: err.message,
+        message: String((err as Error)?.message ?? 'Bad request'),
         status,
       });
     }

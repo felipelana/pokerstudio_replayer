@@ -541,7 +541,18 @@
     "hide": "Ocultar",
     "capsLock": "Caps Lock ligado",
     "offline": "Não foi possível falar com o servidor. Tente de novo em instantes.",
-    "offlineBanner": "Servidor indisponível — trabalhando apenas com os dados locais."
+    "offlineBanner": "Servidor indisponível — trabalhando apenas com os dados locais.",
+    "or": "ou",
+    "continueWithGoogle": "Continuar com o Google",
+    "signUpWithGoogle": "Cadastrar com o Google",
+    "oauthError": {
+      "google_cancelled": "A entrada com o Google foi cancelada.",
+      "google_state": "O pedido de login expirou. Tente novamente.",
+      "google_failed": "Não foi possível concluir a entrada com o Google. Tente novamente.",
+      "google_email_unverified": "Seu e-mail do Google não está verificado. Verifique com o Google e tente de novo.",
+      "link_requires_verification": "Já existe uma conta com este e-mail. Entre com a sua senha e confirme o e-mail primeiro.",
+      "account_unavailable": "Esta conta não está disponível. Fale com o suporte."
+    }
   },
   "account": {
     "title": "Minha conta",
@@ -557,6 +568,11 @@
     "currentSession": "este dispositivo",
     "revoke": "Revogar",
     "saveSkin": "Salvar na minha conta",
-    "saved": "Salvo"
+    "saved": "Salvo",
+    "connected": "Contas conectadas",
+    "linked": "Conectada",
+    "notLinked": "Não conectada",
+    "unlink": "Desconectar",
+    "setPasswordHint": "Você entra apenas com o Google. Defina uma senha se quiser outra forma de acesso."
   }
 }

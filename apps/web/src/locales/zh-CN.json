@@ -541,7 +541,18 @@
     "hide": "Hide",
     "capsLock": "Caps Lock is on",
     "offline": "Could not reach the server. Try again shortly.",
-    "offlineBanner": "Server unavailable — working with local data only."
+    "offlineBanner": "Server unavailable — working with local data only.",
+    "or": "或",
+    "continueWithGoogle": "使用 Google 继续",
+    "signUpWithGoogle": "使用 Google 注册",
+    "oauthError": {
+      "google_cancelled": "Google 登录已取消。",
+      "google_state": "登录请求已过期，请重试。",
+      "google_failed": "无法完成 Google 登录，请重试。",
+      "google_email_unverified": "您的 Google 邮箱尚未验证。请在 Google 验证后重试。",
+      "link_requires_verification": "该邮箱已有账户。请先用密码登录并确认邮箱。",
+      "account_unavailable": "该账户不可用。请联系客服。"
+    }
   },
   "account": {
     "title": "My account",
@@ -557,6 +568,11 @@
     "currentSession": "this device",
     "revoke": "Revoke",
     "saveSkin": "Save to my account",
-    "saved": "Saved"
+    "saved": "Saved",
+    "connected": "已关联账户",
+    "linked": "已关联",
+    "notLinked": "未关联",
+    "unlink": "取消关联",
+    "setPasswordHint": "您目前仅使用 Google 登录。如需其他登录方式，请设置密码。"
   }
 }

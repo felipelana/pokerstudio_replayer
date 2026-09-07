@@ -231,3 +231,46 @@ kbd {
   border-color: var(--border);
   background: var(--surface-2);
 }
+
+/* -------------------------------------------------------------------
+   Sign-in screens wear the logo's own colours: black and PokerStudio red.
+   Scoped to .auth-theme so the replayer keeps its neutral dark palette.
+   ------------------------------------------------------------------- */
+.auth-theme {
+  --bg: #0b0b0d;
+  --bg-end: #000000;
+  --surface: rgba(17, 17, 20, 0.92);
+  --surface-2: #17171b;
+  --text: #f5f6f7;
+  --text-muted: #9b9ba3;
+  --accent: #e10600;
+  --border: rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  background:
+    radial-gradient(120% 85% at 50% -15%, rgba(225, 6, 0, 0.22) 0%, transparent 62%),
+    radial-gradient(90% 70% at 50% 118%, rgba(225, 6, 0, 0.12) 0%, transparent 60%),
+    linear-gradient(180deg, #101013 0%, #000000 100%);
+}
+.auth-theme .panel {
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+.auth-theme .input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 26%, transparent);
+}
+.auth-theme .btn-primary {
+  background: linear-gradient(180deg, #ff1a12 0%, #c40500 100%);
+  border-color: transparent;
+}
+.auth-theme .btn-primary:hover {
+  background: linear-gradient(180deg, #ff3a33 0%, #d40600 100%);
+}
+/* The red hairline under the brand mark. */
+.auth-brand-rule {
+  height: 2px;
+  width: 64px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+}

@@ -34,6 +34,8 @@ import {
   createSkinRepository,
   createUserRepository,
 } from './infrastructure/database/prisma/repositories.js';
+import { createGoogleProvider } from './infrastructure/oauth/google.js';
+import type { OAuthProvider } from './application/ports/oauth.js';
 import type { Config } from './shared/config.js';
 
 /**
@@ -62,6 +64,8 @@ export interface AppContainer {
   breach: PasswordBreachCheck;
   /** False while no e-mail provider is configured (5B.5). */
   requireVerification: boolean;
+  /** Undefined when the Google credentials are not set — the button then hides. */
+  google?: OAuthProvider;
 }
 
 export async function createContainer(config: Config, prisma = new PrismaClient()): Promise<AppContainer> {
@@ -100,5 +104,12 @@ export async function createContainer(config: Config, prisma = new PrismaClient(
     totp: totpProvider,
     breach: config.isProduction ? hibpBreachCheck : { isBreached: async () => false },
     requireVerification: settings?.requireVerification ?? false,
+    google: config.googleEnabled
+      ? createGoogleProvider({
+          clientId: config.GOOGLE_CLIENT_ID!,
+          clientSecret: config.GOOGLE_CLIENT_SECRET!,
+          redirectUri: config.GOOGLE_REDIRECT_URI!,
+        })
+      : undefined,
   };
 }

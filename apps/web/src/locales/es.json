@@ -541,7 +541,18 @@
     "hide": "Hide",
     "capsLock": "Caps Lock is on",
     "offline": "Could not reach the server. Try again shortly.",
-    "offlineBanner": "Server unavailable — working with local data only."
+    "offlineBanner": "Server unavailable — working with local data only.",
+    "or": "o",
+    "continueWithGoogle": "Continuar con Google",
+    "signUpWithGoogle": "Registrarse con Google",
+    "oauthError": {
+      "google_cancelled": "Se canceló el inicio de sesión con Google.",
+      "google_state": "La solicitud de inicio de sesión caducó. Inténtalo de nuevo.",
+      "google_failed": "No pudimos completar el inicio de sesión con Google. Inténtalo de nuevo.",
+      "google_email_unverified": "Tu dirección de Google no está verificada. Verifícala con Google e inténtalo de nuevo.",
+      "link_requires_verification": "Ya existe una cuenta con este correo. Inicia sesión con tu contraseña y confirma el correo primero.",
+      "account_unavailable": "Esta cuenta no está disponible. Contacta con soporte."
+    }
   },
   "account": {
     "title": "My account",
@@ -557,6 +568,11 @@
     "currentSession": "this device",
     "revoke": "Revoke",
     "saveSkin": "Save to my account",
-    "saved": "Saved"
+    "saved": "Saved",
+    "connected": "Cuentas conectadas",
+    "linked": "Conectada",
+    "notLinked": "No conectada",
+    "unlink": "Desconectar",
+    "setPasswordHint": "Solo inicias sesión con Google. Define una contraseña si quieres otra forma de entrar."
   }
 }

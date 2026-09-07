@@ -541,7 +541,18 @@
     "hide": "Hide",
     "capsLock": "Caps Lock is on",
     "offline": "Could not reach the server. Try again shortly.",
-    "offlineBanner": "Server unavailable — working with local data only."
+    "offlineBanner": "Server unavailable — working with local data only.",
+    "or": "oder",
+    "continueWithGoogle": "Weiter mit Google",
+    "signUpWithGoogle": "Mit Google registrieren",
+    "oauthError": {
+      "google_cancelled": "Die Anmeldung mit Google wurde abgebrochen.",
+      "google_state": "Die Anmeldeanfrage ist abgelaufen. Bitte erneut versuchen.",
+      "google_failed": "Die Anmeldung mit Google konnte nicht abgeschlossen werden. Bitte erneut versuchen.",
+      "google_email_unverified": "Deine Google-Adresse ist nicht bestätigt. Bestätige sie bei Google und versuche es erneut.",
+      "link_requires_verification": "Für diese E-Mail gibt es bereits ein Konto. Melde dich mit deinem Passwort an und bestätige zuerst die E-Mail.",
+      "account_unavailable": "Dieses Konto ist nicht verfügbar. Wende dich an den Support."
+    }
   },
   "account": {
     "title": "My account",
@@ -557,6 +568,11 @@
     "currentSession": "this device",
     "revoke": "Revoke",
     "saveSkin": "Save to my account",
-    "saved": "Saved"
+    "saved": "Saved",
+    "connected": "Verbundene Konten",
+    "linked": "Verbunden",
+    "notLinked": "Nicht verbunden",
+    "unlink": "Trennen",
+    "setPasswordHint": "Du meldest dich nur mit Google an. Lege ein Passwort fest, wenn du einen weiteren Weg möchtest."
   }
 }

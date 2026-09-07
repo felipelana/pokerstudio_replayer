@@ -6,29 +6,51 @@ import { accountApi } from '@/infrastructure/http/accountApi';
 import { ApiError } from '@/infrastructure/http/client';
 import { useAuthStore } from '@/state/authStore';
 import { useAppStore } from '@/state/store';
-import { IconSpade } from '@/ui/icons';
+import brandMark from '@/assets/pokerstudio-mark.png';
+import { GoogleButton, OrDivider } from './GoogleButton';
 
 /** Shell shared by every authentication screen. */
 function AuthShell({ title, subtitle, children }: { title: string; subtitle?: string; children: React.ReactNode }) {
   return (
-    <div className="flex min-h-full items-center justify-center p-6">
-      <div className="panel w-full max-w-[420px] p-6">
-        <div className="mb-4 flex items-center gap-2">
-          <span className="inline-flex h-7 w-7 items-center justify-center rounded-md text-white" style={{ background: 'var(--accent)' }}>
-            <IconSpade size={16} />
+    <div className="auth-theme flex min-h-full items-center justify-center p-6">
+      <div className="w-full max-w-[420px]">
+        <div className="mb-6 flex flex-col items-center gap-3">
+          <img
+            src={brandMark}
+            alt="PokerStudio Replayer"
+            className="h-20 w-20 select-none"
+            style={{ filter: 'drop-shadow(0 8px 22px rgba(225, 6, 0, 0.45))' }}
+            draggable={false}
+          />
+          <span className="text-lg font-semibold tracking-wide">
+            PokerStudio <span style={{ color: 'var(--accent)' }}>Replayer</span>
           </span>
-          <span className="font-semibold">PokerStudio Replayer</span>
+          <span className="auth-brand-rule" aria-hidden="true" />
         </div>
-        <h1 className="text-xl font-semibold">{title}</h1>
-        {subtitle && (
-          <p className="mb-4 mt-1 text-sm" style={{ color: 'var(--text-muted)' }}>
-            {subtitle}
-          </p>
-        )}
-        {children}
+        <div className="panel p-6">
+          <h1 className="text-xl font-semibold">{title}</h1>
+          {subtitle && (
+            <p className="mb-4 mt-1 text-sm" style={{ color: 'var(--text-muted)' }}>
+              {subtitle}
+            </p>
+          )}
+          {children}
+        </div>
       </div>
     </div>
   );
+}
+
+/** True when this deployment has Google configured. */
+function useGoogleEnabled(): boolean {
+  const [enabled, setEnabled] = useState(false);
+  useEffect(() => {
+    void accountApi
+      .providers()
+      .then((p) => setEnabled(p.google))
+      .catch(() => setEnabled(false));
+  }, []);
+  return enabled;
 }
 
 function useApiError() {
@@ -52,6 +74,9 @@ export function LoginPage() {
   const [capsLock, setCapsLock] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const { error, setError, handle } = useApiError();
+  const googleEnabled = useGoogleEnabled();
+  const [params] = useSearchParams();
+  const oauthError = params.get('error');
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
@@ -69,6 +94,17 @@ export function LoginPage() {
 
   return (
     <AuthShell title={t('auth.loginTitle')} subtitle={t('auth.loginSubtitle')}>
+      {oauthError && (
+        <p className="mb-3 rounded-md px-3 py-2 text-sm" role="alert" style={{ background: 'color-mix(in srgb, var(--result-lost) 18%, transparent)' }}>
+          {t(`auth.oauthError.${oauthError}`, { defaultValue: t('auth.oauthError.google_failed') })}
+        </p>
+      )}
+      {googleEnabled && (
+        <div className="mb-4 flex flex-col gap-3">
+          <GoogleButton redirect="/" />
+          <OrDivider />
+        </div>
+      )}
       <form onSubmit={submit} className="flex flex-col gap-3">
         <label className="flex flex-col gap-1 text-sm">
           {t('auth.email')}
@@ -145,6 +181,7 @@ export function SignUpPage() {
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState(false);
   const { error, setError, handle } = useApiError();
+  const googleEnabled = useGoogleEnabled();
 
   const set = <K extends keyof typeof form>(key: K, value: (typeof form)[K]) => setForm((f) => ({ ...f, [key]: value }));
 
@@ -185,6 +222,12 @@ export function SignUpPage() {
 
   return (
     <AuthShell title={t('auth.signupTitle')} subtitle={t('auth.signupSubtitle')}>
+      {googleEnabled && (
+        <div className="mb-4 flex flex-col gap-3">
+          <GoogleButton redirect="/" label={t('auth.signUpWithGoogle')} />
+          <OrDivider />
+        </div>
+      )}
       <form onSubmit={submit} className="flex flex-col gap-3">
         <label className="flex flex-col gap-1 text-sm">
           {t('auth.name')}
@@ -408,6 +451,70 @@ export function ReferralLanding() {
   return null;
 }
 
+/**
+ * Which providers this account can sign in with. Only rendered when Google is
+ * configured for the deployment, or when the account is already linked to it.
+ */
+function ConnectedAccounts({ identities }: { identities: string[] }) {
+  const { t } = useTranslation();
+  const googleEnabled = useGoogleEnabled();
+  const [error, setError] = useState('');
+  const [busy, setBusy] = useState(false);
+  const linked = identities.includes('GOOGLE');
+
+  if (!googleEnabled && !linked) return null;
+
+  const unlink = async () => {
+    setBusy(true);
+    setError('');
+    try {
+      await accountApi.unlinkGoogle();
+      window.location.reload();
+    } catch (err) {
+      setError(err instanceof ApiError ? err.problem.title : t('auth.offline'));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <section className="panel p-4">
+      <h2 className="mb-2 font-semibold">{t('account.connected')}</h2>
+      <div className="flex items-center gap-3 text-sm">
+        <span className="flex-1">
+          Google
+          {linked ? (
+            <span className="ml-2 chip-tag">{t('account.linked')}</span>
+          ) : (
+            <span className="ml-2" style={{ color: 'var(--text-muted)' }}>
+              {t('account.notLinked')}
+            </span>
+          )}
+        </span>
+        {linked ? (
+          <button type="button" className="btn" onClick={unlink} disabled={busy}>
+            {busy ? t('auth.working') : t('account.unlink')}
+          </button>
+        ) : (
+          <span className="w-[220px]">
+            <GoogleButton redirect="/account" />
+          </span>
+        )}
+      </div>
+      {error && (
+        <p className="mt-2 text-sm" role="alert" style={{ color: 'var(--result-lost)' }}>
+          {error}
+        </p>
+      )}
+      {linked && !identities.includes('PASSWORD') && (
+        <p className="mt-2 text-xs" style={{ color: 'var(--text-muted)' }}>
+          {t('account.setPasswordHint')}
+        </p>
+      )}
+    </section>
+  );
+}
+
 /** Account area: profile, sessions, referrals and account-level skins. */
 export function AccountPage() {
   const { t } = useTranslation();
@@ -452,6 +559,8 @@ export function AccountPage() {
           {t('account.signOut')}
         </button>
       </section>
+
+      <ConnectedAccounts identities={user.identities} />
 
       <section className="panel p-4">
         <h2 className="mb-2 font-semibold">{t('account.skins')}</h2>
