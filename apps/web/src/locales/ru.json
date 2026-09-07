@@ -39,7 +39,8 @@
     "hands_one": "{{count}} раздача",
     "hands_few": "{{count}} раздачи",
     "hands_many": "{{count}} раздач",
-    "hands_other": "{{count}} раздачи"
+    "hands_other": "{{count}} раздачи",
+    "clear": "сбросить"
   },
   "game": {
     "cash": "Кэш",
@@ -115,7 +116,11 @@
     "statusOpen": "не начата",
     "statusAt": "раздача {{current}} из {{total}}",
     "markDone": "Отметить завершённой",
-    "markOpen": "Открыть снова"
+    "markOpen": "Открыть снова",
+    "colFile": "Файл",
+    "colImported": "Импортирована",
+    "colOpened": "Последний доступ",
+    "colActions": "Действия"
   },
   "sidebar": {
     "loadHands": "Загрузить истории раздач",
@@ -324,7 +329,6 @@
   },
   "admin": {
     "title": "Редактор скинов",
-    "presets": "Пресеты",
     "new": "Новый скин",
     "duplicate": "Дублировать",
     "setDefault": "Использовать в реплеере",
@@ -337,7 +341,7 @@
     "theme": "Базовая тема",
     "unsavedChanges": "Несохранённые изменения",
     "saved": "Скин сохранён",
-    "confirmDelete": "Удалить скин «{{name}}»?",
+    "confirmDelete": "Удалить скин «{{name}}»? Отменить будет нельзя.",
     "invalidJson": "Некорректный JSON скина.",
     "deck": {
       "title": "Колода",
@@ -375,7 +379,9 @@
       "pattern_diamonds": "Ромбы",
       "pattern_grid": "Сетка",
       "pattern_dots": "Точки",
-      "pattern_plain": "Однотонная"
+      "pattern_plain": "Однотонная",
+      "perCard": "Цвет по карте",
+      "perCardHint": "Указанный здесь номинал игнорирует цвет масти. Оставьте пустым, чтобы следовать масти."
     },
     "felt": {
       "title": "Сукно",
@@ -472,7 +478,9 @@
       "opacity": "Прозрачность",
       "blur": "Размытие",
       "tooLarge": "Слишком большое изображение (макс. 6 МБ)."
-    }
+    },
+    "chooseSkin": "Редактируемый скин",
+    "savedLocallyOnly": "Сохранено на этом устройстве — аккаунт недоступен."
   },
   "warnings": {
     "title": "Предупреждения",

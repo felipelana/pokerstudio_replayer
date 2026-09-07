@@ -35,7 +35,8 @@
     "warnings_one": "{{count}} 件の警告",
     "warnings_other": "{{count}} 件の警告",
     "hands_one": "{{count}} ハンド",
-    "hands_other": "{{count}} ハンド"
+    "hands_other": "{{count}} ハンド",
+    "clear": "クリア"
   },
   "game": {
     "cash": "キャッシュ",
@@ -109,7 +110,11 @@
     "statusOpen": "未着手",
     "statusAt": "{{total}} 中 {{current}} ハンド目",
     "markDone": "完了にする",
-    "markOpen": "再開する"
+    "markOpen": "再開する",
+    "colFile": "ファイル",
+    "colImported": "取り込み日時",
+    "colOpened": "最終アクセス",
+    "colActions": "操作"
   },
   "sidebar": {
     "loadHands": "ハンド履歴を読み込む",
@@ -318,7 +323,6 @@
   },
   "admin": {
     "title": "スキンエディター",
-    "presets": "プリセット",
     "new": "新しいスキン",
     "duplicate": "複製",
     "setDefault": "リプレイヤーで使用",
@@ -331,7 +335,7 @@
     "theme": "ベーステーマ",
     "unsavedChanges": "未保存の変更",
     "saved": "スキンを保存しました",
-    "confirmDelete": "スキン「{{name}}」を削除しますか？",
+    "confirmDelete": "スキン「{{name}}」を削除しますか？元に戻せません。",
     "invalidJson": "無効なスキン JSON です。",
     "deck": {
       "title": "デッキ",
@@ -369,7 +373,9 @@
       "pattern_diamonds": "ダイヤ柄",
       "pattern_grid": "グリッド",
       "pattern_dots": "ドット",
-      "pattern_plain": "無地"
+      "pattern_plain": "無地",
+      "perCard": "カードごとの色",
+      "perCardHint": "ここで設定したランクはスートの色を無視します。未設定ならスートに従います。"
     },
     "felt": {
       "title": "フェルト",
@@ -466,7 +472,9 @@
       "opacity": "不透明度",
       "blur": "ぼかし",
       "tooLarge": "画像が大きすぎます（最大 6 MB）。"
-    }
+    },
+    "chooseSkin": "編集中のスキン",
+    "savedLocallyOnly": "この端末に保存しました — アカウントに接続できませんでした。"
   },
   "warnings": {
     "title": "警告",

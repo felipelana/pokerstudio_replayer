@@ -35,7 +35,8 @@
     "warnings_one": "{{count}} aviso",
     "warnings_other": "{{count}} avisos",
     "hands_one": "{{count}} mano",
-    "hands_other": "{{count}} manos"
+    "hands_other": "{{count}} manos",
+    "clear": "limpiar"
   },
   "game": {
     "cash": "Cash",
@@ -109,7 +110,11 @@
     "statusOpen": "sin empezar",
     "statusAt": "mano {{current}} de {{total}}",
     "markDone": "Marcar terminada",
-    "markOpen": "Reabrir"
+    "markOpen": "Reabrir",
+    "colFile": "Archivo",
+    "colImported": "Importada",
+    "colOpened": "Último acceso",
+    "colActions": "Acciones"
   },
   "sidebar": {
     "loadHands": "Cargar historiales",
@@ -318,7 +323,6 @@
   },
   "admin": {
     "title": "Editor de skins",
-    "presets": "Presets",
     "new": "Nueva skin",
     "duplicate": "Duplicar",
     "setDefault": "Usar en el replayer",
@@ -331,7 +335,7 @@
     "theme": "Tema base",
     "unsavedChanges": "Cambios sin guardar",
     "saved": "Skin guardada",
-    "confirmDelete": "¿Eliminar la skin \"{{name}}\"?",
+    "confirmDelete": "¿Eliminar la skin «{{name}}»? No se puede deshacer.",
     "invalidJson": "JSON de skin no válido.",
     "deck": {
       "title": "Baraja",
@@ -369,7 +373,9 @@
       "pattern_diamonds": "Rombos",
       "pattern_grid": "Rejilla",
       "pattern_dots": "Puntos",
-      "pattern_plain": "Liso"
+      "pattern_plain": "Liso",
+      "perCard": "Color por carta",
+      "perCardHint": "La carta definida aquí ignora el color del palo. Déjala sin tocar para seguir al palo."
     },
     "felt": {
       "title": "Tapete",
@@ -466,7 +472,9 @@
       "opacity": "Opacidad",
       "blur": "Desenfoque",
       "tooLarge": "Imagen demasiado grande (máx. 6 MB)."
-    }
+    },
+    "chooseSkin": "Skin en edición",
+    "savedLocallyOnly": "Guardada en este equipo: no se pudo contactar con la cuenta."
   },
   "warnings": {
     "title": "Avisos",

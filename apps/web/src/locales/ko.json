@@ -35,7 +35,8 @@
     "warnings_one": "경고 {{count}}개",
     "warnings_other": "경고 {{count}}개",
     "hands_one": "핸드 {{count}}개",
-    "hands_other": "핸드 {{count}}개"
+    "hands_other": "핸드 {{count}}개",
+    "clear": "지우기"
   },
   "game": {
     "cash": "캐시",
@@ -109,7 +110,11 @@
     "statusOpen": "시작 안 함",
     "statusAt": "{{total}}핸드 중 {{current}}",
     "markDone": "완료로 표시",
-    "markOpen": "다시 열기"
+    "markOpen": "다시 열기",
+    "colFile": "파일",
+    "colImported": "가져온 날짜",
+    "colOpened": "마지막 접속",
+    "colActions": "작업"
   },
   "sidebar": {
     "loadHands": "핸드 히스토리 불러오기",
@@ -318,7 +323,6 @@
   },
   "admin": {
     "title": "스킨 편집기",
-    "presets": "프리셋",
     "new": "새 스킨",
     "duplicate": "복제",
     "setDefault": "리플레이어에서 사용",
@@ -331,7 +335,7 @@
     "theme": "기본 테마",
     "unsavedChanges": "저장되지 않은 변경 사항",
     "saved": "스킨이 저장되었습니다",
-    "confirmDelete": "스킨 \"{{name}}\"을(를) 삭제할까요?",
+    "confirmDelete": "스킨 “{{name}}”을(를) 삭제할까요? 되돌릴 수 없습니다.",
     "invalidJson": "잘못된 스킨 JSON입니다.",
     "deck": {
       "title": "덱",
@@ -369,7 +373,9 @@
       "pattern_diamonds": "다이아몬드",
       "pattern_grid": "격자",
       "pattern_dots": "점",
-      "pattern_plain": "단색"
+      "pattern_plain": "단색",
+      "perCard": "카드별 색상",
+      "perCardHint": "여기서 지정한 랭크는 무늬 색을 무시합니다. 비워 두면 무늬를 따릅니다."
     },
     "felt": {
       "title": "펠트",
@@ -466,7 +472,9 @@
       "opacity": "불투명도",
       "blur": "흐림",
       "tooLarge": "이미지가 너무 큽니다(최대 6MB)."
-    }
+    },
+    "chooseSkin": "편집 중인 스킨",
+    "savedLocallyOnly": "이 기기에 저장했습니다 — 계정에 연결하지 못했습니다."
   },
   "warnings": {
     "title": "경고",

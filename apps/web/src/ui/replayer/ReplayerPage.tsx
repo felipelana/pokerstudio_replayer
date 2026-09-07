@@ -86,6 +86,7 @@ export function ReplayerPage() {
     if (!sessionId || hands.length === 0 || session?.id !== sessionId) return;
     void getRepository().saveSessionProgress(sessionId, {
       lastHandIndex: handIndex,
+      lastOpenedAt: new Date(),
       // Reaching the last hand marks the review finished; the library can undo it.
       ...(handIndex >= hands.length - 1 ? { status: 'completed' as const } : {}),
     });

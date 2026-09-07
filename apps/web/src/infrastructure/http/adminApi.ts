@@ -43,6 +43,23 @@ export interface AdminStats {
   topSkins: { skinId: string | null; _count: number }[];
 }
 
+export interface AdminEmailSettings {
+  provider: 'NONE' | 'RESEND' | 'SMTP';
+  fromAddress?: string;
+  fromName?: string;
+  replyTo?: string;
+  smtpHost?: string;
+  smtpPort?: number;
+  smtpUser?: string;
+  smtpSecure: boolean;
+  requireVerification: boolean;
+  /** True when a key is stored; the key itself never comes back. */
+  hasSecret: boolean;
+  lastError?: string;
+  lastTestAt?: string;
+  pending: number;
+}
+
 export interface AdminEmailRow {
   id: string;
   to: string;
@@ -65,6 +82,10 @@ export const adminApi = {
     api.get<{ total: number; items: AdminAccessLogRow[] }>(`/admin/access-logs?${toQuery(query)}`),
   stats: () => api.get<AdminStats>('/admin/stats'),
   emailOutbox: () => api.get<AdminEmailRow[]>('/admin/email-outbox'),
+  emailSettings: () => api.get<AdminEmailSettings>('/admin/email-settings'),
+  saveEmailSettings: (settings: Partial<AdminEmailSettings> & { provider: string; requireVerification: boolean; secret?: string }) =>
+    api.post<{ ok: true }>('/admin/email-settings', settings),
+  testEmail: (to: string) => api.post<{ delivered: boolean; detail?: string }>('/admin/email-settings/test', { to }),
   usersCsvUrl: '/api/v1/admin/export/users.csv',
 };
 

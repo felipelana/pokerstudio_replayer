@@ -162,6 +162,10 @@ export interface Session {
   lastHandAt?: Date;
   players: string[];
   warnings: string[];
+  /** The file this came from, kept even when the session is renamed. */
+  sourceFileName?: string;
+  /** Last time the session was opened in the replayer. */
+  lastOpenedAt?: Date;
   /** Where the review stopped, so it can be picked up again. */
   lastHandIndex?: number;
   /** Marked by hand — or on its own when the last hand is reached. */

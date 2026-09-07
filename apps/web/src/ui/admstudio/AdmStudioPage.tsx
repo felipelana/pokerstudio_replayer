@@ -5,6 +5,7 @@ import {
   adminApi,
   type AdminAccessLogRow,
   type AdminEmailRow,
+  type AdminEmailSettings,
   type AdminStats,
   type AdminUserDetail,
   type AdminUserRow,
@@ -27,7 +28,7 @@ export function AdmStudioPage() {
 
   if (user && user.role !== 'ADMIN') {
     return (
-      <div className="mx-auto max-w-[520px] p-6">
+      <div className="mx-auto h-full max-w-[520px] overflow-auto p-6">
         <div className="panel p-6">
           <h1 className="text-lg font-semibold">{t('admstudio.forbiddenTitle')}</h1>
           <p className="mt-1 text-sm" style={{ color: 'var(--text-muted)' }}>
@@ -702,12 +703,134 @@ function LogList({ rows }: { rows: AdminAccessLogRow[] }) {
 /* E-mail                                                              */
 /* ------------------------------------------------------------------ */
 
+/** Provider, sender and the switch that makes e-mail verification mandatory. */
+function EmailSettingsForm() {
+  const { t } = useTranslation();
+  const { data, error, busy, reload } = useLoader<AdminEmailSettings>(() => adminApi.emailSettings(), []);
+  const [form, setForm] = useState<AdminEmailSettings>();
+  const [secret, setSecret] = useState('');
+  const [testTo, setTestTo] = useState('');
+  const [state, setState] = useState({ busy: false, message: '', failed: false });
+
+  useEffect(() => {
+    if (data) setForm(data);
+  }, [data]);
+
+  if (!form) return <Empty busy={busy} error={error} />;
+
+  const set = <K extends keyof AdminEmailSettings>(key: K, value: AdminEmailSettings[K]) =>
+    setForm({ ...form, [key]: value });
+
+  const save = async () => {
+    setState({ busy: true, message: '', failed: false });
+    try {
+      await adminApi.saveEmailSettings({ ...form, secret: secret || undefined });
+      setSecret('');
+      reload();
+      setState({ busy: false, message: t('admstudio.saved'), failed: false });
+    } catch (err) {
+      setState({ busy: false, message: err instanceof ApiError ? err.problem.title : t('auth.offline'), failed: true });
+    }
+  };
+
+  const test = async () => {
+    setState({ busy: true, message: '', failed: false });
+    try {
+      const result = await adminApi.testEmail(testTo);
+      setState({
+        busy: false,
+        message: result.delivered ? t('admstudio.testSent') : result.detail ?? t('admstudio.testFailed'),
+        failed: !result.delivered,
+      });
+      reload();
+    } catch (err) {
+      setState({ busy: false, message: err instanceof ApiError ? err.problem.title : t('auth.offline'), failed: true });
+    }
+  };
+
+  return (
+    <section className="panel p-4">
+      <h3 className="mb-2 font-semibold">{t('admstudio.emailSettings')}</h3>
+      <div className="grid gap-3" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))' }}>
+        <label className="flex flex-col gap-1 text-sm">
+          {t('admstudio.provider')}
+          <select className="input" value={form.provider} onChange={(e) => set('provider', e.target.value as AdminEmailSettings['provider'])}>
+            <option value="NONE">{t('admstudio.providerNone')}</option>
+            <option value="RESEND">Resend</option>
+            <option value="SMTP">SMTP</option>
+          </select>
+        </label>
+        <label className="flex flex-col gap-1 text-sm">
+          {t('admstudio.fromAddress')}
+          <input className="input" type="email" value={form.fromAddress ?? ''} onChange={(e) => set('fromAddress', e.target.value)} />
+        </label>
+        <label className="flex flex-col gap-1 text-sm">
+          {t('admstudio.fromName')}
+          <input className="input" value={form.fromName ?? ''} onChange={(e) => set('fromName', e.target.value)} />
+        </label>
+        <label className="flex flex-col gap-1 text-sm">
+          {t('admstudio.replyTo')}
+          <input className="input" type="email" value={form.replyTo ?? ''} onChange={(e) => set('replyTo', e.target.value)} />
+        </label>
+        <label className="flex flex-col gap-1 text-sm">
+          {form.hasSecret ? t('admstudio.replaceKey') : t('admstudio.providerKey')}
+          <input
+            className="input"
+            type="password"
+            autoComplete="off"
+            placeholder={form.hasSecret ? '••••••••' : ''}
+            value={secret}
+            onChange={(e) => setSecret(e.target.value)}
+          />
+        </label>
+      </div>
+
+      <label className="checkbox mt-3">
+        <input
+          type="checkbox"
+          checked={form.requireVerification}
+          onChange={(e) => set('requireVerification', e.target.checked)}
+        />
+        {t('admstudio.requireVerification')}
+      </label>
+
+      <div className="mt-3 flex flex-wrap items-end gap-2">
+        <button type="button" className="btn btn-primary" disabled={state.busy} onClick={() => void save()}>
+          {state.busy ? t('auth.working') : t('account.save')}
+        </button>
+        <label className="flex flex-col gap-1 text-sm">
+          {t('admstudio.testTo')}
+          <input className="input" type="email" value={testTo} onChange={(e) => setTestTo(e.target.value)} />
+        </label>
+        <button type="button" className="btn" disabled={state.busy || !testTo} onClick={() => void test()}>
+          {t('admstudio.sendTest')}
+        </button>
+        <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
+          {t('admstudio.queued', { count: form.pending })}
+        </span>
+      </div>
+
+      {state.message && (
+        <p className="mt-2 text-sm" role="alert" style={{ color: state.failed ? 'var(--result-lost)' : 'var(--result-won)' }}>
+          {state.message}
+        </p>
+      )}
+      {form.lastError && !state.message && (
+        <p className="mt-2 text-xs" style={{ color: 'var(--result-lost)' }}>
+          {form.lastError}
+        </p>
+      )}
+    </section>
+  );
+}
+
 function EmailTab() {
   const { t } = useTranslation();
   const { data, error, busy } = useLoader<AdminEmailRow[]>(() => adminApi.emailOutbox(), []);
 
   return (
     <div className="flex flex-col gap-3">
+      <EmailSettingsForm />
       <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
         {t('admstudio.emailHint')}
       </p>

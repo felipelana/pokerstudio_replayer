@@ -35,7 +35,8 @@
     "warnings_one": "{{count}} aviso",
     "warnings_other": "{{count}} avisos",
     "hands_one": "{{count}} mão",
-    "hands_other": "{{count}} mãos"
+    "hands_other": "{{count}} mãos",
+    "clear": "limpar"
   },
   "game": {
     "cash": "Cash",
@@ -109,7 +110,11 @@
     "statusOpen": "não iniciada",
     "statusAt": "mão {{current}} de {{total}}",
     "markDone": "Marcar finalizada",
-    "markOpen": "Reabrir"
+    "markOpen": "Reabrir",
+    "colFile": "Arquivo",
+    "colImported": "Importada em",
+    "colOpened": "Último acesso",
+    "colActions": "Ações"
   },
   "sidebar": {
     "loadHands": "Carregar hand histories",
@@ -318,7 +323,6 @@
   },
   "admin": {
     "title": "Editor de skins",
-    "presets": "Presets",
     "new": "Nova skin",
     "duplicate": "Duplicar",
     "setDefault": "Usar no replayer",
@@ -331,7 +335,7 @@
     "theme": "Tema base",
     "unsavedChanges": "Alterações não salvas",
     "saved": "Skin salva",
-    "confirmDelete": "Excluir a skin \"{{name}}\"?",
+    "confirmDelete": "Excluir a skin “{{name}}”? Não dá para desfazer.",
     "invalidJson": "JSON de skin inválido.",
     "deck": {
       "title": "Baralho",
@@ -369,7 +373,9 @@
       "pattern_diamonds": "Losangos",
       "pattern_grid": "Grade",
       "pattern_dots": "Pontos",
-      "pattern_plain": "Liso"
+      "pattern_plain": "Liso",
+      "perCard": "Cor por carta",
+      "perCardHint": "A carta definida aqui ignora a cor do naipe. Deixe em branco para seguir o naipe."
     },
     "felt": {
       "title": "Feltro",
@@ -466,7 +472,9 @@
       "opacity": "Opacidade",
       "blur": "Desfoque",
       "tooLarge": "Imagem muito grande (máx. 6 MB)."
-    }
+    },
+    "chooseSkin": "Skin em edição",
+    "savedLocallyOnly": "Salva neste aparelho — não foi possível falar com a conta."
   },
   "warnings": {
     "title": "Avisos",

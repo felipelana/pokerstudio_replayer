@@ -57,7 +57,7 @@ export function App() {
   return (
     <div className={`flex h-full flex-col ${animations ? 'anim' : ''}`}>
       <Header />
-      <main className="min-h-0 flex-1">
+      <main className="min-h-0 flex-1 overflow-hidden">
         <Routes>
           {/* Public: authentication and the legal texts. */}
           <Route path="/login" element={<LoginPage />} />

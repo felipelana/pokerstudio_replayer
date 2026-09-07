@@ -69,6 +69,9 @@ export function TableArea({ replay, frame, heroName, onSeatClick }: Props) {
     onSeatClick,
   };
 
+  const session = useAppStore((s) => s.session);
+  const sessionTitle = session?.name || session?.sourceFileName;
+
   const gameLine =
     hand.gameType === 'tournament'
       ? `${t('game.tournamentNumber', { id: hand.tournament?.id ?? '' })} · ${t('game.level', { level: hand.tournament?.level ?? '' })} · ${fmt(hand.blinds.sb)}/${fmt(hand.blinds.bb)}${hand.blinds.ante ? ` (${t('game.ante')} ${fmt(hand.blinds.ante)})` : ''}`
@@ -76,6 +79,11 @@ export function TableArea({ replay, frame, heroName, onSeatClick }: Props) {
 
   return (
     <div className="relative flex h-full min-w-0 flex-1 flex-col">
+      {sessionTitle && (
+        <div className="truncate px-3 pt-1.5 text-sm font-semibold" title={sessionTitle}>
+          {sessionTitle}
+        </div>
+      )}
       <div className="flex items-center gap-3 px-3 py-1.5 text-xs" style={{ color: 'var(--text-muted)' }}>
         {/* Room name only when the parser actually identified it (R7). */}
         {siteName(hand.site) && (

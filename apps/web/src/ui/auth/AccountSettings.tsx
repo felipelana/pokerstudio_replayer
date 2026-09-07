@@ -1,10 +1,11 @@
 import { useState, type FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { COUNTRIES, countryName, LANGUAGE_CODES } from '@pokerstudio/shared';
+import { COUNTRIES, countryName } from '@pokerstudio/shared';
 import { accountApi, type Me } from '@/infrastructure/http/accountApi';
 import { ApiError } from '@/infrastructure/http/client';
 import { useAuthStore } from '@/state/authStore';
 import { useAppStore } from '@/state/store';
+import { LanguageChoice } from '@/ui/LanguageChoice';
 
 /** Editable profile: the fields the owner may change without support. */
 export function ProfileEditor({ user }: { user: Me }) {
@@ -78,13 +79,7 @@ export function ProfileEditor({ user }: { user: Me }) {
       </label>
       <label className="flex flex-col gap-1 text-sm">
         {t('auth.language')}
-        <select className="input" value={form.language} onChange={(e) => setForm({ ...form, language: e.target.value })}>
-          {LANGUAGE_CODES.map((code) => (
-            <option key={code} value={code}>
-              {code}
-            </option>
-          ))}
-        </select>
+        <LanguageChoice value={form.language} onChange={(code) => setForm({ ...form, language: code })} />
       </label>
       <div className="col-span-full flex items-center gap-3">
         <button type="submit" className="btn btn-primary" disabled={state.busy || !dirty}>

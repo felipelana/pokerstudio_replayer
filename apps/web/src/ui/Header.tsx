@@ -1,7 +1,7 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/store';
-import { IconHelp, IconMoon, IconNeon, IconSun } from './icons';
+import { IconHelp, IconLibrary, IconMoon, IconNeon, IconPalette, IconSliders, IconSun } from './icons';
 import brandMark from '@/assets/pokerstudio-mark.png';
 import { LanguageSelector } from './LanguageSelector';
 import { UserMenu } from './UserMenu';
@@ -11,7 +11,7 @@ import { useAuthStore } from '@/state/authStore';
 const AUTH_PATHS = ['/login', '/signup', '/forgot-password', '/reset-password', '/verify-email', '/r/'];
 
 function navClass({ isActive }: { isActive: boolean }) {
-  return `rounded-md px-2.5 py-1.5 text-sm font-medium transition-colors ${
+  return `inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-sm font-medium transition-colors ${
     isActive ? 'bg-[color-mix(in_srgb,var(--accent)_18%,transparent)] text-[var(--text)]' : 'text-[var(--text-muted)] hover:text-[var(--text)]'
   }`;
 }
@@ -59,12 +59,15 @@ export function Header() {
       </NavLink>
       <nav className="flex items-center gap-1" aria-label="main">
         <NavLink to="/" end className={navClass}>
+          <IconLibrary size={15} />
           {t('nav.library')}
         </NavLink>
         <NavLink to="/settings" className={navClass}>
+          <IconSliders size={15} />
           {t('nav.settings')}
         </NavLink>
         <NavLink to="/admin" className={navClass}>
+          <IconPalette size={15} />
           {t('nav.admin')}
         </NavLink>
 

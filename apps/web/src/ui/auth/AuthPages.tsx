@@ -10,12 +10,13 @@ import brandMark from '@/assets/pokerstudio-mark.png';
 import { IconDevice, IconLock, IconLogout, IconPalette, IconShare, IconUser } from '@/ui/icons';
 import { GoogleButton, OrDivider } from './GoogleButton';
 import { LanguageSelector } from '@/ui/LanguageSelector';
+import { LanguageChoice } from '@/ui/LanguageChoice';
 import { PasswordSection, ProfileEditor } from './AccountSettings';
 
 /** Shell shared by every authentication screen. */
 function AuthShell({ title, subtitle, children }: { title: string; subtitle?: string; children: React.ReactNode }) {
   return (
-    <div className="auth-theme flex min-h-full items-center justify-center p-6">
+    <div className="auth-theme flex h-full items-center justify-center overflow-auto p-6">
       <div className="w-full max-w-[420px]">
         <div className="mb-6 flex flex-col items-center gap-3">
           <img
@@ -269,13 +270,7 @@ export function SignUpPage() {
           </label>
           <label className="flex flex-1 flex-col gap-1 text-sm">
             {t('auth.language')}
-            <select className="input" value={form.language} onChange={(e) => set('language', e.target.value)}>
-              {LANGUAGE_CODES.map((code) => (
-                <option key={code} value={code}>
-                  {code}
-                </option>
-              ))}
-            </select>
+            <LanguageChoice value={form.language} onChange={(code) => set('language', code)} />
           </label>
         </div>
         <label className="flex flex-col gap-1 text-sm">
@@ -546,7 +541,7 @@ export function AccountPage() {
   ];
 
   return (
-    <div className="mx-auto flex max-w-3xl flex-col gap-4 overflow-auto p-6">
+    <div className="mx-auto flex h-full max-w-3xl flex-col gap-4 overflow-auto p-6">
       <h1 className="text-2xl font-semibold">{t('account.title')}</h1>
 
       <nav className="flex flex-wrap gap-1" role="tablist">

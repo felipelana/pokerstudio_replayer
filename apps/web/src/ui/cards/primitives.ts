@@ -113,9 +113,12 @@ export function rankLabel(rank: string): string {
   return rank === 'T' ? '10' : rank;
 }
 
-/** Colour of the ink (rank + pips) and of the card face for one suit. */
-export function cardColors(suit: Suit, deck: DeckSkin): { face: string; ink: string; edge: string } {
-  const suitColor = deck.suitColors[suit];
+/**
+ * Colour of the ink (rank + pips) and of the card face. A rank listed in
+ * `rankColors` wins over its suit, which is how a hand-coloured deck works.
+ */
+export function cardColors(suit: Suit, deck: DeckSkin, rank?: string): { face: string; ink: string; edge: string } {
+  const suitColor = (rank && deck.rankColors?.[rank]) || deck.suitColors[suit];
   if (deck.style === 'filled') {
     return { face: suitColor, ink: deck.inkOnFilled, edge: 'rgba(0,0,0,0.25)' };
   }
@@ -134,7 +137,7 @@ export function cardPrimitives(card: CardCode | 'back', deck: DeckSkin): Primiti
   }
   const rank = rankOf(card);
   const suit = suitOf(card);
-  const { face, ink, edge } = cardColors(suit, deck);
+  const { face, ink, edge } = cardColors(suit, deck, rank);
   const label = rankLabel(rank);
   const font = fontFamily(deck.rankFont);
   const rankSize = label.length > 1 ? 40 : 46;

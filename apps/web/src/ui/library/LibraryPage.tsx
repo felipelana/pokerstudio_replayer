@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import type { Session } from '@/model/types';
+import { IconCheck, IconPencil, IconPlay, IconTrash } from '@/ui/icons';
 import { CloudReviews } from './CloudReviews';
 import { getRepository } from '@/db/repository';
 import type { ImportSummary } from '@/parsers/importer';
@@ -84,7 +85,7 @@ export function LibraryPage() {
   const siteName = (site: Session['site']) => parsers.find((p) => p.site === site)?.displayName ?? t('common.unknown');
 
   return (
-    <div className="mx-auto flex h-full max-w-6xl flex-col gap-6 overflow-auto p-6">
+    <div className="mx-auto flex h-full w-full max-w-[1500px] flex-col gap-5 overflow-auto p-6">
       <div>
         <h1 className="text-2xl font-semibold">{t('library.title')}</h1>
         <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
@@ -150,23 +151,25 @@ export function LibraryPage() {
             </div>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
+          <div className="max-h-[52vh] overflow-auto">
+            <table className="w-full min-w-[980px] text-sm">
+              <thead className="sticky top-0 z-10" style={{ background: 'var(--surface)' }}>
                 <tr className="text-left text-xs uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>
-                  <th className="px-4 py-2">{t('library.colName')}</th>
-                  <th className="px-4 py-2">{t('library.colSite')}</th>
-                  <th className="px-4 py-2 text-right">{t('library.colHands')}</th>
-                  <th className="px-4 py-2">{t('library.colStatus')}</th>
-                  <th className="px-4 py-2">{t('library.colDate')}</th>
-                  <th className="px-4 py-2">{t('library.colPlayers')}</th>
-                  <th className="px-4 py-2" />
+                  <th className="px-3 py-2">{t('library.colName')}</th>
+                  <th className="px-3 py-2">{t('library.colFile')}</th>
+                  <th className="px-3 py-2">{t('library.colSite')}</th>
+                  <th className="px-3 py-2 text-right">{t('library.colHands')}</th>
+                  <th className="px-3 py-2">{t('library.colStatus')}</th>
+                  <th className="px-3 py-2">{t('library.colImported')}</th>
+                  <th className="px-3 py-2">{t('library.colOpened')}</th>
+                  <th className="px-3 py-2">{t('library.colPlayers')}</th>
+                  <th className="px-3 py-2 text-right">{t('library.colActions')}</th>
                 </tr>
               </thead>
               <tbody>
                 {sessions.map((s) => (
-                  <tr key={s.id} className="border-t" style={{ borderColor: 'var(--border)' }}>
-                    <td className="px-4 py-2">
+                  <tr key={s.id} className="border-t align-middle" style={{ borderColor: 'var(--border)' }}>
+                    <td className="px-3 py-2">
                       <button type="button" className="font-medium hover:underline" onClick={() => navigate(`/replay/${s.id}`)}>
                         {s.name}
                       </button>
@@ -176,9 +179,12 @@ export function LibraryPage() {
                         </span>
                       )}
                     </td>
-                    <td className="px-4 py-2">{siteName(s.site)}</td>
-                    <td className="px-4 py-2 text-right tabular-nums">{s.handCount}</td>
-                    <td className="whitespace-nowrap px-4 py-2">
+                    <td className="max-w-[200px] truncate px-3 py-2" style={{ color: 'var(--text-muted)' }} title={s.sourceFileName}>
+                      {s.sourceFileName ?? '—'}
+                    </td>
+                    <td className="whitespace-nowrap px-3 py-2">{siteName(s.site)}</td>
+                    <td className="px-3 py-2 text-right tabular-nums">{s.handCount}</td>
+                    <td className="whitespace-nowrap px-3 py-2">
                       {s.status === 'completed' ? (
                         <span className="chip-tag" style={{ color: 'var(--result-won)', borderColor: 'var(--result-won)' }}>
                           {t('library.statusDone')}
@@ -191,24 +197,45 @@ export function LibraryPage() {
                         </span>
                       )}
                     </td>
-                    <td className="px-4 py-2 whitespace-nowrap">{df.dateTime(s.firstHandAt ?? s.importedAt)}</td>
-                    <td className="max-w-[320px] truncate px-4 py-2" title={s.players.join(', ')}>
-                      {s.players.slice(0, 6).join(', ')}
-                      {s.players.length > 6 ? ` +${s.players.length - 6}` : ''}
+                    <td className="whitespace-nowrap px-3 py-2 tabular-nums" style={{ color: 'var(--text-muted)' }}>
+                      {df.dateTime(s.importedAt)}
                     </td>
-                    <td className="whitespace-nowrap px-4 py-2 text-right">
-                      <button type="button" className="btn btn-ghost" onClick={() => navigate(`/replay/${s.id}`)}>
-                        {t('library.open')}
-                      </button>
-                      <button type="button" className="btn btn-ghost" onClick={() => void rename(s)}>
-                        {t('common.rename')}
-                      </button>
-                      <button type="button" className="btn btn-ghost" onClick={() => void toggleStatus(s)}>
-                        {s.status === 'completed' ? t('library.markOpen') : t('library.markDone')}
-                      </button>
-                      <button type="button" className="btn btn-ghost" onClick={() => void remove(s)}>
-                        {t('common.delete')}
-                      </button>
+                    <td className="whitespace-nowrap px-3 py-2 tabular-nums" style={{ color: 'var(--text-muted)' }}>
+                      {s.lastOpenedAt ? df.dateTime(s.lastOpenedAt) : '—'}
+                    </td>
+                    <td className="max-w-[240px] truncate px-3 py-2" title={s.players.join(', ')}>
+                      {s.players.slice(0, 4).join(', ')}
+                      {s.players.length > 4 ? ` +${s.players.length - 4}` : ''}
+                    </td>
+                    <td className="whitespace-nowrap px-3 py-2 text-right">
+                      <span className="inline-flex gap-0.5">
+                        <button type="button" className="btn-icon" title={t('library.open')} aria-label={t('library.open')} onClick={() => navigate(`/replay/${s.id}`)}>
+                          <IconPlay size={15} />
+                        </button>
+                        <button type="button" className="btn-icon" title={t('common.rename')} aria-label={t('common.rename')} onClick={() => void rename(s)}>
+                          <IconPencil size={15} />
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-icon"
+                          title={s.status === 'completed' ? t('library.markOpen') : t('library.markDone')}
+                          aria-label={s.status === 'completed' ? t('library.markOpen') : t('library.markDone')}
+                          style={s.status === 'completed' ? { color: 'var(--result-won)' } : undefined}
+                          onClick={() => void toggleStatus(s)}
+                        >
+                          <IconCheck size={15} />
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-icon"
+                          title={t('common.delete')}
+                          aria-label={t('common.delete')}
+                          style={{ color: 'var(--result-lost)' }}
+                          onClick={() => void remove(s)}
+                        >
+                          <IconTrash size={15} />
+                        </button>
+                      </span>
                     </td>
                   </tr>
                 ))}

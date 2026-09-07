@@ -5,6 +5,7 @@ import i18n, { LANGUAGES } from '@/i18n';
 import { getRepository } from '@/db/repository';
 import { DEFAULT_TAGS, useAppStore, type RendererChoice } from '@/state/store';
 import { FLAGS } from '@/ui/flags';
+import { IconDatabase, IconPlay, IconSearch, IconSliders, IconTag } from '@/ui/icons';
 
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -36,10 +37,37 @@ export function SettingsPage() {
     setNotice(t('settings.cleared'));
   };
 
+  const [tab, setTab] = useState<'general' | 'replay' | 'tags' | 'lookup' | 'data'>('general');
+
   return (
-    <div className="mx-auto max-w-3xl overflow-auto p-6">
+    <div className="mx-auto h-full max-w-3xl overflow-auto p-6">
       <h1 className="mb-4 text-2xl font-semibold">{t('settings.title')}</h1>
 
+      <nav className="mb-4 flex flex-wrap gap-1" role="tablist">
+        {(
+          [
+            ['general', 'settings.general', <IconSliders size={14} key="a" />],
+            ['replay', 'settings.replay', <IconPlay size={14} key="b" />],
+            ['tags', 'settings.tags', <IconTag size={14} key="c" />],
+            ['lookup', 'settings.lookup', <IconSearch size={14} key="d" />],
+            ['data', 'settings.data', <IconDatabase size={14} key="e" />],
+          ] as const
+        ).map(([id, label, icon]) => (
+          <button
+            key={id}
+            type="button"
+            role="tab"
+            aria-selected={tab === id}
+            className={tab === id ? 'btn btn-primary' : 'btn btn-ghost'}
+            onClick={() => setTab(id)}
+          >
+            {icon}
+            {t(label)}
+          </button>
+        ))}
+      </nav>
+
+      {tab === 'general' && (
       <section className="panel mb-4 px-4 pb-1 pt-3">
         <h2 className="mb-1 font-semibold">{t('settings.general')}</h2>
         <Row label={t('settings.language')}>
@@ -89,7 +117,9 @@ export function SettingsPage() {
           </select>
         </Row>
       </section>
+      )}
 
+      {tab === 'replay' && (
       <section className="panel mb-4 px-4 pb-1 pt-3">
         <h2 className="mb-1 font-semibold">{t('settings.replay')}</h2>
         <Row label={t('settings.startAtHero')}>
@@ -121,8 +151,10 @@ export function SettingsPage() {
           </select>
         </Row>
       </section>
+      )}
 
       {/* L1: the user's own leak tags — create, rename, recolour, reorder. */}
+      {tab === 'tags' && (
       <section className="panel mb-4 px-4 pb-3 pt-3">
         <h2 className="mb-2 font-semibold">{t('settings.tags')}</h2>
         <div className="flex flex-col gap-1.5">
@@ -198,7 +230,9 @@ export function SettingsPage() {
           </button>
         </div>
       </section>
+      )}
 
+      {tab === 'lookup' && (
       <section className="panel mb-4 px-4 pb-1 pt-3">
         <h2 className="mb-1 font-semibold">{t('settings.lookup')}</h2>
         <Row label={t('settings.lookupTemplate')}>
@@ -221,7 +255,9 @@ export function SettingsPage() {
           {t('settings.lookupHint')}
         </p>
       </section>
+      )}
 
+      {tab === 'data' && (
       <section className="panel mb-4 px-4 pb-3 pt-3">
         <h2 className="mb-1 font-semibold">{t('settings.data')}</h2>
         <p className="mb-2 text-xs" style={{ color: 'var(--text-muted)' }}>
@@ -232,6 +268,7 @@ export function SettingsPage() {
         </button>
         {notice && <span className="ml-3 text-xs">{notice}</span>}
       </section>
+      )}
     </div>
   );
 }

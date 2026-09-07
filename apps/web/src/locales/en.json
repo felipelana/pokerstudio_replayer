@@ -35,7 +35,8 @@
     "warnings_one": "{{count}} warning",
     "warnings_other": "{{count}} warnings",
     "hands_one": "{{count}} hand",
-    "hands_other": "{{count}} hands"
+    "hands_other": "{{count}} hands",
+    "clear": "clear"
   },
   "game": {
     "cash": "Cash",
@@ -109,7 +110,11 @@
     "statusOpen": "not started",
     "statusAt": "hand {{current}} of {{total}}",
     "markDone": "Mark finished",
-    "markOpen": "Reopen"
+    "markOpen": "Reopen",
+    "colFile": "File",
+    "colImported": "Imported",
+    "colOpened": "Last opened",
+    "colActions": "Actions"
   },
   "sidebar": {
     "loadHands": "Load hand histories",
@@ -318,7 +323,6 @@
   },
   "admin": {
     "title": "Skin editor",
-    "presets": "Presets",
     "new": "New skin",
     "duplicate": "Duplicate",
     "setDefault": "Use in replayer",
@@ -331,7 +335,7 @@
     "theme": "Base theme",
     "unsavedChanges": "Unsaved changes",
     "saved": "Skin saved",
-    "confirmDelete": "Delete skin \"{{name}}\"?",
+    "confirmDelete": "Delete the skin “{{name}}”? This cannot be undone.",
     "invalidJson": "Invalid skin JSON.",
     "deck": {
       "title": "Deck",
@@ -369,7 +373,9 @@
       "pattern_diamonds": "Diamonds",
       "pattern_grid": "Grid",
       "pattern_dots": "Dots",
-      "pattern_plain": "Plain"
+      "pattern_plain": "Plain",
+      "perCard": "Colour by card",
+      "perCardHint": "A rank set here ignores its suit colour. Leave a rank untouched to follow the suit."
     },
     "felt": {
       "title": "Felt",
@@ -466,7 +472,9 @@
       "opacity": "Opacity",
       "blur": "Blur",
       "tooLarge": "Image too large (max 6 MB)."
-    }
+    },
+    "chooseSkin": "Skin being edited",
+    "savedLocallyOnly": "Saved on this device — the account could not be reached."
   },
   "warnings": {
     "title": "Warnings",

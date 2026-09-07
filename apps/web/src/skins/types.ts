@@ -9,6 +9,11 @@ export interface DeckSkin {
   /** 2 = classic (spades/clubs share, hearts/diamonds share), 4 = one colour per suit. */
   colorMode: 2 | 4;
   suitColors: Record<Suit, string>;
+  /**
+   * Per-rank ink, for a deck where individual cards are coloured by hand.
+   * Only the ranks present here override the suit colour; the rest follow it.
+   */
+  rankColors?: Partial<Record<string, string>>;
   cardBg: string;
   /** Rank/pip colour used on filled cards (usually white). */
   inkOnFilled: string;

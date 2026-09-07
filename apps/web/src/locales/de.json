@@ -35,7 +35,8 @@
     "warnings_one": "{{count}} Warnung",
     "warnings_other": "{{count}} Warnungen",
     "hands_one": "{{count}} Hand",
-    "hands_other": "{{count}} Hände"
+    "hands_other": "{{count}} Hände",
+    "clear": "löschen"
   },
   "game": {
     "cash": "Cashgame",
@@ -109,7 +110,11 @@
     "statusOpen": "nicht begonnen",
     "statusAt": "Hand {{current}} von {{total}}",
     "markDone": "Als erledigt markieren",
-    "markOpen": "Wieder öffnen"
+    "markOpen": "Wieder öffnen",
+    "colFile": "Datei",
+    "colImported": "Importiert",
+    "colOpened": "Zuletzt geöffnet",
+    "colActions": "Aktionen"
   },
   "sidebar": {
     "loadHands": "Hand-Histories laden",
@@ -318,7 +323,6 @@
   },
   "admin": {
     "title": "Skin-Editor",
-    "presets": "Vorlagen",
     "new": "Neue Skin",
     "duplicate": "Duplizieren",
     "setDefault": "Im Replayer verwenden",
@@ -331,7 +335,7 @@
     "theme": "Basisdesign",
     "unsavedChanges": "Ungespeicherte Änderungen",
     "saved": "Skin gespeichert",
-    "confirmDelete": "Skin \"{{name}}\" löschen?",
+    "confirmDelete": "Skin „{{name}}\" löschen? Das lässt sich nicht rückgängig machen.",
     "invalidJson": "Ungültiges Skin-JSON.",
     "deck": {
       "title": "Kartendeck",
@@ -369,7 +373,9 @@
       "pattern_diamonds": "Rauten",
       "pattern_grid": "Gitter",
       "pattern_dots": "Punkte",
-      "pattern_plain": "Einfarbig"
+      "pattern_plain": "Einfarbig",
+      "perCard": "Farbe je Karte",
+      "perCardHint": "Ein hier gesetzter Rang ignoriert die Farbe seiner Spielfarbe. Unberührt lassen, um ihr zu folgen."
     },
     "felt": {
       "title": "Filz",
@@ -466,7 +472,9 @@
       "opacity": "Deckkraft",
       "blur": "Weichzeichnen",
       "tooLarge": "Bild zu groß (max. 6 MB)."
-    }
+    },
+    "chooseSkin": "Bearbeitete Skin",
+    "savedLocallyOnly": "Auf diesem Gerät gespeichert — das Konto war nicht erreichbar."
   },
   "warnings": {
     "title": "Warnungen",

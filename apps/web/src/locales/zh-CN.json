@@ -35,7 +35,8 @@
     "warnings_one": "{{count}} 条警告",
     "warnings_other": "{{count}} 条警告",
     "hands_one": "{{count}} 手牌",
-    "hands_other": "{{count}} 手牌"
+    "hands_other": "{{count}} 手牌",
+    "clear": "清除"
   },
   "game": {
     "cash": "现金桌",
@@ -109,7 +110,11 @@
     "statusOpen": "未开始",
     "statusAt": "第 {{current}} / {{total}} 手",
     "markDone": "标记为完成",
-    "markOpen": "重新打开"
+    "markOpen": "重新打开",
+    "colFile": "文件",
+    "colImported": "导入时间",
+    "colOpened": "最近打开",
+    "colActions": "操作"
   },
   "sidebar": {
     "loadHands": "加载牌局记录",
@@ -318,7 +323,6 @@
   },
   "admin": {
     "title": "皮肤编辑器",
-    "presets": "预设",
     "new": "新建皮肤",
     "duplicate": "复制",
     "setDefault": "在回放器中使用",
@@ -331,7 +335,7 @@
     "theme": "基础主题",
     "unsavedChanges": "有未保存的更改",
     "saved": "皮肤已保存",
-    "confirmDelete": "删除皮肤“{{name}}”？",
+    "confirmDelete": "确定删除皮肤“{{name}}”？此操作无法撤销。",
     "invalidJson": "无效的皮肤 JSON。",
     "deck": {
       "title": "牌组",
@@ -369,7 +373,9 @@
       "pattern_diamonds": "菱形",
       "pattern_grid": "网格",
       "pattern_dots": "圆点",
-      "pattern_plain": "纯色"
+      "pattern_plain": "纯色",
+      "perCard": "按牌设置颜色",
+      "perCardHint": "在此设定的点数会忽略花色颜色；留空则跟随花色。"
     },
     "felt": {
       "title": "桌布",
@@ -466,7 +472,9 @@
       "opacity": "不透明度",
       "blur": "模糊",
       "tooLarge": "图片过大（最大 6 MB）。"
-    }
+    },
+    "chooseSkin": "正在编辑的皮肤",
+    "savedLocallyOnly": "已保存到本设备 — 无法连接账户。"
   },
   "warnings": {
     "title": "警告",

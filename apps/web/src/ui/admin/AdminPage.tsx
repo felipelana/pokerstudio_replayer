@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Hand } from '@/model/types';
+import { RANKS } from '@/model/cards';
 import { buildReplay } from '@/engine/replay';
 import { computePositions } from '@/model/positions';
 import { pokerStarsParser } from '@/parsers/pokerstars';
@@ -15,6 +16,7 @@ import { useAppStore } from '@/state/store';
 import { useAuthStore } from '@/state/authStore';
 import { skinApi } from '@/infrastructure/http/accountApi';
 import { Card } from '@/ui/cards/Card';
+import { IconCheck, IconCopy, IconDownload, IconPlus, IconSave, IconTrash, IconUpload } from '@/ui/icons';
 
 /* ------------------------------------------------------------------ */
 /* Demo hand for the live preview                                      */
@@ -163,7 +165,6 @@ export function AdminPage() {
   const [draft, setDraft] = useState<Skin>(() => skins.find((s) => s.id === settings.skinId) ?? SKIN_DEFAULT_DARK);
   const [dirty, setDirty] = useState(false);
   const [notice, setNotice] = useState('');
-  const [savingToAccount, setSavingToAccount] = useState(false);
   const signedIn = useAuthStore((s) => s.phase === 'authenticated');
   const importInput = useRef<HTMLInputElement>(null);
   const logoInput = useRef<HTMLInputElement>(null);
@@ -199,8 +200,19 @@ export function AdminPage() {
     await loadSkins();
     setDraft(skin);
     setDirty(false);
-    setNotice(t('admin.saved'));
-    window.setTimeout(() => setNotice(''), 1500);
+
+    // A skin belongs to the account, so one save covers both: the browser keeps
+    // working offline, and the account carries the skin to another machine.
+    let message = t('admin.saved');
+    if (signedIn) {
+      try {
+        await skinApi.save(skin);
+      } catch {
+        message = t('admin.savedLocallyOnly');
+      }
+    }
+    setNotice(message);
+    window.setTimeout(() => setNotice(''), 2500);
   };
 
   const duplicate = () => {
@@ -296,7 +308,7 @@ export function AdminPage() {
           {notice && <span className="text-[11px]">{notice}</span>}
         </div>
 
-        <label className="label">{t('admin.presets')}</label>
+        <label className="label">{t('admin.chooseSkin')}</label>
         <select className="input" value={skins.some((s) => s.id === draft.id) ? draft.id : ''} onChange={(e) => select(e.target.value)}>
           {!skins.some((s) => s.id === draft.id) && <option value="">{draft.name}</option>}
           {skins.map((s) => (
@@ -307,47 +319,44 @@ export function AdminPage() {
             </option>
           ))}
         </select>
-        <div className="flex flex-wrap gap-1">
-          <button type="button" className="btn" onClick={create}>
-            {t('admin.new')}
-          </button>
-          <button type="button" className="btn" onClick={duplicate}>
-            {t('admin.duplicate')}
-          </button>
-          <button type="button" className="btn btn-primary" onClick={() => void save()} disabled={!dirty && skins.some((s) => s.id === draft.id)}>
+
+        <div className="grid grid-cols-2 gap-1.5">
+          <button type="button" className="btn btn-primary justify-center" onClick={() => void save()} disabled={!dirty && skins.some((s) => s.id === draft.id)}>
+            <IconSave size={14} />
             {t('common.save')}
           </button>
-          <button type="button" className="btn" onClick={() => void applyToReplayer()} disabled={isInUse && !dirty}>
+          <button type="button" className="btn justify-center" onClick={() => void applyToReplayer()} disabled={isInUse && !dirty}>
+            <IconCheck size={14} />
             {isInUse && !dirty ? t('admin.inUse') : t('admin.setDefault')}
           </button>
-          <button type="button" className="btn" onClick={() => void remove()} disabled={!!draft.isBuiltIn || !skins.some((s) => s.id === draft.id)}>
-            {t('common.delete')}
+          <button type="button" className="btn justify-center" onClick={create}>
+            <IconPlus size={14} />
+            {t('admin.new')}
+          </button>
+          <button type="button" className="btn justify-center" onClick={duplicate}>
+            <IconCopy size={14} />
+            {t('admin.duplicate')}
+          </button>
+          <button type="button" className="btn justify-center" onClick={exportJson}>
+            <IconDownload size={14} />
+            {t('admin.exportJson')}
+          </button>
+          <button type="button" className="btn justify-center" onClick={() => importInput.current?.click()}>
+            <IconUpload size={14} />
+            {t('admin.importJson')}
           </button>
           <button
             type="button"
-            className="btn"
-            disabled={!signedIn || savingToAccount}
-            title={signedIn ? undefined : t('auth.loginTitle')}
-            onClick={async () => {
-              setSavingToAccount(true);
-              try {
-                await save();
-                await skinApi.save(draft);
-                setNotice(t('account.saved'));
-              } catch {
-                setNotice(t('auth.offline'));
-              } finally {
-                setSavingToAccount(false);
-              }
+            className="btn col-span-2 justify-center"
+            style={{ color: 'var(--result-lost)' }}
+            onClick={() => {
+              // Deleting a skin cannot be undone, so it is asked for.
+              if (window.confirm(t('admin.confirmDelete', { name: draft.name }))) void remove();
             }}
+            disabled={!!draft.isBuiltIn || !skins.some((s) => s.id === draft.id)}
           >
-            {t('account.saveSkin')}
-          </button>
-          <button type="button" className="btn" onClick={exportJson}>
-            {t('admin.exportJson')}
-          </button>
-          <button type="button" className="btn" onClick={() => importInput.current?.click()}>
-            {t('admin.importJson')}
+            <IconTrash size={14} />
+            {t('common.delete')}
           </button>
           <input ref={importInput} type="file" accept="application/json,.json" hidden onChange={(e) => { const f = e.target.files?.[0]; if (f) void importJson(f); e.target.value = ''; }} />
         </div>
@@ -387,6 +396,53 @@ export function AdminPage() {
           <ColorField label={t('admin.deck.inkOnFilled')} value={draft.deck.inkOnFilled} onChange={(v) => patch('deck', { inkOnFilled: v })} />
           <ColorField label={t('admin.deck.backColor')} value={draft.deck.backColor} onChange={(v) => patch('deck', { backColor: v })} />
           <ColorField label={t('admin.deck.backInk')} value={draft.deck.backInk} onChange={(v) => patch('deck', { backInk: v })} />
+
+          {/* A card at a time: a rank listed here ignores its suit colour. */}
+          <div className="mt-2 flex items-center gap-2">
+            <span className="label !mb-0 flex-1">{t('admin.deck.perCard')}</span>
+            <button
+              type="button"
+              className="btn !px-2 !py-0.5 text-[11px]"
+              disabled={!draft.deck.rankColors || Object.keys(draft.deck.rankColors).length === 0}
+              onClick={() => patch('deck', { rankColors: undefined })}
+            >
+              {t('common.reset')}
+            </button>
+          </div>
+          <p className="text-[11px]" style={{ color: 'var(--text-muted)' }}>
+            {t('admin.deck.perCardHint')}
+          </p>
+          <div className="grid grid-cols-2 gap-x-3">
+            {RANKS.map((rank) => {
+              const chosen = draft.deck.rankColors?.[rank];
+              return (
+                <label key={rank} className="flex items-center gap-2 py-0.5 text-xs">
+                  <span className="w-6 font-mono">{rank === 'T' ? '10' : rank}</span>
+                  <input
+                    type="color"
+                    className="h-6 w-8 cursor-pointer rounded border-0 bg-transparent p-0"
+                    value={chosen ?? draft.deck.suitColors.s}
+                    onChange={(e) => patch('deck', { rankColors: { ...draft.deck.rankColors, [rank]: e.target.value } })}
+                    aria-label={`${t('admin.deck.perCard')} ${rank}`}
+                  />
+                  {chosen && (
+                    <button
+                      type="button"
+                      className="text-[11px] underline"
+                      style={{ color: 'var(--text-muted)' }}
+                      onClick={() => {
+                        const next = { ...draft.deck.rankColors };
+                        delete next[rank];
+                        patch('deck', { rankColors: Object.keys(next).length ? next : undefined });
+                      }}
+                    >
+                      {t('common.clear')}
+                    </button>
+                  )}
+                </label>
+              );
+            })}
+          </div>
           <SelectField<BackPattern> label={t('admin.deck.backPattern')} value={draft.deck.backPattern} options={(['diamonds', 'grid', 'dots', 'plain'] as BackPattern[]).map((p) => ({ value: p, label: t(`admin.deck.pattern.${p}`) }))} onChange={(v) => patch('deck', { backPattern: v })} />
           <SelectField
             label={t('admin.deck.courtStyle')}

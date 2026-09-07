@@ -57,7 +57,7 @@ function newId(): string {
 }
 
 /** Parse + persist one file/paste as a session. */
-export async function importText(name: string, text: string, override?: Site): Promise<ImportSummary> {
+export async function importText(name: string, text: string, override?: Site, sourceFileName?: string): Promise<ImportSummary> {
   const result = await parseInWorker(text, override);
   const hands: Hand[] = result.hands;
   const players = Array.from(new Set(hands.flatMap((h) => h.players.map((p) => p.name)))).sort();
@@ -65,6 +65,7 @@ export async function importText(name: string, text: string, override?: Site): P
   const session: Session = {
     id: newId(),
     name,
+    sourceFileName: sourceFileName ?? name,
     site: result.site,
     handIds: hands.map((h) => h.id),
     handCount: hands.length,
@@ -97,7 +98,7 @@ export async function importFiles(files: File[], override?: Site, name?: string)
     // so the sessions stay apart in the library.
     const chosen = name?.trim();
     const label = chosen ? (textFiles.length > 1 ? `${chosen} (${index + 1})` : chosen) : f.name;
-    out.push(await importText(label, text, override));
+    out.push(await importText(label, text, override, f.name));
   }
   return out;
 }

@@ -241,3 +241,77 @@ export const IconDevice = (p: Props) => (
     <path d="M2 20h20" />
   </Svg>
 );
+
+/** General settings: three sliders. */
+export const IconSliders = (p: Props) => (
+  <Svg {...p}>
+    <path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0" />
+    <circle cx="16" cy="6" r="2" />
+    <circle cx="10" cy="12" r="2" />
+    <circle cx="18" cy="18" r="2" />
+  </Svg>
+);
+
+/** Leak tags: a label with its hole. */
+export const IconTag = (p: Props) => (
+  <Svg {...p}>
+    <path d="M3 12V5a2 2 0 0 1 2-2h7l9 9-9 9-9-9z" />
+    <circle cx="7.5" cy="7.5" r="1.2" />
+  </Svg>
+);
+
+/** Stored data: a database drum. */
+export const IconDatabase = (p: Props) => (
+  <Svg {...p}>
+    <ellipse cx="12" cy="6" rx="8" ry="3" />
+    <path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6" />
+    <path d="M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6" />
+  </Svg>
+);
+
+/** Library: a stack of books. */
+export const IconLibrary = (p: Props) => (
+  <Svg {...p}>
+    <path d="M4 4h4v16H4zM10 4h4v16h-4z" />
+    <path d="m16.5 5.2 3.4 15.1" />
+  </Svg>
+);
+
+/** Save: a floppy disk. */
+export const IconSave = (p: Props) => (
+  <Svg {...p}>
+    <path d="M5 3h11l3 3v15H5z" />
+    <path d="M8 3v6h7V3M8 21v-7h8v7" />
+  </Svg>
+);
+
+/** Add: a plus. */
+export const IconPlus = (p: Props) => (
+  <Svg {...p}>
+    <path d="M12 5v14M5 12h14" />
+  </Svg>
+);
+
+/** Delete: a waste bin. */
+export const IconTrash = (p: Props) => (
+  <Svg {...p}>
+    <path d="M4 7h16M9 7V4h6v3M6 7l1 14h10l1-14" />
+    <path d="M10 11v6M14 11v6" />
+  </Svg>
+);
+
+/** Export: an arrow into a tray. */
+export const IconDownload = (p: Props) => (
+  <Svg {...p}>
+    <path d="M12 3v12M7 11l5 5 5-5" />
+    <path d="M4 20h16" />
+  </Svg>
+);
+
+/** Rename: a pencil. */
+export const IconPencil = (p: Props) => (
+  <Svg {...p}>
+    <path d="M4 20h4L20 8l-4-4L4 16z" />
+    <path d="m14 6 4 4" />
+  </Svg>
+);
