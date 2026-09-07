@@ -368,6 +368,15 @@ export function AdminPage() {
             <input className="input !w-[170px] !py-0.5" value={draft.felt.logoText ?? ''} onChange={(e) => patch('felt', { logoText: e.target.value || undefined })} />
           </label>
           <RangeField label={t('admin.felt.logoOpacity')} value={draft.felt.logoOpacity} min={0} max={1} step={0.05} onChange={(v) => patch('felt', { logoOpacity: v })} />
+          <SelectField
+            label={t('admin.felt.logoBlend')}
+            value={draft.felt.logoBlend ?? 'normal'}
+            options={[
+              { value: 'normal', label: t('admin.felt.blendNormal') },
+              { value: 'screen', label: t('admin.felt.blendScreen') },
+            ]}
+            onChange={(v) => patch('felt', { logoBlend: v as 'normal' | 'screen' })}
+          />
           <div className="flex items-center gap-2 py-1 text-xs">
             <span className="flex-1">{t('admin.felt.logoImage')}</span>
             <button type="button" className="btn !py-0.5 text-[11px]" onClick={() => logoInput.current?.click()}>

@@ -338,7 +338,10 @@
       "logoText": "중앙 텍스트",
       "logoImage": "중앙 로고 (PNG/SVG)",
       "logoOpacity": "로고 불투명도",
-      "removeLogo": "로고 제거"
+      "removeLogo": "로고 제거",
+      "logoBlend": "워터마크 합성",
+      "blendNormal": "기본",
+      "blendScreen": "스크린 (검정 제거)"
     },
     "table": {
       "title": "테이블",

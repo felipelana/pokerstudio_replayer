@@ -338,7 +338,10 @@
       "logoText": "中央文字",
       "logoImage": "中央标志 (PNG/SVG)",
       "logoOpacity": "标志不透明度",
-      "removeLogo": "移除标志"
+      "removeLogo": "移除标志",
+      "logoBlend": "水印混合模式",
+      "blendNormal": "正常",
+      "blendScreen": "Screen（去除黑色）"
     },
     "table": {
       "title": "牌桌",

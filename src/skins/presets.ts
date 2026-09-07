@@ -130,7 +130,10 @@ export const SKIN_DEFAULT_DARK: Skin = {
     textureIntensity: 0.35,
     vignetteColor: '#0b2e1b',
     vignetteStrength: 0.55,
-    logoOpacity: 0.12,
+    // PokerStudio watermark, screened so the logo's black background drops out.
+    logoAssetId: 'builtin:pokerstudio',
+    logoBlend: 'screen',
+    logoOpacity: 0.34,
   },
   table: {
     railColor: '#3b2a1e',
@@ -202,7 +205,9 @@ export const SKIN_BLUE_NIGHT: Skin = {
     textureIntensity: 0.35,
     vignetteColor: '#0b1c33',
     vignetteStrength: 0.6,
-    logoOpacity: 0.12,
+    logoAssetId: 'builtin:pokerstudio',
+    logoBlend: 'screen',
+    logoOpacity: 0.34,
   },
   table: {
     ...SKIN_DEFAULT_DARK.table,

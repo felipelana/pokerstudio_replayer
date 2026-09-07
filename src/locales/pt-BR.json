@@ -338,7 +338,10 @@
       "logoText": "Texto central",
       "logoImage": "Logo central (PNG/SVG)",
       "logoOpacity": "Opacidade do logo",
-      "removeLogo": "Remover logo"
+      "removeLogo": "Remover logo",
+      "logoBlend": "Mistura da marca d’água",
+      "blendNormal": "Normal",
+      "blendScreen": "Screen (remove o preto)"
     },
     "table": {
       "title": "Mesa",

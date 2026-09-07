@@ -94,7 +94,7 @@ export function SvgTableRenderer({
   const rail = skin.table.railWidth * RX * 2;
   const isCash = hand.currency !== 'chips';
   const feltId = useMemo(() => `felt-${Math.random().toString(36).slice(2, 8)}`, []);
-  const feltLogo = useAssetImage(skin.felt.logoAssetId);
+  const feltLogo = useAssetImage(skin.felt.logoAssetId, skin.felt.logoBlend === 'screen');
   const neonStrength = neon ? (skin.table.neonIntensity ?? 0) : 0;
   const neonColor = skin.table.neonColor ?? skin.plates.activeBorder;
 
@@ -179,10 +179,10 @@ export function SvgTableRenderer({
         {feltLogo && (
           <image
             href={feltLogo.src}
-            x={CX - RX * 0.44}
-            y={CY - RY * 0.34}
-            width={RX * 0.88}
-            height={RY * 0.68}
+            x={CX - RX * 0.28}
+            y={CY - RY * 0.44}
+            width={RX * 0.56}
+            height={RY * 0.88}
             preserveAspectRatio="xMidYMid meet"
             opacity={skin.felt.logoOpacity}
             clipPath={`url(#${feltId}-clip)`}

@@ -344,7 +344,10 @@
       "logoText": "Текст в центре",
       "logoImage": "Логотип в центре (PNG/SVG)",
       "logoOpacity": "Прозрачность логотипа",
-      "removeLogo": "Убрать логотип"
+      "removeLogo": "Убрать логотип",
+      "logoBlend": "Наложение водяного знака",
+      "blendNormal": "Обычное",
+      "blendScreen": "Screen (убирает чёрный)"
     },
     "table": {
       "title": "Стол",

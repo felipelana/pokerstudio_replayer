@@ -338,7 +338,10 @@
       "logoText": "中央のテキスト",
       "logoImage": "中央のロゴ (PNG/SVG)",
       "logoOpacity": "ロゴの不透明度",
-      "removeLogo": "ロゴを削除"
+      "removeLogo": "ロゴを削除",
+      "logoBlend": "透かしの合成",
+      "blendNormal": "通常",
+      "blendScreen": "スクリーン（黒を除去）"
     },
     "table": {
       "title": "テーブル",

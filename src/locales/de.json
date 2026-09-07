@@ -338,7 +338,10 @@
       "logoText": "Text in der Mitte",
       "logoImage": "Logo in der Mitte (PNG/SVG)",
       "logoOpacity": "Logo-Deckkraft",
-      "removeLogo": "Logo entfernen"
+      "removeLogo": "Logo entfernen",
+      "logoBlend": "Wasserzeichen-Modus",
+      "blendNormal": "Normal",
+      "blendScreen": "Screen (entfernt Schwarz)"
     },
     "table": {
       "title": "Tisch",

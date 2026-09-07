@@ -39,8 +39,13 @@ export interface FeltSkin {
   /** 0..1 */
   vignetteStrength: number;
   logoText?: string;
-  /** IndexedDB asset id of an uploaded PNG/SVG. */
+  /** IndexedDB asset id of an uploaded PNG/SVG, or `builtin:<name>`. */
   logoAssetId?: string;
+  /**
+   * How the watermark is composited. 'screen' drops the black background of
+   * logos exported without an alpha channel; 'normal' keeps the image as is.
+   */
+  logoBlend?: 'normal' | 'screen';
   logoOpacity: number;
 }
 

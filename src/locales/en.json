@@ -338,7 +338,10 @@
       "logoText": "Centre text",
       "logoImage": "Centre logo (PNG/SVG)",
       "logoOpacity": "Logo opacity",
-      "removeLogo": "Remove logo"
+      "removeLogo": "Remove logo",
+      "logoBlend": "Watermark blend",
+      "blendNormal": "Normal",
+      "blendScreen": "Screen (drops black)"
     },
     "table": {
       "title": "Table",

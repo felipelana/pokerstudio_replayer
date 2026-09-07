@@ -82,8 +82,7 @@ function feltTexture(felt: FeltSkin, logo?: HTMLImageElement): THREE.CanvasTextu
     ctx.fillRect(0, 0, size, size);
     // Uploaded watermark, centred and scaled to ~44% of the felt width.
     if (logo && logo.naturalWidth > 0) {
-      const maxW = size * 0.44;
-      const scale = Math.min(maxW / logo.naturalWidth, (size * 0.26) / logo.naturalHeight);
+      const scale = Math.min((size * 0.56) / logo.naturalWidth, (size * 0.44) / logo.naturalHeight);
       const w = logo.naturalWidth * scale;
       const h = logo.naturalHeight * scale;
       ctx.save();
@@ -612,7 +611,7 @@ export function ThreeTableRenderer(props: TableRendererProps) {
     [t],
   );
   const rz = RX * props.skin.table.aspect;
-  const feltLogo = useAssetImage(props.skin.felt.logoAssetId);
+  const feltLogo = useAssetImage(props.skin.felt.logoAssetId, props.skin.felt.logoBlend === 'screen');
 
   // Some embedded browsers only flush R3F's initial size measurement on a
   // resize event; kick one right after mount so the first frame is never blank.
