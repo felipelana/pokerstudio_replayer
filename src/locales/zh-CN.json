@@ -442,6 +442,11 @@
     "layoutSkin": "跟随皮肤",
     "hideHero": "隐藏我的手牌",
     "revealVillains": "显示已知的对手手牌",
-    "revealDisabled": "本手牌历史中没有对手手牌"
+    "revealDisabled": "本手牌历史中没有对手手牌",
+    "chipDenominations": "筹码面额",
+    "zoom": "缩放",
+    "zoomTable": "牌桌",
+    "zoomCards": "手牌",
+    "zoomChips": "筹码"
   }
 }

@@ -442,6 +442,11 @@
     "layoutSkin": "Como na skin",
     "hideHero": "Ocultar minhas cartas",
     "revealVillains": "Revelar cartas conhecidas do vilão",
-    "revealDisabled": "Esta mão não tem cartas do vilão no histórico"
+    "revealDisabled": "Esta mão não tem cartas do vilão no histórico",
+    "chipDenominations": "Valor nas fichas",
+    "zoom": "Zoom",
+    "zoomTable": "Mesa",
+    "zoomCards": "Cartas",
+    "zoomChips": "Fichas"
   }
 }

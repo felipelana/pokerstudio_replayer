@@ -448,6 +448,11 @@
     "layoutSkin": "Как в скине",
     "hideHero": "Скрыть мои карты",
     "revealVillains": "Показать известные карты соперника",
-    "revealDisabled": "В этой раздаче нет карт соперника в истории"
+    "revealDisabled": "В этой раздаче нет карт соперника в истории",
+    "chipDenominations": "Номинал на фишках",
+    "zoom": "Масштаб",
+    "zoomTable": "Стол",
+    "zoomCards": "Карты",
+    "zoomChips": "Фишки"
   }
 }

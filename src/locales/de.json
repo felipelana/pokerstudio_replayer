@@ -442,6 +442,11 @@
     "layoutSkin": "Wie im Skin",
     "hideHero": "Eigene Karten verbergen",
     "revealVillains": "Bekannte Gegnerkarten zeigen",
-    "revealDisabled": "In dieser Hand stehen keine Gegnerkarten im Verlauf"
+    "revealDisabled": "In dieser Hand stehen keine Gegnerkarten im Verlauf",
+    "chipDenominations": "Werte auf den Chips",
+    "zoom": "Zoom",
+    "zoomTable": "Tisch",
+    "zoomCards": "Karten",
+    "zoomChips": "Chips"
   }
 }

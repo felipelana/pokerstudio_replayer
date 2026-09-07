@@ -57,15 +57,43 @@ function CardShape({ card, deck, x, y, w }: { card: string | 'back'; deck: DeckS
   );
 }
 
-function ChipStack({ chips, colors, edge, x, y }: { chips: number[]; colors: Record<string, string>; edge: string; x: number; y: number }) {
+/** Short label printed on a chip: 25, 1K, 5K, 1M … (R22). */
+function chipLabel(d: number): string {
+  if (d >= 1_000_000) return `${d / 1_000_000}M`;
+  if (d >= 1000) return `${d / 1000}K`;
+  return String(d);
+}
+
+function ChipStack({
+  chips,
+  colors,
+  edge,
+  x,
+  y,
+  zoom = 1,
+  denominations = true,
+}: {
+  chips: number[];
+  colors: Record<string, string>;
+  edge: string;
+  x: number;
+  y: number;
+  zoom?: number;
+  denominations?: boolean;
+}) {
   return (
-    <g transform={`translate(${x} ${y})`}>
+    <g transform={`translate(${x} ${y}) scale(${zoom})`}>
       <g className="chips-in" style={{ transformBox: 'fill-box', transformOrigin: 'center' }}>
       {chips.map((d, i) => (
         <g key={i} transform={`translate(0 ${-i * 3.2})`}>
           <ellipse cx={0} cy={0} rx={13} ry={5.5} fill={colors[String(d)] ?? '#888'} stroke="rgba(0,0,0,0.35)" strokeWidth={0.8} />
-          {i === chips.length - 1 && (
+          {i === chips.length - 1 && !denominations && (
             <ellipse cx={0} cy={0} rx={8} ry={3.3} fill="none" stroke={edge} strokeWidth={1.2} strokeDasharray="3 3" />
+          )}
+          {i === chips.length - 1 && denominations && (
+            <text x={0} y={2.4} textAnchor="middle" fontSize={6} fontWeight={700} fill="#fff" stroke="rgba(0,0,0,0.5)" strokeWidth={1.2} paintOrder="stroke">
+              {chipLabel(d)}
+            </text>
           )}
         </g>
       ))}
@@ -85,6 +113,9 @@ export function SvgTableRenderer({
   hideHeroCards,
   lookupUrlFor,
   holeLayout,
+  zoomCards = 1,
+  zoomChips = 1,
+  chipDenominations = true,
   fmt,
   exact,
   onSeatClick,
@@ -260,12 +291,12 @@ export function SvgTableRenderer({
           </text>
         )}
         {frame.pot > 0 && (
-          <ChipStack chips={chipBreakdown(frame.pot, isCash, 10)} colors={skin.chips.colors} edge={skin.chips.edge} x={CX - 190} y={CY + 82} />
+          <ChipStack chips={chipBreakdown(frame.pot, isCash, 10)} colors={skin.chips.colors} edge={skin.chips.edge} x={CX - 190} y={CY + 82} zoom={zoomChips} denominations={chipDenominations} />
         )}
 
         {/* Board */}
         {frame.board.map((c, i) => (
-          <CardShape key={c} card={c} deck={skin.deck} x={boardX0 + i * (boardW + boardGap)} y={boardY} w={boardW} />
+          <CardShape key={c} card={c} deck={skin.deck} x={boardX0 + i * (boardW + boardGap)} y={boardY} w={boardW * zoomCards} />
         ))}
 
         {/* Bets and dealer button — every group is kept inside the felt (R2) and
@@ -293,12 +324,12 @@ export function SvgTableRenderer({
             <g key={slot.seat}>
               {p.streetBet > 0 && (
                 <g>
-                  <ChipStack chips={chips} colors={skin.chips.colors} edge={skin.chips.edge} x={bx} y={by} />
+                  <ChipStack chips={chips} colors={skin.chips.colors} edge={skin.chips.edge} x={bx} y={by} zoom={zoomChips} denominations={chipDenominations} />
                   <text
                     x={bx}
                     y={by + 32}
                     textAnchor="middle"
-                    fontSize={14}
+                    fontSize={14 * zoomChips}
                     fontWeight={600}
                     fill={ink}
                     stroke={halo}

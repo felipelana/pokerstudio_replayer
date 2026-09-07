@@ -442,6 +442,11 @@
     "layoutSkin": "스킨 설정 사용",
     "hideHero": "내 카드 숨기기",
     "revealVillains": "알려진 상대 카드 공개",
-    "revealDisabled": "이 핸드 기록에는 상대 카드가 없습니다"
+    "revealDisabled": "이 핸드 기록에는 상대 카드가 없습니다",
+    "chipDenominations": "칩 액면가",
+    "zoom": "확대",
+    "zoomTable": "테이블",
+    "zoomCards": "카드",
+    "zoomChips": "칩"
   }
 }

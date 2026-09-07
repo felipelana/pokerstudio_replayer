@@ -12,7 +12,7 @@ function isTypingTarget(el: EventTarget | null): boolean {
  * Global replayer shortcuts. Suspended while an input has focus.
  * → next · ← prev · ↑ prev hand · ↓ next hand · Home/End · Space play ·
  * 1..5 streets · B chips/BB · T theme · C skin · S show known · ? help ·
- * F fullscreen · [ collapse the hand list
+ * F fullscreen · [ collapse the hand list · +/- table zoom
  */
 export function useReplayerKeyboard(enabled: boolean, onHandChange: (delta: number) => void) {
   useEffect(() => {
@@ -48,6 +48,15 @@ export function useReplayerKeyboard(enabled: boolean, onHandChange: (delta: numb
         case '[':
           e.preventDefault();
           s.toggleSidebar();
+          break;
+        case '+':
+        case '=':
+          e.preventDefault();
+          void s.updateSettings({ zoomTable: Math.min(1.6, Math.round((s.settings.zoomTable + 0.05) * 100) / 100) });
+          break;
+        case '-':
+          e.preventDefault();
+          void s.updateSettings({ zoomTable: Math.max(0.7, Math.round((s.settings.zoomTable - 0.05) * 100) / 100) });
           break;
         case 'Home':
           e.preventDefault();

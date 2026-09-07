@@ -76,6 +76,48 @@ export function QuickControls({ hand }: { hand: Hand }) {
             {t('quick.hideHero')}
           </label>
 
+          <label className="checkbox">
+            <input type="checkbox" checked={settings.chipDenominations} onChange={(e) => update({ chipDenominations: e.target.checked })} />
+            {t('quick.chipDenominations')}
+          </label>
+
+          <div className="flex items-center gap-2">
+            <span className="label-caps flex-1">{t('quick.zoom')}</span>
+            <button
+              type="button"
+              className="text-[10.5px] underline"
+              style={{ color: 'var(--text-muted)' }}
+              onClick={() => update({ zoomTable: 1, zoomCards: 1, zoomChips: 1 })}
+            >
+              {t('common.reset')}
+            </button>
+          </div>
+          {(
+            [
+              ['zoomTable', 'quick.zoomTable'],
+              ['zoomCards', 'quick.zoomCards'],
+              ['zoomChips', 'quick.zoomChips'],
+            ] as const
+          ).map(([key, label]) => (
+            <label key={key} className="flex items-center gap-2">
+              <span className="w-[74px] shrink-0" style={{ color: 'var(--text-muted)' }}>
+                {t(label)}
+              </span>
+              <input
+                type="range"
+                min={0.7}
+                max={1.6}
+                step={0.05}
+                value={settings[key]}
+                onChange={(e) => update({ [key]: Number(e.target.value) })}
+                className="flex-1"
+                style={{ accentColor: 'var(--accent)' }}
+                aria-label={t(label)}
+              />
+              <span className="w-9 text-right tabular-nums">{Math.round(settings[key] * 100)}%</span>
+            </label>
+          ))}
+
           <label className="checkbox" title={knownVillainCards ? undefined : t('quick.revealDisabled')}>
             <input
               type="checkbox"

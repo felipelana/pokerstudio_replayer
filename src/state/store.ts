@@ -29,6 +29,12 @@ export interface Settings {
   /** Quick replayer toggles (R8). */
   hideHeroCards: boolean;
   holeLayoutOverride: 'skin' | 'spread' | 'overlap';
+  /** Independent zooms, 0.7..1.6 (R21). */
+  zoomTable: number;
+  zoomCards: number;
+  zoomChips: number;
+  /** Print the denomination on each chip (R22). */
+  chipDenominations: boolean;
   rotateToHero: boolean;
   animations: boolean;
   /** Playback speed multiplier 0.5..3 */
@@ -56,6 +62,10 @@ export const DEFAULT_SETTINGS: Settings = {
   playerLookupUrl: DEFAULT_LOOKUP_TEMPLATE,
   hideHeroCards: false,
   holeLayoutOverride: 'skin',
+  zoomTable: 1,
+  zoomCards: 1,
+  zoomChips: 1,
+  chipDenominations: true,
   rotateToHero: true,
   animations: true,
   speed: 1,

@@ -442,6 +442,11 @@
     "layoutSkin": "スキンに従う",
     "hideHero": "自分のカードを隠す",
     "revealVillains": "判明している相手のカードを表示",
-    "revealDisabled": "このハンドの履歴に相手のカードはありません"
+    "revealDisabled": "このハンドの履歴に相手のカードはありません",
+    "chipDenominations": "チップの額面",
+    "zoom": "ズーム",
+    "zoomTable": "テーブル",
+    "zoomCards": "カード",
+    "zoomChips": "チップ"
   }
 }

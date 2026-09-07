@@ -20,6 +20,11 @@ export interface TableRendererProps {
   lookupUrlFor?: (nick: string) => string;
   /** Overrides the skin's hole-card layout (R8). */
   holeLayout?: 'spread' | 'overlap';
+  /** Independent scales for cards and for chips/bets (R21). */
+  zoomCards?: number;
+  zoomChips?: number;
+  /** Denomination printed on the chips (R22). */
+  chipDenominations?: boolean;
   animations: boolean;
   /** Global neon switch; the colour and strength come from the skin. */
   neon?: boolean;

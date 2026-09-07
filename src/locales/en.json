@@ -442,6 +442,11 @@
     "layoutSkin": "From the skin",
     "hideHero": "Hide my cards",
     "revealVillains": "Reveal known villain cards",
-    "revealDisabled": "This hand has no villain cards in the history"
+    "revealDisabled": "This hand has no villain cards in the history",
+    "chipDenominations": "Chip denominations",
+    "zoom": "Zoom",
+    "zoomTable": "Table",
+    "zoomCards": "Cards",
+    "zoomChips": "Chips"
   }
 }

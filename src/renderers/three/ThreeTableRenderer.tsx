@@ -149,6 +149,44 @@ function woodTexture(table: TableSkin): THREE.CanvasTexture {
   return tex;
 }
 
+/** Top-face texture for a chip, with its denomination printed (R22). */
+function chipTopTexture(color: string, denom: number): THREE.CanvasTexture {
+  const key = `chip|${color}|${denom}`;
+  let tex = textureCache.get(key);
+  if (!tex) {
+    const size = 128;
+    const c = document.createElement('canvas');
+    c.width = size;
+    c.height = size;
+    const ctx = c.getContext('2d')!;
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(255,255,255,0.75)';
+    ctx.lineWidth = 6;
+    ctx.setLineDash([14, 10]);
+    ctx.beginPath();
+    ctx.arc(size / 2, size / 2, size * 0.36, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    const label = denom >= 1e6 ? `${denom / 1e6}M` : denom >= 1000 ? `${denom / 1000}K` : String(denom);
+    ctx.font = `700 ${size * 0.3}px Inter, system-ui, sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = 'rgba(0,0,0,0.55)';
+    ctx.strokeText(label, size / 2, size / 2);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText(label, size / 2, size / 2);
+    tex = new THREE.CanvasTexture(c);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.anisotropy = 8;
+    textureCache.set(key, tex);
+  }
+  return tex;
+}
+
 /** Radial fade used as the table's drop shadow on the page background. */
 function shadowTexture(): THREE.CanvasTexture {
   const key = 'table-shadow';
@@ -357,13 +395,26 @@ function Appear({ children, enabled, delay = 0 }: { children: ReactNode; enabled
   return <group ref={ref}>{children}</group>;
 }
 
-function CardMesh({ card, deck, position, rotationY = 0 }: { card: string; deck: DeckSkin; position: [number, number, number]; rotationY?: number }) {
+function CardMesh({
+  card,
+  deck,
+  position,
+  rotationY = 0,
+  scale = 1,
+}: {
+  card: string;
+  deck: DeckSkin;
+  position: [number, number, number];
+  rotationY?: number;
+  /** Card zoom (R21). */
+  scale?: number;
+}) {
   const tex = useMemo(() => cardTexture(card, deck), [card, deck]);
   const back = useMemo(() => cardTexture('back', deck), [deck]);
   // Lift the card so its bottom edge rests on the felt once tilted.
   const lift = (CARD_HEIGHT / 2) * Math.sin(CARD_TILT) + 0.01;
   return (
-    <group position={[position[0], position[1] + lift, position[2]]} rotation={[-Math.PI / 2 + CARD_TILT, 0, rotationY]}>
+    <group position={[position[0], position[1] + lift, position[2]]} rotation={[-Math.PI / 2 + CARD_TILT, 0, rotationY]} scale={scale}>
       <mesh castShadow renderOrder={5}>
         <planeGeometry args={[CARD_WIDTH, CARD_HEIGHT]} />
         {/* Low roughness + a little metalness gives the printed face a glossy sheen.
@@ -379,19 +430,41 @@ function CardMesh({ card, deck, position, rotationY = 0 }: { card: string; deck:
   );
 }
 
-function ChipStack3D({ chips, skin, position }: { chips: number[]; skin: Skin; position: [number, number, number] }) {
+function ChipStack3D({
+  chips,
+  skin,
+  position,
+  zoom = 1,
+  denominations = true,
+}: {
+  chips: number[];
+  skin: Skin;
+  position: [number, number, number];
+  zoom?: number;
+  denominations?: boolean;
+}) {
+  const top = chips.length ? chips[chips.length - 1] : undefined;
   return (
-    <group position={position}>
+    <group position={position} scale={zoom}>
       {chips.map((d, i) => (
         <mesh key={i} position={[0, 0.03 + i * 0.06, 0]} castShadow receiveShadow>
           <cylinderGeometry args={[0.19, 0.19, 0.06, 28]} />
           <meshStandardMaterial color={skin.chips.colors[String(d)] ?? '#888'} roughness={0.5} />
         </mesh>
       ))}
-      {chips.length > 0 && (
+      {chips.length > 0 && top !== undefined && (
         <mesh position={[0, 0.03 + chips.length * 0.06 + 0.001, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-          <ringGeometry args={[0.1, 0.14, 24]} />
-          <meshBasicMaterial color={skin.chips.edge} transparent opacity={0.8} />
+          {denominations ? (
+            <>
+              <circleGeometry args={[0.19, 28]} />
+              <meshBasicMaterial map={chipTopTexture(skin.chips.colors[String(top)] ?? '#888', top)} />
+            </>
+          ) : (
+            <>
+              <ringGeometry args={[0.1, 0.14, 24]} />
+              <meshBasicMaterial color={skin.chips.edge} transparent opacity={0.8} />
+            </>
+          )}
         </mesh>
       )}
     </group>
@@ -446,7 +519,7 @@ interface SceneLabels {
 }
 
 function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTMLImageElement }) {
-  const { hand, frame, skin, slots, heroName, positions, showKnownHands, hideHeroCards, lookupUrlFor, holeLayout, fmt, exact, onSeatClick, interactive = true, animations, labels, feltLogo } = props;
+  const { hand, frame, skin, slots, heroName, positions, showKnownHands, hideHeroCards, lookupUrlFor, holeLayout, zoomCards = 1, zoomChips = 1, chipDenominations = true, fmt, exact, onSeatClick, interactive = true, animations, labels, feltLogo } = props;
   const rz = RX * skin.table.aspect;
   const railW = skin.table.railWidth * RX * 2;
   const isCash = hand.currency !== 'chips';
@@ -495,14 +568,14 @@ function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTM
       {/* Board */}
       {frame.board.map((c, i) => (
         <Appear key={c} enabled={animations} delay={i * 40}>
-          <CardMesh card={c} deck={skin.deck} position={[boardX0 + i * (CARD_WIDTH + boardGap), 0.01, 0]} />
+          <CardMesh card={c} deck={skin.deck} position={[boardX0 + i * (CARD_WIDTH + boardGap), 0.01, 0]} scale={zoomCards} />
         </Appear>
       ))}
 
       {/* Pot chips */}
       {frame.pot > 0 && (
         <Appear enabled={animations}>
-          <ChipStack3D chips={chipBreakdown(frame.pot, isCash, 10)} skin={skin} position={[-2.5, 0, 1.35]} />
+          <ChipStack3D chips={chipBreakdown(frame.pot, isCash, 10)} skin={skin} position={[-2.5, 0, 1.35]} zoom={zoomChips} denominations={chipDenominations} />
         </Appear>
       )}
 
@@ -562,7 +635,7 @@ function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTM
           <group key={slot.seat}>
             {p && p.streetBet > 0 && (
               <Appear enabled={animations}>
-                <ChipStack3D chips={chipBreakdown(p.streetBet, isCash)} skin={skin} position={[bx, 0, bz]} />
+                <ChipStack3D chips={chipBreakdown(p.streetBet, isCash)} skin={skin} position={[bx, 0, bz]} zoom={zoomChips} denominations={chipDenominations} />
                 {/* Label sits in front of (below on screen) the stack, so it never
                     covers the chips. The pot label lives under the board, out of
                     this ring, so the two can't meet. */}
