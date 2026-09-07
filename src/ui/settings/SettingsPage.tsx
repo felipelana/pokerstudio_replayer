@@ -121,22 +121,6 @@ export function SettingsPage() {
         </Row>
       </section>
 
-      <section className="panel mb-4 px-4 pb-1 pt-3">
-        <h2 className="mb-1 font-semibold">{t('settings.equity')}</h2>
-        <Row label={t('settings.showEquity')}>
-          <Toggle checked={settings.showEquity} onChange={(v) => update({ showEquity: v })} label={t('settings.showEquity')} />
-        </Row>
-        <Row label={t('settings.equityIterations')}>
-          <select className="input" value={settings.equityIterations} onChange={(e) => update({ equityIterations: Number(e.target.value) })}>
-            {[5000, 10000, 20000, 50000, 100000].map((n) => (
-              <option key={n} value={n}>
-                {n.toLocaleString()}
-              </option>
-            ))}
-          </select>
-        </Row>
-      </section>
-
       <section className="panel mb-4 px-4 pb-3 pt-3">
         <h2 className="mb-1 font-semibold">{t('settings.data')}</h2>
         <p className="mb-2 text-xs" style={{ color: 'var(--text-muted)' }}>

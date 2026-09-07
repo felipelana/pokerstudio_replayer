@@ -81,7 +81,6 @@ export function SvgTableRenderer({
   heroName,
   positions,
   showKnownHands,
-  equity,
   fmt,
   exact,
   onSeatClick,
@@ -197,17 +196,7 @@ export function SvgTableRenderer({
 
         {/* Pot */}
         <g transform={`translate(${CX} ${CY + 84})`}>
-          <rect
-            x={-82}
-            y={-24}
-            width={164}
-            height={48}
-            rx={14}
-            fill="rgba(0,0,0,0.45)"
-            stroke={skin.plates.activeBorder}
-            strokeOpacity={0.26}
-            strokeWidth={1.5}
-          />
+          {/* No box, no border: type straight on the felt, outlined for contrast. */}
           <text
             x={0}
             y={-9}
@@ -215,16 +204,38 @@ export function SvgTableRenderer({
             fontSize={9.5}
             fontWeight={600}
             letterSpacing={2}
-            fill="rgba(255,255,255,0.55)"
+            fill="rgba(255,255,255,0.72)"
+            stroke="rgba(0,0,0,0.55)"
+            strokeWidth={2}
+            paintOrder="stroke"
           >
             {t('table.pot').toUpperCase()}
           </text>
-          <text x={0} y={17} textAnchor="middle" fontSize={22} fontWeight={600} fill="#fff">
-            <AmountTspans value={fmt(frame.totalPot)} size={22} />
+          <text
+            x={0}
+            y={19}
+            textAnchor="middle"
+            fontSize={24}
+            fontWeight={600}
+            fill="#fff"
+            stroke="rgba(0,0,0,0.6)"
+            strokeWidth={3}
+            paintOrder="stroke"
+          >
+            <AmountTspans value={fmt(frame.totalPot)} size={24} />
           </text>
         </g>
         {frame.pots.length > 1 && (
-          <text x={CX} y={CY + 126} textAnchor="middle" fontSize={11.5} fill="rgba(255,255,255,0.75)">
+          <text
+            x={CX}
+            y={CY + 126}
+            textAnchor="middle"
+            fontSize={11.5}
+            fill="rgba(255,255,255,0.8)"
+            stroke="rgba(0,0,0,0.55)"
+            strokeWidth={2.5}
+            paintOrder="stroke"
+          >
             {frame.pots.map((p) => fmt(p.amount)).join('   ')}
           </text>
         )}
@@ -297,8 +308,6 @@ export function SvgTableRenderer({
               isWinner={winners.has(p.name)}
               position={positions[p.name]}
               showCards={showKnownHands}
-              equity={equity?.values[p.name]}
-              equityPending={equity?.pending}
               fmt={fmt}
               exact={exact}
               onClick={interactive && onSeatClick ? () => onSeatClick(p.name) : undefined}

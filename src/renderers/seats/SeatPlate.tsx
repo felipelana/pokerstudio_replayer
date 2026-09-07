@@ -17,7 +17,6 @@ export interface SeatLabels {
   allIn: string;
   sittingOut: string;
   unknownCards: string;
-  equity: string;
 }
 
 export function seatLabels(t: TFunction): SeatLabels {
@@ -26,7 +25,6 @@ export function seatLabels(t: TFunction): SeatLabels {
     allIn: t('table.allIn'),
     sittingOut: t('table.sittingOut'),
     unknownCards: t('table.unknownCards'),
-    equity: t('table.equity'),
   };
 }
 
@@ -39,8 +37,6 @@ interface Props {
   isWinner: boolean;
   position?: PositionLabel;
   showCards: boolean;
-  equity?: number;
-  equityPending?: boolean;
   fmt: (v: number) => string;
   exact: (v: number) => string;
   onClick?: () => void;
@@ -78,8 +74,6 @@ export const SeatPlate = memo(function SeatPlate({
   isWinner,
   position,
   showCards,
-  equity,
-  equityPending,
   fmt,
   exact,
   onClick,
@@ -176,15 +170,6 @@ export const SeatPlate = memo(function SeatPlate({
           </div>
         )}
       </button>
-      {equity !== undefined && hasCards && (
-        <div
-          className="mt-1 rounded-full px-2 text-[11px] font-semibold leading-[16px] tabular-nums"
-          style={{ background: 'rgba(0,0,0,0.55)', color: '#fff', opacity: equityPending ? 0.6 : 1 }}
-          aria-label={labels.equity}
-        >
-          {(equity * 100).toFixed(1)}%
-        </div>
-      )}
     </div>
   );
 });

@@ -5,12 +5,6 @@ import type { PositionLabel } from '@/model/positions';
 import type { Skin } from '@/skins/types';
 import type { SeatSlot } from './layout';
 
-export interface EquityInfo {
-  /** 0..1 per player name; undefined when the player's cards are unknown. */
-  values: Record<string, number | undefined>;
-  pending: boolean;
-}
-
 export interface TableRendererProps {
   hand: Hand;
   frame: Frame;
@@ -23,7 +17,6 @@ export interface TableRendererProps {
   animations: boolean;
   /** Global neon switch; the colour and strength come from the skin. */
   neon?: boolean;
-  equity?: EquityInfo;
   potOdds?: PotOdds;
   fmt: (v: number) => string;
   exact: (v: number) => string;

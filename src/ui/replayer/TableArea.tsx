@@ -2,12 +2,12 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Frame, HandReplay } from '@/engine/replay';
 import { potOddsFor } from '@/engine/replay';
+import { siteName } from '@/model/sites';
 import { computePositions } from '@/model/positions';
 import { anchorSeatFor, computeSeatSlots } from '@/renderers/layout';
 import type { TableRendererProps } from '@/renderers/TableRenderer';
 import { TableSurface } from '@/renderers/TableSurface';
 import { useAppStore, useActiveSkin } from '@/state/store';
-import { useEquity } from '@/equity/useEquity';
 import { useAmountFormatter, useDateFormatter } from '@/ui/hooks/useFormat';
 
 interface Props {
@@ -37,9 +37,7 @@ export function TableArea({ replay, frame, heroName, onSeatClick }: Props) {
     [hand, heroName, settings.rotateToHero],
   );
 
-  const equity = useEquity(hand, frame, settings.showEquity, settings.equityIterations);
   const potOdds = useMemo(() => potOddsFor(frame, heroName), [frame, heroName]);
-  const heroEquity = heroName ? equity.values[heroName] : undefined;
 
   const rendererProps: TableRendererProps = {
     hand,
@@ -51,7 +49,6 @@ export function TableArea({ replay, frame, heroName, onSeatClick }: Props) {
     showKnownHands: settings.showKnownHands,
     animations: settings.animations,
     neon: settings.neon,
-    equity: settings.showEquity ? equity : undefined,
     potOdds,
     fmt,
     exact,
@@ -66,33 +63,29 @@ export function TableArea({ replay, frame, heroName, onSeatClick }: Props) {
   return (
     <div className="relative flex h-full min-w-0 flex-1 flex-col">
       <div className="flex items-center gap-3 px-3 py-1.5 text-xs" style={{ color: 'var(--text-muted)' }}>
+        {/* Room name only when the parser actually identified it (R7). */}
+        {siteName(hand.site) && (
+          <span
+            className="rounded px-1.5 py-[1px] text-[11px] font-semibold"
+            style={{ background: 'var(--surface-2)', color: 'var(--text)' }}
+          >
+            {siteName(hand.site)}
+          </span>
+        )}
         <span className="font-semibold" style={{ color: 'var(--text)' }}>
           {t('game.hand', { number: hand.handNumber })}
         </span>
         <span>{gameLine}</span>
         <span>{df.dateTime(hand.timestamp)}</span>
         <div className="flex-1" />
-        {settings.showEquity && (potOdds || heroEquity !== undefined) && (
+        {potOdds && (
           <div className="flex items-center gap-3 rounded-md px-2 py-1 font-medium tabular-nums" style={{ background: 'var(--surface-2)', color: 'var(--text)' }}>
-            {potOdds && (
-              <span title={t('table.toCall', { amount: fmt(potOdds.toCall) })}>
-                {t('table.potOdds')} {df.number(potOdds.ratio, 1)}:1
-                <span className="ml-1" style={{ color: 'var(--text-muted)' }}>
-                  ({t('table.requiredEquity')} {df.percent(potOdds.breakEven)})
-                </span>
+            <span title={t('table.toCall', { amount: fmt(potOdds.toCall) })}>
+              {t('table.potOdds')} {df.number(potOdds.ratio, 1)}:1
+              <span className="ml-1" style={{ color: 'var(--text-muted)' }}>
+                ({df.percent(potOdds.breakEven)})
               </span>
-            )}
-            {heroEquity !== undefined && (
-              <span
-                style={{
-                  color: potOdds ? (heroEquity >= potOdds.breakEven ? 'var(--result-won)' : 'var(--result-lost)') : undefined,
-                  opacity: equity.pending ? 0.6 : 1,
-                }}
-              >
-                {t('table.equity')} {df.percent(heroEquity)}
-                {equity.pending && <span className="ml-1 inline-block animate-pulse">…</span>}
-              </span>
-            )}
+            </span>
           </div>
         )}
       </div>

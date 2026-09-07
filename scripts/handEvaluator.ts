@@ -1,4 +1,7 @@
 /**
+ *
+ * Kept here (not in src/) because the app no longer computes equity: only the
+ * sample generator needs a hand-strength evaluator.
  * Fast 5..7-card Texas Hold'em evaluator in pure TypeScript.
  *
  * Cards are integers 0..51 = rank * 4 + suit (rank 0 = deuce … 12 = ace),

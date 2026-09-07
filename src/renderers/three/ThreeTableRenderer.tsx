@@ -299,7 +299,7 @@ function Table({ skin, neon, feltLogo }: { skin: Skin; neon: boolean; feltLogo?:
       {neonStrength > 0 && (
         <group>
           {/* Halo mapped exactly onto the felt ellipse — nothing reaches the rail. */}
-          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.006, 0]} renderOrder={2}>
+          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.006, 0]} renderOrder={-1}>
             <planeGeometry args={[RX * 2, rz * 2]} />
             <meshBasicMaterial
               map={glow}
@@ -311,7 +311,8 @@ function Table({ skin, neon, feltLogo }: { skin: Skin; neon: boolean; feltLogo?:
             />
           </mesh>
           <group scale={[RX * 0.9, rz * 0.9, 1]} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.02, 0]}>
-            <mesh renderOrder={3}>
+            {/* Below every card: the felt glow must never wash over the board. */}
+            <mesh renderOrder={0}>
               <ringGeometry args={[0.982, 1, 192]} />
               <meshBasicMaterial
                 color={neonColor}
@@ -362,10 +363,12 @@ function CardMesh({ card, deck, position, rotationY = 0 }: { card: string; deck:
   const lift = (CARD_HEIGHT / 2) * Math.sin(CARD_TILT) + 0.01;
   return (
     <group position={[position[0], position[1] + lift, position[2]]} rotation={[-Math.PI / 2 + CARD_TILT, 0, rotationY]}>
-      <mesh castShadow>
+      <mesh castShadow renderOrder={5}>
         <planeGeometry args={[CARD_WIDTH, CARD_HEIGHT]} />
-        {/* Low roughness + a little metalness gives the printed face a glossy sheen. */}
-        <meshStandardMaterial map={tex} roughness={0.28} metalness={0.06} />
+        {/* Low roughness + a little metalness gives the printed face a glossy sheen.
+            `transparent` + `alphaTest` keep the rounded corners see-through instead
+            of painting the cleared texels black. */}
+        <meshStandardMaterial map={tex} roughness={0.28} metalness={0.06} transparent alphaTest={0.05} />
       </mesh>
       <mesh rotation={[Math.PI, 0, 0]} position={[0, 0, -0.004]}>
         <planeGeometry args={[CARD_WIDTH, CARD_HEIGHT]} />
@@ -442,7 +445,7 @@ interface SceneLabels {
 }
 
 function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTMLImageElement }) {
-  const { hand, frame, skin, slots, heroName, positions, showKnownHands, equity, fmt, exact, onSeatClick, interactive = true, animations, labels, feltLogo } = props;
+  const { hand, frame, skin, slots, heroName, positions, showKnownHands, fmt, exact, onSeatClick, interactive = true, animations, labels, feltLogo } = props;
   const rz = RX * skin.table.aspect;
   const railW = skin.table.railWidth * RX * 2;
   const isCash = hand.currency !== 'chips';
@@ -494,26 +497,22 @@ function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTM
       {/* Board dead centre; the pot block (total + side pots) sits right under
           it, clear of the bet ring, so nothing can overlap. */}
       <Html position={[0, 0.05, 1.42]} center zIndexRange={[5, 0]} style={{ pointerEvents: 'none' }}>
+        {/* No box, no border: just type on the felt, kept legible by a soft halo. */}
         <div
-          className="flex flex-col items-center whitespace-nowrap rounded-2xl border px-4 py-1.5 text-white"
-          style={{
-            background: 'rgba(0,0,0,0.45)',
-            borderColor: `color-mix(in srgb, ${skin.plates.activeBorder} 26%, transparent)`,
-            backdropFilter: 'blur(3px)',
-          }}
+          className="flex flex-col items-center whitespace-nowrap text-white"
+          style={{ textShadow: '0 1px 2px rgba(0,0,0,0.85), 0 0 12px rgba(0,0,0,0.75)' }}
         >
-          <span className="text-[9.5px] font-semibold uppercase leading-none tracking-[0.2em] opacity-55">
+          <span className="text-[9.5px] font-semibold uppercase leading-none tracking-[0.2em] opacity-70">
             {labels.pot}
           </span>
-          <Amount value={fmt(frame.totalPot)} size={24} className="mt-1 leading-none" />
+          <Amount value={fmt(frame.totalPot)} size={26} className="mt-1 leading-none" />
           {frame.pots.length > 1 && (
             // Side pots as bare amounts — the wording lives in the tooltip only.
             <div className="mt-1.5 flex items-center justify-center gap-1">
               {frame.pots.map((p, i) => (
                 <span
                   key={i}
-                  className="rounded-md px-1.5 py-[1px] text-[11px] font-medium leading-[15px] tabular-nums"
-                  style={{ background: 'rgba(255,255,255,0.12)' }}
+                  className="px-1 text-[11px] font-medium leading-[15px] tabular-nums opacity-80"
                   title={p.kind === 'main' ? labels.mainPot : labels.sidePot(p.index)}
                 >
                   {fmt(p.amount)}
@@ -566,8 +565,6 @@ function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTM
                   isWinner={winners.has(p.name)}
                   position={positions[p.name]}
                   showCards={showKnownHands}
-                  equity={equity?.values[p.name]}
-                  equityPending={equity?.pending}
                   fmt={fmt}
                   exact={exact}
                   onClick={interactive && onSeatClick ? () => onSeatClick(p.name) : undefined}

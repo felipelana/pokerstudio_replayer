@@ -20,9 +20,7 @@ export interface Settings {
   animations: boolean;
   /** Playback speed multiplier 0.5..3 */
   speed: number;
-  equityIterations: number;
   renderer: RendererChoice;
-  showEquity: boolean;
   /** Blind review: hide result colours and net amounts in the list/timeline. */
   hideResults: boolean;
   /** Glowing edge on the felt (colour and strength come from the skin). */
@@ -41,9 +39,7 @@ export const DEFAULT_SETTINGS: Settings = {
   rotateToHero: true,
   animations: true,
   speed: 1,
-  equityIterations: 20000,
   renderer: 'auto',
-  showEquity: true,
   hideResults: false,
   neon: true,
 };

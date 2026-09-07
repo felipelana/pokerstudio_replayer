@@ -7,7 +7,7 @@
  * so the sample is chip-exact; showdown winners come from the real evaluator.
  */
 import { writeFileSync } from 'node:fs';
-import { evaluate } from '../src/equity/evaluator.ts';
+import { evaluate } from './handEvaluator.ts';
 import { cardIndex } from '../src/model/cards.ts';
 
 type Act = ['fold'] | ['check'] | ['call'] | ['bet', number] | ['raise', number] /* raise TO */ | ['allin'];
