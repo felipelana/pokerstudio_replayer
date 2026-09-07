@@ -568,7 +568,6 @@
   },
   "auth": {
     "loginTitle": "登录",
-    "loginSubtitle": "从上次停下的地方继续复盘。",
     "signupTitle": "创建账户",
     "signupSubtitle": "产品处于此阶段期间免费。",
     "email": "邮箱",
@@ -580,7 +579,7 @@
     "phone": "电话（选填）",
     "rememberMe": "保持登录",
     "signIn": "登录",
-    "createAccount": "创建账户",
+    "createAccount": "免费创建账户",
     "haveAccount": "我已有账户",
     "forgotPassword": "忘记密码",
     "forgotTitle": "找回访问权限",

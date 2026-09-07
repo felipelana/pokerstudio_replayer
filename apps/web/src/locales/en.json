@@ -568,7 +568,6 @@
   },
   "auth": {
     "loginTitle": "Sign in",
-    "loginSubtitle": "Review your hands where you left off.",
     "signupTitle": "Create your account",
     "signupSubtitle": "Free while the product is in this phase.",
     "email": "E-mail",
@@ -580,7 +579,7 @@
     "phone": "Phone (optional)",
     "rememberMe": "Keep me signed in",
     "signIn": "Sign in",
-    "createAccount": "Create account",
+    "createAccount": "Create free account",
     "haveAccount": "I already have an account",
     "forgotPassword": "Forgot my password",
     "forgotTitle": "Recover access",

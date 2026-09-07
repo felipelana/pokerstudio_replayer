@@ -568,7 +568,6 @@
   },
   "auth": {
     "loginTitle": "Iniciar sesión",
-    "loginSubtitle": "Retoma el repaso de tus manos donde lo dejaste.",
     "signupTitle": "Crea tu cuenta",
     "signupSubtitle": "Gratis mientras el producto está en esta fase.",
     "email": "Correo electrónico",
@@ -580,7 +579,7 @@
     "phone": "Teléfono (opcional)",
     "rememberMe": "Mantener la sesión iniciada",
     "signIn": "Entrar",
-    "createAccount": "Crear cuenta",
+    "createAccount": "Crear cuenta gratis",
     "haveAccount": "Ya tengo una cuenta",
     "forgotPassword": "Olvidé mi contraseña",
     "forgotTitle": "Recuperar el acceso",

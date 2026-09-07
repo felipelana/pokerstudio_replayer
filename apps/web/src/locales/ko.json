@@ -568,7 +568,6 @@
   },
   "auth": {
     "loginTitle": "로그인",
-    "loginSubtitle": "멈춘 지점부터 핸드를 이어서 복기하세요.",
     "signupTitle": "계정 만들기",
     "signupSubtitle": "이 단계 동안은 무료입니다.",
     "email": "이메일",
@@ -580,7 +579,7 @@
     "phone": "전화번호 (선택)",
     "rememberMe": "로그인 상태 유지",
     "signIn": "로그인",
-    "createAccount": "계정 만들기",
+    "createAccount": "무료 계정 만들기",
     "haveAccount": "이미 계정이 있습니다",
     "forgotPassword": "비밀번호를 잊었습니다",
     "forgotTitle": "접근 복구",

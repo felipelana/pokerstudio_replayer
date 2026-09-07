@@ -568,7 +568,6 @@
   },
   "auth": {
     "loginTitle": "Anmelden",
-    "loginSubtitle": "Sieh dir deine Hände dort weiter an, wo du aufgehört hast.",
     "signupTitle": "Konto erstellen",
     "signupSubtitle": "In dieser Phase kostenlos.",
     "email": "E-Mail",
@@ -580,7 +579,7 @@
     "phone": "Telefon (optional)",
     "rememberMe": "Angemeldet bleiben",
     "signIn": "Anmelden",
-    "createAccount": "Konto erstellen",
+    "createAccount": "Kostenloses Konto erstellen",
     "haveAccount": "Ich habe schon ein Konto",
     "forgotPassword": "Passwort vergessen",
     "forgotTitle": "Zugang wiederherstellen",

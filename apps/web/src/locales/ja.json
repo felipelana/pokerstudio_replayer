@@ -568,7 +568,6 @@
   },
   "auth": {
     "loginTitle": "ログイン",
-    "loginSubtitle": "前回の続きからハンドを見直せます。",
     "signupTitle": "アカウントを作成",
     "signupSubtitle": "このフェーズの間は無料です。",
     "email": "メールアドレス",
@@ -580,7 +579,7 @@
     "phone": "電話番号（任意）",
     "rememberMe": "ログインしたままにする",
     "signIn": "ログイン",
-    "createAccount": "アカウントを作成",
+    "createAccount": "無料でアカウント作成",
     "haveAccount": "すでにアカウントを持っています",
     "forgotPassword": "パスワードを忘れた",
     "forgotTitle": "アクセスを回復",

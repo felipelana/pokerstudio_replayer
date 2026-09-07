@@ -568,7 +568,6 @@
   },
   "auth": {
     "loginTitle": "Entrar",
-    "loginSubtitle": "Continue a revisão de onde parou.",
     "signupTitle": "Criar sua conta",
     "signupSubtitle": "Gratuito nesta fase do produto.",
     "email": "E-mail",
@@ -580,7 +579,7 @@
     "phone": "Telefone (opcional)",
     "rememberMe": "Continuar conectado",
     "signIn": "Entrar",
-    "createAccount": "Criar conta",
+    "createAccount": "Criar conta grátis",
     "haveAccount": "Já tenho conta",
     "forgotPassword": "Esqueci minha senha",
     "forgotTitle": "Recuperar acesso",

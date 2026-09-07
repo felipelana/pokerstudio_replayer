@@ -34,7 +34,8 @@ function AuthShell({ title, subtitle, children }: { title: string; subtitle?: st
           <LanguageSelector />
         </div>
         <div className="panel p-6">
-          <h1 className="text-xl font-semibold">{title}</h1>
+          {/* Without a subtitle the heading has to carry the gap itself. */}
+          <h1 className={subtitle ? `text-xl font-semibold` : `mb-4 text-xl font-semibold`}>{title}</h1>
           {subtitle && (
             <p className="mb-4 mt-1 text-sm" style={{ color: 'var(--text-muted)' }}>
               {subtitle}
@@ -86,7 +87,7 @@ export function LoginPage() {
   };
 
   return (
-    <AuthShell title={t('auth.loginTitle')} subtitle={t('auth.loginSubtitle')}>
+    <AuthShell title={t('auth.loginTitle')}>
       {oauthError && (
         <p className="mb-3 rounded-md px-3 py-2 text-sm" role="alert" style={{ background: 'color-mix(in srgb, var(--result-lost) 18%, transparent)' }}>
           {t(`auth.oauthError.${oauthError}`, { defaultValue: t('auth.oauthError.oauth_failed') })}
