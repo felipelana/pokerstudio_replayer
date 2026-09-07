@@ -25,6 +25,7 @@ interface Props {
 export function TableArea({ replay, frame, heroName, onSeatClick }: Props) {
   const { t } = useTranslation();
   const settings = useAppStore((s) => s.settings);
+  const updateSettings = useAppStore((s) => s.updateSettings);
   const fullscreen = useAppStore((s) => s.fullscreen);
   const setFullscreen = useAppStore((s) => s.setFullscreen);
   const baseSkin = useActiveSkin();
@@ -40,8 +41,9 @@ export function TableArea({ replay, frame, heroName, onSeatClick }: Props) {
         anchorSeat: anchorSeatFor(hand, heroName),
         buttonSeat: hand.buttonSeat,
         rotate: settings.rotateToHero,
+        heroSlot: Math.round((settings.heroSeat ?? 0) * hand.maxSeats),
       }),
-    [hand, heroName, settings.rotateToHero],
+    [hand, heroName, settings.rotateToHero, settings.heroSeat],
   );
 
   const potOdds = useMemo(() => potOddsFor(frame, heroName), [frame, heroName]);
@@ -80,6 +82,9 @@ export function TableArea({ replay, frame, heroName, onSeatClick }: Props) {
     fmt,
     exact,
     onSeatClick,
+    // Taking a chair turns the table for every hand from here on, and stays
+    // that way until the reader picks another one.
+    onSitHere: (slotIndex) => updateSettings({ heroSeat: slotIndex / hand.maxSeats }),
   };
 
   const session = useAppStore((s) => s.session);

@@ -195,7 +195,8 @@
     "empty": "빈 자리",
     "toCall": "콜 {{amount}}",
     "returned": "반환됨",
-    "lookup": "이 플레이어 검색"
+    "lookup": "이 플레이어 검색",
+    "sitHere": "여기에 앉기"
   },
   "footer": {
     "log": "액션 로그",
@@ -331,7 +332,12 @@
     "addTag": "태그 추가",
     "newTag": "새 태그",
     "dateFormat": "날짜 형식",
-    "dateAuto": "언어 설정 따르기"
+    "dateAuto": "언어 설정 따르기",
+    "heroSeat": "히어로가 앉는 자리",
+    "seatBottom": "아래",
+    "seatLeft": "왼쪽",
+    "seatTop": "위",
+    "seatRight": "오른쪽"
   },
   "shortcuts": {
     "title": "키보드 단축키",

@@ -103,6 +103,14 @@ export const IconSearch = (p: Props) => (
   </Svg>
 );
 
+export const IconSeat = (p: Props) => (
+  <Svg {...p}>
+    <path d="M7 4v7h10V4" />
+    <path d="M5 11h14l-1.2 5H6.2z" />
+    <path d="M7.2 16v4M16.8 16v4" />
+  </Svg>
+);
+
 export const IconUser = (p: Props) => (
   <Svg {...p}>
     <circle cx="12" cy="8.5" r="3.8" />

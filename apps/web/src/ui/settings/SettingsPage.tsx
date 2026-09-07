@@ -134,6 +134,20 @@ export function SettingsPage() {
             <option value="mdy">mm/dd/aaaa</option>
           </select>
         </Row>
+        <Row label={t('settings.heroSeat')}>
+          <select
+            className="input !w-auto"
+            // The plate's own "sit here" can pick any chair; this list shows the
+            // quarter of the table nearest to it.
+            value={String(Math.round(((settings.heroSeat ?? 0) % 1) * 4) % 4 / 4)}
+            onChange={(e) => update({ heroSeat: Number(e.target.value) })}
+          >
+            <option value="0">{t('settings.seatBottom')}</option>
+            <option value="0.25">{t('settings.seatLeft')}</option>
+            <option value="0.5">{t('settings.seatTop')}</option>
+            <option value="0.75">{t('settings.seatRight')}</option>
+          </select>
+        </Row>
         <Row label={t('settings.chipDisplay')}>
           <select className="input" value={settings.chipDisplay} onChange={(e) => update({ chipDisplay: e.target.value as 'chips' | 'bb' })}>
             <option value="chips">{t('settings.chips')}</option>

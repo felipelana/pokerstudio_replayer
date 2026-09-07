@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { TableRendererProps } from '../TableRenderer';
 import { avoidZones, chipBreakdown, type FeltBox } from '../layout';
@@ -84,6 +84,54 @@ function chipLabel(d: number): string {
   return String(d);
 }
 
+/** How the pot travels to the winner once the hand is over. */
+const POT_SLIDE_MS = 750;
+
+/**
+ * The pot, pushed across the felt to whoever won it: it starts where the pot's
+ * chips stood and fades into the winner's stack as it arrives.
+ */
+function PotSlide({
+  chips,
+  colors,
+  edge,
+  from,
+  to,
+  zoom,
+  denominations,
+}: {
+  chips: number[];
+  colors: Record<string, string>;
+  edge: string;
+  from: { x: number; y: number };
+  to: { x: number; y: number };
+  zoom?: number;
+  denominations?: boolean;
+}) {
+  const [phase, setPhase] = useState<'start' | 'travel' | 'gone'>('start');
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => setPhase('travel'));
+    const timer = window.setTimeout(() => setPhase('gone'), POT_SLIDE_MS + 200);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.clearTimeout(timer);
+    };
+  }, []);
+  if (phase === 'gone') return null;
+  const moving = phase === 'travel';
+  return (
+    <g
+      style={{
+        transform: moving ? 'translate(0px, 0px)' : `translate(${from.x - to.x}px, ${from.y - to.y}px)`,
+        opacity: moving ? 0 : 1,
+        transition: `transform ${POT_SLIDE_MS}ms cubic-bezier(0.22, 0.61, 0.36, 1), opacity 220ms ease ${POT_SLIDE_MS - 220}ms`,
+      }}
+    >
+      <ChipStack chips={chips} colors={colors} edge={edge} x={to.x} y={to.y} zoom={zoom} denominations={denominations} />
+    </g>
+  );
+}
+
 function ChipStack({
   chips,
   colors,
@@ -142,8 +190,10 @@ export function SvgTableRenderer({
   fmt,
   exact,
   onSeatClick,
+  onSitHere,
   interactive = true,
   neon = true,
+  animations = true,
 }: TableRendererProps) {
   const { t } = useTranslation();
   const labels = useMemo(() => seatLabels(t), [t]);
@@ -328,6 +378,27 @@ export function SvgTableRenderer({
           <ChipStack chips={chipBreakdown(frame.pot, isCash, 10)} colors={skin.chips.colors} edge={skin.chips.edge} x={CX - 190} y={CY + 82} zoom={zoomChips} denominations={chipDenominations} />
         )}
 
+        {/* The pot going home: one stack per winner, sliding out of the pot. */}
+        {animations &&
+          frame.kind === 'end' &&
+          frame.players
+            .filter((p) => p.collected > 0)
+            .map((p) => {
+              const slot = slots.find((sl) => sl.seat === p.seat);
+              return (
+                <PotSlide
+                  key={`${hand.handNumber}-${p.name}`}
+                  chips={chipBreakdown(p.collected, isCash, 10)}
+                  colors={skin.chips.colors}
+                  edge={skin.chips.edge}
+                  from={{ x: CX - 190, y: CY + 82 }}
+                  to={{ x: CX + (slot?.betX ?? 0) * RX, y: CY + (slot?.betY ?? 0) * RY }}
+                  zoom={zoomChips}
+                  denominations={chipDenominations}
+                />
+              );
+            })}
+
         {/* Board */}
         {(hideBoard ? [] : frame.board).map((c, i) => (
           <CardShape key={c} card={c} deck={skin.deck} x={boardX0 + i * (boardW + boardGap)} y={boardY} w={boardW} art={deckArt?.[c[0]]} />
@@ -410,6 +481,7 @@ export function SvgTableRenderer({
               exact={exact}
               onClick={interactive && onSeatClick ? () => onSeatClick(p.name) : undefined}
               lookupUrl={lookupUrlFor?.(p.name)}
+                  onSitHere={interactive && onSitHere && p.name !== heroName ? () => onSitHere(slot.index) : undefined}
               forceFaceDown={hideHeroCards && p.name === heroName}
               layout={holeLayout}
               cardWidth={cardWidthFor(slots.length, p.name === heroName)}

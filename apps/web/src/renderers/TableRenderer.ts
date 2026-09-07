@@ -38,6 +38,8 @@ export interface TableRendererProps {
   fmt: (v: number) => string;
   exact: (v: number) => string;
   onSeatClick?: (player: string) => void;
+  /** Take a chair: the hero moves to that screen slot from now on. */
+  onSitHere?: (slotIndex: number) => void;
   /** Used by the admin preview to disable interaction. */
   interactive?: boolean;
 }

@@ -72,3 +72,28 @@ describe('readable ink (R16)', () => {
     }
   });
 });
+
+describe('computeSeatSlots: where the hero sits', () => {
+  it('puts the anchor at the bottom by default', () => {
+    const slots = computeSeatSlots({ maxSeats: 6, anchorSeat: 4 });
+    expect(slots.find((s) => s.seat === 4)?.index).toBe(0);
+  });
+
+  it('moves the anchor to the chosen slot and takes the ring with it', () => {
+    const base = computeSeatSlots({ maxSeats: 6, anchorSeat: 4 });
+    const moved = computeSeatSlots({ maxSeats: 6, anchorSeat: 4, heroSlot: 3 });
+    expect(moved.find((s) => s.seat === 4)?.index).toBe(3);
+    // Everyone keeps their place relative to the hero.
+    for (const slot of base) {
+      const after = moved.find((s) => s.seat === slot.seat)!;
+      expect((after.index - slot.index + 6) % 6).toBe(3);
+    }
+  });
+
+  it('wraps a slot past the last chair, and ignores the choice with no hero', () => {
+    expect(computeSeatSlots({ maxSeats: 6, anchorSeat: 1, heroSlot: 8 }).find((s) => s.seat === 1)?.index).toBe(2);
+    const noHero = computeSeatSlots({ maxSeats: 6, buttonSeat: 2, heroSlot: 3 });
+    const plain = computeSeatSlots({ maxSeats: 6, buttonSeat: 2 });
+    expect(noHero.map((s) => s.index)).toEqual(plain.map((s) => s.index));
+  });
+});

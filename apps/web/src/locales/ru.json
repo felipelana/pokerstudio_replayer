@@ -201,7 +201,8 @@
     "empty": "Пусто",
     "toCall": "колл {{amount}}",
     "returned": "Возвращено",
-    "lookup": "Найти игрока"
+    "lookup": "Найти игрока",
+    "sitHere": "Сесть здесь"
   },
   "footer": {
     "log": "Журнал действий",
@@ -337,7 +338,12 @@
     "addTag": "Добавить тег",
     "newTag": "Новый тег",
     "dateFormat": "Формат даты",
-    "dateAuto": "Как в языке"
+    "dateAuto": "Как в языке",
+    "heroSeat": "Где сидит герой",
+    "seatBottom": "Снизу",
+    "seatLeft": "Слева",
+    "seatTop": "Сверху",
+    "seatRight": "Справа"
   },
   "shortcuts": {
     "title": "Горячие клавиши",

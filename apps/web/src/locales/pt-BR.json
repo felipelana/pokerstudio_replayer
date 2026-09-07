@@ -195,7 +195,8 @@
     "empty": "Vazio",
     "toCall": "para pagar {{amount}}",
     "returned": "Devolvido",
-    "lookup": "Pesquisar este jogador"
+    "lookup": "Pesquisar este jogador",
+    "sitHere": "Sentar aqui"
   },
   "footer": {
     "log": "Log de ações",
@@ -331,7 +332,12 @@
     "addTag": "Adicionar tag",
     "newTag": "Nova tag",
     "dateFormat": "Formato de data",
-    "dateAuto": "Seguir o idioma"
+    "dateAuto": "Seguir o idioma",
+    "heroSeat": "Onde o herói senta",
+    "seatBottom": "Embaixo",
+    "seatLeft": "Esquerda",
+    "seatTop": "Em cima",
+    "seatRight": "Direita"
   },
   "shortcuts": {
     "title": "Atalhos de teclado",

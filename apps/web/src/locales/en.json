@@ -195,7 +195,8 @@
     "empty": "Empty",
     "toCall": "to call {{amount}}",
     "returned": "Returned",
-    "lookup": "Look this player up"
+    "lookup": "Look this player up",
+    "sitHere": "Sit here"
   },
   "footer": {
     "log": "Action log",
@@ -331,7 +332,12 @@
     "addTag": "Add tag",
     "newTag": "New tag",
     "dateFormat": "Date format",
-    "dateAuto": "Follow the language"
+    "dateAuto": "Follow the language",
+    "heroSeat": "Where the hero sits",
+    "seatBottom": "Bottom",
+    "seatLeft": "Left",
+    "seatTop": "Top",
+    "seatRight": "Right"
   },
   "shortcuts": {
     "title": "Keyboard shortcuts",

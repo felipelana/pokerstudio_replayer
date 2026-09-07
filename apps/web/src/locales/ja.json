@@ -195,7 +195,8 @@
     "empty": "空席",
     "toCall": "コール {{amount}}",
     "returned": "返却",
-    "lookup": "このプレイヤーを検索"
+    "lookup": "このプレイヤーを検索",
+    "sitHere": "ここに座る"
   },
   "footer": {
     "log": "アクションログ",
@@ -331,7 +332,12 @@
     "addTag": "タグを追加",
     "newTag": "新しいタグ",
     "dateFormat": "日付の形式",
-    "dateAuto": "言語に合わせる"
+    "dateAuto": "言語に合わせる",
+    "heroSeat": "ヒーローの座る位置",
+    "seatBottom": "下",
+    "seatLeft": "左",
+    "seatTop": "上",
+    "seatRight": "右"
   },
   "shortcuts": {
     "title": "キーボードショートカット",

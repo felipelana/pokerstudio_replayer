@@ -8,6 +8,8 @@ import type { Hand } from '@/model/types';
  */
 export interface SeatSlot {
   seat: number;
+  /** Position on screen, 0 = bottom centre, walking clockwise. */
+  index: number;
   /** Position of the player plate (slightly outside the felt). */
   x: number;
   y: number;
@@ -29,6 +31,8 @@ export interface LayoutOptions {
   buttonSeat?: number;
   /** false = physical seats, no rotation. */
   rotate?: boolean;
+  /** Screen slot the anchor should occupy; 0 (bottom centre) by default. */
+  heroSlot?: number;
 }
 
 /**
@@ -45,9 +49,12 @@ export function computeSeatSlots(opts: LayoutOptions): SeatSlot[] {
       offset = (opts.buttonSeat - 1 - (n - 1) + n) % n;
     }
   }
+  // Where the reader has chosen to sit: the whole ring turns with them, so
+  // every other player keeps their place relative to the hero.
+  const seatShift = opts.anchorSeat !== undefined ? ((Math.round(opts.heroSlot ?? 0) % n) + n) % n : 0;
   const slots: SeatSlot[] = [];
   for (let seat = 1; seat <= n; seat++) {
-    const i = (seat - 1 - offset + n) % n;
+    const i = (seat - 1 - offset + seatShift + n) % n;
     const angle = Math.PI / 2 + (2 * Math.PI * i) / n;
     const cos = Math.cos(angle);
     const sin = Math.sin(angle);
@@ -57,6 +64,7 @@ export function computeSeatSlots(opts: LayoutOptions): SeatSlot[] {
     // when it would otherwise land on the board or the pot.
     slots.push({
       seat,
+      index: i,
       x: cos * 1.0,
       y: sin * 1.0,
       betX: cos * 0.62,

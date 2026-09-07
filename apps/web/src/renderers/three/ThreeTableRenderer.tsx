@@ -1,4 +1,4 @@
-import { Component, useEffect, useMemo, useRef, type ReactNode } from 'react';
+import { Component, type ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Html } from '@react-three/drei';
 import * as THREE from 'three';
@@ -29,6 +29,10 @@ const LABEL_DISTANCE = 9;
 
 /** Where the pot block sits: clear of the board, which leans towards the camera. */
 const POT_Z = 1.5;
+
+/** How the pot travels to the winner once the hand is over. */
+const POT_SLIDE_MS = 750;
+const POT_SLIDE_DELAY = 180;
 
 const CARD_TILT = 0.72;
 
@@ -512,6 +516,51 @@ function ChipStack3D({
   );
 }
 
+/**
+ * The pot, pushed across the felt to whoever won it: it leaves the pot's own
+ * spot, arcs a little off the cloth and shrinks away into the winner's stack —
+ * the gesture a dealer makes, so the end of a hand reads at a glance.
+ */
+function PotSlide({
+  chips,
+  skin,
+  from,
+  to,
+  zoom = 1,
+  denominations = true,
+}: {
+  chips: number[];
+  skin: Skin;
+  from: [number, number, number];
+  to: [number, number, number];
+  zoom?: number;
+  denominations?: boolean;
+}) {
+  const ref = useRef<THREE.Group>(null);
+  const start = useRef(performance.now() + POT_SLIDE_DELAY);
+  const [done, setDone] = useState(false);
+  useFrame(() => {
+    const g = ref.current;
+    if (!g) return;
+    const t = Math.min(1, Math.max(0, (performance.now() - start.current) / POT_SLIDE_MS));
+    const e = 1 - (1 - t) * (1 - t) * (1 - t);
+    g.position.set(
+      from[0] + (to[0] - from[0]) * e,
+      from[1] + (to[1] - from[1]) * e + Math.sin(Math.PI * t) * 0.4,
+      from[2] + (to[2] - from[2]) * e,
+    );
+    // The last quarter of the trip: the stack folds into the winner's own.
+    g.scale.setScalar(t < 0.75 ? 1 : Math.max(0, 1 - (t - 0.75) / 0.25));
+    if (t >= 1 && !done) setDone(true);
+  });
+  if (done) return null;
+  return (
+    <group ref={ref} position={from}>
+      <ChipStack3D chips={chips} skin={skin} position={[0, 0, 0]} zoom={zoom} denominations={denominations} />
+    </group>
+  );
+}
+
 function DealerButton({ skin, position, label }: { skin: Skin; position: [number, number, number]; label: string }) {
   const tex = useMemo(() => {
     const c = document.createElement('canvas');
@@ -560,7 +609,7 @@ interface SceneLabels {
 }
 
 function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTMLImageElement }) {
-  const { hand, frame, skin, slots, heroName, positions, showKnownHands, hideHeroCards, lookupUrlFor, holeLayout, zoomCards = 1, zoomChips = 1, boardGapRatio, deckArt, hideBoard, chipDenominations = true, fmt, exact, onSeatClick, interactive = true, animations, labels, feltLogo } = props;
+  const { hand, frame, skin, slots, heroName, positions, showKnownHands, hideHeroCards, lookupUrlFor, holeLayout, zoomCards = 1, zoomChips = 1, boardGapRatio, deckArt, hideBoard, chipDenominations = true, fmt, exact, onSeatClick, onSitHere, interactive = true, animations, labels, feltLogo } = props;
   const rz = RX * skin.table.aspect;
   const railW = skin.table.railWidth * RX * 2;
   const isCash = hand.currency !== 'chips';
@@ -600,6 +649,18 @@ function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTM
   const potChipsZone: FeltBox = { x: -2.9 / RX, y: POT_Z / rz, hw: 1.1 / RX, hh: 0.8 / rz };
   const zones = frame.pot > 0 ? [boardZone, potZone, potChipsZone] : [boardZone, potZone];
 
+  // Once the hand is over the pot travels: one stack per winner, from the
+  // pot's own spot to the chair that collected it.
+  const payouts =
+    frame.kind === 'end'
+      ? frame.players
+          .filter((p) => p.collected > 0)
+          .map((p) => {
+            const slot = slots.find((sl) => sl.seat === p.seat);
+            return { name: p.name, amount: p.collected, x: (slot?.betX ?? 0) * RX, z: (slot?.betY ?? 0) * rz };
+          })
+      : [];
+
   return (
     <>
       <ambientLight intensity={0.6} />
@@ -634,6 +695,20 @@ function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTM
           <ChipStack3D chips={chipBreakdown(frame.pot, isCash, 10)} skin={skin} position={[-2.9, 0, POT_Z]} zoom={zoomChips} denominations={chipDenominations} />
         </Appear>
       )}
+
+      {/* The pot going home */}
+      {animations &&
+        payouts.map((w) => (
+          <PotSlide
+            key={`${hand.handNumber}-${w.name}`}
+            chips={chipBreakdown(w.amount, isCash, 10)}
+            skin={skin}
+            from={[-2.9, 0, POT_Z]}
+            to={[w.x, 0, w.z]}
+            zoom={zoomChips}
+            denominations={chipDenominations}
+          />
+        ))}
 
       {/* Pot label */}
       {/* Board dead centre; the pot block (total + side pots) sits right under
@@ -721,6 +796,7 @@ function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTM
                   exact={exact}
                   onClick={interactive && onSeatClick ? () => onSeatClick(p.name) : undefined}
                   lookupUrl={lookupUrlFor?.(p.name)}
+                  onSitHere={interactive && onSitHere && p.name !== heroName ? () => onSitHere(slot.index) : undefined}
                   forceFaceDown={hideHeroCards && p.name === heroName}
                   layout={holeLayout}
                   deckArt={deckArt}

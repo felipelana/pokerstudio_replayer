@@ -195,7 +195,8 @@
     "empty": "Leer",
     "toCall": "zu zahlen {{amount}}",
     "returned": "Zurückgegeben",
-    "lookup": "Spieler nachschlagen"
+    "lookup": "Spieler nachschlagen",
+    "sitHere": "Hier setzen"
   },
   "footer": {
     "log": "Aktionsprotokoll",
@@ -331,7 +332,12 @@
     "addTag": "Tag hinzufügen",
     "newTag": "Neues Tag",
     "dateFormat": "Datumsformat",
-    "dateAuto": "Der Sprache folgen"
+    "dateAuto": "Der Sprache folgen",
+    "heroSeat": "Wo der Held sitzt",
+    "seatBottom": "Unten",
+    "seatLeft": "Links",
+    "seatTop": "Oben",
+    "seatRight": "Rechts"
   },
   "shortcuts": {
     "title": "Tastaturkürzel",

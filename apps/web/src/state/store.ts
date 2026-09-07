@@ -60,6 +60,8 @@ export interface Settings {
   /** The user's own leak tags (L1). */
   leakTags: UserTag[];
   rotateToHero: boolean;
+  /** Where the hero sits, as a fraction of the ring: 0 = bottom, 0.5 = top. */
+  heroSeat: number;
   animations: boolean;
   /** Playback speed multiplier 0.5..3 */
   speed: number;
@@ -94,6 +96,7 @@ export const DEFAULT_SETTINGS: Settings = {
   chipDenominations: true,
   leakTags: DEFAULT_TAGS,
   rotateToHero: true,
+  heroSeat: 0,
   animations: true,
   speed: 1,
   renderer: 'auto',

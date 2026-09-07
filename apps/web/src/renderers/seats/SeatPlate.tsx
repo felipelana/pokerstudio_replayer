@@ -6,7 +6,7 @@ import type { Skin } from '@/skins/types';
 import { Card } from '@/ui/cards/Card';
 import { CARD_H, CARD_W } from '@/ui/cards/primitives';
 import { Amount } from '../Amount';
-import { IconSearch } from '@/ui/icons';
+import { IconSearch, IconSeat } from '@/ui/icons';
 
 /**
  * Translated strings the plate needs. Passed in as props (instead of calling
@@ -19,6 +19,7 @@ export interface SeatLabels {
   sittingOut: string;
   unknownCards: string;
   lookup: string;
+  sitHere: string;
 }
 
 export function seatLabels(t: TFunction): SeatLabels {
@@ -28,6 +29,7 @@ export function seatLabels(t: TFunction): SeatLabels {
     sittingOut: t('table.sittingOut'),
     unknownCards: t('table.unknownCards'),
     lookup: t('table.lookup'),
+    sitHere: t('table.sitHere'),
   };
 }
 
@@ -45,6 +47,8 @@ interface Props {
   onClick?: () => void;
   /** External player lookup (R18); omitted = no magnifier. */
   lookupUrl?: string;
+  /** Take this chair: the hero moves to this place on screen. */
+  onSitHere?: () => void;
   /** Force this player's cards face down (R8). */
   forceFaceDown?: boolean;
   /** Overrides the skin's hole-card layout (R8). */
@@ -89,6 +93,7 @@ export const SeatPlate = memo(function SeatPlate({
   exact,
   onClick,
   lookupUrl,
+  onSitHere,
   forceFaceDown,
   layout,
   deckArt,
@@ -190,6 +195,23 @@ export const SeatPlate = memo(function SeatPlate({
             </a>
           )}
         </div>
+        {onSitHere && (
+          // Directly under the magnifier: take this chair, and the table turns
+          // so the hero watches every hand from here.
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onSitHere();
+            }}
+            title={labels.sitHere}
+            aria-label={labels.sitHere}
+            className="absolute right-1 top-[19px] opacity-50 transition-opacity hover:opacity-100"
+            style={{ color: p.textMuted, lineHeight: 0 }}
+          >
+            <IconSeat size={11} />
+          </button>
+        )}
         <Amount
           value={fmt(player.stack)}
           size={14}

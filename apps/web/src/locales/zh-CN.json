@@ -195,7 +195,8 @@
     "empty": "空",
     "toCall": "跟注 {{amount}}",
     "returned": "已退回",
-    "lookup": "查询该玩家"
+    "lookup": "查询该玩家",
+    "sitHere": "坐这里"
   },
   "footer": {
     "log": "动作记录",
@@ -331,7 +332,12 @@
     "addTag": "添加标签",
     "newTag": "新标签",
     "dateFormat": "日期格式",
-    "dateAuto": "跟随语言"
+    "dateAuto": "跟随语言",
+    "heroSeat": "英雄的座位",
+    "seatBottom": "下方",
+    "seatLeft": "左侧",
+    "seatTop": "上方",
+    "seatRight": "右侧"
   },
   "shortcuts": {
     "title": "键盘快捷键",
