@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useCloudProgress } from './useCloudProgress';
 import { ResumePrompt } from './ResumePrompt';
+import { rememberSpot } from '@/db/lastSpot';
 import { useTranslation } from 'react-i18next';
 import { buildReplay, quickResult } from '@/engine/replay';
 import { computePositions } from '@/model/positions';
@@ -77,6 +78,24 @@ export function ReplayerPage() {
   }, [sessionId, handId, session?.id, loadSession]);
 
   const hand = hands[handIndex];
+
+  // Closing the tab can cut the database write short, so the spot is also
+  // written synchronously on the way out, and read back on the way in.
+  const spot = useRef({ sessionId, handIndex, frameIndex });
+  spot.current = { sessionId, handIndex, frameIndex };
+  useEffect(() => {
+    const remember = () => {
+      const { sessionId: id, handIndex: hand, frameIndex: frame } = spot.current;
+      if (id) rememberSpot({ sessionId: id, handIndex: hand, frameIndex: frame });
+    };
+    const onHidden = () => document.visibilityState === 'hidden' && remember();
+    window.addEventListener('pagehide', remember);
+    document.addEventListener('visibilitychange', onHidden);
+    return () => {
+      window.removeEventListener('pagehide', remember);
+      document.removeEventListener('visibilitychange', onHidden);
+    };
+  }, []);
 
   // Mirrors the position onto the account when this review is also stored there.
   useCloudProgress(sessionId, handIndex, hands.length);

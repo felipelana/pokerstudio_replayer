@@ -21,6 +21,7 @@ export const DEFAULT_TAGS: UserTag[] = [
 import { skinApi } from '@/infrastructure/http/accountApi';
 import { BUILT_IN_SKINS, SKIN_DEFAULT_DARK, SKIN_POKERSTUDIO } from '@/skins/presets';
 import { getRepository } from '@/db/repository';
+import { takeSpot } from '@/db/lastSpot';
 
 export type RendererChoice = 'auto' | 'three' | 'svg';
 
@@ -247,13 +248,18 @@ export const useAppStore = create<AppState>((set, get) => ({
     // Without a hand in the URL, a session opens exactly where it stopped —
     // walking away mid-hand must not cost the reader anything. "Finished" is a
     // label the library sets, not a reason to lose the place.
-    const saved = Math.min(Math.max(0, session.lastHandIndex ?? 0), Math.max(0, hands.length - 1));
+    // A spot written while the page was closing beats the row: the tab may
+    // have gone away before the database write landed.
+    const parting = takeSpot(sessionId);
+    const savedHand = parting?.handIndex ?? session.lastHandIndex ?? 0;
+    const savedFrame = parting?.frameIndex ?? session.lastFrameIndex ?? 0;
+    const saved = Math.min(Math.max(0, savedHand), Math.max(0, hands.length - 1));
     // A hand in the URL is an explicit request and wins; without one the saved
     // hand does. Either way, landing on the saved hand restores the saved
     // moment inside it — reloading the page the replayer itself wrote into the
     // address bar must not cost the reader the action they were looking at.
     const idx = handId ? Math.max(0, hands.findIndex((h) => h.id === handId)) : saved;
-    const frame = idx === saved ? (session.lastFrameIndex ?? 0) : 0;
+    const frame = idx === saved ? savedFrame : 0;
     // Focus player is remembered per session (hero-less dealer exports).
     const focusPlayer = await repo.getSetting<string | undefined>(`focus:${sessionId}`, undefined);
     set({
