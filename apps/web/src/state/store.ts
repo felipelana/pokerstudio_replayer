@@ -30,6 +30,8 @@ export interface Settings {
   theme: 'dark' | 'light';
   skinId: string;
   chipDisplay: ChipDisplay;
+  /** 'auto' follows the language; the other two are explicit. */
+  dateFormat: 'auto' | 'dmy' | 'mdy';
   showKnownHands: boolean;
   colorHintResults: boolean;
   colorVpipOnly: boolean;
@@ -74,6 +76,7 @@ export const DEFAULT_SETTINGS: Settings = {
   theme: 'dark',
   skinId: SKIN_POKERSTUDIO.id,
   chipDisplay: 'chips',
+  dateFormat: 'auto',
   showKnownHands: true,
   colorHintResults: true,
   colorVpipOnly: false,
@@ -142,6 +145,20 @@ interface AppState {
   setHands(session: Session | undefined, hands: Hand[]): void;
   /** Records where the review stopped, in the database and in this store. */
   saveProgress(patch: { lastHandIndex?: number; lastFrameIndex?: number; status?: 'in-progress' | 'completed'; resumeNoticeSeen?: boolean }): Promise<void>;
+  /** How the library was left: filters, order and page survive a trip to the
+   *  replayer and back, so the reader returns to the list they were reading. */
+  libraryView: {
+    query: string;
+    site: string;
+    from: string;
+    to: string;
+    storage: 'all' | 'saved' | 'local';
+    sort: 'imported' | 'opened' | 'name';
+    pageIndex: number;
+    pageSize: number;
+  };
+  setLibraryView(patch: Partial<AppState['libraryView']>): void;
+
   /** Hand a reopened session landed on, until the notice is dismissed. */
   resumedFrom?: number;
   clearResumed(): void;
@@ -273,6 +290,12 @@ export const useAppStore = create<AppState>((set, get) => ({
       // repeating it on every return is noise.
       resumedFrom: saved > 0 && idx === saved && !session.resumeNoticeSeen ? saved : undefined,
     });
+  },
+
+  libraryView: { query: '', site: '', from: '', to: '', storage: 'all', sort: 'imported', pageIndex: 0, pageSize: 10 },
+
+  setLibraryView(patch) {
+    set({ libraryView: { ...get().libraryView, ...patch } });
   },
 
   clearResumed() {

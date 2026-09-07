@@ -140,7 +140,8 @@
     "keepFileNames": "Keep file names",
     "perPage": "Per page",
     "importedOk": "Imported",
-    "onlyFirstFile": "Only “{{name}}” was imported — {{count}} other file(s) were left out. Import one at a time."
+    "onlyFirstFile": "Only “{{name}}” was imported — {{count}} other file(s) were left out. Import one at a time.",
+    "colLastHand": "Last hand"
   },
   "sidebar": {
     "loadHands": "Load hand histories",
@@ -328,7 +329,9 @@
     "tagUp": "Move up",
     "tagDown": "Move down",
     "addTag": "Add tag",
-    "newTag": "New tag"
+    "newTag": "New tag",
+    "dateFormat": "Date format",
+    "dateAuto": "Follow the language"
   },
   "shortcuts": {
     "title": "Keyboard shortcuts",

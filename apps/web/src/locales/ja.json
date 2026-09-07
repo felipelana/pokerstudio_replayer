@@ -140,7 +140,8 @@
     "keepFileNames": "ファイル名のまま",
     "perPage": "1ページ",
     "importedOk": "取り込みました",
-    "onlyFirstFile": "「{{name}}」だけを取り込みました。ほかの {{count}} 件は対象外です。1 つずつ取り込んでください。"
+    "onlyFirstFile": "「{{name}}」だけを取り込みました。ほかの {{count}} 件は対象外です。1 つずつ取り込んでください。",
+    "colLastHand": "最後のハンド"
   },
   "sidebar": {
     "loadHands": "ハンド履歴を読み込む",
@@ -328,7 +329,9 @@
     "tagUp": "上へ",
     "tagDown": "下へ",
     "addTag": "タグを追加",
-    "newTag": "新しいタグ"
+    "newTag": "新しいタグ",
+    "dateFormat": "日付の形式",
+    "dateAuto": "言語に合わせる"
   },
   "shortcuts": {
     "title": "キーボードショートカット",

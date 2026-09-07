@@ -140,7 +140,8 @@
     "keepFileNames": "Conservar nombres de archivo",
     "perPage": "Por página",
     "importedOk": "Importado correctamente",
-    "onlyFirstFile": "Solo se importó «{{name}}»: quedaron fuera {{count}} archivo(s). Importa de uno en uno."
+    "onlyFirstFile": "Solo se importó «{{name}}»: quedaron fuera {{count}} archivo(s). Importa de uno en uno.",
+    "colLastHand": "Última mano"
   },
   "sidebar": {
     "loadHands": "Cargar historiales",
@@ -328,7 +329,9 @@
     "tagUp": "Subir",
     "tagDown": "Bajar",
     "addTag": "Añadir etiqueta",
-    "newTag": "Nueva etiqueta"
+    "newTag": "Nueva etiqueta",
+    "dateFormat": "Formato de fecha",
+    "dateAuto": "Seguir el idioma"
   },
   "shortcuts": {
     "title": "Atajos de teclado",

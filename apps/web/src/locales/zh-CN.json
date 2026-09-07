@@ -140,7 +140,8 @@
     "keepFileNames": "保留文件名",
     "perPage": "每页",
     "importedOk": "导入成功",
-    "onlyFirstFile": "只导入了“{{name}}”，另有 {{count}} 个文件未处理。请逐个导入。"
+    "onlyFirstFile": "只导入了“{{name}}”，另有 {{count}} 个文件未处理。请逐个导入。",
+    "colLastHand": "最后一手"
   },
   "sidebar": {
     "loadHands": "加载牌局记录",
@@ -328,7 +329,9 @@
     "tagUp": "上移",
     "tagDown": "下移",
     "addTag": "添加标签",
-    "newTag": "新标签"
+    "newTag": "新标签",
+    "dateFormat": "日期格式",
+    "dateAuto": "跟随语言"
   },
   "shortcuts": {
     "title": "键盘快捷键",

@@ -140,7 +140,8 @@
     "keepFileNames": "파일 이름 유지",
     "perPage": "페이지당",
     "importedOk": "가져왔습니다",
-    "onlyFirstFile": "“{{name}}”만 가져왔습니다 — 다른 {{count}}개는 제외되었습니다. 하나씩 가져오세요."
+    "onlyFirstFile": "“{{name}}”만 가져왔습니다 — 다른 {{count}}개는 제외되었습니다. 하나씩 가져오세요.",
+    "colLastHand": "마지막 핸드"
   },
   "sidebar": {
     "loadHands": "핸드 히스토리 불러오기",
@@ -328,7 +329,9 @@
     "tagUp": "위로",
     "tagDown": "아래로",
     "addTag": "태그 추가",
-    "newTag": "새 태그"
+    "newTag": "새 태그",
+    "dateFormat": "날짜 형식",
+    "dateAuto": "언어 설정 따르기"
   },
   "shortcuts": {
     "title": "키보드 단축키",

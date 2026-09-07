@@ -123,6 +123,17 @@ export function SettingsPage() {
             ))}
           </select>
         </Row>
+        <Row label={t('settings.dateFormat')}>
+          <select
+            className="input !w-auto"
+            value={settings.dateFormat}
+            onChange={(e) => update({ dateFormat: e.target.value as 'auto' | 'dmy' | 'mdy' })}
+          >
+            <option value="auto">{t('settings.dateAuto')}</option>
+            <option value="dmy">dd/mm/aaaa</option>
+            <option value="mdy">mm/dd/aaaa</option>
+          </select>
+        </Row>
         <Row label={t('settings.chipDisplay')}>
           <select className="input" value={settings.chipDisplay} onChange={(e) => update({ chipDisplay: e.target.value as 'chips' | 'bb' })}>
             <option value="chips">{t('settings.chips')}</option>

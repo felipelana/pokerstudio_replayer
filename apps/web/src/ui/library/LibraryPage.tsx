@@ -19,6 +19,7 @@ import { forgetKnownReviews } from '@/ui/replayer/useCloudProgress';
 import { PromptDialog } from '@/ui/PromptDialog';
 import { NameSessionsDialog } from './NameSessionsDialog';
 import { getRepository } from '@/db/repository';
+import { useAppStore } from '@/state/store';
 import type { ImportSummary } from '@/parsers/importer';
 import { importText } from '@/parsers/importer';
 import { parsers } from '@/parsers/registry';
@@ -26,52 +27,48 @@ import { useDateFormatter } from '@/ui/hooks/useFormat';
 import { ImportPanel } from './ImportPanel';
 import sampleUrl from '../../../samples/pokerstars-demo.txt?url';
 
-/**
- * Width of each frozen column, and where it sits once the table scrolls
- * sideways. Fixed widths are what makes the offsets predictable.
- */
-const FROZEN_WIDTHS = [160, 150, 96];
-
-/**
- * Every column's width, in order: the checkbox, the three frozen ones, then
- * hands, status, storage, imported, last opened and the actions. Declared so a
- * change of page never moves a heading.
- */
-const COLUMN_WIDTHS = [36, ...FROZEN_WIDTHS, 64, 158, 124, 150, 150, 168];
-
 /** Choices for how many sessions a page shows. */
 const PAGE_SIZES = [5, 10, 20, 50];
 
-function frozen(index: number): React.CSSProperties {
-  const left = 36 + FROZEN_WIDTHS.slice(0, index).reduce((sum, w) => sum + w, 0);
-  return {
-    position: 'sticky',
-    left,
-    zIndex: 2,
-    width: FROZEN_WIDTHS[index],
-    minWidth: FROZEN_WIDTHS[index],
-    maxWidth: FROZEN_WIDTHS[index],
-  };
+/**
+ * Column widths as shares of the table, in order: the checkbox, name, file,
+ * room, hands, situation, last hand, storage, imported, last opened and the
+ * actions. Shares rather than pixels, so the grid always fits its container
+ * and never scrolls sideways.
+ */
+const COLUMN_WIDTHS = ['3%', '11%', '10%', '7%', '4%', '11%', '7%', '11%', '10%', '11%', '15%'];
+
+/** The situation reads at a glance: colour closed, glyph inside the list. */
+function statusStyle(session: Session): React.CSSProperties {
+  if (session.status === 'completed') return { color: 'var(--result-won)', borderColor: 'var(--result-won)' };
+  if (session.lastHandIndex) return { color: 'var(--result-break-even)', borderColor: 'var(--result-break-even)' };
+  return { color: 'var(--text-muted)' };
 }
 
 export function LibraryPage() {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [confirming, setConfirming] = useState<'all' | 'selected' | undefined>(undefined);
-  const [pageIndex, setPageIndex] = useState(0);
   const [naming, setNaming] = useState<Session[]>([]);
-  const [pageSize, setPageSize] = useState(10);
-  const [query, setQuery] = useState('');
+
+  // The view lives in the store: coming back from the replayer should land on
+  // the same list, in the same order and on the same page.
+  const view = useAppStore((state) => state.libraryView);
+  const setView = useAppStore((state) => state.setLibraryView);
+  const { query, site: siteFilter, from, to, storage, sort, pageIndex, pageSize } = view;
+  const setQuery = (value: string) => setView({ query: value });
+  const setSiteFilter = (value: string) => setView({ site: value });
+  const setFrom = (value: string) => setView({ from: value });
+  const setTo = (value: string) => setView({ to: value });
+  const setStorage = (value: 'all' | 'saved' | 'local') => setView({ storage: value });
+  const setSort = (value: 'imported' | 'opened' | 'name') => setView({ sort: value });
+  const setPageIndex = (value: number) => setView({ pageIndex: value });
+  const setPageSize = (value: number) => setView({ pageSize: value });
   /** What the account holds, so each row can say where it lives — and so a
    *  review saved from another machine can be brought down here. */
   const [cloud, setCloud] = useState<CloudReviewRow[]>([]);
   const savedIds = useMemo(() => new Set(cloud.map((row) => row.id)), [cloud]);
   const [savingId, setSavingId] = useState('');
   const [pulling, setPulling] = useState('');
-  const [storage, setStorage] = useState<'all' | 'saved' | 'local'>('all');
-  const [sort, setSort] = useState<'imported' | 'opened' | 'name'>('imported');
-  const [siteFilter, setSiteFilter] = useState('');
-  const [from, setFrom] = useState('');
-  const [to, setTo] = useState('');
   const [renaming, setRenaming] = useState<Session>();
   const renameResolver = useRef<((name: string | undefined) => void) | undefined>(undefined);
   const { t } = useTranslation();
@@ -143,16 +140,6 @@ export function LibraryPage() {
     await refresh();
   };
 
-  /** Moves the recorded hand, so the next open lands there. */
-  const setCurrentHand = async (session: Session, oneBased: number) => {
-    const index = Math.min(Math.max(1, oneBased || 1), session.handCount) - 1;
-    await getRepository().saveSessionProgress(session.id, {
-      lastHandIndex: index,
-      lastFrameIndex: 0,
-      status: 'in-progress',
-    });
-    await refresh();
-  };
 
   /**
    * Hands the original hand history back. The text is rebuilt from the hands
@@ -553,7 +540,7 @@ export function LibraryPage() {
           </div>
         ) : (
           <div className="max-h-[52vh] overflow-auto">
-            <table className="table-zebra w-full min-w-[1100px] table-fixed text-sm">
+            <table className="table-zebra w-full table-fixed text-sm">
               <colgroup>
                 {COLUMN_WIDTHS.map((width, index) => (
                   <col key={index} style={{ width }} />
@@ -562,7 +549,7 @@ export function LibraryPage() {
               <thead className="sticky top-0 z-20">
                 <tr className="text-left text-xs font-bold uppercase tracking-wide" style={{ color: '#e8e8ee', background: '#000' }}>
                   {/* The first three columns stay put while the rest scrolls. */}
-                  <th className="w-9 px-2 py-2" style={{ background: '#000', position: 'sticky', left: 0, zIndex: 3 }}>
+                  <th className="w-9 px-2 py-2" style={{ background: '#000' }}>
                     <input
                       type="checkbox"
                       aria-label={t('library.selectAll')}
@@ -570,17 +557,20 @@ export function LibraryPage() {
                       onChange={(e) => togglePage(e.target.checked)}
                     />
                   </th>
-                  <th className="px-3 py-2" style={{ ...frozen(0), background: '#000', zIndex: 3 }}>
+                  <th className="px-3 py-2" style={{ background: '#000' }}>
                     {t('library.colName')}
                   </th>
-                  <th className="px-3 py-2" style={{ ...frozen(1), background: '#000', zIndex: 3 }}>
+                  <th className="px-3 py-2" style={{ background: '#000' }}>
                     {t('library.colFile')}
                   </th>
-                  <th className="px-3 py-2" style={{ ...frozen(2), background: '#000', zIndex: 3 }}>
+                  <th className="px-3 py-2" style={{ background: '#000' }}>
                     {t('library.colSite')}
                   </th>
                   <th className="px-3 py-2 text-right">{t('library.colHands')}</th>
                   <th className="px-3 py-2">{t('library.colStatus')}</th>
+                  <th className="truncate px-3 py-2 text-right" title={t('library.colLastHand')}>
+                    {t('library.colLastHand')}
+                  </th>
                   <th className="px-3 py-2">{t('library.colStorage')}</th>
                   <th className="px-3 py-2">{t('library.colImported')}</th>
                   <th className="px-3 py-2">{t('library.colOpened')}</th>
@@ -596,7 +586,7 @@ export function LibraryPage() {
                     onDoubleClick={() => navigate(`/replay/${s.id}`)}
                     title={t('library.openHint')}
                   >
-                    <td className="w-9 px-2 py-2" style={{ background: 'var(--row-bg, var(--surface))', position: 'sticky', left: 0, zIndex: 2 }}>
+                    <td className="w-9 px-2 py-2" style={{ background: 'var(--row-bg, var(--surface))' }}>
                       <input
                         type="checkbox"
                         aria-label={s.name}
@@ -606,7 +596,7 @@ export function LibraryPage() {
                     </td>
                     {/* A dash when the session carries no name of its own. Both
                         cells open it, as does the play button on the right. */}
-                    <td className="px-3 py-2" style={{ ...frozen(0), background: 'var(--row-bg, var(--surface))' }}>
+                    <td className="px-3 py-2" style={{ background: 'var(--row-bg, var(--surface))' }}>
                       <button
                         type="button"
                         className="block max-w-full truncate font-medium hover:underline"
@@ -616,7 +606,7 @@ export function LibraryPage() {
                         {s.name === s.sourceFileName ? '—' : s.name}
                       </button>
                     </td>
-                    <td className="px-3 py-2" style={{ ...frozen(1), background: 'var(--row-bg, var(--surface))', color: 'var(--text-muted)' }}>
+                    <td className="px-3 py-2" style={{ background: 'var(--row-bg, var(--surface))', color: 'var(--text-muted)' }}>
                       <button
                         type="button"
                         className="block max-w-full truncate hover:underline"
@@ -626,36 +616,32 @@ export function LibraryPage() {
                         {s.sourceFileName ?? '—'}
                       </button>
                     </td>
-                    <td className="truncate whitespace-nowrap px-3 py-2" style={{ ...frozen(2), background: 'var(--row-bg, var(--surface))' }} title={siteName(s.site)}>
+                    <td className="truncate whitespace-nowrap px-3 py-2" style={{ background: 'var(--row-bg, var(--surface))' }} title={siteName(s.site)}>
                       {siteName(s.site)}
                     </td>
                     <td className="px-3 py-2 text-right tabular-nums">{s.handCount}</td>
-                    <td className="whitespace-nowrap px-3 py-2">
+                    <td className="truncate whitespace-nowrap px-3 py-2">
                       {s.handIds.length ? (
                         // Editable in place: the reader is the one who knows
                         // whether a review is done, and where they left it.
                         <span className="inline-flex items-center gap-1">
                           <select
-                            className="input !w-auto !py-0.5 text-[11px]"
+                            className="input !w-auto !py-0.5 text-[11px] font-medium"
                             value={s.status === 'completed' ? 'completed' : s.lastHandIndex ? 'progress' : 'open'}
                             aria-label={t('library.colStatus')}
+                            style={statusStyle(s)}
                             onChange={(e) => void setStatus(s, e.target.value as 'open' | 'progress' | 'completed')}
                           >
-                            <option value="open">{t('library.statusOpen')}</option>
-                            <option value="progress">{t('library.statusInProgress')}</option>
-                            <option value="completed">{t('library.statusDone')}</option>
+                            <option value="open" style={{ color: 'var(--text-muted)', background: 'var(--surface)' }}>
+                              ○ {t('library.statusOpen')}
+                            </option>
+                            <option value="progress" style={{ color: 'var(--result-break-even)', background: 'var(--surface)' }}>
+                              ◐ {t('library.statusInProgress')}
+                            </option>
+                            <option value="completed" style={{ color: 'var(--result-won)', background: 'var(--surface)' }}>
+                              ✓ {t('library.statusDone')}
+                            </option>
                           </select>
-                          {s.status !== 'completed' && !!s.lastHandIndex && (
-                            <input
-                              type="number"
-                              className="input !w-[58px] !py-0.5 text-[11px] tabular-nums"
-                              min={1}
-                              max={s.handCount}
-                              value={(s.lastHandIndex ?? 0) + 1}
-                              aria-label={t('library.statusAt', { current: (s.lastHandIndex ?? 0) + 1, total: s.handCount })}
-                              onChange={(e) => void setCurrentHand(s, Number(e.target.value))}
-                            />
-                          )}
                         </span>
                       ) : s.status === 'completed' ? (
                         <span className="chip-tag" style={{ color: 'var(--result-won)', borderColor: 'var(--result-won)' }}>
@@ -669,7 +655,10 @@ export function LibraryPage() {
                         </span>
                       )}
                     </td>
-                    <td className="whitespace-nowrap px-3 py-2">
+                    <td className="truncate whitespace-nowrap px-3 py-2 text-right tabular-nums" style={{ color: 'var(--text-muted)' }}>
+                      {s.lastHandIndex ? `${s.lastHandIndex + 1} / ${s.handCount}` : '—'}
+                    </td>
+                    <td className="truncate whitespace-nowrap px-3 py-2">
                       {savedIds.has(s.id) ? (
                         <span className="inline-flex items-center gap-1.5" style={{ color: 'var(--result-won)' }}>
                           <IconCloudCheck size={14} />
@@ -682,18 +671,20 @@ export function LibraryPage() {
                         </span>
                       )}
                     </td>
-                    <td className="whitespace-nowrap px-3 py-2 tabular-nums" style={{ color: 'var(--text-muted)' }}>
-                      {df.dateTime(s.importedAt)}
+                    <td className="truncate whitespace-nowrap px-3 py-2 text-xs tabular-nums" style={{ color: 'var(--text-muted)' }}>
+                      <span title={df.dateTime(s.importedAt)}>{df.dateTime(s.importedAt)}</span>
                     </td>
-                    <td className="whitespace-nowrap px-3 py-2 tabular-nums" style={{ color: 'var(--text-muted)' }}>
-                      {s.lastOpenedAt ? df.dateTime(s.lastOpenedAt) : '—'}
+                    <td className="truncate whitespace-nowrap px-3 py-2 text-xs tabular-nums" style={{ color: 'var(--text-muted)' }}>
+                      <span title={s.lastOpenedAt ? df.dateTime(s.lastOpenedAt) : undefined}>
+                        {s.lastOpenedAt ? df.dateTime(s.lastOpenedAt) : '—'}
+                      </span>
                     </td>
-                    <td className="whitespace-nowrap px-3 py-2 text-right">
-                      <span className="inline-flex gap-0.5">
+                    <td className="px-2 py-2 text-right">
+                      <span className="inline-flex flex-nowrap justify-end gap-0.5">
                         {!s.handIds.length && (
                           <button
                             type="button"
-                            className="btn-icon"
+                            className="btn-icon !px-1.5"
                             title={t('cloud.pull')}
                             aria-label={t('cloud.pull')}
                             disabled={pulling === s.id}
@@ -702,13 +693,13 @@ export function LibraryPage() {
                             <IconCloudDown size={15} />
                           </button>
                         )}
-                        <button type="button" className="btn-icon" title={t('library.open')} aria-label={t('library.open')} onClick={() => navigate(`/replay/${s.id}`)}>
+                        <button type="button" className="btn-icon !px-1.5" title={t('library.open')} aria-label={t('library.open')} onClick={() => navigate(`/replay/${s.id}`)}>
                           <IconPlay size={15} />
                         </button>
                         {!!s.handIds.length && !savedIds.has(s.id) && (
                           <button
                             type="button"
-                            className="btn-icon"
+                            className="btn-icon !px-1.5"
                             title={t('library.saveToAccount')}
                             aria-label={t('library.saveToAccount')}
                             disabled={savingId === s.id}
@@ -718,18 +709,18 @@ export function LibraryPage() {
                           </button>
                         )}
                         {!!s.handIds.length && (
-                          <button type="button" className="btn-icon" title={t('library.download')} aria-label={t('library.download')} onClick={() => void download(s)}>
+                          <button type="button" className="btn-icon !px-1.5" title={t('library.download')} aria-label={t('library.download')} onClick={() => void download(s)}>
                             <IconDownload size={15} />
                           </button>
                         )}
                         {!!s.handIds.length && (
-                          <button type="button" className="btn-icon" title={t('common.rename')} aria-label={t('common.rename')} onClick={() => void rename(s)}>
+                          <button type="button" className="btn-icon !px-1.5" title={t('common.rename')} aria-label={t('common.rename')} onClick={() => void rename(s)}>
                             <IconPencil size={15} />
                           </button>
                         )}
                         <button
                           type="button"
-                          className="btn-icon"
+                          className="btn-icon !px-1.5"
                           title={t('common.delete')}
                           aria-label={t('common.delete')}
                           style={{ color: 'var(--result-lost)' }}
@@ -750,10 +741,10 @@ export function LibraryPage() {
           <div className="flex items-center justify-between gap-2 border-t px-4 py-2 text-sm" style={{ borderColor: 'var(--border)' }}>
             <span style={{ color: 'var(--text-muted)' }}>{t('library.pageOf', { page: page + 1, pages: pageCount })}</span>
             <span className="flex items-center gap-2">
-              <button type="button" className="btn" disabled={page === 0} onClick={() => setPageIndex((n) => n - 1)}>
+              <button type="button" className="btn" disabled={page === 0} onClick={() => setPageIndex(page - 1)}>
                 ←
               </button>
-              <button type="button" className="btn" disabled={page >= pageCount - 1} onClick={() => setPageIndex((n) => n + 1)}>
+              <button type="button" className="btn" disabled={page >= pageCount - 1} onClick={() => setPageIndex(page + 1)}>
                 →
               </button>
             </span>

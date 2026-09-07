@@ -140,7 +140,8 @@
     "keepFileNames": "Dateinamen behalten",
     "perPage": "Pro Seite",
     "importedOk": "Erfolgreich importiert",
-    "onlyFirstFile": "Nur „{{name}}“ wurde importiert — {{count}} weitere Datei(en) blieben außen vor. Bitte einzeln importieren."
+    "onlyFirstFile": "Nur „{{name}}“ wurde importiert — {{count}} weitere Datei(en) blieben außen vor. Bitte einzeln importieren.",
+    "colLastHand": "Letzte Hand"
   },
   "sidebar": {
     "loadHands": "Hand-Histories laden",
@@ -328,7 +329,9 @@
     "tagUp": "Nach oben",
     "tagDown": "Nach unten",
     "addTag": "Tag hinzufügen",
-    "newTag": "Neues Tag"
+    "newTag": "Neues Tag",
+    "dateFormat": "Datumsformat",
+    "dateAuto": "Der Sprache folgen"
   },
   "shortcuts": {
     "title": "Tastaturkürzel",

@@ -34,19 +34,39 @@ export function useAmountFormatter(hand?: Hand): AmountFormatter {
 export function useDateFormatter() {
   const { i18n } = useTranslation();
   const locale = localeFor(i18n.language);
+  const dateFormat = useAppStore((s) => s.settings.dateFormat);
   return useMemo(
     () => ({
-      dateTime: (d?: Date) =>
-        d && !Number.isNaN(d.getTime())
-          ? new Intl.DateTimeFormat(locale, { dateStyle: 'medium', timeStyle: 'short' }).format(d)
-          : '—',
-      date: (d?: Date) =>
-        d && !Number.isNaN(d.getTime()) ? new Intl.DateTimeFormat(locale, { dateStyle: 'medium' }).format(d) : '—',
+      dateTime: (d?: Date) => {
+        if (!d || Number.isNaN(d.getTime())) return '—';
+        // An explicit choice is written out by hand: Intl has no option for
+        // "the order I want", only "the order this locale uses".
+        if (dateFormat !== 'auto') {
+          const pad = (n: number) => String(n).padStart(2, '0');
+          const day = pad(d.getDate());
+          const month = pad(d.getMonth() + 1);
+          const date = dateFormat === 'dmy' ? `${day}/${month}` : `${month}/${day}`;
+          return `${date}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+        }
+        return new Intl.DateTimeFormat(locale, { dateStyle: 'medium', timeStyle: 'short' }).format(d);
+      },
+      date: (d?: Date) => {
+        if (!d || Number.isNaN(d.getTime())) return '—';
+        if (dateFormat !== 'auto') {
+          const pad = (n: number) => String(n).padStart(2, '0');
+          const day = pad(d.getDate());
+          const month = pad(d.getMonth() + 1);
+          return dateFormat === 'dmy'
+            ? `${day}/${month}/${d.getFullYear()}`
+            : `${month}/${day}/${d.getFullYear()}`;
+        }
+        return new Intl.DateTimeFormat(locale, { dateStyle: 'medium' }).format(d);
+      },
       percent: (v: number, digits = 1) =>
         new Intl.NumberFormat(locale, { style: 'percent', maximumFractionDigits: digits, minimumFractionDigits: digits }).format(v),
       number: (v: number, digits = 1) =>
         new Intl.NumberFormat(locale, { maximumFractionDigits: digits }).format(v),
     }),
-    [locale],
+    [locale, dateFormat],
   );
 }
