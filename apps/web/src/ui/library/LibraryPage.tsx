@@ -548,7 +548,7 @@ export function LibraryPage() {
           <div className="max-h-[52vh] overflow-auto">
             <table className="table-zebra w-full min-w-[760px] text-sm">
               <thead className="sticky top-0 z-20">
-                <tr className="text-left text-xs font-semibold uppercase tracking-wide" style={{ color: 'var(--accent)', background: '#000' }}>
+                <tr className="text-left text-xs font-bold uppercase tracking-wide" style={{ color: '#e8e8ee', background: '#000' }}>
                   {/* The first three columns stay put while the rest scrolls. */}
                   <th className="w-9 px-2 py-2" style={{ background: '#000', position: 'sticky', left: 0, zIndex: 3 }}>
                     <input
