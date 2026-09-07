@@ -30,10 +30,10 @@ import sampleUrl from '../../../samples/pokerstars-demo.txt?url';
  * Width of each frozen column, and where it sits once the table scrolls
  * sideways. Fixed widths are what makes the offsets predictable.
  */
-const FROZEN_WIDTHS = [190, 190, 110];
+const FROZEN_WIDTHS = [160, 150, 96];
 
-/** Sessions shown per page. */
-const PAGE_SIZE = 10;
+/** Choices for how many sessions a page shows. */
+const PAGE_SIZES = [5, 10, 20, 50];
 
 function frozen(index: number): React.CSSProperties {
   const left = 36 + FROZEN_WIDTHS.slice(0, index).reduce((sum, w) => sum + w, 0);
@@ -52,6 +52,7 @@ export function LibraryPage() {
   const [confirming, setConfirming] = useState<'all' | 'selected' | undefined>(undefined);
   const [pageIndex, setPageIndex] = useState(0);
   const [naming, setNaming] = useState<Session[]>([]);
+  const [pageSize, setPageSize] = useState(10);
   const [query, setQuery] = useState('');
   /** What the account holds, so each row can say where it lives — and so a
    *  review saved from another machine can be brought down here. */
@@ -238,9 +239,9 @@ export function LibraryPage() {
   }, [sessions, query, siteFilter, from, to, siteName, storage, savedIds, sort, cloud]);
 
   /** Ten at a time keeps the table readable on any screen. */
-  const pageCount = Math.max(1, Math.ceil(matching.length / PAGE_SIZE));
+  const pageCount = Math.max(1, Math.ceil(matching.length / pageSize));
   const page = Math.min(pageIndex, pageCount - 1);
-  const pageRows = matching.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE);
+  const pageRows = matching.slice(page * pageSize, page * pageSize + pageSize);
 
   const toggleOne = (id: string) =>
     setSelected((current) => {
@@ -502,7 +503,26 @@ export function LibraryPage() {
             </button>
           )}
           <div className="flex-1" />
-          <span style={{ color: 'var(--text-muted)' }}>{t('library.showing', { count: matching.length })}</span>
+          <label className="flex flex-col gap-1">
+            <span className="label-caps">{t('library.perPage')}</span>
+            <select
+              className="input !py-1 !w-auto text-xs"
+              value={pageSize}
+              onChange={(e) => {
+                setPageIndex(0);
+                setPageSize(Number(e.target.value));
+              }}
+            >
+              {PAGE_SIZES.map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
+            </select>
+          </label>
+          <span className="self-end pb-1" style={{ color: 'var(--text-muted)' }}>
+            {t('library.showing', { count: matching.length })}
+          </span>
         </div>
 
         <p className="px-4 pb-2 text-xs" style={{ color: 'var(--text-muted)' }}>
@@ -526,11 +546,11 @@ export function LibraryPage() {
           </div>
         ) : (
           <div className="max-h-[52vh] overflow-auto">
-            <table className="table-zebra w-full min-w-[980px] text-sm">
-              <thead className="sticky top-0 z-10" style={{ background: 'var(--surface)' }}>
-                <tr className="text-left text-xs uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>
+            <table className="table-zebra w-full min-w-[760px] text-sm">
+              <thead className="sticky top-0 z-20">
+                <tr className="text-left text-xs font-semibold uppercase tracking-wide" style={{ color: 'var(--accent)', background: '#000' }}>
                   {/* The first three columns stay put while the rest scrolls. */}
-                  <th className="w-9 px-2 py-2" style={{ background: 'var(--row-bg, var(--surface))', position: 'sticky', left: 0, zIndex: 2 }}>
+                  <th className="w-9 px-2 py-2" style={{ background: '#000', position: 'sticky', left: 0, zIndex: 3 }}>
                     <input
                       type="checkbox"
                       aria-label={t('library.selectAll')}
@@ -538,13 +558,13 @@ export function LibraryPage() {
                       onChange={(e) => togglePage(e.target.checked)}
                     />
                   </th>
-                  <th className="px-3 py-2" style={{ ...frozen(0), background: 'var(--row-bg, var(--surface))' }}>
+                  <th className="px-3 py-2" style={{ ...frozen(0), background: '#000', zIndex: 3 }}>
                     {t('library.colName')}
                   </th>
-                  <th className="px-3 py-2" style={{ ...frozen(1), background: 'var(--surface)' }}>
+                  <th className="px-3 py-2" style={{ ...frozen(1), background: '#000', zIndex: 3 }}>
                     {t('library.colFile')}
                   </th>
-                  <th className="px-3 py-2" style={{ ...frozen(2), background: 'var(--row-bg, var(--surface))' }}>
+                  <th className="px-3 py-2" style={{ ...frozen(2), background: '#000', zIndex: 3 }}>
                     {t('library.colSite')}
                   </th>
                   <th className="px-3 py-2 text-right">{t('library.colHands')}</th>

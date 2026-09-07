@@ -74,7 +74,6 @@
     "dropzone": "Drag .txt files or folders here",
     "dropzoneHint": "PokerStars cash and tournament hand histories. Other sites are recognised but not supported yet.",
     "selectFiles": "Select files",
-    "selectFolder": "Select folder",
     "pastePlaceholder": "Paste one or more hands here…",
     "importPaste": "Import pasted text",
     "pasteName": "Pasted {{date}}",
@@ -138,7 +137,8 @@
     "pasteButton": "Paste hand history",
     "nameDialogTitle": "Name the sessions",
     "nameDialogBody": "{{count}} imported. Give each one a name, or keep the file names.",
-    "keepFileNames": "Keep file names"
+    "keepFileNames": "Keep file names",
+    "perPage": "Per page"
   },
   "sidebar": {
     "loadHands": "Load hand histories",

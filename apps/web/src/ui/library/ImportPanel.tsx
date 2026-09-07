@@ -4,7 +4,7 @@ import type { Site } from '@/model/types';
 import { filesFromDataTransfer, importFiles, importText, type ImportSummary } from '@/parsers/importer';
 import { parsers } from '@/parsers/registry';
 import { useDateFormatter } from '@/ui/hooks/useFormat';
-import { IconClose } from '@/ui/icons';
+import { IconClose, IconNote, IconUpload } from '@/ui/icons';
 
 interface Props {
   onImported(summaries: ImportSummary[]): void;
@@ -21,7 +21,6 @@ export function ImportPanel({ onImported, compact }: Props) {
   const [pasteOpen, setPasteOpen] = useState(false);
   const [messages, setMessages] = useState<{ kind: 'ok' | 'warn' | 'error'; text: string }[]>([]);
   const fileInput = useRef<HTMLInputElement>(null);
-  const dirInput = useRef<HTMLInputElement>(null);
 
   const report = useCallback(
     (summaries: ImportSummary[]) => {
@@ -108,7 +107,7 @@ export function ImportPanel({ onImported, compact }: Props) {
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') fileInput.current?.click();
           }}
-          className={`panel flex ${compact ? 'min-h-[120px]' : 'min-h-[220px]'} cursor-pointer flex-col items-center justify-center gap-2 border-2 border-dashed p-6 text-center transition-colors`}
+          className={`panel flex ${compact ? 'min-h-[96px]' : 'min-h-[150px]'} cursor-pointer flex-col items-center justify-center gap-2 border-2 border-dashed p-6 text-center transition-colors`}
           style={{
             borderColor: dragging ? 'var(--accent)' : 'var(--border)',
             background: dragging ? 'color-mix(in srgb, var(--accent) 10%, var(--surface))' : undefined,
@@ -123,12 +122,11 @@ export function ImportPanel({ onImported, compact }: Props) {
           </div>
           <div className="mt-2 flex flex-wrap justify-center gap-2" onClick={(e) => e.stopPropagation()}>
             <button type="button" className="btn" onClick={() => fileInput.current?.click()} disabled={busy}>
+              <IconUpload size={15} />
               {t('library.selectFiles')}
             </button>
-            <button type="button" className="btn" onClick={() => dirInput.current?.click()} disabled={busy}>
-              {t('library.selectFolder')}
-            </button>
             <button type="button" className="btn" onClick={() => setPasteOpen(true)} disabled={busy}>
+              <IconNote size={15} />
               {t('library.pasteButton')}
             </button>
           </div>
@@ -138,19 +136,6 @@ export function ImportPanel({ onImported, compact }: Props) {
             accept=".txt,text/plain"
             multiple
             hidden
-            onChange={(e) => {
-              void handleFiles(Array.from(e.target.files ?? []));
-              e.target.value = '';
-            }}
-          />
-          <input
-            ref={dirInput}
-            type="file"
-            hidden
-            multiple
-            // @ts-expect-error non-standard attribute supported by Chromium/WebKit
-            webkitdirectory=""
-            directory=""
             onChange={(e) => {
               void handleFiles(Array.from(e.target.files ?? []));
               e.target.value = '';

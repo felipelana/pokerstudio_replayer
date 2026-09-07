@@ -74,7 +74,6 @@
     "dropzone": "Arrastra archivos .txt o carpetas aquí",
     "dropzoneHint": "Historiales de PokerStars de cash y torneo. Otras salas se reconocen pero aún no están soportadas.",
     "selectFiles": "Seleccionar archivos",
-    "selectFolder": "Seleccionar carpeta",
     "pastePlaceholder": "Pega una o más manos aquí…",
     "importPaste": "Importar texto pegado",
     "pasteName": "Pegado el {{date}}",
@@ -138,7 +137,8 @@
     "pasteButton": "Pegar historial",
     "nameDialogTitle": "Nombrar las sesiones",
     "nameDialogBody": "{{count}} importada(s). Ponle nombre a cada una o conserva el del archivo.",
-    "keepFileNames": "Conservar nombres de archivo"
+    "keepFileNames": "Conservar nombres de archivo",
+    "perPage": "Por página"
   },
   "sidebar": {
     "loadHands": "Cargar historiales",

@@ -74,7 +74,6 @@
     "dropzone": ".txt-Dateien oder Ordner hierher ziehen",
     "dropzoneHint": "PokerStars-Hand-Histories für Cashgame und Turnier. Andere Anbieter werden erkannt, aber noch nicht unterstützt.",
     "selectFiles": "Dateien auswählen",
-    "selectFolder": "Ordner auswählen",
     "pastePlaceholder": "Eine oder mehrere Hände hier einfügen…",
     "importPaste": "Eingefügten Text importieren",
     "pasteName": "Eingefügt am {{date}}",
@@ -138,7 +137,8 @@
     "pasteButton": "Handverlauf einfügen",
     "nameDialogTitle": "Sitzungen benennen",
     "nameDialogBody": "{{count}} importiert. Gib jeder einen Namen oder behalte die Dateinamen.",
-    "keepFileNames": "Dateinamen behalten"
+    "keepFileNames": "Dateinamen behalten",
+    "perPage": "Pro Seite"
   },
   "sidebar": {
     "loadHands": "Hand-Histories laden",

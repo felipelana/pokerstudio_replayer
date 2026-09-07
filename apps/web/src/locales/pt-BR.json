@@ -74,7 +74,6 @@
     "dropzone": "Arraste arquivos .txt ou pastas aqui",
     "dropzoneHint": "Hand histories PokerStars de cash e torneio. Outros sites são reconhecidos, mas ainda não suportados.",
     "selectFiles": "Selecionar arquivos",
-    "selectFolder": "Selecionar pasta",
     "pastePlaceholder": "Cole uma ou mais mãos aqui…",
     "importPaste": "Importar texto colado",
     "pasteName": "Colado em {{date}}",
@@ -138,7 +137,8 @@
     "pasteButton": "Colar hand history",
     "nameDialogTitle": "Nomear as sessões",
     "nameDialogBody": "{{count}} importada(s). Dê um nome a cada uma, ou mantenha o nome do arquivo.",
-    "keepFileNames": "Manter nome do arquivo"
+    "keepFileNames": "Manter nome do arquivo",
+    "perPage": "Por página"
   },
   "sidebar": {
     "loadHands": "Carregar hand histories",

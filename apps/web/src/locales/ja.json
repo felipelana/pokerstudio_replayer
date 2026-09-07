@@ -74,7 +74,6 @@
     "dropzone": ".txt ファイルまたはフォルダをここにドラッグ",
     "dropzoneHint": "PokerStars のキャッシュ・トーナメントのハンド履歴に対応。他サイトは認識のみで未対応です。",
     "selectFiles": "ファイルを選択",
-    "selectFolder": "フォルダを選択",
     "pastePlaceholder": "ここに1つ以上のハンドを貼り付け…",
     "importPaste": "貼り付けたテキストをインポート",
     "pasteName": "{{date}} に貼り付け",
@@ -138,7 +137,8 @@
     "pasteButton": "ハンドヒストリーを貼り付け",
     "nameDialogTitle": "セッションに名前を付ける",
     "nameDialogBody": "{{count}} 件を取り込みました。名前を付けるか、ファイル名のままにできます。",
-    "keepFileNames": "ファイル名のまま"
+    "keepFileNames": "ファイル名のまま",
+    "perPage": "1ページ"
   },
   "sidebar": {
     "loadHands": "ハンド履歴を読み込む",
