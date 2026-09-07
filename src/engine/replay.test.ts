@@ -181,3 +181,55 @@ describe('computePots', () => {
     ).toEqual([]);
   });
 });
+
+describe('all-in showdown (R9)', () => {
+  const allInHand = `PokerStars Hand #900000001: Tournament #999, $10+$1 USD Hold'em No Limit - Level V (75/150) - 2024/03/01 20:15:33 ET
+Table '999 1' 6-max Seat #1 is the button
+Seat 1: Hero (1500 in chips)
+Seat 2: Villain (1500 in chips)
+Hero: posts small blind 75
+Villain: posts big blind 150
+*** HOLE CARDS ***
+Dealt to Hero [Ah As]
+Hero: raises 1350 to 1500 and is all-in
+Villain: calls 1350 and is all-in
+*** FLOP *** [2c 7d 9h]
+*** TURN *** [2c 7d 9h] [3s]
+*** RIVER *** [2c 7d 9h 3s] [4c]
+*** SHOW DOWN ***
+Hero: shows [Ah As] (a pair of Aces)
+Villain: shows [Kh Kd] (a pair of Kings)
+Hero collected 3000 from pot
+*** SUMMARY ***
+Total pot 3000 | Rake 0
+Board [2c 7d 9h 3s 4c]
+Seat 1: Hero (button) (small blind) showed [Ah As] and won (3000) with a pair of Aces
+Seat 2: Villain (big blind) showed [Kh Kd] and lost with a pair of Kings
+`;
+
+  it('turns both hands face up at the all-in, not at the river', () => {
+    const hand = new PokerStarsParser().parse(allInHand);
+    const replay = buildReplay(hand, 'Hero');
+    const callIndex = replay.frames.findIndex((f) => f.action?.type === 'call' && f.action.player === 'Villain');
+    expect(callIndex).toBeGreaterThan(0);
+
+    const atAllIn = replay.frames[callIndex];
+    expect(atAllIn.board).toHaveLength(0);
+    const villain = atAllIn.players.find((p) => p.name === 'Villain')!;
+    expect(villain.revealed).toBe(true);
+    expect(villain.cards).toEqual(['Kh', 'Kd']);
+
+    // And they stay up while the board runs out.
+    const flop = replay.frames.find((f) => f.street === 'flop')!;
+    expect(flop.players.find((p) => p.name === 'Villain')!.revealed).toBe(true);
+  });
+
+  it('keeps unknown hands face down', () => {
+    const hidden = allInHand
+      .replace('Villain: shows [Kh Kd] (a pair of Kings)\n', '')
+      .replace('Seat 2: Villain (big blind) showed [Kh Kd] and lost with a pair of Kings', 'Seat 2: Villain (big blind) mucked');
+    const replay = buildReplay(new PokerStarsParser().parse(hidden), 'Hero');
+    const callIndex = replay.frames.findIndex((f) => f.action?.type === 'call' && f.action.player === 'Villain');
+    expect(replay.frames[callIndex].players.find((p) => p.name === 'Villain')!.revealed).toBe(false);
+  });
+});

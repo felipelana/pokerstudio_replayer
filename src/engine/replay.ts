@@ -308,8 +308,35 @@ export function buildReplay(hand: Hand, heroOverride?: string): HandReplay {
     return undefined;
   };
 
+  /** Index of the last step that still carries a betting action. */
+  const lastBettingStep = (() => {
+    for (let i = steps.length - 1; i >= 0; i--) {
+      const st = steps[i];
+      if (st.kind === 'action' && BETTING.includes(st.action.type)) return i;
+    }
+    return -1;
+  })();
+
+  /**
+   * True once the hand is decided but the board is still to come: no betting
+   * step left and at least one player all-in with two or more still in (R9).
+   */
+  const allInShowdown = (stepIndex: number, snapshot: PlayerState[]): boolean => {
+    if (stepIndex < lastBettingStep) return false;
+    const live = snapshot.filter((p) => p.inHand && !p.folded);
+    return live.length >= 2 && live.some((p) => p.allIn) && board.length < 5;
+  };
+
   const push = (kind: FrameKind, action?: Action, stepIndex = -1) => {
     const snapshot = clonePlayers(players);
+    if (allInShowdown(stepIndex, snapshot)) {
+      for (const p of snapshot) {
+        const known = hand.holeCards[p.name];
+        if (!p.inHand || p.folded || !known) continue;
+        p.cards = [...known];
+        p.revealed = true;
+      }
+    }
     const totalPot = pot + snapshot.reduce((s, p) => s + p.streetBet, 0);
     frames.push({
       index: frames.length,
