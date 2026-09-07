@@ -780,5 +780,44 @@
       "DONE": "Done",
       "DECLINED": "Not planned"
     }
+  },
+  "tour": {
+    "title": "Guided tour",
+    "next": "Next",
+    "skip": "Skip",
+    "done": "Finish",
+    "steps": {
+      "welcome": {
+        "title": "Welcome to PokerStudio Replayer",
+        "body": "One minute and you will know where everything is: bringing hands in, opening a review, making the table yours, and telling us what is missing."
+      },
+      "import": {
+        "title": "1. Bring your hands in",
+        "body": "Drag a .txt hand history here, or click to choose one. One file at a time — the way you play one tournament at a time."
+      },
+      "sessions": {
+        "title": "2. Open a review",
+        "body": "Every file you import becomes a row here. Double-click the row to open it, or use the play button. The replayer comes back to the exact hand you stopped on."
+      },
+      "settings": {
+        "title": "3. Make it yours",
+        "body": "Date format, where the hero sits, how close the seats are, leak tags and your screen names per room — all under Settings."
+      },
+      "skins": {
+        "title": "4. Dress the table",
+        "body": "Skins is where the felt, the deck, the chips and the name plates change, card by card if you like. Save as many as you need; they live on your account."
+      },
+      "feedback": {
+        "title": "5. Talk to us",
+        "body": "Your account menu holds Suggestions and improvements, and About. Whatever you write there goes straight into our queue."
+      }
+    }
+  },
+  "help": {
+    "title": "Help",
+    "intro": "How the tool works, in a few lines.",
+    "howTo": "How to use it",
+    "startTour": "Take the tour again",
+    "askUs": "Ask us something"
   }
 }

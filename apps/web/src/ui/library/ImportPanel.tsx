@@ -119,6 +119,7 @@ export function ImportPanel({ onImported, compact }: Props) {
           }}
           onDragLeave={() => setDragging(false)}
           onDrop={onDrop}
+          data-tour="import"
           onClick={() => fileInput.current?.click()}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') fileInput.current?.click();

@@ -780,5 +780,44 @@
       "DONE": "Hecho",
       "DECLINED": "No se hará"
     }
+  },
+  "tour": {
+    "title": "Tour guiado",
+    "next": "Siguiente",
+    "skip": "Saltar",
+    "done": "Terminar",
+    "steps": {
+      "welcome": {
+        "title": "Bienvenido a PokerStudio Replayer",
+        "body": "Un minuto y sabrás dónde está todo: importar manos, abrir una review, dejar la mesa a tu gusto y contarnos qué falta."
+      },
+      "import": {
+        "title": "1. Trae tus manos",
+        "body": "Arrastra aquí un archivo .txt de historial, o haz clic para elegirlo. Un archivo a la vez, como se juega un torneo a la vez."
+      },
+      "sessions": {
+        "title": "2. Abre una review",
+        "body": "Cada archivo importado se convierte en una fila. Haz doble clic en la fila para abrirla, o usa el botón de play. El replayer vuelve a la mano exacta donde te quedaste."
+      },
+      "settings": {
+        "title": "3. Ajusta a tu gusto",
+        "body": "Formato de fecha, dónde se sienta el héroe, la distancia de los asientos, etiquetas de leaks y tus nicks por sala: todo en Configuración."
+      },
+      "skins": {
+        "title": "4. Viste la mesa",
+        "body": "En Skins cambias el tapete, la baraja, las fichas y las placas, carta por carta si quieres. Guarda las que necesites; viven en tu cuenta."
+      },
+      "feedback": {
+        "title": "5. Habla con nosotros",
+        "body": "En el menú de tu cuenta están Sugerencias y mejoras, y Acerca de. Lo que escribas entra directo en nuestra cola de trabajo."
+      }
+    }
+  },
+  "help": {
+    "title": "Ayuda",
+    "intro": "Cómo funciona la herramienta, en pocas líneas.",
+    "howTo": "Cómo usarla",
+    "startTour": "Repetir el tour",
+    "askUs": "Preguntarnos algo"
   }
 }

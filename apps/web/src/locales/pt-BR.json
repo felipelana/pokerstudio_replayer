@@ -780,5 +780,44 @@
       "DONE": "Feito",
       "DECLINED": "Não faremos"
     }
+  },
+  "tour": {
+    "title": "Tour guiado",
+    "next": "Próximo",
+    "skip": "Pular",
+    "done": "Concluir",
+    "steps": {
+      "welcome": {
+        "title": "Bem-vindo ao PokerStudio Replayer",
+        "body": "Um minuto e você já sabe onde fica tudo: importar suas mãos, abrir uma review, deixar o replayer com a sua cara e falar com a gente."
+      },
+      "import": {
+        "title": "1. Traga suas mãos",
+        "body": "Arraste um arquivo .txt de hand history aqui, ou clique para escolher. Um arquivo por vez — é assim que se joga um torneio de cada vez."
+      },
+      "sessions": {
+        "title": "2. Abra uma review",
+        "body": "Cada arquivo importado vira uma linha aqui. Dê dois cliques na linha para abrir — ou use o botão de play. O replayer volta exatamente na mão onde você parou."
+      },
+      "settings": {
+        "title": "3. Ajuste do seu jeito",
+        "body": "Formato de data, onde o herói senta, distância dos assentos, tags de leak e os seus nicks por sala — tudo em Configurações."
+      },
+      "skins": {
+        "title": "4. Personalize a mesa",
+        "body": "Em Skins você muda feltro, baralho, fichas e plaquinhas, carta por carta se quiser. Salve quantas skins precisar; elas ficam na sua conta."
+      },
+      "feedback": {
+        "title": "5. Fale com a gente",
+        "body": "No menu da sua conta estão Sugestões e melhorias e o Sobre. O que você escrever cai direto na nossa fila de trabalho."
+      }
+    }
+  },
+  "help": {
+    "title": "Ajuda",
+    "intro": "Como a ferramenta funciona, em poucas linhas.",
+    "howTo": "Como usar",
+    "startTour": "Refazer o tour",
+    "askUs": "Perguntar para a gente"
   }
 }

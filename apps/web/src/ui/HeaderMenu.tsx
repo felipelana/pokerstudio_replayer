@@ -14,7 +14,7 @@ export function HeaderMenu({ inReplayer }: { inReplayer: boolean }) {
   const settings = useAppStore((s) => s.settings);
   const updateSettings = useAppStore((s) => s.updateSettings);
   const skins = useAppStore((s) => s.skins);
-  const setHelpOpen = useAppStore((s) => s.setHelpOpen);
+  const setHelpCenterOpen = useAppStore((s) => s.setHelpCenterOpen);
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -120,20 +120,18 @@ export function HeaderMenu({ inReplayer }: { inReplayer: boolean }) {
               {settings.theme === 'dark' ? <IconMoon size={15} /> : <IconSun size={15} />}
             </button>
             <LanguageSelector />
-            {inReplayer && (
-              <button
-                type="button"
-                className="btn-icon"
-                title={t('header.help')}
-                aria-label={t('header.help')}
-                onClick={() => {
-                  setHelpOpen(true);
-                  setOpen(false);
-                }}
-              >
-                <IconHelp size={15} />
-              </button>
-            )}
+            <button
+              type="button"
+              className="btn-icon"
+              title={t('help.title')}
+              aria-label={t('help.title')}
+              onClick={() => {
+                setHelpCenterOpen(true);
+                setOpen(false);
+              }}
+            >
+              <IconHelp size={15} />
+            </button>
           </div>
         </div>
       )}

@@ -74,6 +74,8 @@ export interface Settings {
   hideResults: boolean;
   /** Glowing edge on the felt (colour and strength come from the skin). */
   neon: boolean;
+  /** The guided first run has been offered once. */
+  tourSeen: boolean;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -107,6 +109,7 @@ export const DEFAULT_SETTINGS: Settings = {
   renderer: 'auto',
   hideResults: false,
   neon: true,
+  tourSeen: false,
 };
 
 export type JumpTarget = 'preflop' | 'hero' | 'flop' | 'turn' | 'river' | 'showdown' | 'end';
@@ -153,6 +156,16 @@ interface AppState {
   saveProgress(patch: { lastHandIndex?: number; lastFrameIndex?: number; status?: 'in-progress' | 'completed'; resumeNoticeSeen?: boolean }): Promise<void>;
   /** The screen name this account plays under in each room, from the server.
    *  Used to recognise the reader in a history that names no hero. */
+  /** The guided tour, while it is running. */
+  tourOpen: boolean;
+  setTourOpen(open: boolean): void;
+  /** Answers about the tool, raised from the header or from the tour. */
+  helpCenterOpen: boolean;
+  setHelpCenterOpen(open: boolean): void;
+  /** The suggestion box, which the help panel can also raise. */
+  feedbackOpen: boolean;
+  setFeedbackOpen(open: boolean): void;
+
   roomNicks: Partial<Record<Site, string>>;
   loadRoomNicks(): Promise<void>;
 
@@ -301,6 +314,21 @@ export const useAppStore = create<AppState>((set, get) => ({
       // repeating it on every return is noise.
       resumedFrom: saved > 0 && idx === saved && !session.resumeNoticeSeen ? saved : undefined,
     });
+  },
+
+  tourOpen: false,
+  setTourOpen(open) {
+    set({ tourOpen: open });
+  },
+
+  helpCenterOpen: false,
+  setHelpCenterOpen(open) {
+    set({ helpCenterOpen: open });
+  },
+
+  feedbackOpen: false,
+  setFeedbackOpen(open) {
+    set({ feedbackOpen: open });
   },
 
   roomNicks: {},

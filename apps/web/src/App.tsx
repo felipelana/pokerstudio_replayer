@@ -5,6 +5,9 @@ import { useAuthStore } from '@/state/authStore';
 import { useAppStore, useActiveSkin } from '@/state/store';
 import { applySkinCssVariables } from '@/skins/presets';
 import { Header } from '@/ui/Header';
+import { Tour } from '@/ui/tour/Tour';
+import { HelpCenter } from '@/ui/help/HelpCenter';
+import { FeedbackDialog } from '@/ui/feedback/FeedbackDialog';
 import { ConsentBanner } from '@/ui/ConsentBanner';
 import { LegalPage } from '@/ui/legal/LegalPage';
 import { ReportPage } from '@/ui/report/ReportPage';
@@ -65,6 +68,8 @@ export function App() {
   return (
     <div className={`flex h-full flex-col ${animations ? 'anim' : ''}`}>
       <Header />
+      <Tour />
+      <AppDialogs />
       <main className="min-h-0 flex-1 overflow-hidden">
         <Routes>
           {/* Public: authentication and the legal texts. */}
@@ -88,5 +93,22 @@ export function App() {
       </main>
       <ConsentBanner />
     </div>
+  );
+}
+
+/**
+ * The panels that can be raised from anywhere: the answers, and the box for
+ * what is missing. Mounted once, driven by the store.
+ */
+function AppDialogs() {
+  const helpOpen = useAppStore((s) => s.helpCenterOpen);
+  const setHelpOpen = useAppStore((s) => s.setHelpCenterOpen);
+  const feedbackOpen = useAppStore((s) => s.feedbackOpen);
+  const setFeedbackOpen = useAppStore((s) => s.setFeedbackOpen);
+  return (
+    <>
+      <HelpCenter open={helpOpen} onClose={() => setHelpOpen(false)} />
+      <FeedbackDialog open={feedbackOpen} onClose={() => setFeedbackOpen(false)} />
+    </>
   );
 }

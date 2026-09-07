@@ -540,7 +540,7 @@ export function LibraryPage() {
             </div>
           </div>
         ) : (
-          <div className="max-h-[52vh] overflow-auto">
+          <div className="max-h-[52vh] overflow-auto" data-tour="sessions">
             <table className="table-zebra w-full table-fixed text-sm">
               <colgroup>
                 {COLUMN_WIDTHS.map((width, index) => (

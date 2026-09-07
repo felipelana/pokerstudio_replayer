@@ -111,6 +111,20 @@ export const IconSeat = (p: Props) => (
   </Svg>
 );
 
+export const IconKeyboard = (p: Props) => (
+  <Svg {...p}>
+    <rect x="2.5" y="6" width="19" height="12" rx="2" />
+    <path d="M7 10h.01M11 10h.01M15 10h.01M8 14h8" />
+  </Svg>
+);
+
+export const IconCompass = (p: Props) => (
+  <Svg {...p}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="m15 9-2 4.2-4 1.8 2-4.2Z" />
+  </Svg>
+);
+
 export const IconInfo = (p: Props) => (
   <Svg {...p}>
     <circle cx="12" cy="12" r="9" />

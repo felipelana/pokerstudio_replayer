@@ -23,7 +23,7 @@ export function Header() {
   const updateSettings = useAppStore((s) => s.updateSettings);
   const skins = useAppStore((s) => s.skins);
   const user = useAuthStore((s) => s.user);
-  const setHelpOpen = useAppStore((s) => s.setHelpOpen);
+  const setHelpCenterOpen = useAppStore((s) => s.setHelpCenterOpen);
   const location = useLocation();
   const navigate = useNavigate();
   const inReplayer = location.pathname.startsWith('/replay');
@@ -76,11 +76,11 @@ export function Header() {
           <IconLibrary size={15} />
           <span className="hidden md:inline">{t('nav.library')}</span>
         </NavLink>
-        <NavLink to="/settings" className={navClass} title={t('nav.settings')}>
+        <NavLink to="/settings" className={navClass} title={t('nav.settings')} data-tour="settings">
           <IconSliders size={15} />
           <span className="hidden md:inline">{t('nav.settings')}</span>
         </NavLink>
-        <NavLink to="/admin" className={navClass} title={t('nav.admin')}>
+        <NavLink to="/admin" className={navClass} title={t('nav.admin')} data-tour="skins">
           <IconPalette size={15} />
           <span className="hidden md:inline">{t('nav.admin')}</span>
         </NavLink>
@@ -168,17 +168,17 @@ export function Header() {
       {/* Everything above, in one place, when the bar runs out of room. */}
       <HeaderMenu inReplayer={inReplayer} />
 
-      {inReplayer && (
-        <button
-          type="button"
-          className="btn-icon"
-          title={t('header.help')}
-          aria-label={t('header.help')}
-          onClick={() => setHelpOpen(true)}
-        >
-          <IconHelp size={15} />
-        </button>
-      )}
+      {/* Questions about the tool, from any screen. */}
+      <button
+        type="button"
+        className="btn-icon"
+        data-tour="help"
+        title={t('help.title')}
+        aria-label={t('help.title')}
+        onClick={() => setHelpCenterOpen(true)}
+      >
+        <IconHelp size={15} />
+      </button>
       {/* The account sits at the end of the bar, past the view controls. */}
       {user ? (
         <UserMenu />
