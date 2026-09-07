@@ -14,7 +14,7 @@ export default defineConfig({
   server: {
     proxy: {
       // The API runs on its own port in development; same origin in production.
-      '/api': { target: 'http://localhost:3001', changeOrigin: true },
+      '/api': { target: process.env.API_URL ?? 'http://localhost:3005', changeOrigin: true },
     },
   },
   worker: { format: 'es' },
