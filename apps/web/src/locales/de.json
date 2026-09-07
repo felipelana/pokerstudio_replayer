@@ -418,7 +418,8 @@
       "bevelColor": "Rillenfarbe",
       "bevelWidth": "Rillenbreite",
       "bevelInset": "Randabstand",
-      "bevelOpacity": "Rillendeckkraft"
+      "bevelOpacity": "Rillendeckkraft",
+      "scale": "Tischgröße"
     },
     "ui": {
       "title": "Hintergrund & Panels",
@@ -487,7 +488,8 @@
     "savedLocallyOnly": "Auf diesem Gerät gespeichert — das Konto war nicht erreichbar.",
     "myCopy": "meine Version",
     "discardChanges": "Änderungen verwerfen",
-    "changesDiscarded": "Änderungen verworfen."
+    "changesDiscarded": "Änderungen verworfen.",
+    "hideBoard": "Board ausblenden (Filz zeigen)"
   },
   "warnings": {
     "title": "Warnungen",

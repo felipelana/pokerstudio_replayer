@@ -418,7 +418,8 @@
       "bevelColor": "홈 색상",
       "bevelWidth": "홈 두께",
       "bevelInset": "가장자리 간격",
-      "bevelOpacity": "홈 불투명도"
+      "bevelOpacity": "홈 불투명도",
+      "scale": "테이블 크기"
     },
     "ui": {
       "title": "배경 및 패널",
@@ -487,7 +488,8 @@
     "savedLocallyOnly": "이 기기에 저장했습니다 — 계정에 연결하지 못했습니다.",
     "myCopy": "내 버전",
     "discardChanges": "변경 취소",
-    "changesDiscarded": "변경을 취소했습니다."
+    "changesDiscarded": "변경을 취소했습니다.",
+    "hideBoard": "보드 숨기기 (펠트 보기)"
   },
   "warnings": {
     "title": "경고",

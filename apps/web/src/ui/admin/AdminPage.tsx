@@ -16,6 +16,7 @@ import { useAppStore } from '@/state/store';
 import { useAuthStore } from '@/state/authStore';
 import { skinApi } from '@/infrastructure/http/accountApi';
 import { Card } from '@/ui/cards/Card';
+import { ConfirmDialog } from '@/ui/ConfirmDialog';
 import { IconCheck, IconCopy, IconDownload, IconPlus, IconSave, IconTrash, IconUndo, IconUpload } from '@/ui/icons';
 
 /* ------------------------------------------------------------------ */
@@ -169,6 +170,9 @@ export function AdminPage() {
   const importInput = useRef<HTMLInputElement>(null);
   const logoInput = useRef<HTMLInputElement>(null);
   const cardArtInputs = useRef<Record<string, HTMLInputElement | null>>({});
+  /** Hides the board so the felt itself can be judged. */
+  const [hideBoard, setHideBoard] = useState(false);
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
   const cornerLogoInput = useRef<HTMLInputElement>(null);
   const bgInput = useRef<HTMLInputElement>(null);
   const { hand, frame } = useDemo();
@@ -242,7 +246,6 @@ export function AdminPage() {
 
   const remove = async () => {
     if (draft.isBuiltIn) return;
-    if (!window.confirm(t('admin.confirmDelete', { name: draft.name }))) return;
     await getRepository().deleteSkin(draft.id);
     await loadSkins();
     if (settings.skinId === draft.id) updateSettings({ skinId: SKIN_DEFAULT_DARK.id });
@@ -320,6 +323,18 @@ export function AdminPage() {
 
   return (
     <div className="flex h-full min-h-0">
+      <ConfirmDialog
+        open={confirmingDelete}
+        title={t('common.delete')}
+        body={t('admin.confirmDelete', { name: draft.name })}
+        confirmLabel={t('common.delete')}
+        danger
+        onCancel={() => setConfirmingDelete(false)}
+        onConfirm={() => {
+          setConfirmingDelete(false);
+          void remove();
+        }}
+      />
       {/* ---------- form ---------- */}
       <div className="flex w-[400px] shrink-0 flex-col gap-2 overflow-auto border-r p-3" style={{ borderColor: 'var(--border)' }}>
         <div className="flex items-center gap-2">
@@ -388,10 +403,7 @@ export function AdminPage() {
             type="button"
             className="btn col-span-2 justify-center"
             style={{ color: 'var(--result-lost)' }}
-            onClick={() => {
-              // Deleting a skin cannot be undone, so it is asked for.
-              if (window.confirm(t('admin.confirmDelete', { name: draft.name }))) void remove();
-            }}
+            onClick={() => setConfirmingDelete(true)}
             disabled={!!draft.isBuiltIn || !skins.some((s) => s.id === draft.id)}
           >
             <IconTrash size={14} />
@@ -567,6 +579,7 @@ export function AdminPage() {
           <ColorField label={t('admin.table.railHighlight')} value={draft.table.railHighlight} onChange={(v) => patch('table', { railHighlight: v })} />
           <RangeField label={t('admin.table.railWidth')} value={draft.table.railWidth} min={0.02} max={0.12} step={0.005} onChange={(v) => patch('table', { railWidth: v })} />
           <RangeField label={t('admin.table.railShine')} value={draft.table.railShine} min={0} max={1} step={0.05} onChange={(v) => patch('table', { railShine: v })} />
+          <RangeField label={t('admin.table.scale')} value={draft.table.scale ?? 1} min={0.8} max={1.35} step={0.01} onChange={(v) => patch('table', { scale: v })} />
           <RangeField label={t('admin.table.aspect')} value={draft.table.aspect} min={0.4} max={0.75} step={0.01} onChange={(v) => patch('table', { aspect: v })} />
           <ColorField label={t('admin.table.neonColor')} value={draft.table.neonColor ?? draft.plates.activeBorder} onChange={(v) => patch('table', { neonColor: v })} />
           <SelectField
@@ -806,7 +819,14 @@ export function AdminPage() {
           </div>
         </div>
         {/* Same surface as the replayer, so what you tune is what you get. */}
-        <div className="mx-auto w-full max-w-[1100px]" style={{ aspectRatio: '1000 / 640' }}>
+        <label className="checkbox self-start text-xs">
+          <input type="checkbox" checked={hideBoard} onChange={(e) => setHideBoard(e.target.checked)} />
+          {t('admin.hideBoard')}
+        </label>
+        <div
+          className="mx-auto w-full max-w-[1100px]"
+          style={{ aspectRatio: '1000 / 640', transform: `scale(${draft.table.scale ?? 1})`, transformOrigin: 'center center' }}
+        >
           <TableSurface
             renderer={settings.renderer}
             hand={hand}
@@ -820,17 +840,9 @@ export function AdminPage() {
             neon={settings.neon}
             fmt={fmt}
             exact={exact}
+            hideBoard={hideBoard}
             interactive={false}
           />
-        </div>
-        <div className="flex gap-2 text-xs">
-          <div className="panel px-3 py-2" style={{ background: draft.ui.surface, borderColor: draft.ui.border, color: draft.ui.text }}>
-            {t('admin.ui.surface')}
-            <div style={{ color: draft.ui.textMuted }}>{t('admin.ui.textMuted')}</div>
-            <button type="button" className="btn mt-1" style={{ background: draft.ui.accent, color: '#fff', borderColor: 'transparent' }}>
-              {t('admin.ui.accent')}
-            </button>
-          </div>
         </div>
       </div>
     </div>

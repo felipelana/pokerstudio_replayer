@@ -418,7 +418,8 @@
       "bevelColor": "凹槽颜色",
       "bevelWidth": "凹槽宽度",
       "bevelInset": "距边距离",
-      "bevelOpacity": "凹槽不透明度"
+      "bevelOpacity": "凹槽不透明度",
+      "scale": "牌桌大小"
     },
     "ui": {
       "title": "背景与面板",
@@ -487,7 +488,8 @@
     "savedLocallyOnly": "已保存到本设备 — 无法连接账户。",
     "myCopy": "我的版本",
     "discardChanges": "放弃更改",
-    "changesDiscarded": "更改已放弃。"
+    "changesDiscarded": "更改已放弃。",
+    "hideBoard": "隐藏公共牌（查看台面）"
   },
   "warnings": {
     "title": "警告",

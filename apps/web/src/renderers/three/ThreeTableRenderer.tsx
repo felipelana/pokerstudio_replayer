@@ -21,6 +21,15 @@ const RX = 5.2;
 const CARD_WIDTH = 0.95;
 const CARD_HEIGHT = (CARD_WIDTH * CARD_H) / CARD_W;
 /** Board cards lean towards the camera (radians from flat) so ranks stay legible. */
+/**
+ * Reference distance for on-felt amounts. Chosen so the type keeps the size it
+ * had at the replayer's camera, while shrinking with the table in a preview.
+ */
+const LABEL_DISTANCE = 9;
+
+/** Where the pot block sits: clear of the board, which leans towards the camera. */
+const POT_Z = 1.5;
+
 const CARD_TILT = 0.72;
 
 /* ------------------------------------------------------------------ */
@@ -551,7 +560,7 @@ interface SceneLabels {
 }
 
 function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTMLImageElement }) {
-  const { hand, frame, skin, slots, heroName, positions, showKnownHands, hideHeroCards, lookupUrlFor, holeLayout, zoomCards = 1, zoomChips = 1, boardGapRatio, deckArt, chipDenominations = true, fmt, exact, onSeatClick, interactive = true, animations, labels, feltLogo } = props;
+  const { hand, frame, skin, slots, heroName, positions, showKnownHands, hideHeroCards, lookupUrlFor, holeLayout, zoomCards = 1, zoomChips = 1, boardGapRatio, deckArt, hideBoard, chipDenominations = true, fmt, exact, onSeatClick, interactive = true, animations, labels, feltLogo } = props;
   const rz = RX * skin.table.aspect;
   const railW = skin.table.railWidth * RX * 2;
   const isCash = hand.currency !== 'chips';
@@ -581,9 +590,9 @@ function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTM
   // The pot block is as wide as its widest line: the total, or the row of side
   // pots underneath it.
   const potHalfWidth = Math.max(1.5, frame.pots.length * 0.75);
-  const potZone: FeltBox = { x: 0, y: 1.42 / rz, hw: potHalfWidth / RX + 0.03, hh: 0.75 / rz };
+  const potZone: FeltBox = { x: 0, y: POT_Z / rz, hw: potHalfWidth / RX + 0.03, hh: 0.85 / rz };
   // And the pot's own chip stack, so a bet label never lands on the chips.
-  const potChipsZone: FeltBox = { x: -2.5 / RX, y: 1.35 / rz, hw: 1.1 / RX, hh: 0.8 / rz };
+  const potChipsZone: FeltBox = { x: -2.9 / RX, y: POT_Z / rz, hw: 1.1 / RX, hh: 0.8 / rz };
   const zones = frame.pot > 0 ? [boardZone, potZone, potChipsZone] : [boardZone, potZone];
 
   return (
@@ -608,7 +617,7 @@ function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTM
       <Table skin={skin} neon={props.neon !== false} feltLogo={feltLogo} />
 
       {/* Board */}
-      {frame.board.map((c, i) => (
+      {(hideBoard ? [] : frame.board).map((c, i) => (
         <Appear key={c} enabled={animations} delay={i * 40}>
           <CardMesh card={c} deck={skin.deck} position={[boardX0 + i * (CARD_WIDTH + boardGap), 0.05, 0]} scale={zoomCards} art={deckArt?.[c[0]]} />
         </Appear>
@@ -617,14 +626,14 @@ function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTM
       {/* Pot chips */}
       {frame.pot > 0 && (
         <Appear enabled={animations}>
-          <ChipStack3D chips={chipBreakdown(frame.pot, isCash, 10)} skin={skin} position={[-2.5, 0, 1.35]} zoom={zoomChips} denominations={chipDenominations} />
+          <ChipStack3D chips={chipBreakdown(frame.pot, isCash, 10)} skin={skin} position={[-2.9, 0, POT_Z]} zoom={zoomChips} denominations={chipDenominations} />
         </Appear>
       )}
 
       {/* Pot label */}
       {/* Board dead centre; the pot block (total + side pots) sits right under
           it, clear of the bet ring, so nothing can overlap. */}
-      <Html position={[0, 0.05, 1.42]} center zIndexRange={[5, 0]} style={{ pointerEvents: 'none' }}>
+      <Html position={[0, 0.05, POT_Z]} center distanceFactor={LABEL_DISTANCE} zIndexRange={[5, 0]} style={{ pointerEvents: 'none' }}>
         {/* No box, no border: just type on the felt, kept legible by a soft halo. */}
         <div
           className="flex flex-col items-center whitespace-nowrap"
@@ -681,7 +690,7 @@ function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTM
                 {/* Label sits in front of (below on screen) the stack, so it never
                     covers the chips. The pot label lives under the board, out of
                     this ring, so the two can't meet. */}
-                <Html position={[bx, 0, bz + 0.62]} center zIndexRange={[5, 0]} style={{ pointerEvents: 'none' }}>
+                <Html position={[bx, 0, bz + 0.62]} center distanceFactor={LABEL_DISTANCE} zIndexRange={[5, 0]} style={{ pointerEvents: 'none' }}>
                   <Amount
                     value={fmt(p.streetBet)}
                     size={13}

@@ -418,7 +418,8 @@
       "bevelColor": "Groove colour",
       "bevelWidth": "Groove width",
       "bevelInset": "Groove inset",
-      "bevelOpacity": "Groove opacity"
+      "bevelOpacity": "Groove opacity",
+      "scale": "Table size"
     },
     "ui": {
       "title": "Background & panels",
@@ -487,7 +488,8 @@
     "savedLocallyOnly": "Saved on this device — the account could not be reached.",
     "myCopy": "my version",
     "discardChanges": "Discard changes",
-    "changesDiscarded": "Changes discarded."
+    "changesDiscarded": "Changes discarded.",
+    "hideBoard": "Hide the board (see the felt)"
   },
   "warnings": {
     "title": "Warnings",

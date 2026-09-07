@@ -418,7 +418,8 @@
       "bevelColor": "Cor do entalhe",
       "bevelWidth": "Espessura do entalhe",
       "bevelInset": "Distância da borda",
-      "bevelOpacity": "Opacidade do entalhe"
+      "bevelOpacity": "Opacidade do entalhe",
+      "scale": "Tamanho da mesa"
     },
     "ui": {
       "title": "Fundo e painéis",
@@ -487,7 +488,8 @@
     "savedLocallyOnly": "Salva neste aparelho — não foi possível falar com a conta.",
     "myCopy": "minha versão",
     "discardChanges": "Desfazer alterações",
-    "changesDiscarded": "Alterações desfeitas."
+    "changesDiscarded": "Alterações desfeitas.",
+    "hideBoard": "Ocultar as cartas do board (ver o feltro)"
   },
   "warnings": {
     "title": "Avisos",

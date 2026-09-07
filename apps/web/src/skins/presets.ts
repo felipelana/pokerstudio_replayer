@@ -412,7 +412,10 @@ export const SKIN_POKERSTUDIO: Skin = {
     textureIntensity: 0.1,
     vignetteColor: '#000000',
     vignetteStrength: 0.88,
-    logoOpacity: 0.07,
+    // The brand's own spade, watermarked on the felt.
+    logoAssetId: 'builtin:pokerstudio-mark',
+    logoBlend: 'normal',
+    logoOpacity: 0.14,
   },
   table: {
     ...SKIN_FLAT.table,

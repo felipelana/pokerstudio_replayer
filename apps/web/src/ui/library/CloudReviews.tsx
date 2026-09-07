@@ -5,6 +5,7 @@ import { ApiError } from '@/infrastructure/http/client';
 import { getRepository } from '@/db/repository';
 import { importText } from '@/parsers/importer';
 import { useAuthStore } from '@/state/authStore';
+import { ConfirmDialog } from '@/ui/ConfirmDialog';
 import { forgetKnownReviews } from '@/ui/replayer/useCloudProgress';
 import { useDateFormatter } from '@/ui/hooks/useFormat';
 import { quickResult } from '@/engine/replay';
@@ -66,6 +67,7 @@ export function CloudReviews({ sessions, onImported }: { sessions: Session[]; on
   const [error, setError] = useState('');
   const [withHistory, setWithHistory] = useState(true);
   const [chosen, setChosen] = useState('');
+  const [confirming, setConfirming] = useState<CloudReviewRow>();
 
   const load = useCallback(async () => {
     try {
@@ -124,7 +126,6 @@ export function CloudReviews({ sessions, onImported }: { sessions: Session[]; on
   };
 
   const remove = async (row: CloudReviewRow) => {
-    if (!window.confirm(t('cloud.confirmDelete', { title: row.title }))) return;
     setBusy(row.id);
     try {
       await reviewApi.remove(row.id);
@@ -199,13 +200,26 @@ export function CloudReviews({ sessions, onImported }: { sessions: Session[]; on
                   {busy === row.id ? t('auth.working') : t('cloud.pull')}
                 </button>
               )}
-              <button type="button" className="btn btn-ghost" disabled={busy !== ''} onClick={() => void remove(row)}>
+              <button type="button" className="btn btn-ghost" disabled={busy !== ''} onClick={() => setConfirming(row)}>
                 {t('common.delete')}
               </button>
             </li>
           ))}
         </ul>
       )}
+      <ConfirmDialog
+        open={!!confirming}
+        title={t('common.delete')}
+        body={t('cloud.confirmDelete', { title: confirming?.title ?? '' })}
+        confirmLabel={t('common.delete')}
+        danger
+        onCancel={() => setConfirming(undefined)}
+        onConfirm={() => {
+          const row = confirming;
+          setConfirming(undefined);
+          if (row) void remove(row);
+        }}
+      />
     </section>
   );
 }

@@ -418,7 +418,8 @@
       "bevelColor": "溝の色",
       "bevelWidth": "溝の太さ",
       "bevelInset": "縁からの距離",
-      "bevelOpacity": "溝の不透明度"
+      "bevelOpacity": "溝の不透明度",
+      "scale": "テーブルの大きさ"
     },
     "ui": {
       "title": "背景とパネル",
@@ -487,7 +488,8 @@
     "savedLocallyOnly": "この端末に保存しました — アカウントに接続できませんでした。",
     "myCopy": "自分の版",
     "discardChanges": "変更を取り消す",
-    "changesDiscarded": "変更を取り消しました。"
+    "changesDiscarded": "変更を取り消しました。",
+    "hideBoard": "ボードを隠す（フェルトを見る）"
   },
   "warnings": {
     "title": "警告",

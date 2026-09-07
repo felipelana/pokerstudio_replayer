@@ -418,7 +418,8 @@
       "bevelColor": "Color del surco",
       "bevelWidth": "Grosor del surco",
       "bevelInset": "Distancia al borde",
-      "bevelOpacity": "Opacidad del surco"
+      "bevelOpacity": "Opacidad del surco",
+      "scale": "Tamaño de la mesa"
     },
     "ui": {
       "title": "Fondo y paneles",
@@ -487,7 +488,8 @@
     "savedLocallyOnly": "Guardada en este equipo: no se pudo contactar con la cuenta.",
     "myCopy": "mi versión",
     "discardChanges": "Descartar cambios",
-    "changesDiscarded": "Cambios descartados."
+    "changesDiscarded": "Cambios descartados.",
+    "hideBoard": "Ocultar el board (ver el tapete)"
   },
   "warnings": {
     "title": "Avisos",

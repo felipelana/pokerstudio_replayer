@@ -6,6 +6,7 @@ import { getRepository } from '@/db/repository';
 import { DEFAULT_TAGS, useAppStore, type RendererChoice } from '@/state/store';
 import { FLAGS } from '@/ui/flags';
 import { IconDatabase, IconPlay, IconSearch, IconSliders, IconTag } from '@/ui/icons';
+import { ConfirmDialog } from '@/ui/ConfirmDialog';
 
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -32,15 +33,27 @@ export function SettingsPage() {
   const [notice, setNotice] = useState('');
 
   const clearAll = async () => {
-    if (!window.confirm(t('settings.confirmClear'))) return;
     await getRepository().clearAll();
     setNotice(t('settings.cleared'));
   };
 
   const [tab, setTab] = useState<'general' | 'replay' | 'tags' | 'lookup' | 'data'>('general');
+  const [confirmingClear, setConfirmingClear] = useState(false);
 
   return (
     <div className="mx-auto h-full max-w-3xl overflow-auto p-6">
+      <ConfirmDialog
+        open={confirmingClear}
+        title={t('settings.clearData')}
+        body={t('settings.confirmClear')}
+        confirmLabel={t('settings.clearData')}
+        danger
+        onCancel={() => setConfirmingClear(false)}
+        onConfirm={() => {
+          setConfirmingClear(false);
+          void clearAll();
+        }}
+      />
       <h1 className="mb-4 text-2xl font-semibold">{t('settings.title')}</h1>
 
       <nav className="mb-4 flex flex-wrap gap-1" role="tablist">
@@ -263,7 +276,7 @@ export function SettingsPage() {
         <p className="mb-2 text-xs" style={{ color: 'var(--text-muted)' }}>
           {t('settings.dataHint')}
         </p>
-        <button type="button" className="btn" onClick={() => void clearAll()}>
+        <button type="button" className="btn" onClick={() => setConfirmingClear(true)}>
           {t('settings.clearData')}
         </button>
         {notice && <span className="ml-3 text-xs">{notice}</span>}

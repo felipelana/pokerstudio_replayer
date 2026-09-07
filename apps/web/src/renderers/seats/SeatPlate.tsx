@@ -125,7 +125,6 @@ export const SeatPlate = memo(function SeatPlate({
           {faces.map((c, i) => (
             <div
               key={`${c}-${i}`}
-              className="flip-in"
               style={
                 stacked
                   ? {
@@ -138,7 +137,9 @@ export const SeatPlate = memo(function SeatPlate({
                   : { marginLeft: i === 0 ? 0 : 3, zIndex: i }
               }
             >
-              <Card card={c} deck={skin.deck} width={cardWidth} art={c === 'back' ? undefined : deckArt?.[c[0]]} />
+              <div className="flip-in">
+                <Card card={c} deck={skin.deck} width={cardWidth} art={c === 'back' ? undefined : deckArt?.[c[0]]} />
+              </div>
             </div>
           ))}
         </div>

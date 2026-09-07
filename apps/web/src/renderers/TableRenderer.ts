@@ -16,6 +16,8 @@ export interface TableRendererProps {
   showKnownHands: boolean;
   /** Hero's own cards forced face down (R8). */
   hideHeroCards?: boolean;
+  /** Leaves the board out, to look at the felt itself (skin editor). */
+  hideBoard?: boolean;
   /** External lookup URL for a nick, when configured (R18). */
   lookupUrlFor?: (nick: string) => string;
   /** Overrides the skin's hole-card layout (R8). */

@@ -135,6 +135,7 @@ export function SvgTableRenderer({
   holeLayout,
   zoomCards = 1,
   boardGapRatio,
+  hideBoard,
   deckArt,
   zoomChips = 1,
   chipDenominations = true,
@@ -324,7 +325,7 @@ export function SvgTableRenderer({
         )}
 
         {/* Board */}
-        {frame.board.map((c, i) => (
+        {(hideBoard ? [] : frame.board).map((c, i) => (
           <CardShape key={c} card={c} deck={skin.deck} x={boardX0 + i * (boardW + boardGap)} y={boardY} w={boardW * zoomCards} art={deckArt?.[c[0]]} />
         ))}
 

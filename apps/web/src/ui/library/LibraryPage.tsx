@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import type { Session } from '@/model/types';
 import { IconCheck, IconDownload, IconPencil, IconPlay, IconTrash } from '@/ui/icons';
 import { ConfirmDialog } from '@/ui/ConfirmDialog';
+import { PromptDialog } from '@/ui/PromptDialog';
 import { CloudReviews } from './CloudReviews';
 import { getRepository } from '@/db/repository';
 import type { ImportSummary } from '@/parsers/importer';
@@ -38,6 +39,8 @@ export function LibraryPage() {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [confirming, setConfirming] = useState<'all' | 'selected' | undefined>(undefined);
   const [pageIndex, setPageIndex] = useState(0);
+  const [renaming, setRenaming] = useState<Session>();
+  const renameResolver = useRef<((name: string | undefined) => void) | undefined>(undefined);
   const { t } = useTranslation();
   const navigate = useNavigate();
   const df = useDateFormatter();
@@ -62,7 +65,7 @@ export function LibraryPage() {
   );
 
   const rename = async (s: Session) => {
-    const name = window.prompt(t('library.renamePrompt'), s.name);
+    const name = await askName(s);
     if (name && name.trim() && name !== s.name) {
       await getRepository().renameSession(s.id, name.trim());
       await refresh();
@@ -92,11 +95,9 @@ export function LibraryPage() {
     URL.revokeObjectURL(url);
   };
 
-  const remove = async (s: Session) => {
-    if (window.confirm(t('library.confirmDelete', { name: s.name }))) {
-      await getRepository().deleteSession(s.id);
-      await refresh();
-    }
+  const remove = (session: Session) => {
+    setSelected(new Set([session.id]));
+    setConfirming('selected');
   };
 
 
@@ -129,6 +130,19 @@ export function LibraryPage() {
       }
       return next;
     });
+
+  /** Opens the rename dialog and resolves with what the user typed. */
+  const askName = (session: Session) =>
+    new Promise<string | undefined>((resolve) => {
+      renameResolver.current = resolve;
+      setRenaming(session);
+    });
+
+  const closeRename = (name?: string) => {
+    renameResolver.current?.(name);
+    renameResolver.current = undefined;
+    setRenaming(undefined);
+  };
 
   /** Hands back every selected session as one hand-history file. */
   const downloadSelected = async () => {
@@ -367,6 +381,16 @@ export function LibraryPage() {
           </div>
         )}
       </section>
+
+      <PromptDialog
+        open={!!renaming}
+        title={t('common.rename')}
+        label={t('library.colName')}
+        initialValue={renaming?.name ?? ''}
+        confirmLabel={t('common.save')}
+        onCancel={() => closeRename(undefined)}
+        onConfirm={(name) => closeRename(name)}
+      />
 
       <ConfirmDialog
         open={confirming !== undefined}

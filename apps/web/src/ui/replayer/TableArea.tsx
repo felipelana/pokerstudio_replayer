@@ -138,7 +138,7 @@ export function TableArea({ replay, frame, heroName, onSeatClick }: Props) {
       <div className="relative min-h-0 flex-1 px-2 pb-1">
         <div
           className="relative mx-auto h-full max-w-[1400px]"
-          style={{ transform: `scale(${settings.zoomTable})`, transformOrigin: 'center center', zIndex: 1 }}
+          style={{ transform: `scale(${settings.zoomTable * (skin.table.scale ?? 1)})`, transformOrigin: 'center center', zIndex: 1 }}
         >
           <TableSurface {...rendererProps} renderer={settings.renderer} />
         </div>

@@ -60,6 +60,11 @@ export interface FeltSkin {
 }
 
 export interface TableSkin {
+  /**
+   * How much of the available area the table fills. 1 = as before; higher
+   * values push the felt towards the edges. The replayer's zoom multiplies it.
+   */
+  scale?: number;
   railColor: string;
   railHighlight: string;
   /** Fraction of table width, 0.02..0.12 */
