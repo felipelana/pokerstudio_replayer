@@ -24,6 +24,8 @@ export interface TableRendererProps {
   holeLayout?: 'spread' | 'overlap' | 'fan';
   /** Independent scales for cards and for chips/bets (R21). */
   zoomCards?: number;
+  /** How far the seats sit outside the felt (see SEAT_DISTANCE_DEFAULT). */
+  seatDistance?: number;
   /** Overrides the skin's board spacing for this session. */
   boardGapRatio?: number;
   /** Artwork per rank, when the skin sets any. */

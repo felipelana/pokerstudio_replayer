@@ -337,7 +337,8 @@
     "seatBottom": "아래",
     "seatLeft": "왼쪽",
     "seatTop": "위",
-    "seatRight": "오른쪽"
+    "seatRight": "오른쪽",
+    "seatDistance": "좌석 거리"
   },
   "shortcuts": {
     "title": "키보드 단축키",
@@ -734,6 +735,7 @@
     "startOver": "처음부터",
     "boardGap": "보드 카드 간격",
     "resumedAt": "멈춘 곳에서 이어서 — {{total}}핸드 중 {{current}}.",
-    "keepGoing": "확인"
+    "keepGoing": "확인",
+    "seatDistance": "좌석"
   }
 }

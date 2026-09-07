@@ -23,6 +23,14 @@ export interface SeatSlot {
   angle: number;
 }
 
+/**
+ * How far the seats sit outside the felt, as a fraction of the gap that used to
+ * separate them from it: 0 puts a plate on the cloth's edge, 1 well clear of
+ * the rail. Below about 0.7 the plate and its cards lean over the rail, which
+ * is how a real table reads and what the replayer now does by default.
+ */
+export const SEAT_DISTANCE_DEFAULT = 0.55;
+
 export interface LayoutOptions {
   maxSeats: number;
   /** Seat that should sit at the bottom centre (hero / focus). */

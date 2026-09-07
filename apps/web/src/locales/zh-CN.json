@@ -337,7 +337,8 @@
     "seatBottom": "下方",
     "seatLeft": "左侧",
     "seatTop": "上方",
-    "seatRight": "右侧"
+    "seatRight": "右侧",
+    "seatDistance": "座位距离"
   },
   "shortcuts": {
     "title": "键盘快捷键",
@@ -734,6 +735,7 @@
     "startOver": "从头开始",
     "boardGap": "公共牌间距",
     "resumedAt": "已从上次停下的地方继续 — 第 {{current}} / {{total}} 手。",
-    "keepGoing": "好"
+    "keepGoing": "好",
+    "seatDistance": "座位"
   }
 }

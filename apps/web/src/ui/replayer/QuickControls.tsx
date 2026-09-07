@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Hand } from '@/model/types';
+import { SEAT_DISTANCE_DEFAULT } from '@/renderers/layout';
 import { useActiveSkin, useAppStore } from '@/state/store';
 import { DECK_PRESETS } from '@/skins/presets';
 import { IconEye } from '@/ui/icons';
@@ -106,7 +107,15 @@ export function QuickControls({ hand }: { hand: Hand }) {
               type="button"
               className="text-[10.5px] underline"
               style={{ color: 'var(--text-muted)' }}
-              onClick={() => update({ zoomTable: 1, zoomCards: 1, zoomChips: 1, boardGapOverride: 'skin' })}
+              onClick={() =>
+                update({
+                  zoomTable: 1,
+                  zoomCards: 1,
+                  zoomChips: 1,
+                  boardGapOverride: 'skin',
+                  seatDistance: SEAT_DISTANCE_DEFAULT,
+                })
+              }
             >
               {t('common.reset')}
             </button>
@@ -136,6 +145,24 @@ export function QuickControls({ hand }: { hand: Hand }) {
               <span className="w-9 shrink-0 text-right text-[10.5px] tabular-nums">{Math.round(settings[key] * 100)}%</span>
             </label>
           ))}
+
+          <label className="flex items-center gap-2">
+            <span className="w-[52px] shrink-0 text-[10.5px] leading-tight" style={{ color: 'var(--text-muted)' }}>
+              {t('replayer.seatDistance')}
+            </span>
+            <input
+              type="range"
+              min={0}
+              max={1.2}
+              step={0.05}
+              value={settings.seatDistance}
+              onChange={(e) => update({ seatDistance: Number(e.target.value) })}
+              className="w-full min-w-0 flex-1"
+              style={{ accentColor: 'var(--accent)' }}
+              aria-label={t('replayer.seatDistance')}
+            />
+            <span className="w-9 shrink-0 text-right text-[10.5px] tabular-nums">{Math.round(settings.seatDistance * 100)}%</span>
+          </label>
 
           <label className="flex items-center gap-2">
             <span className="w-[52px] shrink-0 text-[10.5px] leading-tight" style={{ color: 'var(--text-muted)' }}>

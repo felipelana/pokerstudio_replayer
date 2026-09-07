@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import type { TableRendererProps } from '../TableRenderer';
 import { Amount } from '../Amount';
 import { cardWidthFor } from '../cardSize';
-import { avoidZones, chipBreakdown, type FeltBox } from '../layout';
+import { avoidZones, chipBreakdown, SEAT_DISTANCE_DEFAULT, type FeltBox } from '../layout';
 import { shapePoints } from '../tableShape';
 import { haloShadow, readableInk } from '@/ui/contrast';
 import { SeatPlate, seatLabels, type SeatLabels } from '../seats/SeatPlate';
@@ -609,7 +609,7 @@ interface SceneLabels {
 }
 
 function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTMLImageElement }) {
-  const { hand, frame, skin, slots, heroName, positions, showKnownHands, hideHeroCards, lookupUrlFor, holeLayout, zoomCards = 1, zoomChips = 1, boardGapRatio, deckArt, hideBoard, chipDenominations = true, fmt, exact, onSeatClick, onSitHere, interactive = true, animations, labels, feltLogo } = props;
+  const { hand, frame, skin, slots, heroName, positions, showKnownHands, hideHeroCards, lookupUrlFor, holeLayout, zoomCards = 1, zoomChips = 1, seatDistance = SEAT_DISTANCE_DEFAULT, boardGapRatio, deckArt, hideBoard, chipDenominations = true, fmt, exact, onSeatClick, onSitHere, interactive = true, animations, labels, feltLogo } = props;
   const rz = RX * skin.table.aspect;
   const railW = skin.table.railWidth * RX * 2;
   const isCash = hand.currency !== 'chips';
@@ -760,8 +760,10 @@ function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTM
         const bx = bet.x * RX;
         const bz = (bet.y - offsetZ / rz) * rz;
         const button = avoidZones({ x: slot.buttonX, y: slot.buttonY, hw: 0.28 / RX, hh: 0.28 / rz }, [boardZone]);
-        const px = slot.x * (RX + railW + 0.28);
-        const pz = slot.y * (rz + railW + 1.15);
+        // Pulled in towards the cloth: at the default the plate and its cards
+        // lean over the rail, the way they do at a real table.
+        const px = slot.x * (RX + (railW + 0.28) * seatDistance);
+        const pz = slot.y * (rz + (railW + 1.15) * seatDistance);
         return (
           <group key={slot.seat}>
             {p && p.streetBet > 0 && (

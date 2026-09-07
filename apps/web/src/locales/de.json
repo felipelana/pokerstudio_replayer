@@ -337,7 +337,8 @@
     "seatBottom": "Unten",
     "seatLeft": "Links",
     "seatTop": "Oben",
-    "seatRight": "Rechts"
+    "seatRight": "Rechts",
+    "seatDistance": "Sitzabstand"
   },
   "shortcuts": {
     "title": "Tastaturkürzel",
@@ -734,6 +735,7 @@
     "startOver": "Von vorn",
     "boardGap": "Abstand der Boardkarten",
     "resumedAt": "Dort weiter, wo du aufgehört hast — Hand {{current}} von {{total}}.",
-    "keepGoing": "Alles klar"
+    "keepGoing": "Alles klar",
+    "seatDistance": "Sitze"
   }
 }

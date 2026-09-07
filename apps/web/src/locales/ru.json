@@ -343,7 +343,8 @@
     "seatBottom": "Снизу",
     "seatLeft": "Слева",
     "seatTop": "Сверху",
-    "seatRight": "Справа"
+    "seatRight": "Справа",
+    "seatDistance": "Расстояние до мест"
   },
   "shortcuts": {
     "title": "Горячие клавиши",
@@ -740,6 +741,7 @@
     "startOver": "Сначала",
     "boardGap": "Промежуток между картами борда",
     "resumedAt": "Продолжаем с того же места — раздача {{current}} из {{total}}.",
-    "keepGoing": "Хорошо"
+    "keepGoing": "Хорошо",
+    "seatDistance": "Места"
   }
 }

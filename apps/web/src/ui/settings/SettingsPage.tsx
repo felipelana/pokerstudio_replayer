@@ -163,6 +163,22 @@ export function SettingsPage() {
         <Row label={t('settings.startAtHero')}>
           <Toggle checked={settings.startAtHero} onChange={(v) => update({ startAtHero: v })} label={t('settings.startAtHero')} />
         </Row>
+        <Row label={t('settings.seatDistance')}>
+          <div className="flex items-center gap-2">
+            <input
+              type="range"
+              min={0}
+              max={1.2}
+              step={0.05}
+              value={settings.seatDistance}
+              onChange={(e) => update({ seatDistance: Number(e.target.value) })}
+              className="w-40"
+              style={{ accentColor: 'var(--accent)' }}
+              aria-label={t('settings.seatDistance')}
+            />
+            <span className="w-10 text-right text-xs tabular-nums">{Math.round(settings.seatDistance * 100)}%</span>
+          </div>
+        </Row>
         <Row label={t('settings.rotateToHero')}>
           <Toggle checked={settings.rotateToHero} onChange={(v) => update({ rotateToHero: v })} label={t('settings.rotateToHero')} />
         </Row>

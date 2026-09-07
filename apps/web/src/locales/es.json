@@ -337,7 +337,8 @@
     "seatBottom": "Abajo",
     "seatLeft": "Izquierda",
     "seatTop": "Arriba",
-    "seatRight": "Derecha"
+    "seatRight": "Derecha",
+    "seatDistance": "Distancia de los asientos"
   },
   "shortcuts": {
     "title": "Atajos de teclado",
@@ -734,6 +735,7 @@
     "startOver": "Empezar de cero",
     "boardGap": "Separación del board",
     "resumedAt": "Retomado donde lo dejaste: mano {{current}} de {{total}}.",
-    "keepGoing": "Vale"
+    "keepGoing": "Vale",
+    "seatDistance": "Asientos"
   }
 }

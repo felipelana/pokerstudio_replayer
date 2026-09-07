@@ -4,6 +4,21 @@ import { z } from 'zod';
  * Typed configuration. Reading `process.env` is confined to this file, so the
  * rest of the code never touches the environment directly.
  */
+/**
+ * A provider credential read from the environment. Quotes and stray whitespace
+ * are a common way to break a sign-in — a client id with a trailing space is
+ * simply not the client id, and the provider answers "invalid_client" long
+ * after the mistake was made. Trim it here, and treat blank as "not set", so a
+ * half-filled .env leaves the provider switched off instead of half-working.
+ */
+const credential = z
+  .string()
+  .optional()
+  .transform((value) => {
+    const trimmed = value?.trim();
+    return trimmed ? trimmed : undefined;
+  });
+
 const schema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   PORT: z.coerce.number().default(3001),
@@ -23,20 +38,20 @@ const schema = z.object({
   EMAIL_PROVIDER_KEY: z.string().optional(),
   TURNSTILE_SECRET: z.string().optional(),
   GEOIP_DB_PATH: z.string().optional(),
-  GOOGLE_CLIENT_ID: z.string().optional(),
-  GOOGLE_CLIENT_SECRET: z.string().optional(),
-  GOOGLE_REDIRECT_URI: z.string().optional(),
+  GOOGLE_CLIENT_ID: credential,
+  GOOGLE_CLIENT_SECRET: credential,
+  GOOGLE_REDIRECT_URI: credential,
 
-  FACEBOOK_APP_ID: z.string().optional(),
-  FACEBOOK_APP_SECRET: z.string().optional(),
-  FACEBOOK_REDIRECT_URI: z.string().optional(),
+  FACEBOOK_APP_ID: credential,
+  FACEBOOK_APP_SECRET: credential,
+  FACEBOOK_REDIRECT_URI: credential,
 
   /** Sign in with Apple: the Services ID, plus the key that signs the secret. */
-  APPLE_CLIENT_ID: z.string().optional(),
-  APPLE_TEAM_ID: z.string().optional(),
-  APPLE_KEY_ID: z.string().optional(),
+  APPLE_CLIENT_ID: credential,
+  APPLE_TEAM_ID: credential,
+  APPLE_KEY_ID: credential,
   APPLE_PRIVATE_KEY: z.string().optional(),
-  APPLE_REDIRECT_URI: z.string().optional(),
+  APPLE_REDIRECT_URI: credential,
 });
 
 export type Config = z.infer<typeof schema> & {
@@ -48,8 +63,15 @@ export type Config = z.infer<typeof schema> & {
   appleEnabled: boolean;
 };
 
+/** Google client ids always carry this suffix; anything else is a typo. */
+const GOOGLE_CLIENT_SUFFIX = '.apps.googleusercontent.com';
+
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
   const parsed = schema.parse(env);
+  if (parsed.GOOGLE_CLIENT_ID && !parsed.GOOGLE_CLIENT_ID.endsWith(GOOGLE_CLIENT_SUFFIX)) {
+    // Said here, at boot, rather than by Google as a bare 401 invalid_client.
+    throw new Error(`GOOGLE_CLIENT_ID does not look like a Google client id (it should end in ${GOOGLE_CLIENT_SUFFIX})`);
+  }
   return {
     ...parsed,
     adminEmails: parsed.ADMIN_EMAILS.split(',').map((e) => e.trim().toLowerCase()).filter(Boolean),

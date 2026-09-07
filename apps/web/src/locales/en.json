@@ -337,7 +337,8 @@
     "seatBottom": "Bottom",
     "seatLeft": "Left",
     "seatTop": "Top",
-    "seatRight": "Right"
+    "seatRight": "Right",
+    "seatDistance": "Seat distance"
   },
   "shortcuts": {
     "title": "Keyboard shortcuts",
@@ -734,6 +735,7 @@
     "startOver": "Start over",
     "boardGap": "Board spacing",
     "resumedAt": "Picked up where you stopped — hand {{current}} of {{total}}.",
-    "keepGoing": "Fine"
+    "keepGoing": "Fine",
+    "seatDistance": "Seats"
   }
 }

@@ -200,16 +200,21 @@ export const SeatPlate = memo(function SeatPlate({
           // so the hero watches every hand from here.
           <button
             type="button"
+            // The plate itself is a button — it picks the focus player, which
+            // changes whose hand is being read — so the chair has to swallow the
+            // click outright, and be big enough never to be missed by a pixel.
+            onMouseDown={(e) => e.stopPropagation()}
             onClick={(e) => {
               e.stopPropagation();
+              e.preventDefault();
               onSitHere();
             }}
             title={labels.sitHere}
             aria-label={labels.sitHere}
-            className="absolute right-1 top-[19px] opacity-50 transition-opacity hover:opacity-100"
+            className="absolute -right-1 top-[15px] flex h-[22px] w-[22px] items-center justify-center rounded opacity-50 transition-opacity hover:opacity-100"
             style={{ color: p.textMuted, lineHeight: 0 }}
           >
-            <IconSeat size={11} />
+            <IconSeat size={13} />
           </button>
         )}
         <Amount

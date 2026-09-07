@@ -2,6 +2,7 @@ import { createHmac, createSign, generateKeyPairSync } from 'node:crypto';
 import { describe, expect, it } from 'vitest';
 import { appSecretProof } from '../src/infrastructure/oauth/facebook.js';
 import { verifyOidcToken } from '../src/infrastructure/oauth/oidc.js';
+import { loadConfig } from '../src/shared/config.js';
 
 /* ------------------------------------------------------------------ */
 /* Apple's identity token — ES256, and a different shape from Google's  */
@@ -85,5 +86,43 @@ describe('Facebook access-token proof', () => {
     expect(proof).toBe(createHmac('sha256', 'the-app-secret').update('the-access-token').digest('hex'));
     // A stolen token is useless without the secret, which is the point.
     expect(appSecretProof('the-access-token', 'another-secret')).not.toBe(proof);
+  });
+});
+
+/* ------------------------------------------------------------------ */
+/* Credentials read from the environment                               */
+/* ------------------------------------------------------------------ */
+
+describe('provider credentials from the environment', () => {
+  const base = {
+    SESSION_SECRET: 'x'.repeat(32),
+    ENCRYPTION_KEY: 'a'.repeat(64),
+    DATABASE_URL: 'postgresql://user:pw@localhost:5432/db',
+  } as NodeJS.ProcessEnv;
+
+  it('trims a credential, and treats a blank one as not set at all', () => {
+    const config = loadConfig({
+      ...base,
+      GOOGLE_CLIENT_ID: '  123-abc.apps.googleusercontent.com \n',
+      GOOGLE_CLIENT_SECRET: ' shh ',
+      GOOGLE_REDIRECT_URI: 'http://localhost:3001/cb',
+      FACEBOOK_APP_ID: '   ',
+    });
+    expect(config.GOOGLE_CLIENT_ID).toBe('123-abc.apps.googleusercontent.com');
+    expect(config.GOOGLE_CLIENT_SECRET).toBe('shh');
+    expect(config.googleEnabled).toBe(true);
+    expect(config.FACEBOOK_APP_ID).toBeUndefined();
+    expect(config.facebookEnabled).toBe(false);
+  });
+
+  it('refuses to start on a client id that is not a Google one', () => {
+    expect(() =>
+      loadConfig({
+        ...base,
+        GOOGLE_CLIENT_ID: 'my-client',
+        GOOGLE_CLIENT_SECRET: 'shh',
+        GOOGLE_REDIRECT_URI: 'http://localhost:3001/cb',
+      }),
+    ).toThrow(/apps\.googleusercontent\.com/);
   });
 });

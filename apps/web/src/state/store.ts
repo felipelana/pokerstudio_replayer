@@ -3,6 +3,7 @@ import type { Hand, Session } from '@/model/types';
 import type { ChipDisplay } from '@/model/format';
 import type { Skin } from '@/skins/types';
 import { DEFAULT_LOOKUP_TEMPLATE } from '@/model/lookup';
+import { SEAT_DISTANCE_DEFAULT } from '@/renderers/layout';
 import type { UserTag } from '@/model/types';
 
 /** Seed list — the leaks the app shipped with, now editable by the user (L1). */
@@ -55,6 +56,8 @@ export interface Settings {
   zoomChips: number;
   /** Overrides the skin's board spacing; 'skin' follows whatever it sets. */
   boardGapOverride: number | 'skin';
+  /** How far the seats sit from the felt, 0..1.2. */
+  seatDistance: number;
   /** Print the denomination on each chip (R22). */
   chipDenominations: boolean;
   /** The user's own leak tags (L1). */
@@ -93,6 +96,7 @@ export const DEFAULT_SETTINGS: Settings = {
   zoomCards: 1,
   zoomChips: 1,
   boardGapOverride: 'skin',
+  seatDistance: SEAT_DISTANCE_DEFAULT,
   chipDenominations: true,
   leakTags: DEFAULT_TAGS,
   rotateToHero: true,

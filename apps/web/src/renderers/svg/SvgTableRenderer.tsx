@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { TableRendererProps } from '../TableRenderer';
-import { avoidZones, chipBreakdown, type FeltBox } from '../layout';
+import { avoidZones, chipBreakdown, SEAT_DISTANCE_DEFAULT, type FeltBox } from '../layout';
 import { readableInk, textHalo } from '@/ui/contrast';
 import { SeatPlate, seatLabels } from '../seats/SeatPlate';
 import { useAssetImage } from '@/ui/hooks/useAssetImage';
@@ -182,6 +182,7 @@ export function SvgTableRenderer({
   lookupUrlFor,
   holeLayout,
   zoomCards = 1,
+  seatDistance = SEAT_DISTANCE_DEFAULT,
   boardGapRatio,
   hideBoard,
   deckArt,
@@ -461,8 +462,10 @@ export function SvgTableRenderer({
       {/* HTML seat plates */}
       {slots.map((slot) => {
         const p = bySeat.get(slot.seat);
-        const px = ((CX + slot.x * (RX + rail + 16)) / VW) * 100;
-        const py = ((CY + slot.y * (RY + rail + 52)) / VH) * 100;
+        // Pulled in towards the cloth: at the default the plate and its cards
+        // lean over the rail, the way they do at a real table.
+        const px = ((CX + slot.x * (RX + (rail + 16) * seatDistance)) / VW) * 100;
+        const py = ((CY + slot.y * (RY + (rail + 52) * seatDistance)) / VH) * 100;
         // Empty seats are simply left blank — no placeholder chrome.
         if (!p) return null;
         return (

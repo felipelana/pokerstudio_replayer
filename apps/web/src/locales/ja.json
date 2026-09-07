@@ -337,7 +337,8 @@
     "seatBottom": "下",
     "seatLeft": "左",
     "seatTop": "上",
-    "seatRight": "右"
+    "seatRight": "右",
+    "seatDistance": "座席の距離"
   },
   "shortcuts": {
     "title": "キーボードショートカット",
@@ -734,6 +735,7 @@
     "startOver": "最初から",
     "boardGap": "ボードの間隔",
     "resumedAt": "前回の続きから — {{total}} 中 {{current}} ハンド目。",
-    "keepGoing": "了解"
+    "keepGoing": "了解",
+    "seatDistance": "座席"
   }
 }
