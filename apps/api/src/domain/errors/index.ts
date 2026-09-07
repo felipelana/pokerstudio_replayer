@@ -21,4 +21,9 @@ export const Errors = {
   twoFactorNotEnrolled: () => appError('two_factor_not_enrolled', 'Two-factor is not set up.', 400),
   twoFactorInvalid: () => appError('two_factor_invalid', 'That code is not valid.', 400),
   twoFactorAlreadyEnrolled: () => appError('two_factor_already_enrolled', 'Two-factor is already enabled.', 409),
+  validation: (message: string) => appError('validation', message, 422),
+  /// A finished assessment is finished: no edit, no reopening, by anyone.
+  assessmentCompleted: () => appError('assessment_completed', 'This assessment is complete and can no longer be changed.', 409),
+  shareExpired: () => appError('share_expired', 'This link has expired.', 403),
+  shareRevoked: () => appError('share_revoked', 'This link was revoked.', 403),
 } as const;

@@ -135,35 +135,54 @@ function From-Box([int]$x0, [int]$y0, [int]$x1, [int]$y1) { New-Rect $x0 $y0 ($x
 if (-not (Test-Path $OutDir)) { New-Item -ItemType Directory -Path $OutDir -Force | Out-Null }
 
 # --- Where the nicknames are, in the native pixels of each capture -----------
-# Table plates and the whole nickname column of the action history.
+# Each box covers the name line of a seat plate only: the stack sits on the line
+# below and stays readable, as do the position badge, the cards and every
+# control. The last box of each table capture covers the nickname column of the
+# action history, stopping short of the verb ("raises to 2.5 BB" stays).
+# The two table captures are the same render; the review one is shifted 138 px
+# left because the review panel narrows the stage.
 $redactions = @{
   'shot-replayer.png' = @(
-    (From-Box 1046  252 1154  282),   # hitman12449
-    (From-Box  826  294  938  324),   # pardalnegro
-    (From-Box 1312  324 1404  354),   # penske428
-    (From-Box  660  413  776  443),   # avalanche091
-    (From-Box 1482  413 1564  443),   # 77-NEXUS-77
-    (From-Box  754  596  859  626),   # 117bono117
-    (From-Box 1076  686 1159  716),   # TheLIPE7
-    (From-Box  330  896  462 1036)    # nickname column of the action history
+    (From-Box 1050  256 1152  274),   # hitman12449
+    (From-Box  828  297  924  315),   # pardalnegro
+    (From-Box 1316  326 1400  344),   # penske428
+    (From-Box  662  416  772  434),   # avalanche091
+    (From-Box 1484  416 1562  434),   # 77-NEXUS-77
+    (From-Box  756  600  856  618),   # 117bono117
+    (From-Box 1080  690 1156  708),   # TheLIPE7
+    # Action history, one box per line, each only as wide as that nickname.
+    (From-Box  337  896  423  913),   # 77-NEXUS-77 (clipped line)
+    (From-Box  337  913  401  933),   # TheLIPE7
+    (From-Box  337  933  416  953),   # 117bono117
+    (From-Box  337  953  430  973),   # avalanche091
+    (From-Box  337  973  423  993),   # pardalnegro
+    (From-Box  337  993  423 1013),   # hitman12449
+    (From-Box  337 1013  408 1034)    # penske428
   )
   'shot-review.png' = @(
-    (From-Box  908  252 1018  282),   # hitman12449
-    (From-Box  686  294  800  324),   # pardalnegro
-    (From-Box 1174  324 1268  354),   # penske428
-    (From-Box  520  413  640  443),   # avalanche091
-    (From-Box 1306  413 1354  443),   # 77-NEXUS-77 (partly behind the panel)
-    (From-Box  614  596  722  626),   # 117bono117
-    (From-Box  938  686 1022  716),   # TheLIPE7
-    (From-Box  318  896  452 1036)    # nickname column of the action history
+    (From-Box  912  256 1014  274),   # hitman12449
+    (From-Box  690  297  786  315),   # pardalnegro
+    (From-Box 1178  326 1262  344),   # penske428
+    (From-Box  524  416  634  434),   # avalanche091
+    (From-Box 1313  416 1346  434),   # 77-NEXUS-77 (mostly behind the popover)
+    (From-Box  618  600  718  618),   # 117bono117
+    (From-Box  942  690 1018  708),   # TheLIPE7
+    # Same action history, 11 px further left.
+    (From-Box  326  896  412  913),   # 77-NEXUS-77 (clipped line)
+    (From-Box  326  913  390  933),   # TheLIPE7
+    (From-Box  326  933  405  953),   # 117bono117
+    (From-Box  326  953  419  973),   # avalanche091
+    (From-Box  326  973  412  993),   # pardalnegro
+    (From-Box  326  993  412 1013),   # hitman12449
+    (From-Box  326 1013  397 1034)    # penske428
   )
   'shot-skins.png' = @(
-    (From-Box 1050  340 1122  372),   # -luury
-    (From-Box 1242  340 1332  372),   # Saludfresh
-    (From-Box  864  378  948  410),   # LastSeat
-    (From-Box  880  610  952  642),   # shogi2
-    (From-Box 1160  697 1212  729),   # Hero
-    (From-Box 1502  509 1590  541)    # Player Four
+    (From-Box 1057  345 1107  363),   # -luury
+    (From-Box 1248  345 1325  363),   # Saludfresh
+    (From-Box  872  383  938  401),   # LastSeat
+    (From-Box  894  616  948  634),   # shogi2
+    (From-Box 1163  703 1203  721),   # Hero
+    (From-Box 1505  514 1583  532)    # Player Four
   )
 }
 
@@ -180,7 +199,10 @@ $outputs = @{
     )
   }
   'shot-review.png' = @{
-    full  = @{ name = 'review-full'; width = 1600; jpeg = $true }
+    # No full-window output on purpose: the top of the review panel still shows
+    # the old five-star widget, and the scale is 0-100 now. Only crops taken
+    # from below it are published.
+    full  = @{ name = 'review-full'; width = 1600; jpeg = $true; skip = $true }
     crops = @(
       # Deliberately starts below the old star widget: the scale is 0-100 now.
       @{ name = 'crop-review-panel';   box = (From-Box 1644  160 1934  512); jpeg = $false }
@@ -207,15 +229,17 @@ foreach ($file in $outputs.Keys | Sort-Object) {
   $original.Dispose()
 
   foreach ($r in $redactions[$file]) {
-    [Redact]::Obscure($bmp, $r, 9, 6, 3)
+    [Redact]::Obscure($bmp, $r, 6, 5, 3)
   }
 
   $spec = $outputs[$file]
-  $full = [Redact]::ResizeToWidth($bmp, $spec.full.width)
-  $fullPath = Join-Path $OutDir ("{0}.jpg" -f $spec.full.name)
-  [Redact]::SaveJpeg($full, $fullPath, 86)
-  "  {0} -> {1}x{2}" -f (Split-Path $fullPath -Leaf), $full.Width, $full.Height
-  $full.Dispose()
+  if (-not $spec.full.skip) {
+    $full = [Redact]::ResizeToWidth($bmp, $spec.full.width)
+    $fullPath = Join-Path $OutDir ("{0}.jpg" -f $spec.full.name)
+    [Redact]::SaveJpeg($full, $fullPath, 86)
+    "  {0} -> {1}x{2}" -f (Split-Path $fullPath -Leaf), $full.Width, $full.Height
+    $full.Dispose()
+  }
 
   foreach ($c in $spec.crops) {
     $crop = [Redact]::Crop($bmp, $c.box)
