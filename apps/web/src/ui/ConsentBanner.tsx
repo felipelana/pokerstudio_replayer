@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { LegalLink } from './legal/LegalDialog';
 
 const KEY = 'ps.consent.v1';
 
@@ -56,9 +56,9 @@ export function ConsentBanner() {
       <div className="min-w-0 flex-1 text-xs leading-relaxed">
         <strong className="block text-sm">{t('consent.title')}</strong>
         <span style={{ color: 'var(--text-muted)' }}>{t('consent.body')} </span>
-        <Link to="/privacidade" className="underline" style={{ color: 'var(--accent)' }}>
+        <LegalLink doc="privacy" className="underline" style={{ color: 'var(--accent)' }}>
           {t('consent.readPolicy')}
-        </Link>
+        </LegalLink>
       </div>
       <div className="flex shrink-0 gap-2">
         <button type="button" className="btn" onClick={() => decide('essential')}>

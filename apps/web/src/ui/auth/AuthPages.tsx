@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { LegalLink } from '@/ui/legal/LegalDialog';
 import { COUNTRIES, countryName, LANGUAGE_CODES } from '@pokerstudio/shared';
 import { accountApi } from '@/infrastructure/http/accountApi';
 import { ApiError } from '@/infrastructure/http/client';
@@ -257,13 +258,13 @@ export function SignUpPage() {
           <input type="checkbox" checked={form.acceptedTerms} onChange={(e) => set('acceptedTerms', e.target.checked)} required />
           <span>
             {t('auth.acceptTerms')}{' '}
-            <Link to="/termos" className="underline" target="_blank">
+            <LegalLink doc="terms" className="underline">
               {t('legal.terms')}
-            </Link>{' '}
+            </LegalLink>{' '}
             &{' '}
-            <Link to="/privacidade" className="underline" target="_blank">
+            <LegalLink doc="privacy" className="underline">
               {t('legal.privacy')}
-            </Link>
+            </LegalLink>
           </span>
         </label>
         <label className="checkbox">

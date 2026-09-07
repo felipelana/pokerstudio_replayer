@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { LegalLink } from '@/ui/legal/LegalDialog';
 import type { Session } from '@/model/types';
 import {
   IconCloudCheck,
@@ -780,12 +781,12 @@ export function LibraryPage() {
 
 
       <footer className="mt-6 flex items-center gap-4 pb-4 text-xs" style={{ color: 'var(--text-muted)' }}>
-        <Link to="/privacidade" className="hover:underline">
+        <LegalLink doc="privacy" className="hover:underline">
           {t('legal.privacy')}
-        </Link>
-        <Link to="/termos" className="hover:underline">
+        </LegalLink>
+        <LegalLink doc="terms" className="hover:underline">
           {t('legal.terms')}
-        </Link>
+        </LegalLink>
       </footer>
     </div>
   );

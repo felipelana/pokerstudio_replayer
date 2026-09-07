@@ -96,6 +96,7 @@ export function HeaderMenu({ inReplayer }: { inReplayer: boolean }) {
             </div>
           )}
 
+          {inReplayer && (
           <button
             type="button"
             className="btn justify-center"
@@ -106,6 +107,7 @@ export function HeaderMenu({ inReplayer }: { inReplayer: boolean }) {
             <span className="opacity-40">/</span>
             <span className={settings.chipDisplay === 'bb' ? 'font-bold' : 'opacity-50'}>{t('header.bb')}</span>
           </button>
+          )}
 
           <div className="flex items-center gap-2">
             <button

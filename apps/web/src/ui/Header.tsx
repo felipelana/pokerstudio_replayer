@@ -136,14 +136,8 @@ export function Header() {
 
       </div>
 
-      {user ? (
-        <UserMenu />
-      ) : (
-        <NavLink to="/login" className="btn">
-          {t('auth.signIn')}
-        </NavLink>
-      )}
-
+      {/* Amounts in chips or big blinds only matter over a table. */}
+      {inReplayer && (
       <button
         type="button"
         className="hidden btn lg:inline-flex"
@@ -155,6 +149,7 @@ export function Header() {
         <span className="opacity-40">/</span>
         <span className={settings.chipDisplay === 'bb' ? 'font-bold' : 'opacity-50'}>{t('header.bb')}</span>
       </button>
+      )}
 
       <button
         type="button"
@@ -183,6 +178,14 @@ export function Header() {
         >
           <IconHelp size={15} />
         </button>
+      )}
+      {/* The account sits at the end of the bar, past the view controls. */}
+      {user ? (
+        <UserMenu />
+      ) : (
+        <NavLink to="/login" className="btn">
+          {t('auth.signIn')}
+        </NavLink>
       )}
     </header>
   );
