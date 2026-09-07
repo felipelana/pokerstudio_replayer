@@ -113,6 +113,18 @@ enum UsageEventType {
   SKIN_SAVED
 }
 
+/// Who wrote an assessment: the player themselves, or one invited coach.
+enum AssessorRole {
+  SELF
+  COACH
+}
+
+enum AssessmentStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+}
+
 enum FeedbackKind {
   SUGGESTION
   IMPROVEMENT
@@ -177,6 +189,9 @@ model User {
   usage         UsageEvent[]
   feedback      Feedback[]
   roomNicks     RoomNick[]
+  assessments   Assessment[]
+  coachInvites  CoachInvite[]  @relation("InviteAuthor")
+  claimedInvites CoachInvite[] @relation("InviteClaimant")
 
   @@index([status, createdAt])
   @@index([countryCode])
@@ -340,7 +355,9 @@ model ReviewSession {
   updatedAt          DateTime     @updatedAt
 
   user  User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  hands HandRecord[]
+  hands       HandRecord[]
+  assessments Assessment[]
+  invites     CoachInvite[]
 
   @@index([userId, lastOpenedAt])
 }
@@ -353,12 +370,16 @@ model HandRecord {
   /// Only stored when the user opted in.
   rawHistory      String?
   heroPosition    String?
+  /// Whether the hero voluntarily put money in this hand. Null on rows saved
+  /// before coverage existed — unknown, not false.
+  heroVpip        Boolean?
   result          HandOutcome?
   potWon          Decimal?     @db.Decimal(18, 2)
   reviewedAt      DateTime?
 
-  session ReviewSession @relation(fields: [reviewSessionId], references: [id], onDelete: Cascade)
-  notes   ReviewNote[]
+  session     ReviewSession    @relation(fields: [reviewSessionId], references: [id], onDelete: Cascade)
+  notes       ReviewNote[]
+  assessments HandAssessment[]
 
   @@unique([reviewSessionId, index])
 }
@@ -497,4 +518,110 @@ model RoomNick {
 
   @@unique([userId, room])
   @@index([nickname])
+}
+
+/// One person's reading of one imported session, kept apart from everyone
+/// else's. The player has exactly one (SELF); each invited coach has their own,
+/// and neither can see nor touch the other.
+model Assessment {
+  id               String           @id @default(uuid())
+  reviewSessionId  String
+  role             AssessorRole
+  /// Set for SELF: the account whose reading this is.
+  userId           String?
+  /// Set for COACH: the invitation this reading belongs to.
+  coachInviteId    String?          @unique
+  status           AssessmentStatus @default(NOT_STARTED)
+  /// Where this assessor stopped, so each one resumes on their own hand.
+  currentHandIndex Int              @default(0)
+  currentFrameIndex Int             @default(0)
+  /// Once set, nothing in this assessment may change again.
+  completedAt      DateTime?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  session ReviewSession    @relation(fields: [reviewSessionId], references: [id], onDelete: Cascade)
+  user    User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  invite  CoachInvite?     @relation(fields: [coachInviteId], references: [id], onDelete: Cascade)
+  hands   HandAssessment[]
+
+  /// One self-assessment per account per session.
+  @@unique([reviewSessionId, role, userId])
+  @@index([reviewSessionId])
+}
+
+/// What one assessor said about one hand. A score of 0 is a real score; no
+/// score at all is null, and the two must never be confused.
+model HandAssessment {
+  id             String   @id @default(uuid())
+  assessmentId   String
+  handRecordId   String
+  /// 0..100, or null for no score.
+  score          Int?
+  /// Read and accepted as played, with no score and no comment needed.
+  markedOk       Boolean  @default(false)
+  comment        String?
+  /// Comments per street: { preflop, flop, turn, river }.
+  streetComments Json?
+  /// Tag ids from the player's own list, as they stood when written.
+  tags           String[]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  assessment Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  hand       HandRecord @relation(fields: [handRecordId], references: [id], onDelete: Cascade)
+
+  @@unique([assessmentId, handRecordId])
+  @@index([assessmentId])
+}
+
+/// A temporary way in for one coach: a link, a password, and a deadline. No
+/// account, no e-mail — the player hands both over however they like.
+model CoachInvite {
+  id              String    @id @default(uuid())
+  reviewSessionId String
+  createdById     String
+  /// The name the player typed. Two coaches may share it; their ids do not.
+  coachName       String    @db.VarChar(80)
+  /// Unpredictable, and the only thing that travels in a URL.
+  token           String    @unique @db.VarChar(64)
+  /// Argon2id. The password itself is never stored, logged or put in a URL.
+  passwordHash    String
+  expiresAt       DateTime
+  revokedAt       DateTime?
+  /// Kept for a future coach account to claim this invitation.
+  claimedByUserId String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  session   ReviewSession @relation(fields: [reviewSessionId], references: [id], onDelete: Cascade)
+  createdBy User          @relation("InviteAuthor", fields: [createdById], references: [id], onDelete: Cascade)
+  claimedBy User?         @relation("InviteClaimant", fields: [claimedByUserId], references: [id])
+  assessment Assessment?
+
+  @@index([reviewSessionId])
+  @@index([expiresAt])
+}
+
+/// The words that go with a score. Administered, and never applied backwards:
+/// a score already given keeps its number whatever the bands become.
+model RubricBand {
+  id          String   @id @default(uuid())
+  minScore    Int
+  maxScore    Int
+  description String   @db.VarChar(200)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([minScore])
+}
+
+/// How long a coach link may last. One row, id 1.
+model ShareSettings {
+  id           Int      @id @default(1)
+  /// Hours a new link lasts unless the player picks otherwise.
+  defaultHours Int      @default(24)
+  /// The furthest a player may push a link out.
+  maxHours     Int      @default(168)
+  updatedAt    DateTime @updatedAt
 }

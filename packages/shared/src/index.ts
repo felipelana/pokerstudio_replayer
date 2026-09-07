@@ -3,6 +3,8 @@
  * nothing here may import React, Prisma, Fastify or any I/O.
  */
 
+export * from './assessment.js';
+
 export const LANGUAGE_CODES = ['pt-BR', 'en', 'es', 'de', 'ru', 'zh-CN', 'ja', 'ko'] as const;
 export type LanguageCode = (typeof LANGUAGE_CODES)[number];
 
