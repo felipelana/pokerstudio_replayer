@@ -254,7 +254,12 @@
       "tilt": "Тильт",
       "preflop-range": "Префлоп-диапазон",
       "missed-value": "Упущенное вэлью"
-    }
+    },
+    "includeInReport": "Включить в отчёт",
+    "captureImage": "Снимок стола",
+    "captureText": "Только текст",
+    "capturing": "Снимок…",
+    "captureSaved": "Снимок сохранён с заметкой"
   },
   "settings": {
     "title": "Настройки",
@@ -282,7 +287,14 @@
     "neon": "Неон по краю стола",
     "lookup": "Поиск игрока",
     "lookupTemplate": "URL поиска",
-    "lookupHint": "Используйте {{nick}} и {{network}}. Откроется в новой вкладке."
+    "lookupHint": "Используйте {{nick}} и {{network}}. Откроется в новой вкладке.",
+    "tags": "Теги ликов",
+    "tagLabel": "Название",
+    "tagColor": "Цвет",
+    "tagUp": "Вверх",
+    "tagDown": "Вниз",
+    "addTag": "Добавить тег",
+    "newTag": "Новый тег"
   },
   "shortcuts": {
     "title": "Горячие клавиши",
@@ -488,5 +500,13 @@
     "zoomTable": "Стол",
     "zoomCards": "Карты",
     "zoomChips": "Фишки"
+  },
+  "report": {
+    "title": "Отчёт по разбору",
+    "preview": "Отчёт",
+    "count": "Выбрано раздач: {{count}}",
+    "empty": "Ни одна раздача не отмечена для отчёта.",
+    "savePdf": "Сохранить PDF",
+    "saveDocx": "Сохранить DOCX"
   }
 }

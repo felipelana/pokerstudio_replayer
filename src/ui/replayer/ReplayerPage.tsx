@@ -197,6 +197,7 @@ export function ReplayerPage() {
         availablePositions={availablePositions}
         fmt={fmt}
         onSelect={goToHand}
+        onOpenReport={() => navigate(`/report/${sessionId}`)}
       />
       <div className="flex min-w-0 flex-1 flex-col">
         <div className="flex min-h-0 flex-1">

@@ -248,7 +248,12 @@
       "tilt": "ティルト",
       "preflop-range": "プリフロップレンジ",
       "missed-value": "バリューの取り逃し"
-    }
+    },
+    "includeInReport": "レポートに含める",
+    "captureImage": "テーブルを撮影",
+    "captureText": "テキストのみ",
+    "capturing": "撮影中…",
+    "captureSaved": "スクリーンショットを保存しました"
   },
   "settings": {
     "title": "設定",
@@ -276,7 +281,14 @@
     "neon": "テーブル縁のネオン",
     "lookup": "プレイヤー検索",
     "lookupTemplate": "検索 URL",
-    "lookupHint": "{{nick}} と {{network}} を使用。新しいタブで開きます。"
+    "lookupHint": "{{nick}} と {{network}} を使用。新しいタブで開きます。",
+    "tags": "リークタグ",
+    "tagLabel": "名前",
+    "tagColor": "色",
+    "tagUp": "上へ",
+    "tagDown": "下へ",
+    "addTag": "タグを追加",
+    "newTag": "新しいタグ"
   },
   "shortcuts": {
     "title": "キーボードショートカット",
@@ -482,5 +494,13 @@
     "zoomTable": "テーブル",
     "zoomCards": "カード",
     "zoomChips": "チップ"
+  },
+  "report": {
+    "title": "レビューレポート",
+    "preview": "レポート",
+    "count": "{{count}} ハンドを選択",
+    "empty": "レポートに含めるハンドがまだありません。",
+    "savePdf": "PDF を保存",
+    "saveDocx": "DOCX を保存"
   }
 }

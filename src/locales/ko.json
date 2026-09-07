@@ -248,7 +248,12 @@
       "tilt": "틸트",
       "preflop-range": "프리플랍 레인지",
       "missed-value": "밸류 놓침"
-    }
+    },
+    "includeInReport": "리포트에 포함",
+    "captureImage": "테이블 캡처",
+    "captureText": "텍스트만",
+    "capturing": "캡처 중…",
+    "captureSaved": "스크린샷이 저장되었습니다"
   },
   "settings": {
     "title": "설정",
@@ -276,7 +281,14 @@
     "neon": "테이블 가장자리 네온",
     "lookup": "플레이어 검색",
     "lookupTemplate": "검색 URL",
-    "lookupHint": "{{nick}} 와 {{network}} 사용. 새 탭에서 열립니다."
+    "lookupHint": "{{nick}} 와 {{network}} 사용. 새 탭에서 열립니다.",
+    "tags": "리크 태그",
+    "tagLabel": "이름",
+    "tagColor": "색상",
+    "tagUp": "위로",
+    "tagDown": "아래로",
+    "addTag": "태그 추가",
+    "newTag": "새 태그"
   },
   "shortcuts": {
     "title": "키보드 단축키",
@@ -482,5 +494,13 @@
     "zoomTable": "테이블",
     "zoomCards": "카드",
     "zoomChips": "칩"
+  },
+  "report": {
+    "title": "리뷰 리포트",
+    "preview": "리포트",
+    "count": "{{count}}개 핸드 선택됨",
+    "empty": "리포트에 포함된 핸드가 아직 없습니다.",
+    "savePdf": "PDF 저장",
+    "saveDocx": "DOCX 저장"
   }
 }

@@ -248,7 +248,12 @@
       "tilt": "Tilt",
       "preflop-range": "Range pré-flop",
       "missed-value": "Valor perdido"
-    }
+    },
+    "includeInReport": "Incluir no relatório",
+    "captureImage": "Capturar a mesa",
+    "captureText": "Somente texto",
+    "capturing": "Capturando…",
+    "captureSaved": "Print salvo com esta anotação"
   },
   "settings": {
     "title": "Configurações",
@@ -276,7 +281,14 @@
     "neon": "Neon na borda da mesa",
     "lookup": "Pesquisa de jogador",
     "lookupTemplate": "URL da pesquisa",
-    "lookupHint": "Use {{nick}} e {{network}}. Abre em nova aba; a rede vem da sala detectada."
+    "lookupHint": "Use {{nick}} e {{network}}. Abre em nova aba; a rede vem da sala detectada.",
+    "tags": "Tags de leaks",
+    "tagLabel": "Nome da tag",
+    "tagColor": "Cor",
+    "tagUp": "Mover para cima",
+    "tagDown": "Mover para baixo",
+    "addTag": "Adicionar tag",
+    "newTag": "Nova tag"
   },
   "shortcuts": {
     "title": "Atalhos de teclado",
@@ -482,5 +494,13 @@
     "zoomTable": "Mesa",
     "zoomCards": "Cartas",
     "zoomChips": "Fichas"
+  },
+  "report": {
+    "title": "Relatório de review",
+    "preview": "Relatório",
+    "count": "{{count}} mãos selecionadas",
+    "empty": "Nenhuma mão marcada para o relatório. Marque \"Incluir no relatório\" em uma review.",
+    "savePdf": "Salvar PDF",
+    "saveDocx": "Salvar DOCX"
   }
 }

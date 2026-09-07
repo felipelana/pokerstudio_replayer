@@ -176,10 +176,26 @@ export type LeakTag =
   | 'preflop-range'
   | 'missed-value';
 
+/** A leak tag the user defined (L1). */
+export interface UserTag {
+  id: string;
+  label: string;
+  color: string;
+}
+
 export interface Review {
   handId: string;
   notes: string;
-  tags: LeakTag[];
+  /** Ids of user tags (L1). */
+  tags: string[];
+  /** Include this hand in the exported report (L2). */
+  includeInReport?: boolean;
+  /** What to carry into the report for this hand (L3). */
+  capture?: 'text' | 'image';
+  /** Asset id of the captured table image (L3). */
+  imageAssetId?: string;
+  /** Action the note refers to, in words (L3). */
+  actionLabel?: string;
   rating?: 1 | 2 | 3 | 4 | 5;
   streetNotes?: Partial<Record<Street, string>>;
   createdAt: Date;

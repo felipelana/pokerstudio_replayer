@@ -248,7 +248,12 @@
       "tilt": "Tilt",
       "preflop-range": "Preflop-Range",
       "missed-value": "Verpasster Value"
-    }
+    },
+    "includeInReport": "In den Bericht aufnehmen",
+    "captureImage": "Tisch aufnehmen",
+    "captureText": "Nur Text",
+    "capturing": "Aufnahme…",
+    "captureSaved": "Screenshot zu dieser Notiz gespeichert"
   },
   "settings": {
     "title": "Einstellungen",
@@ -276,7 +281,14 @@
     "neon": "Neonkante am Tisch",
     "lookup": "Spielersuche",
     "lookupTemplate": "Such-URL",
-    "lookupHint": "{{nick}} und {{network}} verwenden. Öffnet in einem neuen Tab."
+    "lookupHint": "{{nick}} und {{network}} verwenden. Öffnet in einem neuen Tab.",
+    "tags": "Leak-Tags",
+    "tagLabel": "Name",
+    "tagColor": "Farbe",
+    "tagUp": "Nach oben",
+    "tagDown": "Nach unten",
+    "addTag": "Tag hinzufügen",
+    "newTag": "Neues Tag"
   },
   "shortcuts": {
     "title": "Tastaturkürzel",
@@ -482,5 +494,13 @@
     "zoomTable": "Tisch",
     "zoomCards": "Karten",
     "zoomChips": "Chips"
+  },
+  "report": {
+    "title": "Review-Bericht",
+    "preview": "Bericht",
+    "count": "{{count}} Hände ausgewählt",
+    "empty": "Noch keine Hand für den Bericht markiert.",
+    "savePdf": "PDF speichern",
+    "saveDocx": "DOCX speichern"
   }
 }

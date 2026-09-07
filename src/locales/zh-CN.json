@@ -248,7 +248,12 @@
       "tilt": "上头",
       "preflop-range": "翻前范围",
       "missed-value": "错失价值"
-    }
+    },
+    "includeInReport": "加入报告",
+    "captureImage": "截取牌桌",
+    "captureText": "仅文字",
+    "capturing": "截取中…",
+    "captureSaved": "截图已随此笔记保存"
   },
   "settings": {
     "title": "设置",
@@ -276,7 +281,14 @@
     "neon": "牌桌霓虹边缘",
     "lookup": "玩家查询",
     "lookupTemplate": "查询链接",
-    "lookupHint": "使用 {{nick}} 和 {{network}}，将在新标签页打开。"
+    "lookupHint": "使用 {{nick}} 和 {{network}}，将在新标签页打开。",
+    "tags": "漏洞标签",
+    "tagLabel": "名称",
+    "tagColor": "颜色",
+    "tagUp": "上移",
+    "tagDown": "下移",
+    "addTag": "添加标签",
+    "newTag": "新标签"
   },
   "shortcuts": {
     "title": "键盘快捷键",
@@ -482,5 +494,13 @@
     "zoomTable": "牌桌",
     "zoomCards": "手牌",
     "zoomChips": "筹码"
+  },
+  "report": {
+    "title": "复盘报告",
+    "preview": "报告",
+    "count": "已选 {{count}} 手牌",
+    "empty": "尚未勾选任何手牌进入报告。",
+    "savePdf": "保存 PDF",
+    "saveDocx": "保存 DOCX"
   }
 }

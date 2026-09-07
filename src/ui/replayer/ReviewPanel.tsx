@@ -1,21 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { Hand, LeakTag, Review, Street } from '@/model/types';
+import type { Hand, Review, Street } from '@/model/types';
 import { STREETS } from '@/model/types';
 import { getRepository } from '@/db/repository';
-
-const TAGS: LeakTag[] = [
-  'overfold',
-  'underfold',
-  'sizing',
-  'icm',
-  'bluff-catch',
-  'thin-value',
-  'position',
-  'tilt',
-  'preflop-range',
-  'missed-value',
-];
+import { useAppStore } from '@/state/store';
+import { captureTable } from './capture';
 
 function emptyReview(handId: string): Review {
   return { handId, notes: '', tags: [], streetNotes: {}, createdAt: new Date(), updatedAt: new Date() };
@@ -23,6 +12,8 @@ function emptyReview(handId: string): Review {
 
 export function ReviewPanel({ hand, onClose }: { hand: Hand; onClose(): void }) {
   const { t } = useTranslation();
+  const tags = useAppStore((s) => s.settings.leakTags);
+  const [capturing, setCapturing] = useState(false);
   const [review, setReview] = useState<Review>(() => emptyReview(hand.id));
   const [status, setStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
   const dirty = useRef(false);
@@ -61,7 +52,7 @@ export function ReviewPanel({ hand, onClose }: { hand: Hand; onClose(): void }) 
     setReview((r) => ({ ...r, ...patch }));
   };
 
-  const toggleTag = (tag: LeakTag) => {
+  const toggleTag = (tag: string) => {
     update({ tags: review.tags.includes(tag) ? review.tags.filter((x) => x !== tag) : [...review.tags, tag] });
   };
 
@@ -100,18 +91,18 @@ export function ReviewPanel({ hand, onClose }: { hand: Hand; onClose(): void }) 
       <div>
         <label className="label">{t('review.tags')}</label>
         <div className="flex flex-wrap gap-1">
-          {TAGS.map((tag) => {
-            const on = review.tags.includes(tag);
+          {tags.map((tag) => {
+            const on = review.tags.includes(tag.id);
             return (
               <button
-                key={tag}
+                key={tag.id}
                 type="button"
                 className="chip-tag"
                 aria-pressed={on}
-                style={{ background: on ? 'var(--accent)' : undefined, color: on ? '#fff' : undefined, borderColor: on ? 'transparent' : undefined }}
-                onClick={() => toggleTag(tag)}
+                style={{ background: on ? tag.color : undefined, color: on ? '#fff' : undefined, borderColor: on ? 'transparent' : undefined }}
+                onClick={() => toggleTag(tag.id)}
               >
-                {t(`review.tag.${tag}`)}
+                {tag.label}
               </button>
             );
           })}
@@ -129,6 +120,45 @@ export function ReviewPanel({ hand, onClose }: { hand: Hand; onClose(): void }) 
           value={review.notes}
           onChange={(e) => update({ notes: e.target.value })}
         />
+      </div>
+
+      {/* Report options: what goes in, and whether a picture goes with it. */}
+      <div className="flex flex-col gap-2 rounded-lg border p-2" style={{ borderColor: 'var(--border)' }}>
+        <label className="checkbox">
+          <input
+            type="checkbox"
+            checked={!!review.includeInReport}
+            onChange={(e) => update({ includeInReport: e.target.checked })}
+          />
+          {t('review.includeInReport')}
+        </label>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            className="btn flex-1 justify-center"
+            disabled={capturing}
+            onClick={async () => {
+              setCapturing(true);
+              const blob = await captureTable();
+              if (blob) {
+                const id = `shot-${hand.id.slice(0, 8)}-${Date.now().toString(36)}`;
+                await getRepository().saveAsset(id, blob);
+                update({ capture: 'image', imageAssetId: id });
+              }
+              setCapturing(false);
+            }}
+          >
+            {capturing ? t('review.capturing') : t('review.captureImage')}
+          </button>
+          <button type="button" className="btn" onClick={() => update({ capture: 'text', imageAssetId: undefined })}>
+            {t('review.captureText')}
+          </button>
+        </div>
+        {review.capture === 'image' && review.imageAssetId && (
+          <span className="text-[11px]" style={{ color: 'var(--text-muted)' }}>
+            {t('review.captureSaved')}
+          </span>
+        )}
       </div>
 
       <div>

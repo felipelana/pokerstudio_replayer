@@ -248,7 +248,12 @@
       "tilt": "Tilt",
       "preflop-range": "Preflop range",
       "missed-value": "Missed value"
-    }
+    },
+    "includeInReport": "Include in report",
+    "captureImage": "Capture table",
+    "captureText": "Text only",
+    "capturing": "Capturing…",
+    "captureSaved": "Screenshot saved with this note"
   },
   "settings": {
     "title": "Settings",
@@ -276,7 +281,14 @@
     "neon": "Neon table edge",
     "lookup": "Player lookup",
     "lookupTemplate": "Lookup URL",
-    "lookupHint": "Use {{nick}} and {{network}}. Opens in a new tab; the network comes from the detected room."
+    "lookupHint": "Use {{nick}} and {{network}}. Opens in a new tab; the network comes from the detected room.",
+    "tags": "Leak tags",
+    "tagLabel": "Tag name",
+    "tagColor": "Colour",
+    "tagUp": "Move up",
+    "tagDown": "Move down",
+    "addTag": "Add tag",
+    "newTag": "New tag"
   },
   "shortcuts": {
     "title": "Keyboard shortcuts",
@@ -482,5 +494,13 @@
     "zoomTable": "Table",
     "zoomCards": "Cards",
     "zoomChips": "Chips"
+  },
+  "report": {
+    "title": "Review report",
+    "preview": "Report",
+    "count": "{{count}} hands selected",
+    "empty": "No hand is marked for the report yet. Tick \"Include in report\" in a review.",
+    "savePdf": "Save PDF",
+    "saveDocx": "Save DOCX"
   }
 }

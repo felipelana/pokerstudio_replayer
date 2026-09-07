@@ -248,7 +248,12 @@
       "tilt": "Tilt",
       "preflop-range": "Rango preflop",
       "missed-value": "Valor perdido"
-    }
+    },
+    "includeInReport": "Incluir en el informe",
+    "captureImage": "Capturar la mesa",
+    "captureText": "Solo texto",
+    "capturing": "Capturando…",
+    "captureSaved": "Captura guardada con esta nota"
   },
   "settings": {
     "title": "Ajustes",
@@ -276,7 +281,14 @@
     "neon": "Neón en el borde de la mesa",
     "lookup": "Búsqueda de jugador",
     "lookupTemplate": "URL de búsqueda",
-    "lookupHint": "Usa {{nick}} y {{network}}. Abre en una pestaña nueva."
+    "lookupHint": "Usa {{nick}} y {{network}}. Abre en una pestaña nueva.",
+    "tags": "Etiquetas de leaks",
+    "tagLabel": "Nombre",
+    "tagColor": "Color",
+    "tagUp": "Subir",
+    "tagDown": "Bajar",
+    "addTag": "Añadir etiqueta",
+    "newTag": "Nueva etiqueta"
   },
   "shortcuts": {
     "title": "Atajos de teclado",
@@ -482,5 +494,13 @@
     "zoomTable": "Mesa",
     "zoomCards": "Cartas",
     "zoomChips": "Fichas"
+  },
+  "report": {
+    "title": "Informe de revisión",
+    "preview": "Informe",
+    "count": "{{count}} manos seleccionadas",
+    "empty": "Ninguna mano marcada para el informe.",
+    "savePdf": "Guardar PDF",
+    "saveDocx": "Guardar DOCX"
   }
 }

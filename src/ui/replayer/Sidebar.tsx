@@ -27,6 +27,7 @@ interface Props {
   availablePositions: string[];
   fmt: (v: number) => string;
   onSelect(index: number): void;
+  onOpenReport(): void;
 }
 
 const ROW_HEIGHT = 40;
@@ -69,6 +70,7 @@ export function Sidebar({
   availablePositions,
   fmt,
   onSelect,
+  onOpenReport,
 }: Props) {
   const { t } = useTranslation();
   const settings = useAppStore((s) => s.settings);
@@ -330,6 +332,9 @@ export function Sidebar({
           {filtered.length === rows.length ? rows.length : `${filtered.length}/${rows.length}`}
         </span>
         <div className="flex-1" />
+        <button type="button" className="btn !px-2 !py-1 text-[11px]" onClick={onOpenReport} title={t('report.preview')}>
+          {t('report.preview')}
+        </button>
         <button type="button" className="btn-icon !px-1.5 !py-1" onClick={() => void copyRaw()} title={t('sidebar.copyRaw')} aria-label={t('sidebar.copyRaw')}>
           {copied ? <IconCheck size={14} /> : <IconCopy size={14} />}
         </button>

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { DEFAULT_LOOKUP_TEMPLATE, isValidLookupTemplate } from '@/model/lookup';
 import i18n, { LANGUAGES } from '@/i18n';
 import { getRepository } from '@/db/repository';
-import { useAppStore, type RendererChoice } from '@/state/store';
+import { DEFAULT_TAGS, useAppStore, type RendererChoice } from '@/state/store';
 import { FLAGS } from '@/ui/flags';
 
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
@@ -120,6 +120,83 @@ export function SettingsPage() {
             <option value="svg">{t('settings.rendererSvg')}</option>
           </select>
         </Row>
+      </section>
+
+      {/* L1: the user's own leak tags — create, rename, recolour, reorder. */}
+      <section className="panel mb-4 px-4 pb-3 pt-3">
+        <h2 className="mb-2 font-semibold">{t('settings.tags')}</h2>
+        <div className="flex flex-col gap-1.5">
+          {settings.leakTags.map((tag, i) => (
+            <div key={tag.id} className="flex items-center gap-2">
+              <input
+                type="color"
+                value={tag.color}
+                onChange={(e) => update({ leakTags: settings.leakTags.map((x) => (x.id === tag.id ? { ...x, color: e.target.value } : x)) })}
+                className="h-6 w-8 cursor-pointer rounded border-0 bg-transparent p-0"
+                aria-label={`${t('settings.tagColor')} ${tag.label}`}
+              />
+              <input
+                className="input flex-1 !py-1 text-xs"
+                value={tag.label}
+                onChange={(e) => update({ leakTags: settings.leakTags.map((x) => (x.id === tag.id ? { ...x, label: e.target.value } : x)) })}
+                aria-label={t('settings.tagLabel')}
+              />
+              <button
+                type="button"
+                className="btn-icon !px-1.5 !py-1"
+                disabled={i === 0}
+                title={t('settings.tagUp')}
+                aria-label={t('settings.tagUp')}
+                onClick={() => {
+                  const next = [...settings.leakTags];
+                  [next[i - 1], next[i]] = [next[i], next[i - 1]];
+                  update({ leakTags: next });
+                }}
+              >
+                ↑
+              </button>
+              <button
+                type="button"
+                className="btn-icon !px-1.5 !py-1"
+                disabled={i === settings.leakTags.length - 1}
+                title={t('settings.tagDown')}
+                aria-label={t('settings.tagDown')}
+                onClick={() => {
+                  const next = [...settings.leakTags];
+                  [next[i + 1], next[i]] = [next[i], next[i + 1]];
+                  update({ leakTags: next });
+                }}
+              >
+                ↓
+              </button>
+              <button
+                type="button"
+                className="btn-icon !px-1.5 !py-1"
+                title={t('common.delete')}
+                aria-label={`${t('common.delete')} ${tag.label}`}
+                onClick={() => update({ leakTags: settings.leakTags.filter((x) => x.id !== tag.id) })}
+              >
+                ✕
+              </button>
+            </div>
+          ))}
+        </div>
+        <div className="mt-2 flex gap-2">
+          <button
+            type="button"
+            className="btn"
+            onClick={() =>
+              update({
+                leakTags: [...settings.leakTags, { id: `tag-${Date.now().toString(36)}`, label: t('settings.newTag'), color: '#4fa3ff' }],
+              })
+            }
+          >
+            {t('settings.addTag')}
+          </button>
+          <button type="button" className="btn" onClick={() => update({ leakTags: DEFAULT_TAGS })}>
+            {t('common.reset')}
+          </button>
+        </div>
       </section>
 
       <section className="panel mb-4 px-4 pb-1 pt-3">

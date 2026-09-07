@@ -3,6 +3,21 @@ import type { Hand, Session } from '@/model/types';
 import type { ChipDisplay } from '@/model/format';
 import type { Skin } from '@/skins/types';
 import { DEFAULT_LOOKUP_TEMPLATE } from '@/model/lookup';
+import type { UserTag } from '@/model/types';
+
+/** Seed list — the leaks the app shipped with, now editable by the user (L1). */
+export const DEFAULT_TAGS: UserTag[] = [
+  { id: 'overfold', label: 'Overfold', color: '#4fa3ff' },
+  { id: 'underfold', label: 'Underfold', color: '#38b6ff' },
+  { id: 'sizing', label: 'Sizing', color: '#f5c542' },
+  { id: 'icm', label: 'ICM', color: '#ef8f4c' },
+  { id: 'bluff-catch', label: 'Bluff catch', color: '#c2185b' },
+  { id: 'thin-value', label: 'Thin value', color: '#7b3fb5' },
+  { id: 'position', label: 'Position', color: '#12a3a3' },
+  { id: 'tilt', label: 'Tilt', color: '#e53935' },
+  { id: 'preflop-range', label: 'Preflop range', color: '#43a047' },
+  { id: 'missed-value', label: 'Missed value', color: '#aacc00' },
+];
 import { BUILT_IN_SKINS, SKIN_DEFAULT_DARK } from '@/skins/presets';
 import { getRepository } from '@/db/repository';
 
@@ -35,6 +50,8 @@ export interface Settings {
   zoomChips: number;
   /** Print the denomination on each chip (R22). */
   chipDenominations: boolean;
+  /** The user's own leak tags (L1). */
+  leakTags: UserTag[];
   rotateToHero: boolean;
   animations: boolean;
   /** Playback speed multiplier 0.5..3 */
@@ -66,6 +83,7 @@ export const DEFAULT_SETTINGS: Settings = {
   zoomCards: 1,
   zoomChips: 1,
   chipDenominations: true,
+  leakTags: DEFAULT_TAGS,
   rotateToHero: true,
   animations: true,
   speed: 1,
