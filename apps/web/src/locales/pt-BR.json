@@ -338,7 +338,12 @@
     "seatLeft": "Esquerda",
     "seatTop": "Em cima",
     "seatRight": "Direita",
-    "seatDistance": "Distância dos assentos"
+    "seatDistance": "Distância dos assentos",
+    "roomNicks": "Meus nicks por sala",
+    "roomNicksHint": "Opcional. Diga com que nome você joga em cada sala e o replayer reconhece você em qualquer histórico — inclusive quando o arquivo não diz quem é o herói.",
+    "roomNickPlaceholder": "Seu nick nessa sala",
+    "roomNicksSaved": "Nicks salvos na sua conta.",
+    "roomNicksSignedOut": "Entre na sua conta para guardar seus nicks — eles ficam na conta, não neste navegador."
   },
   "shortcuts": {
     "title": "Atalhos de teclado",

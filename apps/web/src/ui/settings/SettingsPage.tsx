@@ -5,8 +5,9 @@ import i18n, { LANGUAGES } from '@/i18n';
 import { getRepository } from '@/db/repository';
 import { DEFAULT_TAGS, useAppStore, type RendererChoice } from '@/state/store';
 import { FLAGS } from '@/ui/flags';
-import { IconDatabase, IconPlay, IconSearch, IconSliders, IconTag } from '@/ui/icons';
+import { IconDatabase, IconPlay, IconSearch, IconSliders, IconTag, IconUser } from '@/ui/icons';
 import { ConfirmDialog } from '@/ui/ConfirmDialog';
+import { RoomNicks } from './RoomNicks';
 
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -37,7 +38,7 @@ export function SettingsPage() {
     setNotice(t('settings.cleared'));
   };
 
-  const [tab, setTab] = useState<'general' | 'replay' | 'tags' | 'lookup' | 'data'>('general');
+  const [tab, setTab] = useState<'general' | 'replay' | 'nicks' | 'tags' | 'lookup' | 'data'>('general');
   const [confirmingClear, setConfirmingClear] = useState(false);
 
   return (
@@ -61,6 +62,7 @@ export function SettingsPage() {
           [
             ['general', 'settings.general', <IconSliders size={14} key="a" />],
             ['replay', 'settings.replay', <IconPlay size={14} key="b" />],
+            ['nicks', 'settings.roomNicks', <IconUser size={14} key="n" />],
             ['tags', 'settings.tags', <IconTag size={14} key="c" />],
             ['lookup', 'settings.lookup', <IconSearch size={14} key="d" />],
             ['data', 'settings.data', <IconDatabase size={14} key="e" />],
@@ -208,6 +210,13 @@ export function SettingsPage() {
       )}
 
       {/* L1: the user's own leak tags — create, rename, recolour, reorder. */}
+      {tab === 'nicks' && (
+      <section className="panel mb-4 px-4 pb-4 pt-3">
+        <h2 className="mb-2 font-semibold">{t('settings.roomNicks')}</h2>
+        <RoomNicks />
+      </section>
+      )}
+
       {tab === 'tags' && (
       <section className="panel mb-4 px-4 pb-3 pt-3">
         <h2 className="mb-2 font-semibold">{t('settings.tags')}</h2>

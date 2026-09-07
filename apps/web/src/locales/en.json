@@ -338,7 +338,12 @@
     "seatLeft": "Left",
     "seatTop": "Top",
     "seatRight": "Right",
-    "seatDistance": "Seat distance"
+    "seatDistance": "Seat distance",
+    "roomNicks": "My screen names",
+    "roomNicksHint": "Optional. Tell us the name you play under in each room and the replayer will recognise you in any history — even when the file does not say who the hero is.",
+    "roomNickPlaceholder": "Your name in this room",
+    "roomNicksSaved": "Saved to your account.",
+    "roomNicksSignedOut": "Sign in to keep your screen names — they live on the account, not in this browser."
   },
   "shortcuts": {
     "title": "Keyboard shortcuts",

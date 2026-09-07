@@ -112,11 +112,16 @@ export function ReplayerPage() {
       ...(handIndex >= hands.length - 1 ? { status: 'completed' as const } : {}),
     });
   }, [sessionId, session?.id, handIndex, frameIndex, hands.length, saveProgress]);
+  const roomNicks = useAppStore((s) => s.roomNicks);
   const heroName = useMemo(() => {
     if (!hand) return undefined;
     if (focusPlayer && hand.players.some((p) => p.name === focusPlayer)) return focusPlayer;
-    return hand.heroName;
-  }, [hand, focusPlayer]);
+    if (hand.heroName) return hand.heroName;
+    // No hero in the file: the account's own screen name for this room is the
+    // next best thing, and often the only thing that identifies the reader.
+    const nick = hand.site ? roomNicks[hand.site] : undefined;
+    return nick && hand.players.some((p) => p.name === nick) ? nick : undefined;
+  }, [hand, focusPlayer, roomNicks]);
 
   const replay = useMemo(() => (hand ? buildReplay(hand, heroName) : undefined), [hand, heroName]);
 

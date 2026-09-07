@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useAuthStore } from '@/state/authStore';
 import { useAppStore, useActiveSkin } from '@/state/store';
 import { applySkinCssVariables } from '@/skins/presets';
 import { Header } from '@/ui/Header';
@@ -29,6 +30,8 @@ export function App() {
   const { t } = useTranslation();
   const loadSettings = useAppStore((s) => s.loadSettings);
   const loadSkins = useAppStore((s) => s.loadSkins);
+  const loadRoomNicks = useAppStore((s) => s.loadRoomNicks);
+  const signedIn = useAuthStore((s) => s.phase === 'authenticated');
   const settingsLoaded = useAppStore((s) => s.settingsLoaded);
   const language = useAppStore((s) => s.settings.language);
   const animations = useAppStore((s) => s.settings.animations);
@@ -39,6 +42,11 @@ export function App() {
     void loadSkins();
     track('APP_OPEN');
   }, [loadSettings, loadSkins]);
+
+  // The account's screen names, once there is an account to ask about.
+  useEffect(() => {
+    if (signedIn) void loadRoomNicks();
+  }, [signedIn, loadRoomNicks]);
 
   // Persisted language wins over browser detection once settings are loaded.
   useEffect(() => {

@@ -338,7 +338,12 @@
     "seatLeft": "左",
     "seatTop": "上",
     "seatRight": "右",
-    "seatDistance": "座席の距離"
+    "seatDistance": "座席の距離",
+    "roomNicks": "ルームごとのニックネーム",
+    "roomNicksHint": "任意です。各ルームでのプレイヤー名を登録すると、ファイルにヒーローが書かれていない場合でも、リプレイヤーがあなたを見つけられます。",
+    "roomNickPlaceholder": "このルームでの名前",
+    "roomNicksSaved": "アカウントに保存しました。",
+    "roomNicksSignedOut": "ニックネームを保存するにはサインインしてください。この情報はブラウザではなくアカウントに保存されます。"
   },
   "shortcuts": {
     "title": "キーボードショートカット",

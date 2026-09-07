@@ -338,7 +338,12 @@
     "seatLeft": "左侧",
     "seatTop": "上方",
     "seatRight": "右侧",
-    "seatDistance": "座位距离"
+    "seatDistance": "座位距离",
+    "roomNicks": "我在各房间的用户名",
+    "roomNicksHint": "可选。告诉我们你在每个房间使用的名字，即使手牌文件没有标明英雄，复盘器也能认出你。",
+    "roomNickPlaceholder": "你在该房间的名字",
+    "roomNicksSaved": "已保存到你的账户。",
+    "roomNicksSignedOut": "登录后即可保存用户名——它保存在账户中，而不是这个浏览器里。"
   },
   "shortcuts": {
     "title": "键盘快捷键",

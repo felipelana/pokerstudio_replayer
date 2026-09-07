@@ -338,7 +338,12 @@
     "seatLeft": "Links",
     "seatTop": "Oben",
     "seatRight": "Rechts",
-    "seatDistance": "Sitzabstand"
+    "seatDistance": "Sitzabstand",
+    "roomNicks": "Meine Spielernamen",
+    "roomNicksHint": "Optional. Sagen Sie uns, unter welchem Namen Sie in jedem Raum spielen, und der Replayer erkennt Sie in jeder Historie — auch wenn die Datei den Helden nicht nennt.",
+    "roomNickPlaceholder": "Ihr Name in diesem Raum",
+    "roomNicksSaved": "Im Konto gespeichert.",
+    "roomNicksSignedOut": "Melden Sie sich an, um Ihre Spielernamen zu speichern — sie gehören zum Konto, nicht zu diesem Browser."
   },
   "shortcuts": {
     "title": "Tastaturkürzel",

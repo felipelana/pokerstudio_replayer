@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import type { Hand, Session } from '@/model/types';
+import type { Hand, Session, Site } from '@/model/types';
+import { accountApi } from '@/infrastructure/http/accountApi';
 import type { ChipDisplay } from '@/model/format';
 import type { Skin } from '@/skins/types';
 import { DEFAULT_LOOKUP_TEMPLATE } from '@/model/lookup';
@@ -150,6 +151,11 @@ interface AppState {
   setHands(session: Session | undefined, hands: Hand[]): void;
   /** Records where the review stopped, in the database and in this store. */
   saveProgress(patch: { lastHandIndex?: number; lastFrameIndex?: number; status?: 'in-progress' | 'completed'; resumeNoticeSeen?: boolean }): Promise<void>;
+  /** The screen name this account plays under in each room, from the server.
+   *  Used to recognise the reader in a history that names no hero. */
+  roomNicks: Partial<Record<Site, string>>;
+  loadRoomNicks(): Promise<void>;
+
   /** How the library was left: filters, order and page survive a trip to the
    *  replayer and back, so the reader returns to the list they were reading. */
   libraryView: {
@@ -295,6 +301,18 @@ export const useAppStore = create<AppState>((set, get) => ({
       // repeating it on every return is noise.
       resumedFrom: saved > 0 && idx === saved && !session.resumeNoticeSeen ? saved : undefined,
     });
+  },
+
+  roomNicks: {},
+
+  async loadRoomNicks() {
+    try {
+      const { items } = await accountApi.roomNicks();
+      set({ roomNicks: Object.fromEntries(items.map((n) => [n.room, n.nickname])) as Partial<Record<Site, string>> });
+    } catch {
+      // Signed out, or the server is not there: the replayer works without it.
+      set({ roomNicks: {} });
+    }
   },
 
   libraryView: { query: '', site: '', from: '', to: '', storage: 'all', sort: 'imported', pageIndex: 0, pageSize: 10 },

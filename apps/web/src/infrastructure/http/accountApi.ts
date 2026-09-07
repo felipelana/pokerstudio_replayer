@@ -30,12 +30,20 @@ export interface SignUpPayload {
   captchaToken?: string;
 }
 
+/** The screen name this account plays under in one room. */
+export interface RoomNick {
+  room: string;
+  nickname: string;
+}
+
 export const accountApi = {
   /** Which sign-in providers this deployment offers. */
   providers: () => api.get<{ google: boolean; facebook: boolean; apple: boolean }>('/auth/providers'),
   identities: () => api.get<{ identities: string[] }>('/auth/identities'),
   unlinkProvider: (provider: 'GOOGLE' | 'FACEBOOK' | 'APPLE') => api.delete<void>(`/auth/identities/${provider}`),
   me: () => api.get<Me>('/auth/me'),
+  roomNicks: () => api.get<{ items: RoomNick[] }>('/auth/me/room-nicks'),
+  saveRoomNicks: (items: RoomNick[]) => api.put<{ items: RoomNick[] }>('/auth/me/room-nicks', { items }),
   updateProfile: (patch: {
     name?: string;
     phone?: string | null;

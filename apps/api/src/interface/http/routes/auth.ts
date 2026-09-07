@@ -14,6 +14,7 @@ import {
   setFirstPassword,
   updateProfile,
 } from '../../../application/account/ManageAccount.js';
+import { listRoomNicks, saveRoomNicks } from '../../../application/account/RoomNicks.js';
 import { clearSessionCookie, clientIp, requireUser, setSessionCookie } from '../context.js';
 import type { AppContainer } from '../../../main-container.js';
 import type { User } from '../../../domain/entities/User.js';
@@ -207,6 +208,26 @@ export async function authRoutes(app: FastifyInstance, container: AppContainer) 
     if (!result.ok) return problem(reply, result.error);
     clearSessionCookie(reply, container.config.COOKIE_DOMAIN, container.config.isProduction);
     return reply.status(204).send();
+  });
+
+  /** The screen names this account plays under, one per room. */
+  app.get('/auth/me/room-nicks', async (request, reply) => {
+    const user = requireUser(request, reply);
+    if (!user) return;
+    return reply.send({ items: await listRoomNicks(container.prisma, user.id) });
+  });
+
+  app.put('/auth/me/room-nicks', async (request, reply) => {
+    const user = requireUser(request, reply);
+    if (!user) return;
+    const body = z
+      .object({
+        items: z
+          .array(z.object({ room: z.string().min(1).max(24), nickname: z.string().max(60) }))
+          .max(40),
+      })
+      .parse(request.body);
+    return reply.send({ items: await saveRoomNicks(container.prisma, user.id, body.items) });
   });
 
   app.get('/auth/sessions', async (request, reply) => {

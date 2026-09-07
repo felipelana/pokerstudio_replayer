@@ -338,7 +338,12 @@
     "seatLeft": "왼쪽",
     "seatTop": "위",
     "seatRight": "오른쪽",
-    "seatDistance": "좌석 거리"
+    "seatDistance": "좌석 거리",
+    "roomNicks": "사이트별 내 닉네임",
+    "roomNicksHint": "선택 사항입니다. 각 사이트에서 사용하는 이름을 알려 주면, 파일에 히어로가 적혀 있지 않아도 리플레이어가 당신을 찾아냅니다.",
+    "roomNickPlaceholder": "이 사이트에서의 이름",
+    "roomNicksSaved": "계정에 저장했습니다.",
+    "roomNicksSignedOut": "닉네임을 저장하려면 로그인하세요. 이 정보는 브라우저가 아니라 계정에 저장됩니다."
   },
   "shortcuts": {
     "title": "키보드 단축키",

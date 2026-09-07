@@ -176,6 +176,7 @@ model User {
   skins         UserSkin[]
   usage         UsageEvent[]
   feedback      Feedback[]
+  roomNicks     RoomNick[]
 
   @@index([status, createdAt])
   @@index([countryCode])
@@ -480,4 +481,20 @@ model Feedback {
 
   @@index([status, createdAt])
   @@index([userId])
+}
+
+/// The screen name this account plays under in one room. Optional, and worth a
+/// lot: it is how a hand history written by any site can be recognised as
+/// belonging to the reader, whatever the file says.
+model RoomNick {
+  id       String   @id @default(uuid())
+  userId   String
+  /// Room key as the parsers spell it: pokerstars, ggpoker, 888, ipoker…
+  room     String   @db.VarChar(24)
+  nickname String   @db.VarChar(60)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, room])
+  @@index([nickname])
 }
