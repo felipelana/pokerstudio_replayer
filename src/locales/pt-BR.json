@@ -153,7 +153,8 @@
     "webglUnavailable": "WebGL indisponível — usando o renderizador 2D.",
     "empty": "Vazio",
     "toCall": "para pagar {{amount}}",
-    "returned": "Devolvido"
+    "returned": "Devolvido",
+    "lookup": "Pesquisar este jogador"
   },
   "footer": {
     "log": "Log de ações",
@@ -272,7 +273,10 @@
     "confirmClear": "Excluir todas as sessões, mãos, reviews e skins personalizadas deste navegador?",
     "cleared": "Dados locais excluídos.",
     "shortcuts": "Atalhos de teclado",
-    "neon": "Neon na borda da mesa"
+    "neon": "Neon na borda da mesa",
+    "lookup": "Pesquisa de jogador",
+    "lookupTemplate": "URL da pesquisa",
+    "lookupHint": "Use {{nick}} e {{network}}. Abre em nova aba; a rede vem da sala detectada."
   },
   "shortcuts": {
     "title": "Atalhos de teclado",
@@ -430,5 +434,14 @@
     "updatedAt": "Última atualização: {{date}}",
     "ptOnly": "Este documento está disponível em português do Brasil.",
     "draftNote": "Minuta sujeita a revisão jurídica. Os campos entre [[ ]] devem ser preenchidos antes da publicação."
+  },
+  "quick": {
+    "title": "Controles rápidos",
+    "deck": "Baralho",
+    "layout": "Cartas do jogador",
+    "layoutSkin": "Como na skin",
+    "hideHero": "Ocultar minhas cartas",
+    "revealVillains": "Revelar cartas conhecidas do vilão",
+    "revealDisabled": "Esta mão não tem cartas do vilão no histórico"
   }
 }

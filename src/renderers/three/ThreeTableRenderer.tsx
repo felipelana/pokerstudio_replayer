@@ -446,7 +446,7 @@ interface SceneLabels {
 }
 
 function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTMLImageElement }) {
-  const { hand, frame, skin, slots, heroName, positions, showKnownHands, fmt, exact, onSeatClick, interactive = true, animations, labels, feltLogo } = props;
+  const { hand, frame, skin, slots, heroName, positions, showKnownHands, hideHeroCards, lookupUrlFor, holeLayout, fmt, exact, onSeatClick, interactive = true, animations, labels, feltLogo } = props;
   const rz = RX * skin.table.aspect;
   const railW = skin.table.railWidth * RX * 2;
   const isCash = hand.currency !== 'chips';
@@ -591,6 +591,9 @@ function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTM
                   fmt={fmt}
                   exact={exact}
                   onClick={interactive && onSeatClick ? () => onSeatClick(p.name) : undefined}
+                  lookupUrl={lookupUrlFor?.(p.name)}
+                  forceFaceDown={hideHeroCards && p.name === heroName}
+                  layout={holeLayout}
                   cardWidth={cardWidthFor(slots.length, p.name === heroName)}
                   scale={slots.length > 8 ? 0.88 : 1}
                 />

@@ -14,6 +14,12 @@ export interface TableRendererProps {
   heroName?: string;
   positions: Record<string, PositionLabel>;
   showKnownHands: boolean;
+  /** Hero's own cards forced face down (R8). */
+  hideHeroCards?: boolean;
+  /** External lookup URL for a nick, when configured (R18). */
+  lookupUrlFor?: (nick: string) => string;
+  /** Overrides the skin's hole-card layout (R8). */
+  holeLayout?: 'spread' | 'overlap';
   animations: boolean;
   /** Global neon switch; the colour and strength come from the skin. */
   neon?: boolean;

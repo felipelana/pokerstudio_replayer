@@ -3,7 +3,9 @@ import { useTranslation } from 'react-i18next';
 import type { Frame, HandReplay } from '@/engine/replay';
 import { potOddsFor } from '@/engine/replay';
 import { siteName } from '@/model/sites';
+import { buildLookupUrl } from '@/model/lookup';
 import { IconCompress, IconExpand } from '@/ui/icons';
+import { QuickControls } from './QuickControls';
 import { computePositions } from '@/model/positions';
 import { anchorSeatFor, computeSeatSlots } from '@/renderers/layout';
 import type { TableRendererProps } from '@/renderers/TableRenderer';
@@ -50,6 +52,11 @@ export function TableArea({ replay, frame, heroName, onSeatClick }: Props) {
     heroName,
     positions,
     showKnownHands: settings.showKnownHands,
+    hideHeroCards: settings.hideHeroCards,
+    holeLayout: settings.holeLayoutOverride === 'skin' ? undefined : settings.holeLayoutOverride,
+    lookupUrlFor: settings.playerLookupUrl
+      ? (nick: string) => buildLookupUrl(settings.playerLookupUrl, nick, hand.site)
+      : undefined,
     animations: settings.animations,
     neon: settings.neon,
     potOdds,
@@ -81,6 +88,7 @@ export function TableArea({ replay, frame, heroName, onSeatClick }: Props) {
         <span>{gameLine}</span>
         <span>{df.dateTime(hand.timestamp)}</span>
         <div className="flex-1" />
+        <QuickControls hand={hand} />
         <button
           type="button"
           className="btn-icon"

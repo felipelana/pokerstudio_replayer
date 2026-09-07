@@ -153,7 +153,8 @@
     "webglUnavailable": "WebGL 不可用——使用 2D 渲染器。",
     "empty": "空",
     "toCall": "跟注 {{amount}}",
-    "returned": "已退回"
+    "returned": "已退回",
+    "lookup": "查询该玩家"
   },
   "footer": {
     "log": "动作记录",
@@ -272,7 +273,10 @@
     "confirmClear": "删除此浏览器中的所有会话、牌局、复盘和自定义皮肤？",
     "cleared": "本地数据已删除。",
     "shortcuts": "键盘快捷键",
-    "neon": "牌桌霓虹边缘"
+    "neon": "牌桌霓虹边缘",
+    "lookup": "玩家查询",
+    "lookupTemplate": "查询链接",
+    "lookupHint": "使用 {{nick}} 和 {{network}}，将在新标签页打开。"
   },
   "shortcuts": {
     "title": "键盘快捷键",
@@ -430,5 +434,14 @@
     "updatedAt": "最后更新：{{date}}",
     "ptOnly": "本文件目前仅提供巴西葡萄牙语版本。",
     "draftNote": "草稿，待法律审核。"
+  },
+  "quick": {
+    "title": "快捷设置",
+    "deck": "牌背",
+    "layout": "手牌",
+    "layoutSkin": "跟随皮肤",
+    "hideHero": "隐藏我的手牌",
+    "revealVillains": "显示已知的对手手牌",
+    "revealDisabled": "本手牌历史中没有对手手牌"
   }
 }

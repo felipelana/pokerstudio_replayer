@@ -153,7 +153,8 @@
     "webglUnavailable": "WebGL unavailable — using the 2D renderer.",
     "empty": "Empty",
     "toCall": "to call {{amount}}",
-    "returned": "Returned"
+    "returned": "Returned",
+    "lookup": "Look this player up"
   },
   "footer": {
     "log": "Action log",
@@ -272,7 +273,10 @@
     "confirmClear": "Delete every session, hand, review and custom skin stored in this browser?",
     "cleared": "Local data deleted.",
     "shortcuts": "Keyboard shortcuts",
-    "neon": "Neon table edge"
+    "neon": "Neon table edge",
+    "lookup": "Player lookup",
+    "lookupTemplate": "Lookup URL",
+    "lookupHint": "Use {{nick}} and {{network}}. Opens in a new tab; the network comes from the detected room."
   },
   "shortcuts": {
     "title": "Keyboard shortcuts",
@@ -430,5 +434,14 @@
     "updatedAt": "Last updated: {{date}}",
     "ptOnly": "This document is currently available in Brazilian Portuguese only. A reviewed translation will follow.",
     "draftNote": "Draft pending legal review. Placeholders in [[ ]] must be filled in before launch."
+  },
+  "quick": {
+    "title": "Quick view controls",
+    "deck": "Deck",
+    "layout": "Hole cards",
+    "layoutSkin": "From the skin",
+    "hideHero": "Hide my cards",
+    "revealVillains": "Reveal known villain cards",
+    "revealDisabled": "This hand has no villain cards in the history"
   }
 }

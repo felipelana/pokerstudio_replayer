@@ -153,7 +153,8 @@
     "webglUnavailable": "WebGL nicht verfügbar – 2D-Renderer wird verwendet.",
     "empty": "Leer",
     "toCall": "zu zahlen {{amount}}",
-    "returned": "Zurückgegeben"
+    "returned": "Zurückgegeben",
+    "lookup": "Spieler nachschlagen"
   },
   "footer": {
     "log": "Aktionsprotokoll",
@@ -272,7 +273,10 @@
     "confirmClear": "Alle Sitzungen, Hände, Reviews und eigenen Skins in diesem Browser löschen?",
     "cleared": "Lokale Daten gelöscht.",
     "shortcuts": "Tastaturkürzel",
-    "neon": "Neonkante am Tisch"
+    "neon": "Neonkante am Tisch",
+    "lookup": "Spielersuche",
+    "lookupTemplate": "Such-URL",
+    "lookupHint": "{{nick}} und {{network}} verwenden. Öffnet in einem neuen Tab."
   },
   "shortcuts": {
     "title": "Tastaturkürzel",
@@ -430,5 +434,14 @@
     "updatedAt": "Zuletzt aktualisiert: {{date}}",
     "ptOnly": "Dieses Dokument liegt derzeit nur auf brasilianischem Portugiesisch vor.",
     "draftNote": "Entwurf, juristische Prüfung ausstehend."
+  },
+  "quick": {
+    "title": "Schnelleinstellungen",
+    "deck": "Kartendeck",
+    "layout": "Handkarten",
+    "layoutSkin": "Wie im Skin",
+    "hideHero": "Eigene Karten verbergen",
+    "revealVillains": "Bekannte Gegnerkarten zeigen",
+    "revealDisabled": "In dieser Hand stehen keine Gegnerkarten im Verlauf"
   }
 }

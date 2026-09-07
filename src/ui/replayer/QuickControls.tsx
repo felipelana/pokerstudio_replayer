@@ -1,0 +1,92 @@
+import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import type { Hand } from '@/model/types';
+import { useAppStore } from '@/state/store';
+import { IconEye } from '@/ui/icons';
+
+/**
+ * Deck and visibility controls right inside the replayer (R8), so studying a
+ * hand never means a trip to the settings page.
+ */
+export function QuickControls({ hand }: { hand: Hand }) {
+  const { t } = useTranslation();
+  const settings = useAppStore((s) => s.settings);
+  const update = useAppStore((s) => s.updateSettings);
+  const skins = useAppStore((s) => s.skins);
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e: MouseEvent) => {
+      if (!ref.current?.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener('mousedown', onDown);
+    return () => document.removeEventListener('mousedown', onDown);
+  }, [open]);
+
+  // Revealing villains only makes sense when the history actually shows cards.
+  const knownVillainCards = Object.keys(hand.holeCards).some((name) => name !== hand.heroName);
+
+  return (
+    <div className="relative" ref={ref}>
+      <button
+        type="button"
+        className="btn-icon"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        title={t('quick.title')}
+        aria-label={t('quick.title')}
+      >
+        <IconEye size={15} />
+      </button>
+      {open && (
+        <div
+          className="absolute right-0 top-9 z-30 flex w-[240px] flex-col gap-2 rounded-lg border p-3 text-xs shadow-2xl"
+          style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}
+          role="dialog"
+          aria-label={t('quick.title')}
+        >
+          <label className="flex flex-col gap-1">
+            <span className="label-caps">{t('quick.deck')}</span>
+            <select className="input !py-1 text-xs" value={settings.skinId} onChange={(e) => update({ skinId: e.target.value })}>
+              {skins.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.name}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label className="flex flex-col gap-1">
+            <span className="label-caps">{t('quick.layout')}</span>
+            <select
+              className="input !py-1 text-xs"
+              value={settings.holeLayoutOverride}
+              onChange={(e) => update({ holeLayoutOverride: e.target.value as 'skin' | 'spread' | 'overlap' })}
+            >
+              <option value="skin">{t('quick.layoutSkin')}</option>
+              <option value="spread">{t('admin.deck.layoutSpread')}</option>
+              <option value="overlap">{t('admin.deck.layoutOverlap')}</option>
+            </select>
+          </label>
+
+          <label className="checkbox">
+            <input type="checkbox" checked={settings.hideHeroCards} onChange={(e) => update({ hideHeroCards: e.target.checked })} />
+            {t('quick.hideHero')}
+          </label>
+
+          <label className="checkbox" title={knownVillainCards ? undefined : t('quick.revealDisabled')}>
+            <input
+              type="checkbox"
+              disabled={!knownVillainCards}
+              checked={settings.showKnownHands && knownVillainCards}
+              onChange={(e) => update({ showKnownHands: e.target.checked })}
+            />
+            <span style={{ opacity: knownVillainCards ? 1 : 0.5 }}>{t('quick.revealVillains')}</span>
+          </label>
+        </div>
+      )}
+    </div>
+  );
+}

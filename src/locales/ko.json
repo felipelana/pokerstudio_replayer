@@ -153,7 +153,8 @@
     "webglUnavailable": "WebGL을 사용할 수 없어 2D 렌더러를 사용합니다.",
     "empty": "빈 자리",
     "toCall": "콜 {{amount}}",
-    "returned": "반환됨"
+    "returned": "반환됨",
+    "lookup": "이 플레이어 검색"
   },
   "footer": {
     "log": "액션 로그",
@@ -272,7 +273,10 @@
     "confirmClear": "이 브라우저의 모든 세션, 핸드, 리뷰, 사용자 지정 스킨을 삭제할까요?",
     "cleared": "로컬 데이터가 삭제되었습니다.",
     "shortcuts": "키보드 단축키",
-    "neon": "테이블 가장자리 네온"
+    "neon": "테이블 가장자리 네온",
+    "lookup": "플레이어 검색",
+    "lookupTemplate": "검색 URL",
+    "lookupHint": "{{nick}} 와 {{network}} 사용. 새 탭에서 열립니다."
   },
   "shortcuts": {
     "title": "키보드 단축키",
@@ -430,5 +434,14 @@
     "updatedAt": "최종 업데이트: {{date}}",
     "ptOnly": "이 문서는 현재 브라질 포르투갈어로만 제공됩니다.",
     "draftNote": "법률 검토 전 초안입니다."
+  },
+  "quick": {
+    "title": "빠른 설정",
+    "deck": "덱",
+    "layout": "홀 카드",
+    "layoutSkin": "스킨 설정 사용",
+    "hideHero": "내 카드 숨기기",
+    "revealVillains": "알려진 상대 카드 공개",
+    "revealDisabled": "이 핸드 기록에는 상대 카드가 없습니다"
   }
 }

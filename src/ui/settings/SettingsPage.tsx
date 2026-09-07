@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { DEFAULT_LOOKUP_TEMPLATE, isValidLookupTemplate } from '@/model/lookup';
 import i18n, { LANGUAGES } from '@/i18n';
 import { getRepository } from '@/db/repository';
 import { useAppStore, type RendererChoice } from '@/state/store';
@@ -119,6 +120,29 @@ export function SettingsPage() {
             <option value="svg">{t('settings.rendererSvg')}</option>
           </select>
         </Row>
+      </section>
+
+      <section className="panel mb-4 px-4 pb-1 pt-3">
+        <h2 className="mb-1 font-semibold">{t('settings.lookup')}</h2>
+        <Row label={t('settings.lookupTemplate')}>
+          <div className="flex items-center gap-2">
+            <input
+              className="input !w-[420px] text-xs"
+              value={settings.playerLookupUrl}
+              onChange={(e) => update({ playerLookupUrl: e.target.value })}
+              onBlur={(e) => {
+                if (!isValidLookupTemplate(e.target.value)) update({ playerLookupUrl: DEFAULT_LOOKUP_TEMPLATE });
+              }}
+              aria-label={t('settings.lookupTemplate')}
+            />
+            <button type="button" className="btn" onClick={() => update({ playerLookupUrl: DEFAULT_LOOKUP_TEMPLATE })}>
+              {t('common.reset')}
+            </button>
+          </div>
+        </Row>
+        <p className="pb-2 text-xs" style={{ color: 'var(--text-muted)' }}>
+          {t('settings.lookupHint')}
+        </p>
       </section>
 
       <section className="panel mb-4 px-4 pb-3 pt-3">

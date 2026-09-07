@@ -208,7 +208,7 @@ Seat 2: Villain (big blind) showed [Kh Kd] and lost with a pair of Kings
 `;
 
   it('turns both hands face up at the all-in, not at the river', () => {
-    const hand = new PokerStarsParser().parse(allInHand);
+    const hand = { ...new PokerStarsParser().parse(allInHand), id: "t1" } as Hand;
     const replay = buildReplay(hand, 'Hero');
     const callIndex = replay.frames.findIndex((f) => f.action?.type === 'call' && f.action.player === 'Villain');
     expect(callIndex).toBeGreaterThan(0);
@@ -228,7 +228,7 @@ Seat 2: Villain (big blind) showed [Kh Kd] and lost with a pair of Kings
     const hidden = allInHand
       .replace('Villain: shows [Kh Kd] (a pair of Kings)\n', '')
       .replace('Seat 2: Villain (big blind) showed [Kh Kd] and lost with a pair of Kings', 'Seat 2: Villain (big blind) mucked');
-    const replay = buildReplay(new PokerStarsParser().parse(hidden), 'Hero');
+    const replay = buildReplay({ ...new PokerStarsParser().parse(hidden), id: "t2" } as Hand, 'Hero');
     const callIndex = replay.frames.findIndex((f) => f.action?.type === 'call' && f.action.player === 'Villain');
     expect(replay.frames[callIndex].players.find((p) => p.name === 'Villain')!.revealed).toBe(false);
   });

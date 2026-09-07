@@ -6,6 +6,7 @@ import type { Skin } from '@/skins/types';
 import { Card } from '@/ui/cards/Card';
 import { CARD_H, CARD_W } from '@/ui/cards/primitives';
 import { Amount } from '../Amount';
+import { IconSearch } from '@/ui/icons';
 
 /**
  * Translated strings the plate needs. Passed in as props (instead of calling
@@ -17,6 +18,7 @@ export interface SeatLabels {
   allIn: string;
   sittingOut: string;
   unknownCards: string;
+  lookup: string;
 }
 
 export function seatLabels(t: TFunction): SeatLabels {
@@ -25,6 +27,7 @@ export function seatLabels(t: TFunction): SeatLabels {
     allIn: t('table.allIn'),
     sittingOut: t('table.sittingOut'),
     unknownCards: t('table.unknownCards'),
+    lookup: t('table.lookup'),
   };
 }
 
@@ -40,6 +43,12 @@ interface Props {
   fmt: (v: number) => string;
   exact: (v: number) => string;
   onClick?: () => void;
+  /** External player lookup (R18); omitted = no magnifier. */
+  lookupUrl?: string;
+  /** Force this player's cards face down (R8). */
+  forceFaceDown?: boolean;
+  /** Overrides the skin's hole-card layout (R8). */
+  layout?: 'spread' | 'overlap';
   cardWidth?: number;
   /** Extra shrink for crowded tables. */
   scale?: number;
@@ -77,6 +86,9 @@ export const SeatPlate = memo(function SeatPlate({
   fmt,
   exact,
   onClick,
+  lookupUrl,
+  forceFaceDown,
+  layout,
   cardWidth = 50,
   scale = 1,
 }: Props) {
@@ -85,10 +97,10 @@ export const SeatPlate = memo(function SeatPlate({
   const border = isActing ? p.activeBorder : isHero ? p.heroBorder : isWinner ? p.winnerGlow : p.border;
   const hasCards = player.inHand && player.dealt && !player.folded;
   const known = !!player.cards?.length;
-  const showFaces = known && (showCards || isHero || player.revealed);
+  const showFaces = known && !forceFaceDown && (showCards || isHero || player.revealed);
   const faces: (string | 'back')[] = showFaces ? player.cards! : ['back', 'back'];
 
-  const overlap = skin.deck.holeLayout === 'overlap';
+  const overlap = (layout ?? skin.deck.holeLayout) === 'overlap';
   const cardHeight = (cardWidth * CARD_H) / CARD_W;
   // Fanned cards need a little vertical slack for the rotation.
   const rowHeight = overlap ? cardHeight + cardWidth * 0.1 : cardHeight;
@@ -125,9 +137,11 @@ export const SeatPlate = memo(function SeatPlate({
           ))}
         </div>
       )}
-      <button
-        type="button"
+      <div
+        role={onClick ? 'button' : undefined}
+        tabIndex={onClick ? 0 : undefined}
         onClick={onClick}
+        onKeyDown={onClick ? (e) => (e.key === 'Enter' || e.key === ' ') && onClick() : undefined}
         className="relative min-w-[124px] max-w-[168px] rounded-lg border-2 px-2.5 py-1 text-center shadow-lg"
         style={{
           // Above the cards, so a neighbouring pair can never cover the name.
@@ -154,6 +168,20 @@ export const SeatPlate = memo(function SeatPlate({
             </span>
           )}
           <span className="truncate">{player.name}</span>
+          {lookupUrl && (
+            <a
+              href={lookupUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              title={labels.lookup}
+              aria-label={`${labels.lookup}: ${player.name}`}
+              className="opacity-60 transition-opacity hover:opacity-100"
+              style={{ color: p.textMuted }}
+            >
+              <IconSearch size={11} />
+            </a>
+          )}
         </div>
         <Amount
           value={fmt(player.stack)}
@@ -169,7 +197,7 @@ export const SeatPlate = memo(function SeatPlate({
             {player.folded ? labels.fold : player.allIn ? labels.allIn : labels.sittingOut}
           </div>
         )}
-      </button>
+      </div>
     </div>
   );
 });

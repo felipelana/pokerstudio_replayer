@@ -153,7 +153,8 @@
     "webglUnavailable": "WebGL が利用できないため 2D レンダラーを使用します。",
     "empty": "空席",
     "toCall": "コール {{amount}}",
-    "returned": "返却"
+    "returned": "返却",
+    "lookup": "このプレイヤーを検索"
   },
   "footer": {
     "log": "アクションログ",
@@ -272,7 +273,10 @@
     "confirmClear": "このブラウザ内のすべてのセッション、ハンド、レビュー、カスタムスキンを削除しますか？",
     "cleared": "ローカルデータを削除しました。",
     "shortcuts": "キーボードショートカット",
-    "neon": "テーブル縁のネオン"
+    "neon": "テーブル縁のネオン",
+    "lookup": "プレイヤー検索",
+    "lookupTemplate": "検索 URL",
+    "lookupHint": "{{nick}} と {{network}} を使用。新しいタブで開きます。"
   },
   "shortcuts": {
     "title": "キーボードショートカット",
@@ -430,5 +434,14 @@
     "updatedAt": "最終更新: {{date}}",
     "ptOnly": "本書類は現在ブラジルポルトガル語のみです。",
     "draftNote": "法務レビュー前のドラフトです。"
+  },
+  "quick": {
+    "title": "クイック設定",
+    "deck": "デッキ",
+    "layout": "ホールカード",
+    "layoutSkin": "スキンに従う",
+    "hideHero": "自分のカードを隠す",
+    "revealVillains": "判明している相手のカードを表示",
+    "revealDisabled": "このハンドの履歴に相手のカードはありません"
   }
 }

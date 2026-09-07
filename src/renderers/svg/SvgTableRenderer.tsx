@@ -82,6 +82,9 @@ export function SvgTableRenderer({
   heroName,
   positions,
   showKnownHands,
+  hideHeroCards,
+  lookupUrlFor,
+  holeLayout,
   fmt,
   exact,
   onSeatClick,
@@ -340,6 +343,9 @@ export function SvgTableRenderer({
               fmt={fmt}
               exact={exact}
               onClick={interactive && onSeatClick ? () => onSeatClick(p.name) : undefined}
+              lookupUrl={lookupUrlFor?.(p.name)}
+              forceFaceDown={hideHeroCards && p.name === heroName}
+              layout={holeLayout}
               cardWidth={cardWidthFor(slots.length, p.name === heroName)}
               scale={slots.length > 8 ? 0.88 : 1}
             />

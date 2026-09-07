@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import type { Hand, Session } from '@/model/types';
 import type { ChipDisplay } from '@/model/format';
 import type { Skin } from '@/skins/types';
+import { DEFAULT_LOOKUP_TEMPLATE } from '@/model/lookup';
 import { BUILT_IN_SKINS, SKIN_DEFAULT_DARK } from '@/skins/presets';
 import { getRepository } from '@/db/repository';
 
@@ -23,6 +24,11 @@ export interface Settings {
   sidebarWidth: number;
   /** Result bar: full, compact or hidden (R17). */
   timelineMode: 'normal' | 'compact' | 'hidden';
+  /** External player lookup, {nick} and {network} placeholders (R18). */
+  playerLookupUrl: string;
+  /** Quick replayer toggles (R8). */
+  hideHeroCards: boolean;
+  holeLayoutOverride: 'skin' | 'spread' | 'overlap';
   rotateToHero: boolean;
   animations: boolean;
   /** Playback speed multiplier 0.5..3 */
@@ -47,6 +53,9 @@ export const DEFAULT_SETTINGS: Settings = {
   sidebarCollapsed: false,
   sidebarWidth: 268,
   timelineMode: 'normal',
+  playerLookupUrl: DEFAULT_LOOKUP_TEMPLATE,
+  hideHeroCards: false,
+  holeLayoutOverride: 'skin',
   rotateToHero: true,
   animations: true,
   speed: 1,
