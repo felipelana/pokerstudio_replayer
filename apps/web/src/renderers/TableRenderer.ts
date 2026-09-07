@@ -19,10 +19,10 @@ export interface TableRendererProps {
   /** External lookup URL for a nick, when configured (R18). */
   lookupUrlFor?: (nick: string) => string;
   /** Overrides the skin's hole-card layout (R8). */
-  holeLayout?: 'spread' | 'overlap';
+  holeLayout?: 'spread' | 'overlap' | 'fan';
   /** Independent scales for cards and for chips/bets (R21). */
   zoomCards?: number;
-  /** Gap between board cards, as a share of a card width. */
+  /** Overrides the skin's board spacing for this session. */
   boardGapRatio?: number;
   /** Artwork per rank, when the skin sets any. */
   deckArt?: Record<string, HTMLImageElement>;

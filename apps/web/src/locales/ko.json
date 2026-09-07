@@ -81,11 +81,10 @@
     "importing": "가져오는 중…",
     "sessions": "가져온 세션",
     "empty": "아직 세션이 없습니다. 핸드 히스토리를 가져와 시작하세요.",
-    "colName": "파일",
+    "colName": "이름",
     "colSite": "사이트",
     "colHands": "핸드 수",
     "colDate": "날짜",
-    "colPlayers": "플레이어",
     "open": "열기",
     "openInReplayer": "리플레이어에서 열기",
     "renamePrompt": "이 세션의 새 이름",
@@ -96,9 +95,6 @@
     "nothingParsed": "\"{{name}}\"에서 핸드를 찾을 수 없습니다.",
     "unsupported": "형식을 인식했지만({{site}}) 아직 지원되지 않습니다.",
     "unknownFormat": "인식할 수 없는 핸드 히스토리 형식입니다.",
-    "exportLibrary": "라이브러리 내보내기 (JSON)",
-    "importLibrary": "라이브러리 가져오기 (JSON)",
-    "libraryImported": "세션 {{sessions}}개, 핸드 {{hands}}개, 리뷰 {{reviews}}개를 가져왔습니다.",
     "sampleTitle": "아직 핸드 히스토리가 없나요?",
     "loadSample": "데모 샘플 불러오기",
     "siteOverride": "사이트 강제 지정",
@@ -114,7 +110,16 @@
     "colFile": "파일",
     "colImported": "가져온 날짜",
     "colOpened": "마지막 접속",
-    "colActions": "작업"
+    "colActions": "작업",
+    "download": "핸드 히스토리 내려받기",
+    "selectAll": "이 페이지의 세션 모두 선택",
+    "deleteSelected": "삭제 ({{count}})",
+    "downloadSelected": "내려받기 ({{count}})",
+    "deleteAll": "모두 삭제",
+    "pageOf": "{{pages}}쪽 중 {{page}}",
+    "confirmDeleteTitle": "가져온 세션 삭제",
+    "confirmDeleteSelected": "세션 {{count}}개를 핸드와 메모까지 이 기기에서 지웁니다. 되돌릴 수 없습니다.",
+    "confirmDeleteAll": "세션 {{count}}개 전부를 핸드와 메모까지 이 기기에서 지웁니다. 되돌릴 수 없습니다."
   },
   "sidebar": {
     "loadHands": "핸드 히스토리 불러오기",
@@ -147,7 +152,8 @@
     "clearFilters": "모두 지우기",
     "collapse": "목록 접기",
     "expand": "목록 펼치기",
-    "resize": "너비 조절"
+    "resize": "너비 조절",
+    "playedOnly": "참여한 핸드만 (VPIP)"
   },
   "table": {
     "pot": "팟",
@@ -378,7 +384,8 @@
       "artChange": "변경",
       "artReset": "스킨 기본값",
       "artTooLarge": "파일이 2 MB를 넘습니다. 더 가벼운 파일을 쓰세요.",
-      "artHint": "SVG가 가장 좋습니다(흐려지지 않음). 투명 PNG나 WebP도 됩니다 — 약 500 × 700 px, 카드와 같은 비율."
+      "artHint": "SVG가 가장 좋습니다(흐려지지 않음). 투명 PNG나 WebP도 됩니다 — 약 500 × 700 px, 카드와 같은 비율.",
+      "boardGap": "보드 카드 간격"
     },
     "felt": {
       "title": "펠트",
@@ -503,7 +510,7 @@
   },
   "quick": {
     "title": "빠른 설정",
-    "deck": "덱",
+    "deck": "스킨",
     "layout": "홀 카드",
     "layoutSkin": "스킨 설정 사용",
     "hideHero": "내 카드 숨기기",
@@ -513,7 +520,8 @@
     "zoom": "확대",
     "zoomTable": "테이블",
     "zoomCards": "카드",
-    "zoomChips": "칩"
+    "zoomChips": "칩",
+    "deckColours": "덱 색상"
   },
   "report": {
     "title": "리뷰 리포트",
@@ -675,7 +683,7 @@
   },
   "cloud": {
     "title": "내 계정의 복기",
-    "hint": "다른 기기에서 이어서 볼 수 있도록 서버에 둔 사본입니다. 라이브러리 자체는 이 기기에 남습니다.",
+    "hint": "가져온 세션은 이 브라우저에만 있습니다. 계정으로 보내면 데이터베이스에 저장되어 다른 기기에서 이어서 보거나, 브라우저를 비워도 되찾을 수 있습니다.",
     "quota": "오늘 {{used}} / {{perDay}}",
     "withHistory": "핸드 히스토리 포함",
     "chooseSession": "세션 선택…",

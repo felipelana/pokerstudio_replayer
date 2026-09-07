@@ -81,11 +81,10 @@
     "importing": "导入中…",
     "sessions": "已导入的会话",
     "empty": "还没有会话。导入牌局记录即可开始。",
-    "colName": "文件",
+    "colName": "名称",
     "colSite": "平台",
     "colHands": "手数",
     "colDate": "日期",
-    "colPlayers": "玩家",
     "open": "打开",
     "openInReplayer": "在回放器中打开",
     "renamePrompt": "此会话的新名称",
@@ -96,9 +95,6 @@
     "nothingParsed": "在“{{name}}”中未找到牌局。",
     "unsupported": "已识别格式（{{site}}），但暂不支持。",
     "unknownFormat": "无法识别的牌局记录格式。",
-    "exportLibrary": "导出牌局库 (JSON)",
-    "importLibrary": "导入牌局库 (JSON)",
-    "libraryImported": "已导入 {{sessions}} 个会话、{{hands}} 手牌、{{reviews}} 条复盘。",
     "sampleTitle": "还没有牌局记录？",
     "loadSample": "加载演示样本",
     "siteOverride": "强制指定平台",
@@ -114,7 +110,16 @@
     "colFile": "文件",
     "colImported": "导入时间",
     "colOpened": "最近打开",
-    "colActions": "操作"
+    "colActions": "操作",
+    "download": "下载手牌记录",
+    "selectAll": "选择本页所有会话",
+    "deleteSelected": "删除（{{count}}）",
+    "downloadSelected": "下载（{{count}}）",
+    "deleteAll": "全部删除",
+    "pageOf": "第 {{page}} / {{pages}} 页",
+    "confirmDeleteTitle": "删除导入的会话",
+    "confirmDeleteSelected": "将从本设备移除 {{count}} 个会话，连同其牌局与笔记。此操作无法撤销。",
+    "confirmDeleteAll": "将从本设备移除全部 {{count}} 个会话，连同其牌局与笔记。此操作无法撤销。"
   },
   "sidebar": {
     "loadHands": "加载牌局记录",
@@ -147,7 +152,8 @@
     "clearFilters": "全部清除",
     "collapse": "收起列表",
     "expand": "展开列表",
-    "resize": "调整宽度"
+    "resize": "调整宽度",
+    "playedOnly": "仅入池的手牌（VPIP）"
   },
   "table": {
     "pot": "底池",
@@ -378,7 +384,8 @@
       "artChange": "更换",
       "artReset": "皮肤默认",
       "artTooLarge": "文件超过 2 MB，请换更小的。",
-      "artHint": "首选 SVG（永不模糊）。带透明的 PNG 或 WebP 也可以 — 约 500 × 700 像素，与牌面同比例。"
+      "artHint": "首选 SVG（永不模糊）。带透明的 PNG 或 WebP 也可以 — 约 500 × 700 像素，与牌面同比例。",
+      "boardGap": "公共牌间距"
     },
     "felt": {
       "title": "桌布",
@@ -503,7 +510,7 @@
   },
   "quick": {
     "title": "快捷设置",
-    "deck": "牌背",
+    "deck": "皮肤",
     "layout": "手牌",
     "layoutSkin": "跟随皮肤",
     "hideHero": "隐藏我的手牌",
@@ -513,7 +520,8 @@
     "zoom": "缩放",
     "zoomTable": "牌桌",
     "zoomCards": "手牌",
-    "zoomChips": "筹码"
+    "zoomChips": "筹码",
+    "deckColours": "牌面配色"
   },
   "report": {
     "title": "复盘报告",
@@ -675,7 +683,7 @@
   },
   "cloud": {
     "title": "账户中的复盘",
-    "hint": "服务器上的副本，方便你换台机器继续。牌局库本身仍保存在本设备。",
+    "hint": "导入的会话只保存在本浏览器。上传到账户后会写入数据库，可在其他机器继续，浏览器被清空也能找回。",
     "quota": "今日 {{used}} / {{perDay}}",
     "withHistory": "包含手牌记录",
     "chooseSession": "选择一个会话…",

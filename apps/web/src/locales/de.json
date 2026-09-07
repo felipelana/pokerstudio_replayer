@@ -81,11 +81,10 @@
     "importing": "Wird importiert…",
     "sessions": "Importierte Sitzungen",
     "empty": "Noch keine Sitzungen. Importiere eine Hand-History, um zu starten.",
-    "colName": "Datei",
+    "colName": "Name",
     "colSite": "Anbieter",
     "colHands": "Hände",
     "colDate": "Datum",
-    "colPlayers": "Spieler",
     "open": "Öffnen",
     "openInReplayer": "Im Replayer öffnen",
     "renamePrompt": "Neuer Name für diese Sitzung",
@@ -96,9 +95,6 @@
     "nothingParsed": "Keine Hände in \"{{name}}\" gefunden.",
     "unsupported": "Format erkannt ({{site}}), aber noch nicht unterstützt.",
     "unknownFormat": "Unbekanntes Hand-History-Format.",
-    "exportLibrary": "Bibliothek exportieren (JSON)",
-    "importLibrary": "Bibliothek importieren (JSON)",
-    "libraryImported": "{{sessions}} Sitzungen, {{hands}} Hände, {{reviews}} Reviews importiert.",
     "sampleTitle": "Noch keine Hand-Histories?",
     "loadSample": "Demo-Beispiel laden",
     "siteOverride": "Anbieter erzwingen",
@@ -114,7 +110,16 @@
     "colFile": "Datei",
     "colImported": "Importiert",
     "colOpened": "Zuletzt geöffnet",
-    "colActions": "Aktionen"
+    "colActions": "Aktionen",
+    "download": "Handverlauf herunterladen",
+    "selectAll": "Alle Sitzungen auf dieser Seite auswählen",
+    "deleteSelected": "Löschen ({{count}})",
+    "downloadSelected": "Herunterladen ({{count}})",
+    "deleteAll": "Alle löschen",
+    "pageOf": "Seite {{page}} von {{pages}}",
+    "confirmDeleteTitle": "Importierte Sitzungen löschen",
+    "confirmDeleteSelected": "{{count}} Sitzung(en) werden mit Händen und Notizen von diesem Gerät entfernt. Das lässt sich nicht rückgängig machen.",
+    "confirmDeleteAll": "Alle {{count}} Sitzungen werden mit Händen und Notizen von diesem Gerät entfernt. Das lässt sich nicht rückgängig machen."
   },
   "sidebar": {
     "loadHands": "Hand-Histories laden",
@@ -147,7 +152,8 @@
     "clearFilters": "Alles zurücksetzen",
     "collapse": "Liste einklappen",
     "expand": "Liste ausklappen",
-    "resize": "Liste anpassen"
+    "resize": "Liste anpassen",
+    "playedOnly": "Nur gespielte Hände (VPIP)"
   },
   "table": {
     "pot": "Pot",
@@ -378,7 +384,8 @@
       "artChange": "Ersetzen",
       "artReset": "Skin-Standard",
       "artTooLarge": "Die Datei ist über 2 MB — nimm eine leichtere.",
-      "artHint": "SVG ist am besten (bleibt immer scharf). PNG oder WebP mit Transparenz gehen auch — etwa 500 × 700 px, das Seitenverhältnis der Karte."
+      "artHint": "SVG ist am besten (bleibt immer scharf). PNG oder WebP mit Transparenz gehen auch — etwa 500 × 700 px, das Seitenverhältnis der Karte.",
+      "boardGap": "Abstand der Boardkarten"
     },
     "felt": {
       "title": "Filz",
@@ -503,7 +510,7 @@
   },
   "quick": {
     "title": "Schnelleinstellungen",
-    "deck": "Kartendeck",
+    "deck": "Skin",
     "layout": "Handkarten",
     "layoutSkin": "Wie im Skin",
     "hideHero": "Eigene Karten verbergen",
@@ -513,7 +520,8 @@
     "zoom": "Zoom",
     "zoomTable": "Tisch",
     "zoomCards": "Karten",
-    "zoomChips": "Chips"
+    "zoomChips": "Chips",
+    "deckColours": "Kartenfarben"
   },
   "report": {
     "title": "Review-Bericht",
@@ -675,7 +683,7 @@
   },
   "cloud": {
     "title": "Analysen in meinem Konto",
-    "hint": "Eine Kopie auf dem Server, um an einem anderen Rechner weiterzumachen. Die Bibliothek bleibt auf diesem Gerät.",
+    "hint": "Importierte Sitzungen liegen nur in diesem Browser. Im Konto gespeichert landen sie in der Datenbank — so geht es an einem anderen Rechner weiter, und nichts ist weg, wenn der Browser geleert wird.",
     "quota": "{{used}} von {{perDay}} heute",
     "withHistory": "Handverläufe mitschicken",
     "chooseSession": "Sitzung wählen…",

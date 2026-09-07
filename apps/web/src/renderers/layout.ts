@@ -51,17 +51,19 @@ export function computeSeatSlots(opts: LayoutOptions): SeatSlot[] {
     const angle = Math.PI / 2 + (2 * Math.PI * i) / n;
     const cos = Math.cos(angle);
     const sin = Math.sin(angle);
-    // Plates sit beyond the rail; bets sit in front of each player (outer third
-    // of the felt) so the centre stays free for the board, the pot and its label.
+    // Plates sit beyond the rail. Bets sit well inside the felt: pushed further
+    // out they end up behind the plate that names the player, and the chips
+    // stop being readable. avoidZones can still slide one outwards, but only
+    // when it would otherwise land on the board or the pot.
     slots.push({
       seat,
       x: cos * 1.0,
       y: sin * 1.0,
-      betX: cos * 0.78,
-      betY: sin * 0.76,
+      betX: cos * 0.62,
+      betY: sin * 0.58,
       // Between the board and the bet ring, so the button never lands on a card.
-      buttonX: Math.cos(angle - 0.34) * 0.68,
-      buttonY: Math.sin(angle - 0.34) * 0.66,
+      buttonX: Math.cos(angle - 0.34) * 0.8,
+      buttonY: Math.sin(angle - 0.34) * 0.78,
       angle,
     });
   }

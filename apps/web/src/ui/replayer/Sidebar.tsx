@@ -80,6 +80,8 @@ export function Sidebar({
   const setFocus = useAppStore((s) => s.setFocus);
   const filterPositions = useAppStore((s) => s.filterPositions);
   const filterResult = useAppStore((s) => s.filterResult);
+  const filterPlayedOnly = useAppStore((s) => s.filterPlayedOnly);
+  const setFilterPlayedOnly = useAppStore((s) => s.setFilterPlayedOnly);
   const sortMode = useAppStore((s) => s.sortMode);
   const togglePosition = useAppStore((s) => s.togglePosition);
   const setFilterResult = useAppStore((s) => s.setFilterResult);
@@ -156,6 +158,7 @@ export function Sidebar({
 
   const activeChips = [
     ...filterPositions.map((p) => ({ key: `pos:${p}`, label: p, clear: () => togglePosition(p) })),
+    ...(filterPlayedOnly ? [{ key: 'played', label: t('sidebar.playedOnly'), clear: () => setFilterPlayedOnly(false) }] : []),
     ...(filterResult !== 'all'
       ? [{ key: 'result', label: t(`sidebar.result${filterResult === 'won' ? 'Won' : 'Lost'}`), clear: () => setFilterResult('all') }]
       : []),
@@ -283,6 +286,10 @@ export function Sidebar({
             </button>
           ))}
         </div>
+        <label className="checkbox mt-1 text-[11px]">
+          <input type="checkbox" checked={filterPlayedOnly} onChange={(e) => setFilterPlayedOnly(e.target.checked)} />
+          {t('sidebar.playedOnly')}
+        </label>
       </Section>
 
       <Section title={t('sidebar.display')}>

@@ -134,7 +134,7 @@ export function SvgTableRenderer({
   lookupUrlFor,
   holeLayout,
   zoomCards = 1,
-  boardGapRatio = 0.18,
+  boardGapRatio,
   deckArt,
   zoomChips = 1,
   chipDenominations = true,
@@ -161,8 +161,9 @@ export function SvgTableRenderer({
   const bySeat = new Map(frame.players.map((p) => [p.seat, p]));
   const winners = new Set(frame.kind === 'end' ? frame.players.filter((p) => p.collected > 0).map((p) => p.name) : []);
   const boardW = 64;
-  // Chosen in the quick controls, as a share of a card width.
-  const boardGap = boardW * boardGapRatio;
+  // The skin sets the spacing; the quick controls can override it for the
+  // session in front of you.
+  const boardGap = boardW * (boardGapRatio ?? skin.deck.boardGap ?? 0.36);
   // Centre on the cards actually dealt (flop = 3, turn = 4, river = 5).
   const boardCount = Math.max(1, frame.board.length);
   const boardX0 = CX - (boardCount * boardW + (boardCount - 1) * boardGap) / 2;
@@ -181,7 +182,10 @@ export function SvgTableRenderer({
     hh: (boardW * CARD_H) / CARD_W / 2 / RY + 0.02,
   };
   const potZone: FeltBox = { x: 0, y: 84 / RY, hw: 95 / RX, hh: 40 / RY };
-  const zones = [boardZone, potZone];
+  // The pot's own chip stack is a band too, so a bet label never lands on the
+  // chips. It sits left of the pot text, at (CX - 190, CY + 82).
+  const potChipsZone: FeltBox = { x: -190 / RX, y: 82 / RY, hw: 70 / RX, hh: 42 / RY };
+  const zones = frame.pot > 0 ? [boardZone, potZone, potChipsZone] : [boardZone, potZone];
 
   return (
     <div className="relative h-full w-full select-none" style={{ aspectRatio: `${VW} / ${VH}` }}>

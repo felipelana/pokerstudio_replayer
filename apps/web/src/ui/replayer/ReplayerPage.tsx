@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useCloudProgress } from './useCloudProgress';
 import { ResumePrompt } from './ResumePrompt';
-import { getRepository } from '@/db/repository';
 import { useTranslation } from 'react-i18next';
 import { buildReplay, quickResult } from '@/engine/replay';
 import { computePositions } from '@/model/positions';
@@ -37,6 +36,7 @@ export function ReplayerPage() {
   const setImportModalOpen = useAppStore((s) => s.setImportModalOpen);
   const reviewOpen = useAppStore((s) => s.reviewOpen);
   const setReviewOpen = useAppStore((s) => s.setReviewOpen);
+  const saveProgress = useAppStore((s) => s.saveProgress);
   const skin = useActiveSkin();
   const fullscreen = useAppStore((s) => s.fullscreen);
   const setFullscreen = useAppStore((s) => s.setFullscreen);
@@ -86,14 +86,13 @@ export function ReplayerPage() {
   // should land on that same moment, not at the top of the hand.
   useEffect(() => {
     if (!sessionId || hands.length === 0 || session?.id !== sessionId) return;
-    void getRepository().saveSessionProgress(sessionId, {
+    void saveProgress({
       lastHandIndex: handIndex,
       lastFrameIndex: frameIndex,
-      lastOpenedAt: new Date(),
       // Reaching the last hand marks the review finished; the library can undo it.
       ...(handIndex >= hands.length - 1 ? { status: 'completed' as const } : {}),
     });
-  }, [sessionId, session?.id, handIndex, frameIndex, hands.length]);
+  }, [sessionId, session?.id, handIndex, frameIndex, hands.length, saveProgress]);
   const heroName = useMemo(() => {
     if (!hand) return undefined;
     if (focusPlayer && hand.players.some((p) => p.name === focusPlayer)) return focusPlayer;
@@ -116,16 +115,19 @@ export function ReplayerPage() {
   const filterPositions = useAppStore((s) => s.filterPositions);
   const filterResult = useAppStore((s) => s.filterResult);
   const sortMode = useAppStore((s) => s.sortMode);
+  const filterPlayedOnly = useAppStore((s) => s.filterPlayedOnly);
 
   /** Indices into `rows`, after filtering and ordering (R14). */
   const visible = useMemo(() => {
     let out = rows.map((_, i) => i);
     if (filterPositions.length) out = out.filter((i) => rows[i].position && filterPositions.includes(rows[i].position!));
     if (filterResult !== 'all') out = out.filter((i) => rows[i].meta.result === (filterResult === 'won' ? 'won' : 'lost'));
+    // Folded blinds and walks are noise when you are reviewing decisions.
+    if (filterPlayedOnly) out = out.filter((i) => rows[i].meta.vpip);
     if (sortMode === 'potDesc') out = [...out].sort((a, b) => (rows[b].meta.net ?? -Infinity) - (rows[a].meta.net ?? -Infinity));
     else if (sortMode === 'reverse') out = [...out].reverse();
     return out;
-  }, [rows, filterPositions, filterResult, sortMode]);
+  }, [rows, filterPositions, filterResult, filterPlayedOnly, sortMode]);
 
   const availablePositions = useMemo(
     () => Array.from(new Set(rows.map((r) => r.position).filter(Boolean) as string[])),

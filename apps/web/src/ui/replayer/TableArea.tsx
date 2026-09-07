@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { DECK_PRESETS } from '@/skins/presets';
 import { useDeckArt } from '@/ui/hooks/useDeckArt';
 import { useTranslation } from 'react-i18next';
 import type { Frame, HandReplay } from '@/engine/replay';
@@ -26,7 +27,7 @@ export function TableArea({ replay, frame, heroName, onSeatClick }: Props) {
   const settings = useAppStore((s) => s.settings);
   const fullscreen = useAppStore((s) => s.fullscreen);
   const setFullscreen = useAppStore((s) => s.setFullscreen);
-  const skin = useActiveSkin();
+  const baseSkin = useActiveSkin();
   const { fmt, exact } = useAmountFormatter(replay.hand);
   const df = useDateFormatter();
   const hand = replay.hand;
@@ -45,6 +46,13 @@ export function TableArea({ replay, frame, heroName, onSeatClick }: Props) {
 
   const potOdds = useMemo(() => potOddsFor(frame, heroName), [frame, heroName]);
 
+  // A deck chosen in the quick controls rides over the skin for this session
+  // only — the skin itself is untouched.
+  const skin = useMemo(() => {
+    const preset = DECK_PRESETS.find((d) => d.id === settings.deckPreset);
+    return preset ? { ...baseSkin, deck: { ...preset.deck, boardGap: baseSkin.deck.boardGap } } : baseSkin;
+  }, [baseSkin, settings.deckPreset]);
+
   // Artwork the skin sets per card, loaded once for the whole table.
   const deckArt = useDeckArt(skin.deck);
 
@@ -59,7 +67,7 @@ export function TableArea({ replay, frame, heroName, onSeatClick }: Props) {
     hideHeroCards: settings.hideHeroCards,
     holeLayout: settings.holeLayoutOverride === 'skin' ? undefined : settings.holeLayoutOverride,
     zoomCards: settings.zoomCards,
-    boardGapRatio: settings.boardGap,
+    boardGapRatio: settings.boardGap === 'skin' ? undefined : settings.boardGap,
     deckArt,
     zoomChips: settings.zoomChips,
     chipDenominations: settings.chipDenominations,

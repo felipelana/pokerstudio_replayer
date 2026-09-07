@@ -19,6 +19,11 @@ export interface DeckSkin {
    * loses the centre pip; the rest of the deck stays drawn.
    */
   rankImages?: Partial<Record<string, string>>;
+  /**
+   * Gap between the flop, turn and river cards, as a share of a card width.
+   * The quick controls can override it for one session. Undefined = 0.36.
+   */
+  boardGap?: number;
   cardBg: string;
   /** Rank/pip colour used on filled cards (usually white). */
   inkOnFilled: string;

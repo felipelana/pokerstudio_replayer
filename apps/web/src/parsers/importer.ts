@@ -65,7 +65,8 @@ export async function importText(name: string, text: string, override?: Site, so
   const session: Session = {
     id: newId(),
     name,
-    sourceFileName: sourceFileName ?? name,
+    // Only a real file has a file name; a pasted import has none.
+    sourceFileName,
     site: result.site,
     handIds: hands.map((h) => h.id),
     handCount: hands.length,

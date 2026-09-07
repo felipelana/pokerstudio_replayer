@@ -81,11 +81,10 @@
     "importing": "インポート中…",
     "sessions": "インポート済みセッション",
     "empty": "セッションはまだありません。ハンド履歴をインポートして始めましょう。",
-    "colName": "ファイル",
+    "colName": "名前",
     "colSite": "サイト",
     "colHands": "ハンド数",
     "colDate": "日付",
-    "colPlayers": "プレイヤー",
     "open": "開く",
     "openInReplayer": "リプレイヤーで開く",
     "renamePrompt": "このセッションの新しい名前",
@@ -96,9 +95,6 @@
     "nothingParsed": "「{{name}}」にハンドが見つかりません。",
     "unsupported": "形式を認識しました（{{site}}）が、まだ未対応です。",
     "unknownFormat": "認識できないハンド履歴の形式です。",
-    "exportLibrary": "ライブラリをエクスポート (JSON)",
-    "importLibrary": "ライブラリをインポート (JSON)",
-    "libraryImported": "{{sessions}} セッション、{{hands}} ハンド、{{reviews}} レビューをインポートしました。",
     "sampleTitle": "ハンド履歴がまだありませんか？",
     "loadSample": "デモサンプルを読み込む",
     "siteOverride": "サイトを指定",
@@ -114,7 +110,16 @@
     "colFile": "ファイル",
     "colImported": "取り込み日時",
     "colOpened": "最終アクセス",
-    "colActions": "操作"
+    "colActions": "操作",
+    "download": "ハンドヒストリーをダウンロード",
+    "selectAll": "このページのセッションをすべて選択",
+    "deleteSelected": "削除（{{count}}）",
+    "downloadSelected": "ダウンロード（{{count}}）",
+    "deleteAll": "すべて削除",
+    "pageOf": "{{pages}} ページ中 {{page}}",
+    "confirmDeleteTitle": "取り込んだセッションを削除",
+    "confirmDeleteSelected": "{{count}} 件のセッションを、ハンドとメモごとこの端末から削除します。元に戻せません。",
+    "confirmDeleteAll": "{{count}} 件すべてのセッションを、ハンドとメモごとこの端末から削除します。元に戻せません。"
   },
   "sidebar": {
     "loadHands": "ハンド履歴を読み込む",
@@ -147,7 +152,8 @@
     "clearFilters": "すべて解除",
     "collapse": "リストを折りたたむ",
     "expand": "リストを展開",
-    "resize": "幅を変更"
+    "resize": "幅を変更",
+    "playedOnly": "参加したハンドのみ（VPIP）"
   },
   "table": {
     "pot": "ポット",
@@ -378,7 +384,8 @@
       "artChange": "変更",
       "artReset": "スキン既定",
       "artTooLarge": "2 MB を超えています。軽いファイルにしてください。",
-      "artHint": "SVG が最適です（ぼやけません）。透過 PNG や WebP でも可 — 500 × 700 px 程度、カードと同じ比率で。"
+      "artHint": "SVG が最適です（ぼやけません）。透過 PNG や WebP でも可 — 500 × 700 px 程度、カードと同じ比率で。",
+      "boardGap": "ボードの間隔"
     },
     "felt": {
       "title": "フェルト",
@@ -503,7 +510,7 @@
   },
   "quick": {
     "title": "クイック設定",
-    "deck": "デッキ",
+    "deck": "スキン",
     "layout": "ホールカード",
     "layoutSkin": "スキンに従う",
     "hideHero": "自分のカードを隠す",
@@ -513,7 +520,8 @@
     "zoom": "ズーム",
     "zoomTable": "テーブル",
     "zoomCards": "カード",
-    "zoomChips": "チップ"
+    "zoomChips": "チップ",
+    "deckColours": "デッキの配色"
   },
   "report": {
     "title": "レビューレポート",
@@ -675,7 +683,7 @@
   },
   "cloud": {
     "title": "アカウントのレビュー",
-    "hint": "別のマシンから続けられるように、サーバーに置いたコピーです。ライブラリ自体はこの端末に残ります。",
+    "hint": "取り込んだセッションはこのブラウザだけに残ります。アカウントに送るとデータベースに保存され、別の端末で続けたり、ブラウザを消しても取り戻せます。",
     "quota": "本日 {{used}} / {{perDay}}",
     "withHistory": "ハンドヒストリーも含める",
     "chooseSession": "セッションを選択…",

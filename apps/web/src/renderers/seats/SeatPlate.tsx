@@ -73,7 +73,7 @@ function actingGlow(p: Skin['plates']): string {
 
 /** Fanned pair: the second card sits on top, both tilted outwards. */
 const OVERLAP_RATIO = 0.44;
-const TILT_DEG = 9;
+const TILT_DEG = 10;
 
 /** HTML plate rendered over the canvas (crisp text, i18n-friendly). */
 export const SeatPlate = memo(function SeatPlate({

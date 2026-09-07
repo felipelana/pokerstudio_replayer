@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Hand } from '@/model/types';
-import { useAppStore } from '@/state/store';
+import { useActiveSkin, useAppStore } from '@/state/store';
+import { DECK_PRESETS } from '@/skins/presets';
 import { IconEye } from '@/ui/icons';
 
 /**
@@ -13,6 +14,7 @@ export function QuickControls({ hand }: { hand: Hand }) {
   const settings = useAppStore((s) => s.settings);
   const update = useAppStore((s) => s.updateSettings);
   const skins = useAppStore((s) => s.skins);
+  const skin = useActiveSkin();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -59,15 +61,32 @@ export function QuickControls({ hand }: { hand: Hand }) {
           </label>
 
           <label className="flex flex-col gap-1">
+            <span className="label-caps">{t('quick.deckColours')}</span>
+            <select
+              className="input !py-1 text-xs"
+              value={settings.deckPreset}
+              onChange={(e) => update({ deckPreset: e.target.value })}
+            >
+              <option value="skin">{t('quick.layoutSkin')}</option>
+              {DECK_PRESETS.map((preset) => (
+                <option key={preset.id} value={preset.id}>
+                  {preset.name}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label className="flex flex-col gap-1">
             <span className="label-caps">{t('quick.layout')}</span>
             <select
               className="input !py-1 text-xs"
               value={settings.holeLayoutOverride}
-              onChange={(e) => update({ holeLayoutOverride: e.target.value as 'skin' | 'spread' | 'overlap' })}
+              onChange={(e) => update({ holeLayoutOverride: e.target.value as 'skin' | 'spread' | 'overlap' | 'fan' })}
             >
               <option value="skin">{t('quick.layoutSkin')}</option>
               <option value="spread">{t('admin.deck.layoutSpread')}</option>
               <option value="overlap">{t('admin.deck.layoutOverlap')}</option>
+              <option value="fan">{t('admin.deck.layoutFan')}</option>
             </select>
           </label>
 
@@ -87,7 +106,7 @@ export function QuickControls({ hand }: { hand: Hand }) {
               type="button"
               className="text-[10.5px] underline"
               style={{ color: 'var(--text-muted)' }}
-              onClick={() => update({ zoomTable: 1, zoomCards: 1, zoomChips: 1, boardGap: 0.18 })}
+              onClick={() => update({ zoomTable: 1, zoomCards: 1, zoomChips: 1, boardGap: 'skin' })}
             >
               {t('common.reset')}
             </button>
@@ -100,7 +119,7 @@ export function QuickControls({ hand }: { hand: Hand }) {
             ] as const
           ).map(([key, label]) => (
             <label key={key} className="flex items-center gap-2">
-              <span className="w-[74px] shrink-0" style={{ color: 'var(--text-muted)' }}>
+              <span className="w-[64px] shrink-0 leading-tight" style={{ color: 'var(--text-muted)' }}>
                 {t(label)}
               </span>
               <input
@@ -114,12 +133,12 @@ export function QuickControls({ hand }: { hand: Hand }) {
                 style={{ accentColor: 'var(--accent)' }}
                 aria-label={t(label)}
               />
-              <span className="w-9 text-right tabular-nums">{Math.round(settings[key] * 100)}%</span>
+              <span className="w-11 shrink-0 text-right tabular-nums">{Math.round(settings[key] * 100)}%</span>
             </label>
           ))}
 
           <label className="flex items-center gap-2">
-            <span className="w-[74px] shrink-0" style={{ color: 'var(--text-muted)' }}>
+            <span className="w-[64px] shrink-0 leading-tight" style={{ color: 'var(--text-muted)' }}>
               {t('replayer.boardGap')}
             </span>
             <input
@@ -127,13 +146,15 @@ export function QuickControls({ hand }: { hand: Hand }) {
               min={0}
               max={0.6}
               step={0.02}
-              value={settings.boardGap}
+              value={settings.boardGap === 'skin' ? (skin.deck.boardGap ?? 0.36) : settings.boardGap}
               onChange={(e) => update({ boardGap: Number(e.target.value) })}
               className="flex-1"
               style={{ accentColor: 'var(--accent)' }}
               aria-label={t('replayer.boardGap')}
             />
-            <span className="w-9 text-right tabular-nums">{Math.round(settings.boardGap * 100)}%</span>
+            <span className="w-11 shrink-0 text-right tabular-nums">
+              {Math.round((settings.boardGap === 'skin' ? (skin.deck.boardGap ?? 0.36) : settings.boardGap) * 100)}%
+            </span>
           </label>
 
           <label className="checkbox" title={knownVillainCards ? undefined : t('quick.revealDisabled')}>

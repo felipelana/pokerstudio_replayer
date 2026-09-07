@@ -81,11 +81,10 @@
     "importing": "Importing…",
     "sessions": "Imported sessions",
     "empty": "No sessions yet. Import a hand history to get started.",
-    "colName": "File",
+    "colName": "Name",
     "colSite": "Site",
     "colHands": "Hands",
     "colDate": "Date",
-    "colPlayers": "Players",
     "open": "Open",
     "openInReplayer": "Open in replayer",
     "renamePrompt": "New name for this session",
@@ -96,9 +95,6 @@
     "nothingParsed": "No hands found in \"{{name}}\".",
     "unsupported": "Format recognised ({{site}}) but not supported yet.",
     "unknownFormat": "Unrecognised hand history format.",
-    "exportLibrary": "Export library (JSON)",
-    "importLibrary": "Import library (JSON)",
-    "libraryImported": "Imported {{sessions}} sessions, {{hands}} hands, {{reviews}} reviews.",
     "sampleTitle": "No hand histories yet?",
     "loadSample": "Load the demo sample",
     "siteOverride": "Force site",
@@ -114,7 +110,16 @@
     "colFile": "File",
     "colImported": "Imported",
     "colOpened": "Last opened",
-    "colActions": "Actions"
+    "colActions": "Actions",
+    "download": "Download the hand history",
+    "selectAll": "Select every session on this page",
+    "deleteSelected": "Delete ({{count}})",
+    "downloadSelected": "Download ({{count}})",
+    "deleteAll": "Delete all",
+    "pageOf": "Page {{page}} of {{pages}}",
+    "confirmDeleteTitle": "Delete imported sessions",
+    "confirmDeleteSelected": "{{count}} session(s) will be removed from this device, along with their hands and notes. This cannot be undone.",
+    "confirmDeleteAll": "All {{count}} session(s) will be removed from this device, along with their hands and notes. This cannot be undone."
   },
   "sidebar": {
     "loadHands": "Load hand histories",
@@ -147,7 +152,8 @@
     "clearFilters": "Clear all",
     "collapse": "Collapse the list",
     "expand": "Expand the list",
-    "resize": "Resize the list"
+    "resize": "Resize the list",
+    "playedOnly": "Only hands played (VPIP)"
   },
   "table": {
     "pot": "Pot",
@@ -378,7 +384,8 @@
       "artChange": "Change",
       "artReset": "skin default",
       "artTooLarge": "That file is over 2 MB — use a lighter one.",
-      "artHint": "SVG is best (it never blurs). PNG or WebP with transparency also work — around 500 × 700 px, the card's own proportion."
+      "artHint": "SVG is best (it never blurs). PNG or WebP with transparency also work — around 500 × 700 px, the card's own proportion.",
+      "boardGap": "Board spacing"
     },
     "felt": {
       "title": "Felt",
@@ -503,7 +510,7 @@
   },
   "quick": {
     "title": "Quick view controls",
-    "deck": "Deck",
+    "deck": "Skin",
     "layout": "Hole cards",
     "layoutSkin": "From the skin",
     "hideHero": "Hide my cards",
@@ -513,7 +520,8 @@
     "zoom": "Zoom",
     "zoomTable": "Table",
     "zoomCards": "Cards",
-    "zoomChips": "Chips"
+    "zoomChips": "Chips",
+    "deckColours": "Deck colours"
   },
   "report": {
     "title": "Review report",
@@ -675,7 +683,7 @@
   },
   "cloud": {
     "title": "Reviews on my account",
-    "hint": "A copy kept on the server so you can carry on from another machine. The library itself stays on this device.",
+    "hint": "Imported sessions live in this browser only. Send one to your account and it is stored in the database, so you can carry on from another machine — or get it back if this browser is cleared.",
     "quota": "{{used}} of {{perDay}} today",
     "withHistory": "Include the hand histories",
     "chooseSession": "Choose a session…",

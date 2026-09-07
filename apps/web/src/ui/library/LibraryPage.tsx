@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import type { Session } from '@/model/types';
-import { IconCheck, IconPencil, IconPlay, IconTrash } from '@/ui/icons';
+import { IconCheck, IconDownload, IconPencil, IconPlay, IconTrash } from '@/ui/icons';
+import { ConfirmDialog } from '@/ui/ConfirmDialog';
 import { CloudReviews } from './CloudReviews';
 import { getRepository } from '@/db/repository';
 import type { ImportSummary } from '@/parsers/importer';
@@ -12,14 +13,37 @@ import { useDateFormatter } from '@/ui/hooks/useFormat';
 import { ImportPanel } from './ImportPanel';
 import sampleUrl from '../../../samples/pokerstars-demo.txt?url';
 
+/**
+ * Width of each frozen column, and where it sits once the table scrolls
+ * sideways. Fixed widths are what makes the offsets predictable.
+ */
+const FROZEN_WIDTHS = [190, 190, 110];
+
+/** Sessions shown per page. */
+const PAGE_SIZE = 10;
+
+function frozen(index: number): React.CSSProperties {
+  const left = 36 + FROZEN_WIDTHS.slice(0, index).reduce((sum, w) => sum + w, 0);
+  return {
+    position: 'sticky',
+    left,
+    zIndex: 2,
+    width: FROZEN_WIDTHS[index],
+    minWidth: FROZEN_WIDTHS[index],
+    maxWidth: FROZEN_WIDTHS[index],
+  };
+}
+
 export function LibraryPage() {
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [confirming, setConfirming] = useState<'all' | 'selected' | undefined>(undefined);
+  const [pageIndex, setPageIndex] = useState(0);
   const { t } = useTranslation();
   const navigate = useNavigate();
   const df = useDateFormatter();
   const [sessions, setSessions] = useState<Session[]>([]);
   const [lastImport, setLastImport] = useState<ImportSummary[]>([]);
-  const [notice, setNotice] = useState<string>('');
-  const libraryInput = useRef<HTMLInputElement>(null);
+  const [notice] = useState<string>('');
 
   const refresh = useCallback(async () => {
     setSessions(await getRepository().listSessions());
@@ -52,6 +76,22 @@ export function LibraryPage() {
     await refresh();
   };
 
+  /**
+   * Hands the original hand history back. The text is rebuilt from the hands
+   * as they were imported, so the file can be recovered from the browser even
+   * when the .txt itself is long gone.
+   */
+  const download = async (session: Session) => {
+    const hands = await getRepository().getHands(session.handIds);
+    const text = hands.map((h) => h.raw.trim()).join('\n\n');
+    const url = URL.createObjectURL(new Blob([text], { type: 'text/plain;charset=utf-8' }));
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = session.sourceFileName ?? `${session.name}.txt`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
   const remove = async (s: Session) => {
     if (window.confirm(t('library.confirmDelete', { name: s.name }))) {
       await getRepository().deleteSession(s.id);
@@ -59,27 +99,61 @@ export function LibraryPage() {
     }
   };
 
-  const exportLibrary = async () => {
-    const json = await getRepository().exportLibrary();
-    const blob = new Blob([json], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `poker-replayer-library-${new Date().toISOString().slice(0, 10)}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-  };
 
-  const importLibrary = async (file: File) => {
-    const res = await getRepository().importLibrary(await file.text());
-    setNotice(t('library.libraryImported', res));
-    await refresh();
-  };
 
   const loadSample = async () => {
     const text = await (await fetch(sampleUrl)).text();
     const summary = await importText('pokerstars-demo.txt', text);
     onImported([summary]);
+  };
+
+  /** Ten at a time keeps the table readable on any screen. */
+  const pageCount = Math.max(1, Math.ceil(sessions.length / PAGE_SIZE));
+  const page = Math.min(pageIndex, pageCount - 1);
+  const pageRows = sessions.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE);
+
+  const toggleOne = (id: string) =>
+    setSelected((current) => {
+      const next = new Set(current);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+
+  const togglePage = (checked: boolean) =>
+    setSelected((current) => {
+      const next = new Set(current);
+      for (const row of pageRows) {
+        if (checked) next.add(row.id);
+        else next.delete(row.id);
+      }
+      return next;
+    });
+
+  /** Hands back every selected session as one hand-history file. */
+  const downloadSelected = async () => {
+    const chosen = sessions.filter((row) => selected.has(row.id));
+    const parts: string[] = [];
+    for (const session of chosen) {
+      const hands = await getRepository().getHands(session.handIds);
+      parts.push(`### ${session.sourceFileName ?? session.name}\n\n${hands.map((h) => h.raw.trim()).join('\n\n')}`);
+    }
+    const url = URL.createObjectURL(new Blob([parts.join('\n\n')], { type: 'text/plain;charset=utf-8' }));
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `pokerstudio-hand-histories-${new Date().toISOString().slice(0, 10)}.txt`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
+  /** Runs the deletion the dialog just confirmed. */
+  const deleteChosen = async () => {
+    const ids = confirming === 'all' ? sessions.map((row) => row.id) : [...selected];
+    for (const id of ids) await getRepository().deleteSession(id);
+    setSelected(new Set());
+    setConfirming(undefined);
+    setPageIndex(0);
+    await refresh();
   };
 
   const siteName = (site: Session['site']) => parsers.find((p) => p.site === site)?.displayName ?? t('common.unknown');
@@ -117,23 +191,26 @@ export function LibraryPage() {
             {t('common.hands', { count: sessions.reduce((s, x) => s + x.handCount, 0) })}
           </span>
           <div className="flex-1" />
-          <button type="button" className="btn" onClick={() => void exportLibrary()} disabled={!sessions.length}>
-            {t('library.exportLibrary')}
+          {selected.size > 0 && (
+            <>
+              <button type="button" className="btn" onClick={() => void downloadSelected()}>
+                <IconDownload size={14} />
+                {t('library.downloadSelected', { count: selected.size })}
+              </button>
+              <button
+                type="button"
+                className="btn"
+                style={{ color: 'var(--result-lost)' }}
+                onClick={() => setConfirming('selected')}
+              >
+                <IconTrash size={14} />
+                {t('library.deleteSelected', { count: selected.size })}
+              </button>
+            </>
+          )}
+          <button type="button" className="btn" disabled={!sessions.length} onClick={() => setConfirming('all')}>
+            {t('library.deleteAll')}
           </button>
-          <button type="button" className="btn" onClick={() => libraryInput.current?.click()}>
-            {t('library.importLibrary')}
-          </button>
-          <input
-            ref={libraryInput}
-            type="file"
-            accept="application/json,.json"
-            hidden
-            onChange={(e) => {
-              const f = e.target.files?.[0];
-              if (f) void importLibrary(f);
-              e.target.value = '';
-            }}
-          />
         </header>
         {notice && (
           <div className="px-4 py-2 text-xs" style={{ color: 'var(--text-muted)' }}>
@@ -155,35 +232,67 @@ export function LibraryPage() {
             <table className="w-full min-w-[980px] text-sm">
               <thead className="sticky top-0 z-10" style={{ background: 'var(--surface)' }}>
                 <tr className="text-left text-xs uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>
-                  <th className="px-3 py-2">{t('library.colName')}</th>
-                  <th className="px-3 py-2">{t('library.colFile')}</th>
-                  <th className="px-3 py-2">{t('library.colSite')}</th>
+                  {/* The first three columns stay put while the rest scrolls. */}
+                  <th className="w-9 px-2 py-2" style={{ background: 'var(--surface)', position: 'sticky', left: 0, zIndex: 2 }}>
+                    <input
+                      type="checkbox"
+                      aria-label={t('library.selectAll')}
+                      checked={pageRows.length > 0 && pageRows.every((row) => selected.has(row.id))}
+                      onChange={(e) => togglePage(e.target.checked)}
+                    />
+                  </th>
+                  <th className="px-3 py-2" style={{ ...frozen(0), background: 'var(--surface)' }}>
+                    {t('library.colName')}
+                  </th>
+                  <th className="px-3 py-2" style={{ ...frozen(1), background: 'var(--surface)' }}>
+                    {t('library.colFile')}
+                  </th>
+                  <th className="px-3 py-2" style={{ ...frozen(2), background: 'var(--surface)' }}>
+                    {t('library.colSite')}
+                  </th>
                   <th className="px-3 py-2 text-right">{t('library.colHands')}</th>
                   <th className="px-3 py-2">{t('library.colStatus')}</th>
                   <th className="px-3 py-2">{t('library.colImported')}</th>
                   <th className="px-3 py-2">{t('library.colOpened')}</th>
-                  <th className="px-3 py-2">{t('library.colPlayers')}</th>
                   <th className="px-3 py-2 text-right">{t('library.colActions')}</th>
                 </tr>
               </thead>
               <tbody>
-                {sessions.map((s) => (
+                {pageRows.map((s) => (
                   <tr key={s.id} className="border-t align-middle" style={{ borderColor: 'var(--border)' }}>
-                    <td className="px-3 py-2">
-                      {/* A dash when the session was never given a name of its own. */}
-                      <button type="button" className="font-medium hover:underline" onClick={() => navigate(`/replay/${s.id}`)}>
-                        {s.sourceFileName && s.name !== s.sourceFileName ? s.name : '—'}
+                    <td className="w-9 px-2 py-2" style={{ background: 'var(--surface)', position: 'sticky', left: 0, zIndex: 2 }}>
+                      <input
+                        type="checkbox"
+                        aria-label={s.name}
+                        checked={selected.has(s.id)}
+                        onChange={() => toggleOne(s.id)}
+                      />
+                    </td>
+                    {/* A dash when the session carries no name of its own. Both
+                        cells open it, as does the play button on the right. */}
+                    <td className="px-3 py-2" style={{ ...frozen(0), background: 'var(--surface)' }}>
+                      <button
+                        type="button"
+                        className="block max-w-full truncate font-medium hover:underline"
+                        title={s.name}
+                        onClick={() => navigate(`/replay/${s.id}`)}
+                      >
+                        {s.name === s.sourceFileName ? '—' : s.name}
                       </button>
-                      {s.warnings.length > 0 && (
-                        <span className="ml-2 chip-tag" title={s.warnings.slice(0, 10).join('\n')}>
-                          {t('common.warnings', { count: s.warnings.length })}
-                        </span>
-                      )}
                     </td>
-                    <td className="max-w-[200px] truncate px-3 py-2" style={{ color: 'var(--text-muted)' }} title={s.sourceFileName}>
-                      {s.sourceFileName ?? s.name}
+                    <td className="px-3 py-2" style={{ ...frozen(1), background: 'var(--surface)', color: 'var(--text-muted)' }}>
+                      <button
+                        type="button"
+                        className="block max-w-full truncate hover:underline"
+                        title={s.sourceFileName ?? undefined}
+                        onClick={() => navigate(`/replay/${s.id}`)}
+                      >
+                        {s.sourceFileName ?? '—'}
+                      </button>
                     </td>
-                    <td className="whitespace-nowrap px-3 py-2">{siteName(s.site)}</td>
+                    <td className="whitespace-nowrap px-3 py-2" style={{ ...frozen(2), background: 'var(--surface)' }}>
+                      {siteName(s.site)}
+                    </td>
                     <td className="px-3 py-2 text-right tabular-nums">{s.handCount}</td>
                     <td className="whitespace-nowrap px-3 py-2">
                       {s.status === 'completed' ? (
@@ -204,14 +313,13 @@ export function LibraryPage() {
                     <td className="whitespace-nowrap px-3 py-2 tabular-nums" style={{ color: 'var(--text-muted)' }}>
                       {s.lastOpenedAt ? df.dateTime(s.lastOpenedAt) : '—'}
                     </td>
-                    <td className="max-w-[240px] truncate px-3 py-2" title={s.players.join(', ')}>
-                      {s.players.slice(0, 4).join(', ')}
-                      {s.players.length > 4 ? ` +${s.players.length - 4}` : ''}
-                    </td>
                     <td className="whitespace-nowrap px-3 py-2 text-right">
                       <span className="inline-flex gap-0.5">
                         <button type="button" className="btn-icon" title={t('library.open')} aria-label={t('library.open')} onClick={() => navigate(`/replay/${s.id}`)}>
                           <IconPlay size={15} />
+                        </button>
+                        <button type="button" className="btn-icon" title={t('library.download')} aria-label={t('library.download')} onClick={() => void download(s)}>
+                          <IconDownload size={15} />
                         </button>
                         <button type="button" className="btn-icon" title={t('common.rename')} aria-label={t('common.rename')} onClick={() => void rename(s)}>
                           <IconPencil size={15} />
@@ -244,7 +352,35 @@ export function LibraryPage() {
             </table>
           </div>
         )}
+
+        {pageCount > 1 && (
+          <div className="flex items-center justify-between gap-2 border-t px-4 py-2 text-sm" style={{ borderColor: 'var(--border)' }}>
+            <span style={{ color: 'var(--text-muted)' }}>{t('library.pageOf', { page: page + 1, pages: pageCount })}</span>
+            <span className="flex items-center gap-2">
+              <button type="button" className="btn" disabled={page === 0} onClick={() => setPageIndex((n) => n - 1)}>
+                ←
+              </button>
+              <button type="button" className="btn" disabled={page >= pageCount - 1} onClick={() => setPageIndex((n) => n + 1)}>
+                →
+              </button>
+            </span>
+          </div>
+        )}
       </section>
+
+      <ConfirmDialog
+        open={confirming !== undefined}
+        title={t('library.confirmDeleteTitle')}
+        body={
+          confirming === 'all'
+            ? t('library.confirmDeleteAll', { count: sessions.length })
+            : t('library.confirmDeleteSelected', { count: selected.size })
+        }
+        confirmLabel={t('common.delete')}
+        danger
+        onCancel={() => setConfirming(undefined)}
+        onConfirm={() => void deleteChosen()}
+      />
 
       <CloudReviews sessions={sessions} onImported={() => void refresh()} />
 

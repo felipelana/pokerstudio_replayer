@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getRepository } from '@/db/repository';
+import { useAppStore } from '@/state/store';
 import type { Session } from '@/model/types';
 
 /**
@@ -20,6 +20,9 @@ export function ResumePrompt({
   const { t } = useTranslation();
   const [asked, setAsked] = useState<string>();
   const [saved, setSaved] = useState<number>();
+  // Kept in a ref so jumping once does not depend on the callback's identity.
+  const goTo = useRef(onGoTo);
+  goTo.current = onGoTo;
 
   useEffect(() => {
     if (!session || asked === session.id) return;
@@ -29,6 +32,9 @@ export function ResumePrompt({
       setAsked(session.id);
       return;
     }
+    // Opening from the library keeps the store's session, so the page would sit
+    // on whatever hand it last showed. Jump to the saved one either way.
+    goTo.current(index);
     setSaved(index);
     setAsked(session.id);
   }, [session, handCount, asked]);
@@ -37,7 +43,7 @@ export function ResumePrompt({
 
   const restart = () => {
     onGoTo(0);
-    if (session) void getRepository().saveSessionProgress(session.id, { lastHandIndex: 0, lastFrameIndex: 0, status: 'in-progress' });
+    void useAppStore.getState().saveProgress({ lastHandIndex: 0, lastFrameIndex: 0, status: 'in-progress' });
     setSaved(undefined);
   };
 

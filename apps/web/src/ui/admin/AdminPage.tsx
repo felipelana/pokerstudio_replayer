@@ -421,6 +421,7 @@ export function AdminPage() {
           />
           <SelectField<RankFont> label={t('admin.deck.rankFont')} value={draft.deck.rankFont} options={[{ value: 'Inter', label: 'Inter' }, { value: 'Roboto Mono', label: 'Roboto Mono' }, { value: 'serif', label: 'Serif' }]} onChange={(v) => patch('deck', { rankFont: v })} />
           <RangeField label={t('admin.deck.cornerRadius')} value={draft.deck.cornerRadius} min={0} max={0.3} step={0.01} onChange={(v) => patch('deck', { cornerRadius: v })} />
+          <RangeField label={t('admin.deck.boardGap')} value={draft.deck.boardGap ?? 0.36} min={0} max={0.6} step={0.02} onChange={(v) => patch('deck', { boardGap: v })} />
 
           {/* A card at a time: a rank listed here ignores its suit colour. */}
           <div className="mt-2 flex items-center gap-2">

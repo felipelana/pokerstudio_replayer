@@ -81,11 +81,10 @@
     "importing": "Importando…",
     "sessions": "Sesiones importadas",
     "empty": "Todavía no hay sesiones. Importa un historial para empezar.",
-    "colName": "Archivo",
+    "colName": "Nombre",
     "colSite": "Sala",
     "colHands": "Manos",
     "colDate": "Fecha",
-    "colPlayers": "Jugadores",
     "open": "Abrir",
     "openInReplayer": "Abrir en el replayer",
     "renamePrompt": "Nuevo nombre para esta sesión",
@@ -96,9 +95,6 @@
     "nothingParsed": "No se encontraron manos en \"{{name}}\".",
     "unsupported": "Formato reconocido ({{site}}) pero aún no soportado.",
     "unknownFormat": "Formato de historial no reconocido.",
-    "exportLibrary": "Exportar biblioteca (JSON)",
-    "importLibrary": "Importar biblioteca (JSON)",
-    "libraryImported": "Importadas {{sessions}} sesiones, {{hands}} manos, {{reviews}} revisiones.",
     "sampleTitle": "¿Aún sin historiales?",
     "loadSample": "Cargar la muestra de demostración",
     "siteOverride": "Forzar sala",
@@ -114,7 +110,16 @@
     "colFile": "Archivo",
     "colImported": "Importada",
     "colOpened": "Último acceso",
-    "colActions": "Acciones"
+    "colActions": "Acciones",
+    "download": "Descargar el historial",
+    "selectAll": "Seleccionar todas las sesiones de esta página",
+    "deleteSelected": "Eliminar ({{count}})",
+    "downloadSelected": "Descargar ({{count}})",
+    "deleteAll": "Eliminar todas",
+    "pageOf": "Página {{page}} de {{pages}}",
+    "confirmDeleteTitle": "Eliminar sesiones importadas",
+    "confirmDeleteSelected": "Se quitarán {{count}} sesión(es) de este dispositivo, con sus manos y notas. No se puede deshacer.",
+    "confirmDeleteAll": "Se quitarán las {{count}} sesiones de este dispositivo, con sus manos y notas. No se puede deshacer."
   },
   "sidebar": {
     "loadHands": "Cargar historiales",
@@ -147,7 +152,8 @@
     "clearFilters": "Limpiar todo",
     "collapse": "Contraer la lista",
     "expand": "Expandir la lista",
-    "resize": "Redimensionar la lista"
+    "resize": "Redimensionar la lista",
+    "playedOnly": "Solo manos jugadas (VPIP)"
   },
   "table": {
     "pot": "Bote",
@@ -378,7 +384,8 @@
       "artChange": "Cambiar",
       "artReset": "valor de la skin",
       "artTooLarge": "El archivo supera 2 MB: usa uno más ligero.",
-      "artHint": "SVG es lo mejor (nunca se pixela). PNG o WebP con transparencia también sirven, unos 500 × 700 px, la proporción de la carta."
+      "artHint": "SVG es lo mejor (nunca se pixela). PNG o WebP con transparencia también sirven, unos 500 × 700 px, la proporción de la carta.",
+      "boardGap": "Separación del board"
     },
     "felt": {
       "title": "Tapete",
@@ -503,7 +510,7 @@
   },
   "quick": {
     "title": "Controles rápidos",
-    "deck": "Baraja",
+    "deck": "Skin",
     "layout": "Cartas del jugador",
     "layoutSkin": "Según la skin",
     "hideHero": "Ocultar mis cartas",
@@ -513,7 +520,8 @@
     "zoom": "Zoom",
     "zoomTable": "Mesa",
     "zoomCards": "Cartas",
-    "zoomChips": "Fichas"
+    "zoomChips": "Fichas",
+    "deckColours": "Colores del baraja"
   },
   "report": {
     "title": "Informe de revisión",
@@ -675,7 +683,7 @@
   },
   "cloud": {
     "title": "Repasos en mi cuenta",
-    "hint": "Una copia en el servidor para seguir desde otro equipo. La biblioteca sigue en este dispositivo.",
+    "hint": "Las sesiones importadas viven solo en este navegador. Al enviarlas a tu cuenta quedan guardadas en la base de datos: puedes seguir desde otro equipo o recuperarlas si se borra este navegador.",
     "quota": "{{used}} de {{perDay}} hoy",
     "withHistory": "Incluir los historiales de manos",
     "chooseSession": "Elige una sesión…",

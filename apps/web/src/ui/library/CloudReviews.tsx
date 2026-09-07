@@ -161,6 +161,10 @@ export function CloudReviews({ sessions, onImported }: { sessions: Session[]; on
         </button>
       </header>
 
+      <p className="px-4 pt-3 text-xs" style={{ color: 'var(--text-muted)' }}>
+        {t('cloud.hint')}
+      </p>
+
       {error && (
         <p className="px-4 py-2 text-sm" role="alert" style={{ color: 'var(--result-lost)' }}>
           {error}

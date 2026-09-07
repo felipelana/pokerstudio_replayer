@@ -53,7 +53,16 @@ export class IndexedDbRepository implements Repository {
   private db = getDb();
 
   async listSessions(): Promise<Session[]> {
-    return this.db.sessions.orderBy('importedAt').reverse().toArray();
+    const rows = await this.db.sessions.orderBy('importedAt').reverse().toArray();
+    // Sessions imported before the file name was stored were named after their
+    // file. Recovering that once keeps the library honest: the file column
+    // shows the file, and the name column a dash until one is given.
+    const legacy = rows.filter((s) => !s.sourceFileName && /\.(txt|log)$/i.test(s.name));
+    if (legacy.length) {
+      await Promise.all(legacy.map((s) => this.db.sessions.update(s.id, { sourceFileName: s.name })));
+      for (const s of legacy) s.sourceFileName = s.name;
+    }
+    return rows;
   }
 
   getSession(id: string) {

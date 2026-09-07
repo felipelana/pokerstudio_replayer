@@ -44,13 +44,15 @@ export interface Settings {
   playerLookupUrl: string;
   /** Quick replayer toggles (R8). */
   hideHeroCards: boolean;
-  holeLayoutOverride: 'skin' | 'spread' | 'overlap';
+  holeLayoutOverride: 'skin' | 'spread' | 'overlap' | 'fan';
+  /** Deck colours for this session; 'skin' keeps whatever the skin sets. */
+  deckPreset: string;
   /** Independent zooms, 0.7..1.6 (R21). */
   zoomTable: number;
   zoomCards: number;
   zoomChips: number;
-  /** Gap between the board cards, as a share of a card width. */
-  boardGap: number;
+  /** Overrides the skin's board spacing; 'skin' follows whatever it sets. */
+  boardGap: number | 'skin';
   /** Print the denomination on each chip (R22). */
   chipDenominations: boolean;
   /** The user's own leak tags (L1). */
@@ -82,10 +84,11 @@ export const DEFAULT_SETTINGS: Settings = {
   playerLookupUrl: DEFAULT_LOOKUP_TEMPLATE,
   hideHeroCards: false,
   holeLayoutOverride: 'skin',
+  deckPreset: 'skin',
   zoomTable: 1,
   zoomCards: 1,
   zoomChips: 1,
-  boardGap: 0.18,
+  boardGap: 'skin',
   chipDenominations: true,
   leakTags: DEFAULT_TAGS,
   rotateToHero: true,
@@ -119,6 +122,8 @@ interface AppState {
   /** Hand-list filters and ordering (R14). */
   filterPositions: string[];
   filterResult: 'all' | 'won' | 'lost';
+  /** Show only hands where the focused player put money in (VPIP). */
+  filterPlayedOnly: boolean;
   sortMode: 'default' | 'potDesc' | 'reverse';
   fullscreen: boolean;
   importModalOpen: boolean;
@@ -134,6 +139,8 @@ interface AppState {
 
   loadSession(sessionId: string, handId?: string): Promise<void>;
   setHands(session: Session | undefined, hands: Hand[]): void;
+  /** Records where the review stopped, in the database and in this store. */
+  saveProgress(patch: { lastHandIndex?: number; lastFrameIndex?: number; status?: 'in-progress' | 'completed' }): Promise<void>;
   selectHand(index: number, startFrame?: number): void;
   nextHand(): void;
   prevHand(): void;
@@ -145,6 +152,7 @@ interface AppState {
   setReplayMeta(frameCount: number, jumpTargets: Partial<Record<JumpTarget, number>>, postFrames?: number[]): void;
   togglePosition(position: string): void;
   setFilterResult(value: 'all' | 'won' | 'lost'): void;
+  setFilterPlayedOnly(value: boolean): void;
   setSortMode(value: 'default' | 'potDesc' | 'reverse'): void;
   clearFilters(): void;
   toggleSidebar(): void;
@@ -173,6 +181,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   postFrames: [],
   filterPositions: [],
   filterResult: 'all',
+  filterPlayedOnly: false,
   sortMode: 'default',
   fullscreen: false,
   importModalOpen: false,
@@ -245,6 +254,17 @@ export const useAppStore = create<AppState>((set, get) => ({
     set({ session, hands, handIndex: idx, frameIndex: frame, playing: false, focusPlayer });
   },
 
+  async saveProgress(patch) {
+    const { session } = get();
+    if (!session) return;
+    const full = { ...patch, lastOpenedAt: new Date() };
+    // The in-memory session has to move with the row: reopening from the
+    // library does not reload it, and a stale copy would send the reader back
+    // to where they were two visits ago.
+    set({ session: { ...session, ...full } });
+    await getRepository().saveSessionProgress(session.id, full);
+  },
+
   setHands(session, hands) {
     set({ session, hands, handIndex: 0, frameIndex: 0, playing: false });
   },
@@ -299,6 +319,10 @@ export const useAppStore = create<AppState>((set, get) => ({
     set({ filterPositions: current.includes(position) ? current.filter((p) => p !== position) : [...current, position] });
   },
 
+  setFilterPlayedOnly(value) {
+    set({ filterPlayedOnly: value });
+  },
+
   setFilterResult(value) {
     set({ filterResult: value });
   },
@@ -308,7 +332,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   },
 
   clearFilters() {
-    set({ filterPositions: [], filterResult: 'all', sortMode: 'default' });
+    set({ filterPositions: [], filterResult: 'all', filterPlayedOnly: false, sortMode: 'default' });
   },
 
   toggleSidebar() {

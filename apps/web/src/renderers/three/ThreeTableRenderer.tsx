@@ -551,15 +551,16 @@ interface SceneLabels {
 }
 
 function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTMLImageElement }) {
-  const { hand, frame, skin, slots, heroName, positions, showKnownHands, hideHeroCards, lookupUrlFor, holeLayout, zoomCards = 1, zoomChips = 1, boardGapRatio = 0.18, deckArt, chipDenominations = true, fmt, exact, onSeatClick, interactive = true, animations, labels, feltLogo } = props;
+  const { hand, frame, skin, slots, heroName, positions, showKnownHands, hideHeroCards, lookupUrlFor, holeLayout, zoomCards = 1, zoomChips = 1, boardGapRatio, deckArt, chipDenominations = true, fmt, exact, onSeatClick, interactive = true, animations, labels, feltLogo } = props;
   const rz = RX * skin.table.aspect;
   const railW = skin.table.railWidth * RX * 2;
   const isCash = hand.currency !== 'chips';
   const bySeat = new Map(frame.players.map((p) => [p.seat, p]));
   const winners = new Set(frame.kind === 'end' ? frame.players.filter((p) => p.collected > 0).map((p) => p.name) : []);
 
-  // Chosen in the quick controls, as a share of a card width.
-  const boardGap = CARD_WIDTH * boardGapRatio;
+  // The skin sets the spacing; the quick controls can override it for the
+  // session in front of you.
+  const boardGap = CARD_WIDTH * (boardGapRatio ?? skin.deck.boardGap ?? 0.36);
   // Centre on the cards actually dealt, so the flop and turn are never
   // left-aligned inside an empty five-card row.
   const boardCount = Math.max(1, frame.board.length);
@@ -567,15 +568,23 @@ function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTM
 
   // Ink follows the felt so on-table text always passes AA (R16).
   const ink = readableInk(skin.felt.color);
-  // Reserved bands: board in the middle, pot right below it (R4).
+  // Reserved bands: board in the middle, pot right below it (R4). The board
+  // cards lean back towards the camera, so their footprint on screen is taller
+  // than the flat rectangle — the band has to cover the whole leaning card, or
+  // a bet label lands on it.
   const boardZone: FeltBox = {
     x: 0,
     y: 0,
-    hw: (boardCount * CARD_WIDTH + (boardCount - 1) * boardGap) / 2 / RX + 0.02,
-    hh: CARD_HEIGHT / 2 / rz + 0.02,
+    hw: (boardCount * CARD_WIDTH + (boardCount - 1) * boardGap) / 2 / RX + 0.04,
+    hh: (CARD_HEIGHT * 0.8) / rz + 0.04,
   };
-  const potZone: FeltBox = { x: 0, y: 1.42 / rz, hw: 1.5 / RX, hh: 0.6 / rz };
-  const zones = [boardZone, potZone];
+  // The pot block is as wide as its widest line: the total, or the row of side
+  // pots underneath it.
+  const potHalfWidth = Math.max(1.5, frame.pots.length * 0.75);
+  const potZone: FeltBox = { x: 0, y: 1.42 / rz, hw: potHalfWidth / RX + 0.03, hh: 0.75 / rz };
+  // And the pot's own chip stack, so a bet label never lands on the chips.
+  const potChipsZone: FeltBox = { x: -2.5 / RX, y: 1.35 / rz, hw: 1.1 / RX, hh: 0.8 / rz };
+  const zones = frame.pot > 0 ? [boardZone, potZone, potChipsZone] : [boardZone, potZone];
 
   return (
     <>

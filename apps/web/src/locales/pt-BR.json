@@ -81,11 +81,10 @@
     "importing": "Importando…",
     "sessions": "Sessões importadas",
     "empty": "Nenhuma sessão ainda. Importe uma hand history para começar.",
-    "colName": "Arquivo",
+    "colName": "Nome",
     "colSite": "Site",
     "colHands": "Mãos",
     "colDate": "Data",
-    "colPlayers": "Jogadores",
     "open": "Abrir",
     "openInReplayer": "Abrir no replayer",
     "renamePrompt": "Novo nome para esta sessão",
@@ -96,9 +95,6 @@
     "nothingParsed": "Nenhuma mão encontrada em \"{{name}}\".",
     "unsupported": "Formato reconhecido ({{site}}), mas ainda não suportado.",
     "unknownFormat": "Formato de hand history não reconhecido.",
-    "exportLibrary": "Exportar biblioteca (JSON)",
-    "importLibrary": "Importar biblioteca (JSON)",
-    "libraryImported": "Importadas {{sessions}} sessões, {{hands}} mãos, {{reviews}} reviews.",
     "sampleTitle": "Ainda sem hand histories?",
     "loadSample": "Carregar amostra de demonstração",
     "siteOverride": "Forçar site",
@@ -114,7 +110,16 @@
     "colFile": "Arquivo",
     "colImported": "Importada em",
     "colOpened": "Último acesso",
-    "colActions": "Ações"
+    "colActions": "Ações",
+    "download": "Baixar o hand history",
+    "selectAll": "Selecionar todas as sessões desta página",
+    "deleteSelected": "Excluir ({{count}})",
+    "downloadSelected": "Baixar ({{count}})",
+    "deleteAll": "Excluir todas",
+    "pageOf": "Página {{page}} de {{pages}}",
+    "confirmDeleteTitle": "Excluir sessões importadas",
+    "confirmDeleteSelected": "{{count}} sessão(ões) sairão deste aparelho, junto com as mãos e as anotações. Não dá para desfazer.",
+    "confirmDeleteAll": "Todas as {{count}} sessões sairão deste aparelho, junto com as mãos e as anotações. Não dá para desfazer."
   },
   "sidebar": {
     "loadHands": "Carregar hand histories",
@@ -147,7 +152,8 @@
     "clearFilters": "Limpar tudo",
     "collapse": "Recolher a lista",
     "expand": "Expandir a lista",
-    "resize": "Redimensionar a lista"
+    "resize": "Redimensionar a lista",
+    "playedOnly": "Só as mãos jogadas (VPIP)"
   },
   "table": {
     "pot": "Pote",
@@ -378,7 +384,8 @@
       "artChange": "Trocar",
       "artReset": "padrão da skin",
       "artTooLarge": "O arquivo passa de 2 MB — use um mais leve.",
-      "artHint": "SVG é o ideal (nunca perde nitidez). PNG ou WebP com transparência também servem — cerca de 500 × 700 px, a proporção da própria carta."
+      "artHint": "SVG é o ideal (nunca perde nitidez). PNG ou WebP com transparência também servem — cerca de 500 × 700 px, a proporção da própria carta.",
+      "boardGap": "Espaço entre as cartas do board"
     },
     "felt": {
       "title": "Feltro",
@@ -503,7 +510,7 @@
   },
   "quick": {
     "title": "Controles rápidos",
-    "deck": "Baralho",
+    "deck": "Skin",
     "layout": "Cartas do jogador",
     "layoutSkin": "Como na skin",
     "hideHero": "Ocultar minhas cartas",
@@ -513,7 +520,8 @@
     "zoom": "Zoom",
     "zoomTable": "Mesa",
     "zoomCards": "Cartas",
-    "zoomChips": "Fichas"
+    "zoomChips": "Fichas",
+    "deckColours": "Cores do baralho"
   },
   "report": {
     "title": "Relatório de review",
@@ -675,7 +683,7 @@
   },
   "cloud": {
     "title": "Reviews na minha conta",
-    "hint": "Uma cópia guardada no servidor para continuar de outra máquina. A biblioteca em si continua neste aparelho.",
+    "hint": "As sessões importadas ficam só neste navegador. Ao enviar para a sua conta, elas passam a ficar gravadas no banco de dados — dá para continuar de outra máquina, ou recuperar se este navegador for limpo.",
     "quota": "{{used}} de {{perDay}} hoje",
     "withHistory": "Incluir os hand histories",
     "chooseSession": "Escolha uma sessão…",
