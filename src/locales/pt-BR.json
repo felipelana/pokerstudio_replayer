@@ -342,7 +342,13 @@
       "layoutOverlap": "Sobrepostas (leque)",
       "courtStyle": "J / Q / K",
       "courtLetter": "Somente a letra",
-      "courtFigure": "Figuras (rei, dama, valete)"
+      "courtFigure": "Figuras (rei, dama, valete)",
+      "front": "Frente",
+      "back": "Costa",
+      "pattern_diamonds": "Losangos",
+      "pattern_grid": "Grade",
+      "pattern_dots": "Pontos",
+      "pattern_plain": "Liso"
     },
     "felt": {
       "title": "Feltro",

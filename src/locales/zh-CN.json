@@ -342,7 +342,13 @@
       "layoutOverlap": "扇形（重叠）",
       "courtStyle": "J / Q / K",
       "courtLetter": "仅字母",
-      "courtFigure": "人物图案（K、Q、J）"
+      "courtFigure": "人物图案（K、Q、J）",
+      "front": "正面",
+      "back": "牌背",
+      "pattern_diamonds": "菱形",
+      "pattern_grid": "网格",
+      "pattern_dots": "圆点",
+      "pattern_plain": "纯色"
     },
     "felt": {
       "title": "桌布",

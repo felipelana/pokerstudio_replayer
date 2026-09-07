@@ -348,7 +348,13 @@
       "layoutOverlap": "Веером (внахлёст)",
       "courtStyle": "J / Q / K",
       "courtLetter": "Только буква",
-      "courtFigure": "Фигуры (король, дама, валет)"
+      "courtFigure": "Фигуры (король, дама, валет)",
+      "front": "Лицо",
+      "back": "Рубашка",
+      "pattern_diamonds": "Ромбы",
+      "pattern_grid": "Сетка",
+      "pattern_dots": "Точки",
+      "pattern_plain": "Однотонная"
     },
     "felt": {
       "title": "Сукно",

@@ -342,7 +342,13 @@
       "layoutOverlap": "Gefächert (überlappend)",
       "courtStyle": "B / D / K",
       "courtLetter": "Nur der Buchstabe",
-      "courtFigure": "Figuren (König, Dame, Bube)"
+      "courtFigure": "Figuren (König, Dame, Bube)",
+      "front": "Vorderseite",
+      "back": "Rückseite",
+      "pattern_diamonds": "Rauten",
+      "pattern_grid": "Gitter",
+      "pattern_dots": "Punkte",
+      "pattern_plain": "Einfarbig"
     },
     "felt": {
       "title": "Filz",

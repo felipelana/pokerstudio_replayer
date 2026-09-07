@@ -342,7 +342,13 @@
       "layoutOverlap": "Superpuestas (abanico)",
       "courtStyle": "J / Q / K",
       "courtLetter": "Solo la letra",
-      "courtFigure": "Figuras (rey, dama, sota)"
+      "courtFigure": "Figuras (rey, dama, sota)",
+      "front": "Cara",
+      "back": "Dorso",
+      "pattern_diamonds": "Rombos",
+      "pattern_grid": "Rejilla",
+      "pattern_dots": "Puntos",
+      "pattern_plain": "Liso"
     },
     "felt": {
       "title": "Tapete",

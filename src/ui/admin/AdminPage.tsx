@@ -9,7 +9,7 @@ import { anchorSeatFor, computeSeatSlots } from '@/renderers/layout';
 import { TABLE_SHAPES } from '@/renderers/tableShape';
 import { TableSurface } from '@/renderers/TableSurface';
 import { formatAmount } from '@/model/format';
-import { BUILT_IN_SKINS, DECK_PRESETS, SKIN_DEFAULT_DARK } from '@/skins/presets';
+import { BACK_PRESETS, BUILT_IN_SKINS, DECK_PRESETS, SKIN_DEFAULT_DARK } from '@/skins/presets';
 import { CHIP_DENOMINATIONS, type BackPattern, type DeckStyle, type LogoCorner, type RankFont, type Skin } from '@/skins/types';
 import { useAppStore } from '@/state/store';
 import { Card } from '@/ui/cards/Card';
@@ -633,12 +633,33 @@ export function AdminPage() {
 
       {/* ---------- preview ---------- */}
       <div className="flex min-w-0 flex-1 flex-col gap-3 overflow-auto p-4" style={{ background: `linear-gradient(180deg, ${draft.ui.bg}, ${draft.ui.bgEnd})`, color: draft.ui.text }}>
-        <div className="flex items-center gap-3">
+        <div className="flex items-end gap-6">
           <h2 className="text-sm font-semibold">{t('admin.preview')}</h2>
-          <div className="flex gap-1">
-            {['As', 'Kh', 'Qd', 'Jc', 'Td', 'back'].map((c) => (
-              <Card key={c} card={c} deck={draft.deck} width={44} />
-            ))}
+          {/* Front and back side by side, so both can be judged at once (R23). */}
+          <div className="flex flex-col gap-1">
+            <span className="label-caps">{t('admin.deck.front')}</span>
+            <div className="flex gap-1">
+              {['As', 'Kh', 'Qd', 'Jc', 'Td'].map((c) => (
+                <Card key={c} card={c} deck={draft.deck} width={44} />
+              ))}
+            </div>
+          </div>
+          <div className="flex flex-col gap-1">
+            <span className="label-caps">{t('admin.deck.back')}</span>
+            <div className="flex gap-1">
+              {BACK_PRESETS.map((b) => (
+                <button
+                  key={b.id}
+                  type="button"
+                  onClick={() => patch('deck', { backPattern: b.id })}
+                  title={t(`admin.deck.pattern_${b.id}`)}
+                  aria-pressed={draft.deck.backPattern === b.id}
+                  style={{ outline: draft.deck.backPattern === b.id ? '2px solid var(--accent)' : undefined, outlineOffset: 2, borderRadius: 4 }}
+                >
+                  <Card card="back" deck={{ ...draft.deck, backPattern: b.id }} width={44} />
+                </button>
+              ))}
+            </div>
           </div>
         </div>
         {/* Same surface as the replayer, so what you tune is what you get. */}

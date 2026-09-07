@@ -342,7 +342,13 @@
       "layoutOverlap": "重ねて扇状",
       "courtStyle": "J / Q / K",
       "courtLetter": "文字のみ",
-      "courtFigure": "絵札（キング・クイーン・ジャック）"
+      "courtFigure": "絵札（キング・クイーン・ジャック）",
+      "front": "表",
+      "back": "裏",
+      "pattern_diamonds": "ダイヤ柄",
+      "pattern_grid": "グリッド",
+      "pattern_dots": "ドット",
+      "pattern_plain": "無地"
     },
     "felt": {
       "title": "フェルト",

@@ -342,7 +342,13 @@
       "layoutOverlap": "겹쳐서 부채꼴",
       "courtStyle": "J / Q / K",
       "courtLetter": "문자만",
-      "courtFigure": "그림 카드 (킹·퀸·잭)"
+      "courtFigure": "그림 카드 (킹·퀸·잭)",
+      "front": "앞면",
+      "back": "뒷면",
+      "pattern_diamonds": "다이아몬드",
+      "pattern_grid": "격자",
+      "pattern_dots": "점",
+      "pattern_plain": "단색"
     },
     "felt": {
       "title": "펠트",

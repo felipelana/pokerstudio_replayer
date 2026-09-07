@@ -1,4 +1,4 @@
-import type { ChipSkin, DeckSkin, PlateSkin, Skin, UiSkin } from './types';
+import type { BackPattern, ChipSkin, DeckSkin, PlateSkin, Skin, UiSkin } from './types';
 
 /* ---------- reusable building blocks ---------- */
 
@@ -402,6 +402,15 @@ export const BUILT_IN_SKINS: Skin[] = [
 ];
 
 /** Deck shortcuts for the admin "2 / 4 colours" button and the `C` cycle. */
+/** Heavier ink, larger contrast against the card background (R23). */
+export const DECK_HIGH_CONTRAST: DeckSkin = {
+  ...DECK_FOUR_COLOR_OUTLINED,
+  suitColors: { s: '#000000', h: '#c40000', d: '#0033a0', c: '#006b2d' },
+  cardBg: '#ffffff',
+  cornerRadius: 0.08,
+  rankFont: 'Inter',
+};
+
 export const DECK_PRESETS: { id: string; name: string; deck: DeckSkin }[] = [
   { id: 'four-color-filled', name: '4-color filled', deck: DECK_FOUR_COLOR_FILLED },
   { id: 'four-color-outlined', name: '4-color outlined', deck: DECK_FOUR_COLOR_OUTLINED },
@@ -409,6 +418,15 @@ export const DECK_PRESETS: { id: string; name: string; deck: DeckSkin }[] = [
   { id: 'two-color-filled', name: '2-color filled', deck: DECK_TWO_COLOR_FILLED },
   { id: 'mono', name: 'Mono', deck: DECK_MONO },
   { id: 'mono-filled', name: 'Mono filled', deck: DECK_MONO_FILLED },
+  { id: 'high-contrast', name: 'High contrast', deck: DECK_HIGH_CONTRAST },
+];
+
+/** Back patterns offered in the editor (R23). */
+export const BACK_PRESETS: { id: BackPattern; color: string }[] = [
+  { id: 'diamonds', color: '#b3261e' },
+  { id: 'grid', color: '#1e3f6d' },
+  { id: 'dots', color: '#2e7d32' },
+  { id: 'plain', color: '#3a3f47' },
 ];
 
 /** Apply a skin's UI tokens to the document as CSS variables. */

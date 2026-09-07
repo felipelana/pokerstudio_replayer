@@ -342,7 +342,13 @@
       "layoutOverlap": "Fanned (overlapping)",
       "courtStyle": "J / Q / K",
       "courtLetter": "Letter only",
-      "courtFigure": "Court figures"
+      "courtFigure": "Court figures",
+      "front": "Front",
+      "back": "Back",
+      "pattern_diamonds": "Diamonds",
+      "pattern_grid": "Grid",
+      "pattern_dots": "Dots",
+      "pattern_plain": "Plain"
     },
     "felt": {
       "title": "Felt",
