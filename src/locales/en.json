@@ -366,7 +366,16 @@
       "railShine": "Rail shine",
       "aspect": "Ellipse ratio",
       "neonColor": "Neon colour",
-      "neonIntensity": "Neon intensity"
+      "neonIntensity": "Neon intensity",
+      "shape": "Table shape",
+      "shape_ellipse": "Ellipse",
+      "shape_oval": "Elongated oval",
+      "shape_rounded-rect": "Rounded rectangle",
+      "shape_racetrack": "Racetrack",
+      "bevelColor": "Groove colour",
+      "bevelWidth": "Groove width",
+      "bevelInset": "Groove inset",
+      "bevelOpacity": "Groove opacity"
     },
     "ui": {
       "title": "Background & panels",

@@ -366,7 +366,16 @@
       "railShine": "桌沿光泽",
       "aspect": "椭圆比例",
       "neonColor": "霓虹颜色",
-      "neonIntensity": "霓虹强度"
+      "neonIntensity": "霓虹强度",
+      "shape": "牌桌形状",
+      "shape_ellipse": "椭圆",
+      "shape_oval": "长椭圆",
+      "shape_rounded-rect": "圆角矩形",
+      "shape_racetrack": "跑道形",
+      "bevelColor": "凹槽颜色",
+      "bevelWidth": "凹槽宽度",
+      "bevelInset": "距边距离",
+      "bevelOpacity": "凹槽不透明度"
     },
     "ui": {
       "title": "背景与面板",

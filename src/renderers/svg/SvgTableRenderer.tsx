@@ -7,6 +7,7 @@ import { SeatPlate, seatLabels } from '../seats/SeatPlate';
 import { useAssetImage } from '@/ui/hooks/useAssetImage';
 import { AmountTspans } from '../Amount';
 import { cardWidthFor } from '../cardSize';
+import { shapeSvgPath } from '../tableShape';
 import { CARD_H, CARD_W, cardPrimitives, patternShapes } from '@/ui/cards/primitives';
 import type { DeckSkin } from '@/skins/types';
 
@@ -129,6 +130,10 @@ export function SvgTableRenderer({
   const isCash = hand.currency !== 'chips';
   const feltId = useMemo(() => `felt-${Math.random().toString(36).slice(2, 8)}`, []);
   const feltLogo = useAssetImage(skin.felt.logoAssetId, skin.felt.logoBlend === 'screen');
+  const shape = skin.table.shape ?? 'ellipse';
+  const feltPath = shapeSvgPath(shape, CX, CY, RX, RY);
+  const railPath = shapeSvgPath(shape, CX, CY, RX + rail, RY + rail);
+  const bevel = skin.table.bevel;
   const neonStrength = neon ? (skin.table.neonIntensity ?? 0) : 0;
   const neonColor = skin.table.neonColor ?? skin.plates.activeBorder;
 
@@ -177,19 +182,19 @@ export function SvgTableRenderer({
             </feComponentTransfer>
           </filter>
           <clipPath id={`${feltId}-clip`}>
-            <ellipse cx={CX} cy={CY} rx={RX} ry={RY} />
+            <path d={feltPath} />
           </clipPath>
           <filter id={`${feltId}-neon`} x="-25%" y="-35%" width="150%" height="170%">
             <feGaussianBlur stdDeviation={9} />
           </filter>
         </defs>
         {/* Shadow + rail */}
-        <ellipse cx={CX} cy={CY + 10} rx={RX + rail} ry={RY + rail} fill="rgba(0,0,0,0.35)" />
-        <ellipse cx={CX} cy={CY} rx={RX + rail} ry={RY + rail} fill={`url(#${feltId}-rail)`} />
-        <ellipse cx={CX} cy={CY} rx={RX + rail} ry={RY + rail} fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth={1.5} />
+        <path d={railPath} transform="translate(0 10)" fill="rgba(0,0,0,0.35)" />
+        <path d={railPath} fill={`url(#${feltId}-rail)`} />
+        <path d={railPath} fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth={1.5} />
         {/* Felt */}
-        <ellipse cx={CX} cy={CY} rx={RX} ry={RY} fill={skin.felt.color} />
-        <ellipse cx={CX} cy={CY} rx={RX} ry={RY} fill={`url(#${feltId})`} />
+        <path d={feltPath} fill={skin.felt.color} />
+        <path d={feltPath} fill={`url(#${feltId})`} />
         <g clipPath={`url(#${feltId}-clip)`}>
           <rect x={CX - RX} y={CY - RY} width={RX * 2} height={RY * 2} filter={`url(#${feltId}-noise)`} />
         </g>
@@ -197,31 +202,29 @@ export function SvgTableRenderer({
             cloth so it never touches the rail, under a crisp inner line. */}
         {neonStrength > 0 && (
           <g clipPath={`url(#${feltId}-clip)`}>
-            <ellipse
-              cx={CX}
-              cy={CY}
-              rx={RX * 0.9}
-              ry={RY * 0.9}
-              fill="none"
-              stroke={neonColor}
-              strokeWidth={16}
-              opacity={0.5 * neonStrength}
-              filter={`url(#${feltId}-neon)`}
-            />
-            <ellipse
-              cx={CX}
-              cy={CY}
-              rx={RX * 0.9}
-              ry={RY * 0.9}
-              fill="none"
-              stroke={neonColor}
-              strokeWidth={2}
-              opacity={0.5 + 0.5 * neonStrength}
-            />
+            <path d={shapeSvgPath(shape, CX, CY, RX * 0.9, RY * 0.9)} fill="none" stroke={neonColor} strokeWidth={16} opacity={0.5 * neonStrength} filter={`url(#${feltId}-neon)`} />
+            <path d={shapeSvgPath(shape, CX, CY, RX * 0.9, RY * 0.9)} fill="none" stroke={neonColor} strokeWidth={2} opacity={0.5 + 0.5 * neonStrength} />
           </g>
         )}
-        {neonStrength === 0 && (
-          <ellipse cx={CX} cy={CY} rx={RX - 22} ry={RY - 18} fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth={2} />
+        {bevel ? (
+          <g>
+            <path
+              d={shapeSvgPath(shape, CX, CY, RX - RY * bevel.inset, RY - RY * bevel.inset)}
+              fill="none"
+              stroke={bevel.color}
+              strokeWidth={Math.max(1, RY * bevel.width)}
+              opacity={bevel.opacity}
+            />
+            <path
+              d={shapeSvgPath(shape, CX, CY, RX - RY * bevel.inset - 1.5, RY - RY * bevel.inset - 1.5)}
+              fill="none"
+              stroke="rgba(255,255,255,0.16)"
+              strokeWidth={1}
+              opacity={bevel.opacity}
+            />
+          </g>
+        ) : (
+          neonStrength === 0 && <path d={shapeSvgPath(shape, CX, CY, RX - 22, RY - 18)} fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth={2} />
         )}
         {/* Uploaded watermark, centred on the cloth and clipped to it. */}
         {feltLogo && (

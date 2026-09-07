@@ -6,6 +6,7 @@ import { computePositions } from '@/model/positions';
 import { pokerStarsParser } from '@/parsers/pokerstars';
 import { getRepository } from '@/db/repository';
 import { anchorSeatFor, computeSeatSlots } from '@/renderers/layout';
+import { TABLE_SHAPES } from '@/renderers/tableShape';
 import { TableSurface } from '@/renderers/TableSurface';
 import { formatAmount } from '@/model/format';
 import { BUILT_IN_SKINS, DECK_PRESETS, SKIN_DEFAULT_DARK } from '@/skins/presets';
@@ -134,6 +135,11 @@ function newId(): string {
 /* ------------------------------------------------------------------ */
 /* Page                                                                */
 /* ------------------------------------------------------------------ */
+
+/** Current groove, or a sensible default so a slider always has something to edit. */
+function defaultBevel(skin: Skin): NonNullable<Skin['table']['bevel']> {
+  return skin.table.bevel ?? { width: 0.012, color: 'rgba(255,255,255,0.14)', opacity: 0.9, inset: 0.1 };
+}
 
 /** Current background, or a sensible starting point built from the UI colours. */
 function defaultBackground(ui: Skin['ui']): NonNullable<Skin['ui']['background']> {
@@ -420,6 +426,41 @@ export function AdminPage() {
           <RangeField label={t('admin.table.railShine')} value={draft.table.railShine} min={0} max={1} step={0.05} onChange={(v) => patch('table', { railShine: v })} />
           <RangeField label={t('admin.table.aspect')} value={draft.table.aspect} min={0.4} max={0.75} step={0.01} onChange={(v) => patch('table', { aspect: v })} />
           <ColorField label={t('admin.table.neonColor')} value={draft.table.neonColor ?? draft.plates.activeBorder} onChange={(v) => patch('table', { neonColor: v })} />
+          <SelectField
+            label={t('admin.table.shape')}
+            value={draft.table.shape ?? 'ellipse'}
+            options={TABLE_SHAPES.map((s) => ({ value: s, label: t(`admin.table.shape_${s}`) }))}
+            onChange={(v) => patch('table', { shape: v as (typeof TABLE_SHAPES)[number] })}
+          />
+          <ColorField
+            label={t('admin.table.bevelColor')}
+            value={draft.table.bevel?.color ?? 'rgba(255,255,255,0.14)'}
+            onChange={(v) => patch('table', { bevel: { ...defaultBevel(draft), color: v } })}
+          />
+          <RangeField
+            label={t('admin.table.bevelWidth')}
+            value={draft.table.bevel?.width ?? 0}
+            min={0}
+            max={0.05}
+            step={0.002}
+            onChange={(v) => patch('table', { bevel: v === 0 ? undefined : { ...defaultBevel(draft), width: v } })}
+          />
+          <RangeField
+            label={t('admin.table.bevelInset')}
+            value={draft.table.bevel?.inset ?? 0.1}
+            min={0.02}
+            max={0.3}
+            step={0.01}
+            onChange={(v) => patch('table', { bevel: { ...defaultBevel(draft), inset: v } })}
+          />
+          <RangeField
+            label={t('admin.table.bevelOpacity')}
+            value={draft.table.bevel?.opacity ?? 0.9}
+            min={0}
+            max={1}
+            step={0.05}
+            onChange={(v) => patch('table', { bevel: { ...defaultBevel(draft), opacity: v } })}
+          />
           <RangeField label={t('admin.table.neonIntensity')} value={draft.table.neonIntensity ?? 0} min={0} max={1} step={0.05} onChange={(v) => patch('table', { neonIntensity: v })} />
         </Section>
 

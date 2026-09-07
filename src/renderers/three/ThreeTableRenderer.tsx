@@ -7,6 +7,7 @@ import type { TableRendererProps } from '../TableRenderer';
 import { Amount } from '../Amount';
 import { cardWidthFor } from '../cardSize';
 import { avoidZones, chipBreakdown, type FeltBox } from '../layout';
+import { shapePoints } from '../tableShape';
 import { haloShadow, readableInk } from '@/ui/contrast';
 import { SeatPlate, seatLabels, type SeatLabels } from '../seats/SeatPlate';
 import { SvgTableRenderer } from '../svg/SvgTableRenderer';
@@ -249,6 +250,25 @@ function glowTexture(): THREE.CanvasTexture {
   return tex;
 }
 
+/** Table outline as a THREE.Shape, following the skin's shape (R20). */
+function outlineShape(shape: ReturnType<typeof shapeOf>, rx: number, rz: number): THREE.Shape {
+  const s = new THREE.Shape();
+  const pts = shapePoints(shape, rx, rz, 160);
+  pts.forEach(([x, y], i) => (i === 0 ? s.moveTo(x, y) : s.lineTo(x, y)));
+  s.closePath();
+  return s;
+}
+
+function outlinePath(shape: ReturnType<typeof shapeOf>, rx: number, rz: number): THREE.Path {
+  const p = new THREE.Path();
+  const pts = shapePoints(shape, rx, rz, 160).reverse();
+  pts.forEach(([x, y], i) => (i === 0 ? p.moveTo(x, y) : p.lineTo(x, y)));
+  p.closePath();
+  return p;
+}
+
+const shapeOf = (skin: Skin) => skin.table.shape ?? 'ellipse';
+
 function Table({ skin, neon, feltLogo }: { skin: Skin; neon: boolean; feltLogo?: HTMLImageElement }) {
   const rz = RX * skin.table.aspect;
   const railW = skin.table.railWidth * RX * 2;
@@ -256,13 +276,21 @@ function Table({ skin, neon, feltLogo }: { skin: Skin; neon: boolean; feltLogo?:
   const wood = useMemo(() => woodTexture(skin.table), [skin.table]);
   const shadow = useMemo(() => shadowTexture(), []);
   const glow = useMemo(() => glowTexture(), []);
+  const bevelGeo = useMemo(() => {
+    const b = skin.table.bevel;
+    if (!b) return undefined;
+    const inset = rz * b.inset;
+    const width = Math.max(0.01, rz * b.width);
+    const outer = outlineShape(shapeOf(skin), RX - inset, rz - inset);
+    outer.holes.push(outlinePath(shapeOf(skin), RX - inset - width, rz - inset - width));
+    return new THREE.ShapeGeometry(outer, 96);
+  }, [skin, rz]);
   const neonStrength = neon ? (skin.table.neonIntensity ?? 0) : 0;
   const neonColor = skin.table.neonColor ?? skin.plates.activeBorder;
 
+  const shape = shapeOf(skin);
   const feltGeo = useMemo(() => {
-    const shape = new THREE.Shape();
-    shape.absellipse(0, 0, RX, rz, 0, Math.PI * 2, false, 0);
-    const geo = new THREE.ShapeGeometry(shape, 96);
+    const geo = new THREE.ShapeGeometry(outlineShape(shape, RX, rz), 96);
     // Map UVs to 0..1 across the ellipse bounding box.
     const uv = geo.attributes.uv as THREE.BufferAttribute;
     const pos = geo.attributes.position as THREE.BufferAttribute;
@@ -271,15 +299,12 @@ function Table({ skin, neon, feltLogo }: { skin: Skin; neon: boolean; feltLogo?:
     }
     uv.needsUpdate = true;
     return geo;
-  }, [rz]);
+  }, [rz, shape]);
 
   /** Rail body: rounded outer edge, thin inner lip, extruded downwards. */
   const railGeo = useMemo(() => {
-    const outer = new THREE.Shape();
-    outer.absellipse(0, 0, RX + railW, rz + railW, 0, Math.PI * 2, false, 0);
-    const hole = new THREE.Path();
-    hole.absellipse(0, 0, RX, rz, 0, Math.PI * 2, true, 0);
-    outer.holes.push(hole);
+    const outer = outlineShape(shape, RX + railW, rz + railW);
+    outer.holes.push(outlinePath(shape, RX, rz));
     return new THREE.ExtrudeGeometry(outer, {
       depth: 0.5,
       bevelEnabled: true,
@@ -288,15 +313,12 @@ function Table({ skin, neon, feltLogo }: { skin: Skin; neon: boolean; feltLogo?:
       bevelSegments: 6,
       curveSegments: 128,
     });
-  }, [rz, railW]);
+  }, [rz, railW, shape]);
 
   /** Dark lip between rail and felt — reads as the sunken felt edge. */
   const lipGeo = useMemo(() => {
-    const outer = new THREE.Shape();
-    outer.absellipse(0, 0, RX + 0.06, rz + 0.06, 0, Math.PI * 2, false, 0);
-    const hole = new THREE.Path();
-    hole.absellipse(0, 0, RX - 0.16, rz - 0.16, 0, Math.PI * 2, true, 0);
-    outer.holes.push(hole);
+    const outer = outlineShape(shape, RX + 0.06, rz + 0.06);
+    outer.holes.push(outlinePath(shape, RX - 0.16, rz - 0.16));
     return new THREE.ExtrudeGeometry(outer, {
       depth: 0.16,
       bevelEnabled: true,
@@ -305,7 +327,7 @@ function Table({ skin, neon, feltLogo }: { skin: Skin; neon: boolean; feltLogo?:
       bevelSegments: 3,
       curveSegments: 128,
     });
-  }, [rz]);
+  }, [rz, shape]);
 
   return (
     <group>
@@ -365,6 +387,13 @@ function Table({ skin, neon, feltLogo }: { skin: Skin; neon: boolean; feltLogo?:
           {/* Coloured bounce light so the rail and chips pick up the neon. */}
           <pointLight position={[0, 0.8, 0]} intensity={16 * neonStrength} distance={12} decay={2} color={neonColor} />
         </group>
+      )}
+
+      {/* Inner groove following the contour — the finishing detail (R20). */}
+      {skin.table.bevel && bevelGeo && (
+        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.005, 0]} geometry={bevelGeo}>
+          <meshBasicMaterial color={skin.table.bevel.color} transparent opacity={skin.table.bevel.opacity} depthWrite={false} />
+        </mesh>
       )}
 
       {/* Betting line */}

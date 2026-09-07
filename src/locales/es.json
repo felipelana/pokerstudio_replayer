@@ -366,7 +366,16 @@
       "railShine": "Reflejo del borde",
       "aspect": "Proporción de la elipse",
       "neonColor": "Color del neón",
-      "neonIntensity": "Intensidad del neón"
+      "neonIntensity": "Intensidad del neón",
+      "shape": "Forma de la mesa",
+      "shape_ellipse": "Elipse",
+      "shape_oval": "Óvalo alargado",
+      "shape_rounded-rect": "Rectángulo redondeado",
+      "shape_racetrack": "Racetrack",
+      "bevelColor": "Color del surco",
+      "bevelWidth": "Grosor del surco",
+      "bevelInset": "Distancia al borde",
+      "bevelOpacity": "Opacidad del surco"
     },
     "ui": {
       "title": "Fondo y paneles",

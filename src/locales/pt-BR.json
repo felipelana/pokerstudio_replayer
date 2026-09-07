@@ -366,7 +366,16 @@
       "railShine": "Brilho da borda",
       "aspect": "Proporção da elipse",
       "neonColor": "Cor do neon",
-      "neonIntensity": "Intensidade do neon"
+      "neonIntensity": "Intensidade do neon",
+      "shape": "Formato da mesa",
+      "shape_ellipse": "Elipse",
+      "shape_oval": "Oval alongada",
+      "shape_rounded-rect": "Retangular arredondada",
+      "shape_racetrack": "Racetrack",
+      "bevelColor": "Cor do entalhe",
+      "bevelWidth": "Espessura do entalhe",
+      "bevelInset": "Distância da borda",
+      "bevelOpacity": "Opacidade do entalhe"
     },
     "ui": {
       "title": "Fundo e painéis",

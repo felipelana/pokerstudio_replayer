@@ -61,7 +61,21 @@ export interface TableSkin {
   /** Glowing edge around the felt. 0 (or undefined) disables it for this skin. */
   neonIntensity?: number;
   neonColor?: string;
+  /** Table outline (R20). Undefined = ellipse. */
+  shape?: TableShapeName;
+  /** Inner groove following the felt contour — the finishing detail (R20). */
+  bevel?: {
+    /** Stroke width, in fractions of the short radius. */
+    width: number;
+    color: string;
+    /** 0..1 */
+    opacity: number;
+    /** Distance from the felt edge, in fractions of the short radius. */
+    inset: number;
+  };
 }
+
+import type { TableShapeName } from '@/renderers/tableShape';
 
 export interface BackgroundSkin {
   mode: 'color' | 'gradient' | 'image';

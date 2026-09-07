@@ -366,7 +366,16 @@
       "railShine": "レールの光沢",
       "aspect": "楕円の比率",
       "neonColor": "ネオンの色",
-      "neonIntensity": "ネオンの強さ"
+      "neonIntensity": "ネオンの強さ",
+      "shape": "テーブルの形",
+      "shape_ellipse": "楕円",
+      "shape_oval": "細長い楕円",
+      "shape_rounded-rect": "角丸長方形",
+      "shape_racetrack": "レーストラック",
+      "bevelColor": "溝の色",
+      "bevelWidth": "溝の太さ",
+      "bevelInset": "縁からの距離",
+      "bevelOpacity": "溝の不透明度"
     },
     "ui": {
       "title": "背景とパネル",

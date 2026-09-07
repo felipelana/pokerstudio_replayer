@@ -372,7 +372,16 @@
       "railShine": "Глянец борта",
       "aspect": "Пропорции эллипса",
       "neonColor": "Цвет неона",
-      "neonIntensity": "Яркость неона"
+      "neonIntensity": "Яркость неона",
+      "shape": "Форма стола",
+      "shape_ellipse": "Эллипс",
+      "shape_oval": "Вытянутый овал",
+      "shape_rounded-rect": "Скруглённый прямоугольник",
+      "shape_racetrack": "Racetrack",
+      "bevelColor": "Цвет канавки",
+      "bevelWidth": "Ширина канавки",
+      "bevelInset": "Отступ от края",
+      "bevelOpacity": "Прозрачность канавки"
     },
     "ui": {
       "title": "Фон и панели",

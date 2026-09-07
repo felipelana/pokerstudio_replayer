@@ -366,7 +366,16 @@
       "railShine": "레일 광택",
       "aspect": "타원 비율",
       "neonColor": "네온 색상",
-      "neonIntensity": "네온 강도"
+      "neonIntensity": "네온 강도",
+      "shape": "테이블 모양",
+      "shape_ellipse": "타원",
+      "shape_oval": "긴 타원",
+      "shape_rounded-rect": "둥근 사각형",
+      "shape_racetrack": "레이스트랙",
+      "bevelColor": "홈 색상",
+      "bevelWidth": "홈 두께",
+      "bevelInset": "가장자리 간격",
+      "bevelOpacity": "홈 불투명도"
     },
     "ui": {
       "title": "배경 및 패널",

@@ -366,7 +366,16 @@
       "railShine": "Randglanz",
       "aspect": "Ellipsenverhältnis",
       "neonColor": "Neonfarbe",
-      "neonIntensity": "Neonstärke"
+      "neonIntensity": "Neonstärke",
+      "shape": "Tischform",
+      "shape_ellipse": "Ellipse",
+      "shape_oval": "Gestrecktes Oval",
+      "shape_rounded-rect": "Abgerundetes Rechteck",
+      "shape_racetrack": "Racetrack",
+      "bevelColor": "Rillenfarbe",
+      "bevelWidth": "Rillenbreite",
+      "bevelInset": "Randabstand",
+      "bevelOpacity": "Rillendeckkraft"
     },
     "ui": {
       "title": "Hintergrund & Panels",
