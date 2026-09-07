@@ -68,6 +68,63 @@ export function computeSeatSlots(opts: LayoutOptions): SeatSlot[] {
   return slots;
 }
 
+/* ------------------------------------------------------------------ */
+/* Containment (R2) and reserved zones (R4)                            */
+/* ------------------------------------------------------------------ */
+
+/** Axis-aligned box in normalised felt space (centre + half extents). */
+export interface FeltBox {
+  x: number;
+  y: number;
+  /** half width */
+  hw: number;
+  /** half height */
+  hh: number;
+}
+
+const inside = (b: FeltBox, margin: number): boolean =>
+  Math.hypot(Math.abs(b.x) + b.hw, Math.abs(b.y) + b.hh) <= 1 - margin;
+
+/**
+ * Pull a box towards the centre until it lies completely inside the felt
+ * ellipse, keeping its size. Works in normalised space, so it holds at any
+ * resolution, zoom or table aspect.
+ */
+export function clampToFelt(box: FeltBox, margin = 0.02): { x: number; y: number } {
+  if (inside(box, margin)) return { x: box.x, y: box.y };
+  // The box may be larger than the felt: then the best we can do is centre it.
+  if (Math.hypot(box.hw, box.hh) >= 1 - margin) return { x: 0, y: 0 };
+  let lo = 0;
+  let hi = 1;
+  for (let i = 0; i < 24; i++) {
+    const mid = (lo + hi) / 2;
+    if (inside({ ...box, x: box.x * mid, y: box.y * mid }, margin)) lo = mid;
+    else hi = mid;
+  }
+  return { x: box.x * lo, y: box.y * lo };
+}
+
+export function boxesOverlap(a: FeltBox, b: FeltBox): boolean {
+  return Math.abs(a.x - b.x) < a.hw + b.hw && Math.abs(a.y - b.y) < a.hh + b.hh;
+}
+
+/**
+ * Slide a box away from the table centre until it clears every reserved zone
+ * (board band, pot block), then clamp it back inside the felt. Information
+ * therefore never overlaps: it moves, or it stays put if there is no room.
+ */
+export function avoidZones(box: FeltBox, zones: FeltBox[], margin = 0.02): { x: number; y: number } {
+  const len = Math.hypot(box.x, box.y) || 1;
+  const dx = box.x / len;
+  const dy = box.y / len;
+  let candidate = { ...box };
+  for (let step = 0; step < 24; step++) {
+    if (!zones.some((z) => boxesOverlap(candidate, z))) break;
+    candidate = { ...candidate, x: candidate.x + dx * 0.04, y: candidate.y + dy * 0.04 };
+  }
+  return clampToFelt(candidate, margin);
+}
+
 export function anchorSeatFor(hand: Hand, focusPlayer?: string): number | undefined {
   const name = focusPlayer ?? hand.heroName;
   if (!name) return undefined;

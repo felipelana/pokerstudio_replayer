@@ -6,7 +6,8 @@ import { useTranslation } from 'react-i18next';
 import type { TableRendererProps } from '../TableRenderer';
 import { Amount } from '../Amount';
 import { cardWidthFor } from '../cardSize';
-import { chipBreakdown } from '../layout';
+import { avoidZones, chipBreakdown, type FeltBox } from '../layout';
+import { haloShadow, readableInk } from '@/ui/contrast';
 import { SeatPlate, seatLabels, type SeatLabels } from '../seats/SeatPlate';
 import { SvgTableRenderer } from '../svg/SvgTableRenderer';
 import { cardCanvas } from '@/ui/cards/cardTexture';
@@ -458,6 +459,18 @@ function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTM
   const boardCount = Math.max(1, frame.board.length);
   const boardX0 = -((boardCount * CARD_WIDTH + (boardCount - 1) * boardGap) / 2) + CARD_WIDTH / 2;
 
+  // Ink follows the felt so on-table text always passes AA (R16).
+  const ink = readableInk(skin.felt.color);
+  // Reserved bands: board in the middle, pot right below it (R4).
+  const boardZone: FeltBox = {
+    x: 0,
+    y: 0,
+    hw: (boardCount * CARD_WIDTH + (boardCount - 1) * boardGap) / 2 / RX + 0.02,
+    hh: CARD_HEIGHT / 2 / rz + 0.02,
+  };
+  const potZone: FeltBox = { x: 0, y: 1.42 / rz, hw: 1.5 / RX, hh: 0.6 / rz };
+  const zones = [boardZone, potZone];
+
   return (
     <>
       <ambientLight intensity={0.6} />
@@ -499,8 +512,8 @@ function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTM
       <Html position={[0, 0.05, 1.42]} center zIndexRange={[5, 0]} style={{ pointerEvents: 'none' }}>
         {/* No box, no border: just type on the felt, kept legible by a soft halo. */}
         <div
-          className="flex flex-col items-center whitespace-nowrap text-white"
-          style={{ textShadow: '0 1px 2px rgba(0,0,0,0.85), 0 0 12px rgba(0,0,0,0.75)' }}
+          className="flex flex-col items-center whitespace-nowrap"
+          style={{ color: ink, textShadow: haloShadow(skin.felt.color) }}
         >
           <span className="text-[9.5px] font-semibold uppercase leading-none tracking-[0.2em] opacity-70">
             {labels.pot}
@@ -526,8 +539,23 @@ function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTM
       {/* Bets, dealer button and seats */}
       {slots.map((slot) => {
         const p = bySeat.get(slot.seat);
-        const bx = slot.betX * RX;
-        const bz = slot.betY * rz;
+        // Chips + label as one group, kept inside the felt (R2) and out of the
+        // board / pot bands (R4).
+        const stackTop = -((p?.streetBet ? chipBreakdown(p.streetBet, isCash).length : 0) * 0.06 + 0.12);
+        const labelBottom = 0.95;
+        const offsetZ = (stackTop + labelBottom) / 2;
+        const bet = avoidZones(
+          {
+            x: slot.betX,
+            y: slot.betY + offsetZ / rz,
+            hw: Math.max(0.5, (fmt(p?.streetBet ?? 0).length * 0.13) / 2) / RX,
+            hh: (labelBottom - stackTop) / 2 / rz,
+          },
+          zones,
+        );
+        const bx = bet.x * RX;
+        const bz = (bet.y - offsetZ / rz) * rz;
+        const button = avoidZones({ x: slot.buttonX, y: slot.buttonY, hw: 0.28 / RX, hh: 0.28 / rz }, [boardZone]);
         const px = slot.x * (RX + railW + 0.28);
         const pz = slot.y * (rz + railW + 1.15);
         return (
@@ -538,22 +566,17 @@ function Scene(props: TableRendererProps & { labels: SceneLabels; feltLogo?: HTM
                 {/* Label sits in front of (below on screen) the stack, so it never
                     covers the chips. The pot label lives under the board, out of
                     this ring, so the two can't meet. */}
-                <Html
-                  position={[bx, 0, Math.min(bz + 0.62, rz * 0.88)]}
-                  center
-                  zIndexRange={[5, 0]}
-                  style={{ pointerEvents: 'none' }}
-                >
+                <Html position={[bx, 0, bz + 0.62]} center zIndexRange={[5, 0]} style={{ pointerEvents: 'none' }}>
                   <Amount
                     value={fmt(p.streetBet)}
                     size={13}
-                    className="whitespace-nowrap text-white"
-                    style={{ textShadow: '0 1px 4px rgba(0,0,0,0.95)' }}
+                    className="whitespace-nowrap"
+                    style={{ color: ink, textShadow: haloShadow(skin.felt.color) }}
                   />
                 </Html>
               </Appear>
             )}
-            {hand.buttonSeat === slot.seat && <DealerButton skin={skin} position={[slot.buttonX * RX, 0.03, slot.buttonY * rz]} label={labels.dealer} />}
+            {hand.buttonSeat === slot.seat && <DealerButton skin={skin} position={[button.x * RX, 0.03, button.y * rz]} label={labels.dealer} />}
             <Html position={[px, 0.2, pz]} center zIndexRange={[10, 0]} style={{ pointerEvents: interactive ? 'auto' : 'none' }}>
               {p ? (
                 <SeatPlate

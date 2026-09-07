@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { TableRendererProps } from '../TableRenderer';
-import { chipBreakdown } from '../layout';
+import { avoidZones, chipBreakdown, type FeltBox } from '../layout';
+import { readableInk, textHalo } from '@/ui/contrast';
 import { SeatPlate, seatLabels } from '../seats/SeatPlate';
 import { useAssetImage } from '@/ui/hooks/useAssetImage';
 import { AmountTspans } from '../Amount';
@@ -107,6 +108,20 @@ export function SvgTableRenderer({
   // Board dead centre; the pot block sits below it.
   const boardY = CY - (boardW * CARD_H) / CARD_W / 2;
 
+  // Ink and halo follow the felt colour so on-table text always passes AA (R16).
+  const ink = readableInk(skin.felt.color);
+  const halo = textHalo(skin.felt.color, 0.62);
+
+  // Areas reserved for cards and for the pot: nothing else may sit here (R4).
+  const boardZone: FeltBox = {
+    x: 0,
+    y: 0,
+    hw: (boardCount * boardW + (boardCount - 1) * boardGap) / 2 / RX + 0.02,
+    hh: (boardW * CARD_H) / CARD_W / 2 / RY + 0.02,
+  };
+  const potZone: FeltBox = { x: 0, y: 84 / RY, hw: 95 / RX, hh: 40 / RY };
+  const zones = [boardZone, potZone];
+
   return (
     <div className="relative h-full w-full select-none" style={{ aspectRatio: `${VW} / ${VH}` }}>
       <svg viewBox={`0 0 ${VW} ${VH}`} className="absolute inset-0 h-full w-full" role="img" aria-label={t('game.table')}>
@@ -204,8 +219,9 @@ export function SvgTableRenderer({
             fontSize={9.5}
             fontWeight={600}
             letterSpacing={2}
-            fill="rgba(255,255,255,0.72)"
-            stroke="rgba(0,0,0,0.55)"
+            fill={ink}
+            fillOpacity={0.75}
+            stroke={halo}
             strokeWidth={2}
             paintOrder="stroke"
           >
@@ -217,8 +233,8 @@ export function SvgTableRenderer({
             textAnchor="middle"
             fontSize={24}
             fontWeight={600}
-            fill="#fff"
-            stroke="rgba(0,0,0,0.6)"
+            fill={ink}
+            stroke={halo}
             strokeWidth={3}
             paintOrder="stroke"
           >
@@ -231,8 +247,9 @@ export function SvgTableRenderer({
             y={CY + 126}
             textAnchor="middle"
             fontSize={11.5}
-            fill="rgba(255,255,255,0.8)"
-            stroke="rgba(0,0,0,0.55)"
+            fill={ink}
+            fillOpacity={0.82}
+            stroke={halo}
             strokeWidth={2.5}
             paintOrder="stroke"
           >
@@ -248,28 +265,40 @@ export function SvgTableRenderer({
           <CardShape key={c} card={c} deck={skin.deck} x={boardX0 + i * (boardW + boardGap)} y={boardY} w={boardW} />
         ))}
 
-        {/* Bets and dealer button */}
+        {/* Bets and dealer button — every group is kept inside the felt (R2) and
+            out of the board / pot bands (R4). */}
         {slots.map((slot) => {
           const p = bySeat.get(slot.seat);
           if (!p) return null;
-          const bx = CX + slot.betX * RX;
-          const by = CY + slot.betY * RY;
+          const chips = p.streetBet > 0 ? chipBreakdown(p.streetBet, isCash) : [];
+          const stackTop = -(chips.length * 3.2 + 8);
+          const labelBottom = 40;
+          const offsetY = (stackTop + labelBottom) / 2;
+          const bet = avoidZones(
+            {
+              x: slot.betX,
+              y: slot.betY + offsetY / RY,
+              hw: Math.max(30, fmt(p.streetBet).length * 8 + 10) / 2 / RX,
+              hh: (labelBottom - stackTop) / 2 / RY,
+            },
+            zones,
+          );
+          const bx = CX + bet.x * RX;
+          const by = CY + (bet.y - offsetY / RY) * RY;
+          const button = avoidZones({ x: slot.buttonX, y: slot.buttonY, hw: 13 / RX, hh: 13 / RY }, [boardZone]);
           return (
             <g key={slot.seat}>
               {p.streetBet > 0 && (
                 <g>
-                  <ChipStack chips={chipBreakdown(p.streetBet, isCash)} colors={skin.chips.colors} edge={skin.chips.edge} x={bx} y={by} />
-                  {/* Away from the centre: below the stack for near seats, above it for
-                      far ones — never on the chips, never on the pot label. */}
-                  {/* Clamped to the cloth so the amount never lands on the rail. */}
+                  <ChipStack chips={chips} colors={skin.chips.colors} edge={skin.chips.edge} x={bx} y={by} />
                   <text
                     x={bx}
-                    y={Math.min(by + 32, CY + RY * 0.88)}
+                    y={by + 32}
                     textAnchor="middle"
                     fontSize={14}
                     fontWeight={600}
-                    fill="#fff"
-                    stroke="rgba(0,0,0,0.6)"
+                    fill={ink}
+                    stroke={halo}
                     strokeWidth={2.5}
                     paintOrder="stroke"
                   >
@@ -278,7 +307,7 @@ export function SvgTableRenderer({
                 </g>
               )}
               {hand.buttonSeat === slot.seat && (
-                <g transform={`translate(${CX + slot.buttonX * RX} ${CY + slot.buttonY * RY})`}>
+                <g transform={`translate(${CX + button.x * RX} ${CY + button.y * RY})`}>
                   <circle r={12} fill={skin.chips.dealerButton} stroke="rgba(0,0,0,0.4)" strokeWidth={1.5} />
                   <text y={5} textAnchor="middle" fontSize={13} fontWeight={800} fill={skin.chips.dealerButtonInk}>
                     {t('table.dealer')}
