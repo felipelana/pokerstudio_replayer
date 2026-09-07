@@ -694,7 +694,12 @@
     "event": "事件",
     "from": "起",
     "to": "止",
-    "emailHint": "等待发送的邮件。未配置 SMTP 时会留在队列中，可在此查看。"
+    "emailHint": "等待发送的邮件。未配置 SMTP 时会留在队列中，可在此查看。",
+    "feedback": "反馈",
+    "feedbackCount": "共 {{total}} 条 · 未读 {{unread}} 条",
+    "feedbackEmpty": "还没有建议。",
+    "feedbackNote": "团队备注",
+    "feedbackNoAccount": "账户已删除"
   },
   "twofa": {
     "setupTitle": "设置两步验证",
@@ -736,5 +741,39 @@
     "resumedAt": "已从上次停下的地方继续 — 第 {{current}} / {{total}} 手。",
     "keepGoing": "好",
     "seatDistance": "座位"
+  },
+  "about": {
+    "title": "关于",
+    "tagline": "谁在做，为什么做。",
+    "author": "PokerStudio Replayer 由拥有 23 年以上从业经验的信息技术专家 Felipe Carvalho Lana 构思并开发。他是计算机技术员、计算机科学学士，并取得 FGV 的信息技术管理 MBA；二十多年来，他从一行代码到系统架构再到技术管理，一直在设计、构建和带领系统。",
+    "origin": "这个工具源自扑克市场上真实存在的空缺，也源自 Felipe 作为牌手自己的不满：缺少一个直观、好看、好用并且真正在进步的复盘器。这里每一个界面都要经受这个检验——帮助学习的留下，妨碍学习的去掉。",
+    "method": "持续改进不是页脚上的一句承诺，而是方法本身：复盘器在真实使用中不断被检视，牌手提出的需求会进入工作队列。",
+    "visionTitle": "PokerStudio 的愿景",
+    "vision": "复盘器只是起点。PokerStudio 希望成为帮助扑克牌手学习、实战并在牌桌上表现更好的工具标杆。"
+  },
+  "feedback": {
+    "title": "建议与改进",
+    "subtitle": "告诉我们缺什么、哪里碍事、哪里可以更好。团队会全部阅读。",
+    "kind": "类型",
+    "subject": "主题",
+    "subjectHint": "一句话",
+    "body": "描述",
+    "bodyHint": "你期待什么、发生了什么、在哪个界面。",
+    "send": "发送",
+    "thanks": "已收到，谢谢——它会进入工作队列。",
+    "mine": "你已提交的内容",
+    "kinds": {
+      "SUGGESTION": "建议",
+      "IMPROVEMENT": "改进",
+      "PROBLEM": "问题",
+      "OTHER": "其他"
+    },
+    "statuses": {
+      "NEW": "新",
+      "READ": "已读",
+      "PLANNED": "已排期",
+      "DONE": "已完成",
+      "DECLINED": "暂不处理"
+    }
   }
 }

@@ -2,7 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/state/authStore';
-import { IconLogout, IconShield, IconUser } from './icons';
+import { IconInfo, IconLogout, IconMegaphone, IconShield, IconUser } from './icons';
+import { AboutDialog } from './about/AboutDialog';
+import { FeedbackDialog } from './feedback/FeedbackDialog';
 
 /**
  * The signed-in account: name, and under it the two things anyone looks for —
@@ -15,6 +17,8 @@ export function UserMenu() {
   const user = useAuthStore((s) => s.user);
   const logout = useAuthStore((s) => s.logout);
   const [open, setOpen] = useState(false);
+  const [about, setAbout] = useState(false);
+  const [feedback, setFeedback] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -75,6 +79,30 @@ export function UserMenu() {
             type="button"
             role="menuitem"
             className="menu-item"
+            onClick={() => {
+              setOpen(false);
+              setFeedback(true);
+            }}
+          >
+            <IconMegaphone size={15} />
+            {t('feedback.title')}
+          </button>
+          <button
+            type="button"
+            role="menuitem"
+            className="menu-item"
+            onClick={() => {
+              setOpen(false);
+              setAbout(true);
+            }}
+          >
+            <IconInfo size={15} />
+            {t('about.title')}
+          </button>
+          <button
+            type="button"
+            role="menuitem"
+            className="menu-item"
             style={{ color: 'var(--result-lost)' }}
             onClick={() => {
               setOpen(false);
@@ -86,6 +114,9 @@ export function UserMenu() {
           </button>
         </div>
       )}
+
+      <FeedbackDialog open={feedback} onClose={() => setFeedback(false)} />
+      <AboutDialog open={about} onClose={() => setAbout(false)} />
     </div>
   );
 }

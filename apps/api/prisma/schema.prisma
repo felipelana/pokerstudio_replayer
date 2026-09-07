@@ -113,6 +113,21 @@ enum UsageEventType {
   SKIN_SAVED
 }
 
+enum FeedbackKind {
+  SUGGESTION
+  IMPROVEMENT
+  PROBLEM
+  OTHER
+}
+
+enum FeedbackStatus {
+  NEW
+  READ
+  PLANNED
+  DONE
+  DECLINED
+}
+
 enum OutboxStatus {
   PENDING
   SENT
@@ -160,6 +175,7 @@ model User {
   reviews       ReviewSession[]
   skins         UserSkin[]
   usage         UsageEvent[]
+  feedback      Feedback[]
 
   @@index([status, createdAt])
   @@index([countryCode])
@@ -441,4 +457,27 @@ model EmailSettings {
   lastError           String?
   lastTestAt          DateTime?
   updatedAt           DateTime  @updatedAt
+}
+
+/// What a reader asked for: a suggestion, an improvement, a problem they hit.
+/// Kept even if the account goes, because the idea outlives the account.
+model Feedback {
+  id         String         @id @default(uuid())
+  userId     String?
+  kind       FeedbackKind   @default(SUGGESTION)
+  subject    String         @db.VarChar(160)
+  body       String
+  status     FeedbackStatus @default(NEW)
+  /// What the team decided, read only by the team.
+  adminNote  String?
+  /// Where it was written from, to place a report in its context.
+  appSurface String?        @db.VarChar(40)
+  appVersion String?        @db.VarChar(40)
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([status, createdAt])
+  @@index([userId])
 }

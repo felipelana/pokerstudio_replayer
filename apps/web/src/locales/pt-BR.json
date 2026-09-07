@@ -694,7 +694,12 @@
     "event": "Evento",
     "from": "De",
     "to": "Até",
-    "emailHint": "Mensagens à espera de envio. Sem provedor SMTP elas ficam na fila e podem ser lidas aqui."
+    "emailHint": "Mensagens à espera de envio. Sem provedor SMTP elas ficam na fila e podem ser lidas aqui.",
+    "feedback": "Feedback",
+    "feedbackCount": "{{total}} no total · {{unread}} sem ler",
+    "feedbackEmpty": "Nenhuma sugestão ainda.",
+    "feedbackNote": "Anotação da equipe",
+    "feedbackNoAccount": "Conta removida"
   },
   "twofa": {
     "setupTitle": "Configurar o segundo fator",
@@ -736,5 +741,39 @@
     "resumedAt": "Retomado onde você parou — mão {{current}} de {{total}}.",
     "keepGoing": "Beleza",
     "seatDistance": "Assentos"
+  },
+  "about": {
+    "title": "Sobre",
+    "tagline": "Quem faz, e para quê.",
+    "author": "O PokerStudio Replayer é idealizado e construído por Felipe Carvalho Lana, profissional de Tecnologia da Informação com mais de 23 anos de carreira. Técnico em Informática, bacharel em Ciência da Computação e MBA em Gestão de Tecnologia da Informação pela FGV, Felipe passou mais de duas décadas projetando, construindo e conduzindo sistemas — da linha de código à arquitetura e à gestão de tecnologia.",
+    "origin": "A ferramenta nasce de uma demanda latente do mercado de poker e da inquietação do próprio Felipe como jogador: faltava um replayer intuitivo, bonito, fácil de usar e que evoluísse de verdade. É esse o critério de cada tela daqui — o que ajuda a estudar fica; o que atrapalha, sai.",
+    "method": "Melhoria contínua não é promessa de rodapé, é o método: o replayer é revisto a cada uso real, e o que os jogadores pedem entra na fila de trabalho.",
+    "visionTitle": "A visão da PokerStudio",
+    "vision": "O replayer é o pontapé inicial. A PokerStudio quer ser referência em ferramentas que ajudam jogadores de poker a estudar, jogar e performar melhor nas mesas."
+  },
+  "feedback": {
+    "title": "Sugestões e melhorias",
+    "subtitle": "Conte o que falta, o que atrapalha ou o que ficaria melhor. A equipe lê tudo.",
+    "kind": "Tipo",
+    "subject": "Assunto",
+    "subjectHint": "Em uma linha",
+    "body": "Descrição",
+    "bodyHint": "O que você esperava, o que aconteceu, e onde.",
+    "send": "Enviar",
+    "thanks": "Recebido. Obrigado — isso entra na fila de trabalho.",
+    "mine": "O que você já enviou",
+    "kinds": {
+      "SUGGESTION": "Sugestão",
+      "IMPROVEMENT": "Melhoria",
+      "PROBLEM": "Problema",
+      "OTHER": "Outro"
+    },
+    "statuses": {
+      "NEW": "Novo",
+      "READ": "Lido",
+      "PLANNED": "Planejado",
+      "DONE": "Feito",
+      "DECLINED": "Não faremos"
+    }
   }
 }

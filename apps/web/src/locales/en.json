@@ -694,7 +694,12 @@
     "event": "Event",
     "from": "From",
     "to": "To",
-    "emailHint": "Messages waiting to be sent. Without an SMTP provider they stay queued and can be read here."
+    "emailHint": "Messages waiting to be sent. Without an SMTP provider they stay queued and can be read here.",
+    "feedback": "Feedback",
+    "feedbackCount": "{{total}} in total · {{unread}} unread",
+    "feedbackEmpty": "No suggestions yet.",
+    "feedbackNote": "Team note",
+    "feedbackNoAccount": "Account removed"
   },
   "twofa": {
     "setupTitle": "Set up two-factor",
@@ -736,5 +741,39 @@
     "resumedAt": "Picked up where you stopped — hand {{current}} of {{total}}.",
     "keepGoing": "Fine",
     "seatDistance": "Seats"
+  },
+  "about": {
+    "title": "About",
+    "tagline": "Who builds it, and what for.",
+    "author": "PokerStudio Replayer is conceived and built by Felipe Carvalho Lana, an IT professional with more than 23 years in the field. A computing technician, with a BSc in Computer Science and an MBA in Information Technology Management from FGV, Felipe has spent over two decades designing, building and leading systems — from the line of code to the architecture and the running of technology itself.",
+    "origin": "The tool comes out of a real gap in the poker market and out of Felipe’s own restlessness as a player: there was no replayer that was intuitive, good-looking, easy to use and genuinely improving. That is the test every screen here has to pass — what helps you study stays; what gets in the way goes.",
+    "method": "Continuous improvement is not a line in a footer here, it is the method: the replayer is revisited against real use, and what players ask for goes into the queue.",
+    "visionTitle": "The PokerStudio vision",
+    "vision": "The replayer is only the kick-off. PokerStudio means to be the reference in tools that help poker players study, play and perform better at the tables."
+  },
+  "feedback": {
+    "title": "Suggestions and improvements",
+    "subtitle": "Tell us what is missing, what gets in the way, or what would be better. The team reads all of it.",
+    "kind": "Kind",
+    "subject": "Subject",
+    "subjectHint": "In one line",
+    "body": "Description",
+    "bodyHint": "What you expected, what happened, and where.",
+    "send": "Send",
+    "thanks": "Received. Thank you — this goes into the queue.",
+    "mine": "What you have sent",
+    "kinds": {
+      "SUGGESTION": "Suggestion",
+      "IMPROVEMENT": "Improvement",
+      "PROBLEM": "Problem",
+      "OTHER": "Other"
+    },
+    "statuses": {
+      "NEW": "New",
+      "READ": "Read",
+      "PLANNED": "Planned",
+      "DONE": "Done",
+      "DECLINED": "Not planned"
+    }
   }
 }

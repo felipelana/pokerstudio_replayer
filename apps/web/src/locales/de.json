@@ -694,7 +694,12 @@
     "event": "Ereignis",
     "from": "Von",
     "to": "Bis",
-    "emailHint": "Nachrichten in der Warteschlange. Ohne SMTP-Anbieter bleiben sie hier lesbar liegen."
+    "emailHint": "Nachrichten in der Warteschlange. Ohne SMTP-Anbieter bleiben sie hier lesbar liegen.",
+    "feedback": "Feedback",
+    "feedbackCount": "{{total}} insgesamt · {{unread}} ungelesen",
+    "feedbackEmpty": "Noch keine Vorschläge.",
+    "feedbackNote": "Notiz des Teams",
+    "feedbackNoAccount": "Konto gelöscht"
   },
   "twofa": {
     "setupTitle": "Zweiten Faktor einrichten",
@@ -736,5 +741,39 @@
     "resumedAt": "Dort weiter, wo du aufgehört hast — Hand {{current}} von {{total}}.",
     "keepGoing": "Alles klar",
     "seatDistance": "Sitze"
+  },
+  "about": {
+    "title": "Über",
+    "tagline": "Wer es baut, und wofür.",
+    "author": "PokerStudio Replayer wird von Felipe Carvalho Lana entworfen und gebaut, einem IT-Fachmann mit über 23 Jahren Berufserfahrung. Als Informatiktechniker, Bachelor der Informatik und MBA in IT-Management der FGV hat Felipe mehr als zwei Jahrzehnte damit verbracht, Systeme zu entwerfen, zu bauen und zu führen — von der Codezeile bis zur Architektur und zur Technologieleitung.",
+    "origin": "Das Werkzeug entsteht aus einer echten Lücke im Pokermarkt und aus Felipes eigener Unruhe als Spieler: Es fehlte ein Replayer, der intuitiv, schön, leicht zu bedienen ist und sich wirklich weiterentwickelt. Daran wird hier jeder Bildschirm gemessen — was beim Studieren hilft, bleibt; was stört, geht.",
+    "method": "Kontinuierliche Verbesserung ist hier kein Satz in der Fußzeile, sondern die Methode: Der Replayer wird am echten Gebrauch geprüft, und was Spieler wünschen, kommt in die Warteschlange.",
+    "visionTitle": "Die Vision von PokerStudio",
+    "vision": "Der Replayer ist erst der Anfang. PokerStudio will die Referenz für Werkzeuge sein, die Pokerspielern helfen, zu lernen, zu spielen und am Tisch besser abzuschneiden."
+  },
+  "feedback": {
+    "title": "Vorschläge und Verbesserungen",
+    "subtitle": "Sagen Sie uns, was fehlt, was stört oder was besser wäre. Das Team liest alles.",
+    "kind": "Art",
+    "subject": "Betreff",
+    "subjectHint": "In einer Zeile",
+    "body": "Beschreibung",
+    "bodyHint": "Was Sie erwartet haben, was passiert ist und wo.",
+    "send": "Senden",
+    "thanks": "Angekommen. Danke — das kommt in die Warteschlange.",
+    "mine": "Was Sie gesendet haben",
+    "kinds": {
+      "SUGGESTION": "Vorschlag",
+      "IMPROVEMENT": "Verbesserung",
+      "PROBLEM": "Problem",
+      "OTHER": "Sonstiges"
+    },
+    "statuses": {
+      "NEW": "Neu",
+      "READ": "Gelesen",
+      "PLANNED": "Geplant",
+      "DONE": "Erledigt",
+      "DECLINED": "Nicht geplant"
+    }
   }
 }

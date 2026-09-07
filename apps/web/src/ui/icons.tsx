@@ -111,6 +111,21 @@ export const IconSeat = (p: Props) => (
   </Svg>
 );
 
+export const IconInfo = (p: Props) => (
+  <Svg {...p}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M12 11v5" />
+    <path d="M12 7.6v.6" />
+  </Svg>
+);
+
+export const IconMegaphone = (p: Props) => (
+  <Svg {...p}>
+    <path d="M4 10v4a1 1 0 0 0 1 1h3l6 4V5L8 9H5a1 1 0 0 0-1 1Z" />
+    <path d="M18 9a4 4 0 0 1 0 6" />
+  </Svg>
+);
+
 export const IconUser = (p: Props) => (
   <Svg {...p}>
     <circle cx="12" cy="8.5" r="3.8" />

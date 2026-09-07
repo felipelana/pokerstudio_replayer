@@ -11,10 +11,11 @@ import {
   type AdminUserRow,
 } from '@/infrastructure/http/adminApi';
 import { ApiError } from '@/infrastructure/http/client';
+import { feedbackApi, type AdminFeedbackRow, type FeedbackStatus } from '@/infrastructure/http/feedbackApi';
 import { useAuthStore } from '@/state/authStore';
 import { TwoFactorGate } from './TwoFactorGate';
 
-type Tab = 'dashboard' | 'users' | 'access' | 'email';
+type Tab = 'dashboard' | 'users' | 'access' | 'email' | 'feedback';
 
 /**
  * /admstudio — the administrative area. The role is checked here for the sake
@@ -44,6 +45,7 @@ export function AdmStudioPage() {
     { id: 'users', label: t('admstudio.users') },
     { id: 'access', label: t('admstudio.access') },
     { id: 'email', label: t('admstudio.email') },
+    { id: 'feedback', label: t('admstudio.feedback') },
   ];
 
   return (
@@ -81,6 +83,7 @@ export function AdmStudioPage() {
           {tab === 'users' && <UsersTab />}
           {tab === 'access' && <AccessTab />}
           {tab === 'email' && <EmailTab />}
+          {tab === 'feedback' && <FeedbackTab />}
         </TwoFactorGate>
       </div>
     </div>
@@ -867,5 +870,156 @@ function EmailTab() {
         <Empty busy={busy} error={error} empty={data?.length === 0} />
       </div>
     </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Feedback                                                            */
+/* ------------------------------------------------------------------ */
+
+const FEEDBACK_STATUSES: FeedbackStatus[] = ['NEW', 'READ', 'PLANNED', 'DONE', 'DECLINED'];
+
+/** Colour per state, so the box can be skimmed. */
+const FEEDBACK_COLOR: Record<FeedbackStatus, string> = {
+  NEW: 'var(--accent)',
+  READ: 'var(--text-muted)',
+  PLANNED: 'var(--result-break-even)',
+  DONE: 'var(--result-won)',
+  DECLINED: 'var(--result-lost)',
+};
+
+/**
+ * What the people using the tool have asked for. Every note is here in full,
+ * with a state and a place to record what was decided about it.
+ */
+function FeedbackTab() {
+  const { t } = useTranslation();
+  const [status, setStatus] = useState<'' | FeedbackStatus>('');
+  const [page, setPage] = useState(1);
+  const { data, error, busy, reload } = useLoader(
+    () => feedbackApi.list({ status: status || undefined, page }),
+    [status, page],
+  );
+  const pages = data ? Math.max(1, Math.ceil(data.total / data.pageSize)) : 1;
+
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="flex flex-wrap items-end gap-2">
+        <label className="flex flex-col text-sm">
+          <span className="label">{t('admstudio.colStatus')}</span>
+          <select
+            className="input w-[190px]"
+            value={status}
+            onChange={(e) => {
+              setPage(1);
+              setStatus(e.target.value as '' | FeedbackStatus);
+            }}
+          >
+            <option value="">{t('admstudio.any')}</option>
+            {FEEDBACK_STATUSES.map((value) => (
+              <option key={value} value={value}>
+                {t(`feedback.statuses.${value}`)}
+              </option>
+            ))}
+          </select>
+        </label>
+        {data && (
+          <p className="pb-2 text-sm" style={{ color: 'var(--text-muted)' }}>
+            {t('admstudio.feedbackCount', { total: data.total, unread: data.unread })}
+          </p>
+        )}
+      </div>
+
+      {error && (
+        <p className="text-sm" role="alert" style={{ color: 'var(--result-lost)' }}>
+          {error}
+        </p>
+      )}
+      {busy && <p className="text-sm">{t('common.loading')}</p>}
+      {data && data.items.length === 0 && !busy && (
+        <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+          {t('admstudio.feedbackEmpty')}
+        </p>
+      )}
+
+      <div className="flex flex-col gap-3">
+        {data?.items.map((row) => (
+          <FeedbackCard key={row.id} row={row} onSaved={reload} />
+        ))}
+      </div>
+
+      {pages > 1 && (
+        <div className="flex items-center gap-2">
+          <button type="button" className="btn" disabled={page <= 1} onClick={() => setPage((n) => n - 1)}>
+            ←
+          </button>
+          <span className="tabular-nums">
+            {page} / {pages}
+          </span>
+          <button type="button" className="btn" disabled={page >= pages} onClick={() => setPage((n) => n + 1)}>
+            →
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/** One note, with the two things the team can change about it. */
+function FeedbackCard({ row, onSaved }: { row: AdminFeedbackRow; onSaved: () => void }) {
+  const { t } = useTranslation();
+  const [status, setStatus] = useState<FeedbackStatus>(row.status);
+  const [note, setNote] = useState(row.adminNote ?? '');
+  const [busy, setBusy] = useState(false);
+  const dirty = status !== row.status || note !== (row.adminNote ?? '');
+
+  const save = async () => {
+    setBusy(true);
+    try {
+      await feedbackApi.update(row.id, { status, adminNote: note });
+      onSaved();
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <article className="panel p-4">
+      <header className="flex flex-wrap items-baseline gap-2">
+        <span className="text-xs font-semibold uppercase tracking-wide" style={{ color: FEEDBACK_COLOR[row.status] }}>
+          {t(`feedback.statuses.${row.status}`)}
+        </span>
+        <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
+          {t(`feedback.kinds.${row.kind}`)}
+        </span>
+        <h3 className="w-full font-semibold">{row.subject}</h3>
+        <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
+          {row.user ? `${row.user.name} · ${row.user.email}` : t('admstudio.feedbackNoAccount')}
+          {row.appSurface ? ` · ${row.appSurface}` : ''} · {new Date(row.createdAt).toLocaleString()}
+        </span>
+      </header>
+
+      <p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed">{row.body}</p>
+
+      <div className="mt-3 flex flex-wrap items-end gap-2">
+        <label className="flex flex-col text-sm">
+          <span className="label">{t('admstudio.colStatus')}</span>
+          <select className="input w-[160px]" value={status} onChange={(e) => setStatus(e.target.value as FeedbackStatus)}>
+            {FEEDBACK_STATUSES.map((value) => (
+              <option key={value} value={value}>
+                {t(`feedback.statuses.${value}`)}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="flex min-w-[220px] flex-1 flex-col text-sm">
+          <span className="label">{t('admstudio.feedbackNote')}</span>
+          <input className="input" value={note} maxLength={2000} onChange={(e) => setNote(e.target.value)} />
+        </label>
+        <button type="button" className="btn btn-primary" disabled={!dirty || busy} onClick={() => void save()}>
+          {t('common.save')}
+        </button>
+      </div>
+    </article>
   );
 }
