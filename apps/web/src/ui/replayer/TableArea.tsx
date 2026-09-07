@@ -67,7 +67,7 @@ export function TableArea({ replay, frame, heroName, onSeatClick }: Props) {
     hideHeroCards: settings.hideHeroCards,
     holeLayout: settings.holeLayoutOverride === 'skin' ? undefined : settings.holeLayoutOverride,
     zoomCards: settings.zoomCards,
-    boardGapRatio: settings.boardGap === 'skin' ? undefined : settings.boardGap,
+    boardGapRatio: settings.boardGapOverride === 'skin' ? undefined : settings.boardGapOverride,
     deckArt,
     zoomChips: settings.zoomChips,
     chipDenominations: settings.chipDenominations,

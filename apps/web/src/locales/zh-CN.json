@@ -484,7 +484,10 @@
       "tooLarge": "图片过大（最大 6 MB）。"
     },
     "chooseSkin": "正在编辑的皮肤",
-    "savedLocallyOnly": "已保存到本设备 — 无法连接账户。"
+    "savedLocallyOnly": "已保存到本设备 — 无法连接账户。",
+    "myCopy": "我的版本",
+    "discardChanges": "放弃更改",
+    "changesDiscarded": "更改已放弃。"
   },
   "warnings": {
     "title": "警告",

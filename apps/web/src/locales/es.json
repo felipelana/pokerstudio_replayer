@@ -484,7 +484,10 @@
       "tooLarge": "Imagen demasiado grande (máx. 6 MB)."
     },
     "chooseSkin": "Skin en edición",
-    "savedLocallyOnly": "Guardada en este equipo: no se pudo contactar con la cuenta."
+    "savedLocallyOnly": "Guardada en este equipo: no se pudo contactar con la cuenta.",
+    "myCopy": "mi versión",
+    "discardChanges": "Descartar cambios",
+    "changesDiscarded": "Cambios descartados."
   },
   "warnings": {
     "title": "Avisos",

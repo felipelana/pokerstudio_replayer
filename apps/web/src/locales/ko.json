@@ -484,7 +484,10 @@
       "tooLarge": "이미지가 너무 큽니다(최대 6MB)."
     },
     "chooseSkin": "편집 중인 스킨",
-    "savedLocallyOnly": "이 기기에 저장했습니다 — 계정에 연결하지 못했습니다."
+    "savedLocallyOnly": "이 기기에 저장했습니다 — 계정에 연결하지 못했습니다.",
+    "myCopy": "내 버전",
+    "discardChanges": "변경 취소",
+    "changesDiscarded": "변경을 취소했습니다."
   },
   "warnings": {
     "title": "경고",

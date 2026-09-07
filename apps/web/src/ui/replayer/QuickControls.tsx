@@ -106,7 +106,7 @@ export function QuickControls({ hand }: { hand: Hand }) {
               type="button"
               className="text-[10.5px] underline"
               style={{ color: 'var(--text-muted)' }}
-              onClick={() => update({ zoomTable: 1, zoomCards: 1, zoomChips: 1, boardGap: 'skin' })}
+              onClick={() => update({ zoomTable: 1, zoomCards: 1, zoomChips: 1, boardGapOverride: 'skin' })}
             >
               {t('common.reset')}
             </button>
@@ -146,14 +146,14 @@ export function QuickControls({ hand }: { hand: Hand }) {
               min={0}
               max={0.6}
               step={0.02}
-              value={settings.boardGap === 'skin' ? (skin.deck.boardGap ?? 0.36) : settings.boardGap}
-              onChange={(e) => update({ boardGap: Number(e.target.value) })}
+              value={settings.boardGapOverride === 'skin' ? (skin.deck.boardGap ?? 0.36) : settings.boardGapOverride}
+              onChange={(e) => update({ boardGapOverride: Number(e.target.value) })}
               className="flex-1"
               style={{ accentColor: 'var(--accent)' }}
               aria-label={t('replayer.boardGap')}
             />
             <span className="w-11 shrink-0 text-right tabular-nums">
-              {Math.round((settings.boardGap === 'skin' ? (skin.deck.boardGap ?? 0.36) : settings.boardGap) * 100)}%
+              {Math.round((settings.boardGapOverride === 'skin' ? (skin.deck.boardGap ?? 0.36) : settings.boardGapOverride) * 100)}%
             </span>
           </label>
 

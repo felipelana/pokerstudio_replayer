@@ -16,7 +16,7 @@ import { useAppStore } from '@/state/store';
 import { useAuthStore } from '@/state/authStore';
 import { skinApi } from '@/infrastructure/http/accountApi';
 import { Card } from '@/ui/cards/Card';
-import { IconCheck, IconCopy, IconDownload, IconPlus, IconSave, IconTrash, IconUpload } from '@/ui/icons';
+import { IconCheck, IconCopy, IconDownload, IconPlus, IconSave, IconTrash, IconUndo, IconUpload } from '@/ui/icons';
 
 /* ------------------------------------------------------------------ */
 /* Demo hand for the live preview                                      */
@@ -193,9 +193,13 @@ export function AdminPage() {
   const save = async () => {
     const skin: Skin = { ...draft, isBuiltIn: false, updatedAt: Date.now(), createdAt: draft.createdAt ?? Date.now() };
     if (BUILT_IN_SKINS.some((b) => b.id === skin.id)) {
-      // Never overwrite a built-in: save as a copy.
-      skin.id = newId();
-      skin.name = `${draft.name} (copy)`;
+      // A built-in is never overwritten. The first save makes the account's own
+      // copy of it; every save after that updates that same copy, so editing a
+      // built-in does not leave a trail of duplicates.
+      const existing = skins.find((s) => !s.isBuiltIn && s.derivedFrom === skin.id);
+      skin.derivedFrom = skin.id;
+      skin.id = existing?.id ?? newId();
+      skin.name = existing?.name ?? `${draft.name} — ${t('admin.myCopy')}`;
     }
     await getRepository().saveSkin(skin);
     await loadSkins();
@@ -214,6 +218,16 @@ export function AdminPage() {
     }
     setNotice(message);
     window.setTimeout(() => setNotice(''), 2500);
+  };
+
+  /** Back to the last saved state of this skin — or to the built-in it copies. */
+  const discard = () => {
+    const stored = skins.find((s) => s.id === draft.id) ?? BUILT_IN_SKINS.find((s) => s.id === draft.derivedFrom);
+    if (!stored) return;
+    setDraft(stored);
+    setDirty(false);
+    setNotice(t('admin.changesDiscarded'));
+    window.setTimeout(() => setNotice(''), 2000);
   };
 
   const duplicate = () => {
@@ -312,9 +326,23 @@ export function AdminPage() {
           <h1 className="text-lg font-semibold">{t('admin.title')}</h1>
           <div className="flex-1" />
           {dirty && (
-            <span className="text-[11px]" style={{ color: 'var(--result-break-even)' }}>
+            <span
+              className="chip-tag text-[11px]"
+              style={{ color: 'var(--result-break-even)', borderColor: 'var(--result-break-even)' }}
+            >
               {t('admin.unsavedChanges')}
             </span>
+          )}
+          {dirty && (
+            <button
+              type="button"
+              className="btn-icon"
+              title={t('admin.discardChanges')}
+              aria-label={t('admin.discardChanges')}
+              onClick={discard}
+            >
+              <IconUndo size={15} />
+            </button>
           )}
           {notice && <span className="text-[11px]">{notice}</span>}
         </div>

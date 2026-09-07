@@ -315,3 +315,11 @@ export const IconPencil = (p: Props) => (
     <path d="m14 6 4 4" />
   </Svg>
 );
+
+/** Undo: an arrow curving back. */
+export const IconUndo = (p: Props) => (
+  <Svg {...p}>
+    <path d="M4 9h11a5 5 0 0 1 0 10h-6" />
+    <path d="m8 5-4 4 4 4" />
+  </Svg>
+);

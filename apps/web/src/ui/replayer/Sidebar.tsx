@@ -115,7 +115,16 @@ export function Sidebar({
 
   useEffect(() => {
     const pos = filtered.findIndex((x) => x.i === currentIndex);
-    if (pos >= 0) virtualizer.scrollToIndex(pos, { align: 'auto' });
+    if (pos < 0) return;
+    virtualizer.scrollToIndex(pos, { align: 'auto' });
+    // On the first render the list has no measured height yet — a resumed
+    // session opens straight at its hand, and the row would stay out of sight.
+    const frame = window.requestAnimationFrame(() => virtualizer.scrollToIndex(pos, { align: 'auto' }));
+    const settle = window.setTimeout(() => virtualizer.scrollToIndex(pos, { align: 'center' }), 150);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.clearTimeout(settle);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex, filtered]);
 

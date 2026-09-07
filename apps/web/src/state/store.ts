@@ -52,7 +52,7 @@ export interface Settings {
   zoomCards: number;
   zoomChips: number;
   /** Overrides the skin's board spacing; 'skin' follows whatever it sets. */
-  boardGap: number | 'skin';
+  boardGapOverride: number | 'skin';
   /** Print the denomination on each chip (R22). */
   chipDenominations: boolean;
   /** The user's own leak tags (L1). */
@@ -88,7 +88,7 @@ export const DEFAULT_SETTINGS: Settings = {
   zoomTable: 1,
   zoomCards: 1,
   zoomChips: 1,
-  boardGap: 'skin',
+  boardGapOverride: 'skin',
   chipDenominations: true,
   leakTags: DEFAULT_TAGS,
   rotateToHero: true,

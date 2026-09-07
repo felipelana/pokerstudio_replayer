@@ -162,6 +162,11 @@ export interface Skin {
   name: string;
   theme: 'dark' | 'light';
   isBuiltIn?: boolean;
+  /**
+   * Built-in this skin was first saved from. Saving that built-in again updates
+   * this copy instead of making another one.
+   */
+  derivedFrom?: string;
   createdAt?: number;
   updatedAt?: number;
   deck: DeckSkin;

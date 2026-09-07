@@ -484,7 +484,10 @@
       "tooLarge": "Bild zu groß (max. 6 MB)."
     },
     "chooseSkin": "Bearbeitete Skin",
-    "savedLocallyOnly": "Auf diesem Gerät gespeichert — das Konto war nicht erreichbar."
+    "savedLocallyOnly": "Auf diesem Gerät gespeichert — das Konto war nicht erreichbar.",
+    "myCopy": "meine Version",
+    "discardChanges": "Änderungen verwerfen",
+    "changesDiscarded": "Änderungen verworfen."
   },
   "warnings": {
     "title": "Warnungen",
