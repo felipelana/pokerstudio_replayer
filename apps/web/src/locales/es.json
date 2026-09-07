@@ -71,7 +71,7 @@
   },
   "library": {
     "title": "Biblioteca de historiales",
-    "dropzone": "Arrastra archivos .txt o carpetas aquí",
+    "dropzone": "Arrastra un archivo .txt aquí",
     "dropzoneHint": "Historiales de PokerStars de cash y torneo. Otras salas se reconocen pero aún no están soportadas.",
     "selectFiles": "Seleccionar archivos",
     "pastePlaceholder": "Pega una o más manos aquí…",
@@ -138,7 +138,9 @@
     "nameDialogTitle": "Nombrar las sesiones",
     "nameDialogBody": "{{count}} importada(s). Ponle nombre a cada una o conserva el del archivo.",
     "keepFileNames": "Conservar nombres de archivo",
-    "perPage": "Por página"
+    "perPage": "Por página",
+    "importedOk": "Importado correctamente",
+    "onlyFirstFile": "Solo se importó «{{name}}»: quedaron fuera {{count}} archivo(s). Importa de uno en uno."
   },
   "sidebar": {
     "loadHands": "Cargar historiales",

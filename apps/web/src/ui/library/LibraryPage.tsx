@@ -32,6 +32,13 @@ import sampleUrl from '../../../samples/pokerstars-demo.txt?url';
  */
 const FROZEN_WIDTHS = [160, 150, 96];
 
+/**
+ * Every column's width, in order: the checkbox, the three frozen ones, then
+ * hands, status, storage, imported, last opened and the actions. Declared so a
+ * change of page never moves a heading.
+ */
+const COLUMN_WIDTHS = [36, ...FROZEN_WIDTHS, 64, 158, 124, 150, 150, 168];
+
 /** Choices for how many sessions a page shows. */
 const PAGE_SIZES = [5, 10, 20, 50];
 
@@ -546,7 +553,12 @@ export function LibraryPage() {
           </div>
         ) : (
           <div className="max-h-[52vh] overflow-auto">
-            <table className="table-zebra w-full min-w-[760px] text-sm">
+            <table className="table-zebra w-full min-w-[1100px] table-fixed text-sm">
+              <colgroup>
+                {COLUMN_WIDTHS.map((width, index) => (
+                  <col key={index} style={{ width }} />
+                ))}
+              </colgroup>
               <thead className="sticky top-0 z-20">
                 <tr className="text-left text-xs font-bold uppercase tracking-wide" style={{ color: '#e8e8ee', background: '#000' }}>
                   {/* The first three columns stay put while the rest scrolls. */}
@@ -614,7 +626,7 @@ export function LibraryPage() {
                         {s.sourceFileName ?? '—'}
                       </button>
                     </td>
-                    <td className="whitespace-nowrap px-3 py-2" style={{ ...frozen(2), background: 'var(--row-bg, var(--surface))' }}>
+                    <td className="truncate whitespace-nowrap px-3 py-2" style={{ ...frozen(2), background: 'var(--row-bg, var(--surface))' }} title={siteName(s.site)}>
                       {siteName(s.site)}
                     </td>
                     <td className="px-3 py-2 text-right tabular-nums">{s.handCount}</td>

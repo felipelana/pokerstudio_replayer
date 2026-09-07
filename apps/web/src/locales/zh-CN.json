@@ -71,7 +71,7 @@
   },
   "library": {
     "title": "牌局记录库",
-    "dropzone": "将 .txt 文件或文件夹拖到此处",
+    "dropzone": "将一个 .txt 文件拖到这里",
     "dropzoneHint": "支持 PokerStars 现金桌和锦标赛牌局记录。其他平台可识别但暂不支持。",
     "selectFiles": "选择文件",
     "pastePlaceholder": "在此粘贴一手或多手牌…",
@@ -138,7 +138,9 @@
     "nameDialogTitle": "为会话命名",
     "nameDialogBody": "已导入 {{count}} 个。为每个命名，或保留文件名。",
     "keepFileNames": "保留文件名",
-    "perPage": "每页"
+    "perPage": "每页",
+    "importedOk": "导入成功",
+    "onlyFirstFile": "只导入了“{{name}}”，另有 {{count}} 个文件未处理。请逐个导入。"
   },
   "sidebar": {
     "loadHands": "加载牌局记录",

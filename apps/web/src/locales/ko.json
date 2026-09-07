@@ -71,7 +71,7 @@
   },
   "library": {
     "title": "핸드 히스토리 라이브러리",
-    "dropzone": ".txt 파일이나 폴더를 여기로 드래그하세요",
+    "dropzone": ".txt 파일 하나를 여기로 끌어다 놓으세요",
     "dropzoneHint": "PokerStars 캐시 및 토너먼트 핸드 히스토리를 지원합니다. 다른 사이트는 인식만 되며 아직 지원되지 않습니다.",
     "selectFiles": "파일 선택",
     "pastePlaceholder": "핸드를 하나 이상 여기에 붙여넣으세요…",
@@ -138,7 +138,9 @@
     "nameDialogTitle": "세션 이름 지정",
     "nameDialogBody": "{{count}}개를 가져왔습니다. 각각 이름을 정하거나 파일 이름을 유지하세요.",
     "keepFileNames": "파일 이름 유지",
-    "perPage": "페이지당"
+    "perPage": "페이지당",
+    "importedOk": "가져왔습니다",
+    "onlyFirstFile": "“{{name}}”만 가져왔습니다 — 다른 {{count}}개는 제외되었습니다. 하나씩 가져오세요."
   },
   "sidebar": {
     "loadHands": "핸드 히스토리 불러오기",

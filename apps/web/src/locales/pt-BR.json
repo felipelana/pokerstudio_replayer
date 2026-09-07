@@ -71,7 +71,7 @@
   },
   "library": {
     "title": "Biblioteca de hand histories",
-    "dropzone": "Arraste arquivos .txt ou pastas aqui",
+    "dropzone": "Arraste um arquivo .txt aqui",
     "dropzoneHint": "Hand histories PokerStars de cash e torneio. Outros sites são reconhecidos, mas ainda não suportados.",
     "selectFiles": "Selecionar arquivos",
     "pastePlaceholder": "Cole uma ou mais mãos aqui…",
@@ -138,7 +138,9 @@
     "nameDialogTitle": "Nomear as sessões",
     "nameDialogBody": "{{count}} importada(s). Dê um nome a cada uma, ou mantenha o nome do arquivo.",
     "keepFileNames": "Manter nome do arquivo",
-    "perPage": "Por página"
+    "perPage": "Por página",
+    "importedOk": "Importado com sucesso",
+    "onlyFirstFile": "Só “{{name}}” foi importado — {{count}} outro(s) arquivo(s) ficaram de fora. Importe um por vez."
   },
   "sidebar": {
     "loadHands": "Carregar hand histories",

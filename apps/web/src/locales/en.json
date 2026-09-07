@@ -71,7 +71,7 @@
   },
   "library": {
     "title": "Hand history library",
-    "dropzone": "Drag .txt files or folders here",
+    "dropzone": "Drag a .txt file here",
     "dropzoneHint": "PokerStars cash and tournament hand histories. Other sites are recognised but not supported yet.",
     "selectFiles": "Select files",
     "pastePlaceholder": "Paste one or more hands here…",
@@ -138,7 +138,9 @@
     "nameDialogTitle": "Name the sessions",
     "nameDialogBody": "{{count}} imported. Give each one a name, or keep the file names.",
     "keepFileNames": "Keep file names",
-    "perPage": "Per page"
+    "perPage": "Per page",
+    "importedOk": "Imported",
+    "onlyFirstFile": "Only “{{name}}” was imported — {{count}} other file(s) were left out. Import one at a time."
   },
   "sidebar": {
     "loadHands": "Load hand histories",

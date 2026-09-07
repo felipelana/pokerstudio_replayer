@@ -48,7 +48,10 @@ export function ImportPanel({ onImported, compact }: Props) {
         const warnCount = s.session.warnings.length;
         if (warnCount) parts.push(t('common.warnings', { count: warnCount }));
         if (s.duplicates) parts.push(t('library.importedDuplicates', { count: s.duplicates }));
-        msgs.push({ kind: warnCount ? 'warn' : 'ok', text: `${s.session.name}: ${parts.join(' · ')}` });
+        msgs.push({
+          kind: warnCount ? 'warn' : 'ok',
+          text: `${t('library.importedOk')} — ${s.session.name}: ${parts.join(' · ')}`,
+        });
       }
       setMessages(msgs);
       onImported(summaries.filter((s) => s.result.hands.length > 0));
@@ -61,14 +64,27 @@ export function ImportPanel({ onImported, compact }: Props) {
       if (!files.length) return;
       setBusy(true);
       try {
-        report(await importFiles(files, override || undefined));
+        // One tournament at a time: a session is a sitting, and importing a
+        // pile of files at once only makes the library harder to read. When
+        // more arrive — a dropped folder — the first is taken and the rest are
+        // named in the message rather than silently dropped.
+        const [first, ...rest] = files.filter((f) => /\.txt$/i.test(f.name) || f.type.startsWith('text/'));
+        if (!first) return;
+        const summaries = await importFiles([first], override || undefined);
+        report(summaries);
+        if (rest.length) {
+          setMessages((current) => [
+            ...current,
+            { kind: 'warn', text: t('library.onlyFirstFile', { count: rest.length, name: first.name }) },
+          ]);
+        }
       } catch (e) {
         setMessages([{ kind: 'error', text: String(e) }]);
       } finally {
         setBusy(false);
       }
     },
-    [override, report],
+    [override, report, t],
   );
 
   const onDrop = async (e: DragEvent) => {
@@ -134,7 +150,6 @@ export function ImportPanel({ onImported, compact }: Props) {
             ref={fileInput}
             type="file"
             accept=".txt,text/plain"
-            multiple
             hidden
             onChange={(e) => {
               void handleFiles(Array.from(e.target.files ?? []));
