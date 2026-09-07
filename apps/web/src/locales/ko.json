@@ -1,6 +1,6 @@
 {
   "app": {
-    "title": "포커 핸드 리플레이어",
+    "title": "PokerStudio Replayer",
     "tagline": "브라우저에서 핸드 히스토리를 재생하세요. 데이터는 기기 밖으로 나가지 않습니다."
   },
   "nav": {

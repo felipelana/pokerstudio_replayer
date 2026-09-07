@@ -1,6 +1,6 @@
 {
   "app": {
-    "title": "扑克牌局回放器",
+    "title": "PokerStudio Replayer",
     "tagline": "在浏览器中回放牌局记录。数据不会离开您的设备。"
   },
   "nav": {

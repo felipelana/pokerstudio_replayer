@@ -1,6 +1,6 @@
 {
   "app": {
-    "title": "ポーカーハンドリプレイヤー",
+    "title": "PokerStudio Replayer",
     "tagline": "ブラウザでハンド履歴を再生。データは端末の外に出ません。"
   },
   "nav": {
