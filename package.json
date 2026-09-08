@@ -22,7 +22,9 @@
     "db:reset": "npm run db:reset -w @pokerstudio/api",
     "db:studio": "npm run db:studio -w @pokerstudio/api",
     "dev:landing": "npm run dev -w @pokerstudio/landingpage",
-    "build:landing": "npm run build -w @pokerstudio/landingpage"
+    "build:landing": "npm run build -w @pokerstudio/landingpage",
+    "changelog": "node infra/scripts/changelog.mjs",
+    "changelog:check": "node infra/scripts/changelog.mjs --check"
   },
   "devDependencies": {
     "prettier": "^3.3.3",

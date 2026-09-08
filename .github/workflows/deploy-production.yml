@@ -1,0 +1,46 @@
+# Production is released by tagging, never by merging. A tag is a deliberate
+# act with a name, and it is the same name that ends up in /health and in the
+# admin footer, so "which version is live" has one answer everywhere.
+#
+#   git tag -a v0.2.0 -m "..." && git push origin v0.2.0
+#
+# The `production` GitHub Environment is where the manual approval lives: with
+# a required reviewer configured there, the deploy job waits for a person.
+name: Production
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: An existing v* tag to re-deploy.
+        required: true
+        type: string
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  deploy:
+    uses: ./.github/workflows/deploy.yml
+    with:
+      app_env: production
+      image_tag: ${{ github.event.inputs.tag || github.ref_name }}
+      version: ${{ github.event.inputs.tag || github.ref_name }}
+      project: pokerstudio-prod
+      overlay: docker-compose.prod.yml
+      app_dir: /opt/pokerstudio/prod
+      health_url: https://replayer.pokerstudio.com.br/api/v1/health
+      landing_url: https://pokerstudio.com.br/
+      github_environment: production
+    secrets:
+      VPS_HOST: ${{ secrets.VPS_HOST }}
+      VPS_USER: ${{ secrets.VPS_USER }}
+      VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+      VPS_PORT: ${{ secrets.VPS_PORT }}

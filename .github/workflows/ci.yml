@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main, master]
+    branches: [main, develop]
   pull_request:
 
 jobs:
@@ -20,6 +20,19 @@ jobs:
       - run: npm run lint
       - run: npm test -w @pokerstudio/web
       - run: npm run build
+
+  landing:
+    name: Landing page
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run check:locales -w @pokerstudio/landingpage
+      - run: npm run build:landing
 
   api:
     name: API

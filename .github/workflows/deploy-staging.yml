@@ -1,0 +1,36 @@
+# Every merge into develop lands on staging, unattended. That is the point of
+# having a staging: it is only useful if getting there costs nothing.
+name: Staging
+
+on:
+  push:
+    branches: [develop]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-staging
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  deploy:
+    uses: ./.github/workflows/deploy.yml
+    with:
+      app_env: staging
+      image_tag: staging-${{ github.sha }}
+      version: staging-${{ github.run_number }}
+      project: pokerstudio-staging
+      overlay: docker-compose.staging.yml
+      app_dir: /opt/pokerstudio/staging
+      health_url: https://stage.replayer.pokerstudio.com.br/api/v1/health
+      landing_url: https://web.replayer.pokerstudio.com.br/
+    secrets:
+      VPS_HOST: ${{ secrets.VPS_HOST }}
+      VPS_USER: ${{ secrets.VPS_USER }}
+      VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+      VPS_PORT: ${{ secrets.VPS_PORT }}
+      STAGING_USER: ${{ secrets.STAGING_USER }}
+      STAGING_PASSWORD: ${{ secrets.STAGING_PASSWORD }}
