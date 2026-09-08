@@ -1,10 +1,16 @@
 import type { Hand, Site } from '@/model/types';
 import { normalizeRaw, sha256 } from '@/model/hash';
+import { chicoParser } from './chico';
 import { pokerStarsParser } from './pokerstars';
 import { stubParsers } from './stubs';
 import { NotImplementedError, type HandHistoryParser, type ParseResult } from './types';
 
-export const parsers: HandHistoryParser[] = [pokerStarsParser, ...stubParsers];
+/**
+ * Chico comes before PokerStars deliberately: it publishes under the PokerStars
+ * header, and only its own signatures tell the two apart. Detection picks the
+ * highest confidence, and PokerStars stands down when Chico's marks are there.
+ */
+export const parsers: HandHistoryParser[] = [chicoParser, pokerStarsParser, ...stubParsers];
 
 export function parserFor(site: Site): HandHistoryParser | undefined {
   return parsers.find((p) => p.site === site);

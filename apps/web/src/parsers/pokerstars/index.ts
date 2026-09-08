@@ -7,19 +7,24 @@ import type {
   Player,
   Pot,
   TournamentInfo,
+  Site,
   Variant,
 } from '@/model/types';
 import { parseCards } from '@/model/cards';
 import { parseMoney } from '@/model/format';
 import type { HandHistoryParser } from '../types';
+import { chicoConfidence } from '../chico/signature';
 
 /* ------------------------------------------------------------------ */
 /* Regexes                                                             */
 /* ------------------------------------------------------------------ */
 
 const RE_HEADER_START = /^PokerStars (?:Zoom |Home Game )?(?:Hand|Game) #(\d+):\s*(.*)$/;
+// The tournament id is not always numeric — Chico writes 916-1a5ca85 — and the
+// level is not always named: Chico publishes "Level (3500/7000)" with no
+// numeral at all. Both are optional here so one grammar serves both rooms.
 const RE_TOURNEY =
-  /^Tournament #(\d+),\s*(.+?)\s+(Hold'em|6\+ Hold'em|Omaha Hi\/Lo|Omaha|Courchevel|Razz)\s+(No Limit|Pot Limit|Limit|Fixed Limit)\s*-\s*(?:Match Round [IVXLC\d]+,\s*)?Level ([IVXLC\d]+)\s*\((\S+)\/(\S+)\)\s*-\s*(.+)$/;
+  /^Tournament #([\w-]+),\s*(.+?)\s+(Hold'em|6\+ Hold'em|Omaha Hi\/Lo|Omaha|Courchevel|Razz)\s+(No Limit|Pot Limit|Limit|Fixed Limit)\s*-\s*(?:Match Round [IVXLC\d]+,\s*)?Level (?:([IVXLC\d]+)\s*)?\((\S+)\/(\S+)\)\s*-\s*(.+)$/;
 const RE_CASH =
   /^(Hold'em|6\+ Hold'em|Omaha Hi\/Lo|Omaha|Courchevel|Razz)\s+(No Limit|Pot Limit|Limit|Fixed Limit)\s*\(([^)]+)\)\s*-\s*(.+)$/;
 const RE_TIMESTAMP = /(\d{4})\/(\d{2})\/(\d{2}) (\d{1,2}):(\d{2}):(\d{2})\s*([A-Z]{2,5})?/;
@@ -47,7 +52,7 @@ const RE_TOTAL_POT =
 const RE_SIDE_POT = /Side pot(?:-(\d+))? ([^ .]+)\./g;
 const RE_BOARD = /^(?:FIRST |SECOND )?Board \[([^\]]*)\]$/;
 const RE_SUMMARY_SEAT =
-  /^Seat (\d+): (.+?)(?: \((button|small blind|big blind|button\) \(small blind|button\) \(big blind)\))? (folded before Flop(?: \(didn't bet\))?|folded on the (?:Flop|Turn|River)|showed \[([^\]]+)\] and (?:won|lost) \(?[^)]*\)?.*|mucked(?: \[([^\]]+)\])?|collected \(([^)]+)\)|won \(([^)]+)\).*)$/;
+  /^Seat (\d+): (.+?)(?: \((button|small blind|big blind|button\) \(small blind|button\) \(big blind)\))? (folded before Flop(?: \(didn't bet\))?|folded on the (?:Flop|Turn|River)|showed \[([^\]]+)\] and (?:won|lost) \(?[^)]*\)?.*|mucked(?: \[([^\]]+)\])?|collected \(([^)]+)\)|won \(([^)]+)\).*|showed \[([^\]]+)\])$/;
 
 const RE_TIMEOUT = /^(.+) has timed out(?: while (?:being )?disconnected)?$/;
 const RE_DISCONNECT = /^(.+) is (disconnected|connected)$/;
@@ -208,11 +213,17 @@ function act(player: string, type: ActionType, raw: string, extra: Partial<Actio
 type Section = 'header' | 'preflop' | 'flop' | 'turn' | 'river' | 'showdown' | 'summary';
 
 export class PokerStarsParser implements HandHistoryParser {
-  site = 'pokerstars' as const;
+  // Declared as the wider type so a room that publishes the same grammar —
+  // Chico does — can extend this parser and answer with its own name.
+  site: Site = 'pokerstars';
   displayName = 'PokerStars';
 
   detect(text: string): number {
     const head = text.slice(0, 4000);
+    // Chico publishes under the PokerStars header; whoever wrote the file, it
+    // is not PokerStars, and guessing wrong replays the hand under the wrong
+    // grammar in silence.
+    if (chicoConfidence(head) > 0) return 0;
     if (/PokerStars (?:Zoom |Home Game )?(?:Hand|Game) #\d+/.test(head)) return 1;
     if (/\*\*\* HOLE CARDS \*\*\*/.test(head) && /Seat #\d+ is the button/.test(head)) return 0.4;
     return 0;
@@ -305,7 +316,7 @@ export class PokerStarsParser implements HandHistoryParser {
         if (t) {
           gameType = 'tournament';
           currency = 'chips';
-          tournament = { id: t[1], level: t[5], ...parseBuyIn(t[2]) };
+          tournament = { id: t[1], ...(t[5] ? { level: t[5] } : {}), ...parseBuyIn(t[2]) };
           variant = variantOf(t[3]);
           limit = limitOf(t[4]);
           blinds = { sb: money(t[6]), bb: money(t[7]) };
@@ -429,7 +440,9 @@ export class PokerStarsParser implements HandHistoryParser {
         const ss = line.match(RE_SUMMARY_SEAT);
         if (ss) {
           const name = ss[2];
-          const shown = ss[5] ?? ss[6];
+          // Cards may come from "showed [..] and won", from "mucked [..]", or
+          // from a bare "showed [..]" — the last is all Chico writes.
+          const shown = ss[5] ?? ss[6] ?? ss[9];
           if (shown) {
             const cards = parseCards(shown);
             if (cards.length && !holeCards[name]) holeCards[name] = cards;
@@ -617,11 +630,33 @@ export class PokerStarsParser implements HandHistoryParser {
 
     /* ---------- assemble pots ---------- */
     if (summary.pots.length === 0) {
-      summary.pots.push({
-        kind: 'total',
-        amount: summary.totalPot || collectTargets.reduce((s, c) => s + c.amount, 0),
-        winners: [],
-      });
+      // Some rooms — Chico among them — print "Total pot N | Rake N" with no
+      // breakdown, and name the pots only on the lines that pay them out. When
+      // one of those names a side pot, the split is real and worth keeping.
+      const sources = [...new Set(collectTargets.map((c) => c.source))];
+      const sideIndexes = sources
+        .filter((s) => s.startsWith('side pot'))
+        .map((s) => (s.includes('-') ? +s.split('-')[1] : 1));
+
+      if (sideIndexes.length > 0) {
+        const sum = (match: (source: string) => boolean) =>
+          collectTargets.filter((c) => match(c.source)).reduce((total, c) => total + c.amount, 0);
+        summary.pots.push({ kind: 'main', amount: round2(sum((src) => src === 'main pot' || src === 'pot')), winners: [] });
+        for (const index of [...new Set(sideIndexes)].sort((a, b) => a - b)) {
+          summary.pots.push({
+            kind: 'side',
+            index,
+            amount: round2(sum((src) => src.startsWith('side pot') && (src.includes('-') ? +src.split('-')[1] : 1) === index)),
+            winners: [],
+          });
+        }
+      } else {
+        summary.pots.push({
+          kind: 'total',
+          amount: summary.totalPot || collectTargets.reduce((s, c) => s + c.amount, 0),
+          winners: [],
+        });
+      }
     }
     for (const c of collectTargets) {
       let pot: Pot | undefined;
