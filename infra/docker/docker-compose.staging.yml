@@ -1,0 +1,18 @@
+# Staging. The names below are how Caddy reaches these containers, and they
+# carry the environment in them so the two stacks can share one network without
+# ever answering for each other.
+services:
+  api:
+    networks:
+      edge:
+        aliases: [api-staging]
+
+  web:
+    networks:
+      edge:
+        aliases: [web-staging]
+
+  landing:
+    networks:
+      edge:
+        aliases: [landing-staging]

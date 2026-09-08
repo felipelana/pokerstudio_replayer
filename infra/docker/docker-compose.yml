@@ -1,3 +1,15 @@
+# The shape shared by every environment. Nothing here is specific to staging or
+# production: the addresses, the secrets and the image tags all arrive from the
+# .env file that sits beside this one on the server, and the per-environment
+# override adds the names by which the edge proxy finds these containers.
+#
+#   staging     docker compose -p pokerstudio-staging -f docker-compose.yml -f docker-compose.staging.yml up -d
+#   production  docker compose -p pokerstudio-prod    -f docker-compose.yml -f docker-compose.prod.yml    up -d
+#   local       docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
+#
+# Only the edge proxy publishes ports. Everything else is reachable solely
+# through the two networks below, and `internal` never leaves the host.
+
 services:
   postgres:
     image: postgres:16-alpine
@@ -9,7 +21,8 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./backups:/backups
-    # Never published: only the compose network reaches the database.
+    networks: [internal]
+    # Never published: only this project's network reaches the database.
     expose:
       - '5432'
     healthcheck:
@@ -17,11 +30,14 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    logging: &json-logging
+      driver: json-file
+      options:
+        max-size: '10m'
+        max-file: '5'
 
   api:
-    build:
-      context: ../..
-      dockerfile: infra/docker/Dockerfile.api
+    image: ${API_IMAGE:?set API_IMAGE}
     restart: unless-stopped
     depends_on:
       postgres:
@@ -29,43 +45,65 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3001
+      APP_ENV: ${APP_ENV:?set APP_ENV}
+      APP_VERSION: ${APP_VERSION:-0.0.0}
+      APP_COMMIT: ${APP_COMMIT:-unknown}
+      APP_BUILT_AT: ${APP_BUILT_AT:-}
       DATABASE_URL: postgresql://pokerstudio:${POSTGRES_PASSWORD}@postgres:5432/pokerstudio?schema=public
       SESSION_SECRET: ${SESSION_SECRET:?set SESSION_SECRET}
       ENCRYPTION_KEY: ${ENCRYPTION_KEY:?set ENCRYPTION_KEY}
-      APP_URL: https://replayer.pokerstudio.com.br
-      COOKIE_DOMAIN: .pokerstudio.com.br
+      APP_URL: ${APP_URL:?set APP_URL}
+      # Left blank on purpose. A host-only cookie cannot travel from production
+      # to staging, or the other way round, even though both live under
+      # pokerstudio.com.br.
+      COOKIE_DOMAIN: ${COOKIE_DOMAIN:-}
       ADMIN_EMAILS: ${ADMIN_EMAILS:-}
-      EMAIL_FROM: nao-responda@pokerstudio.com.br
-      EMAIL_FROM_NAME: PokerStudio Replayer
+      EMAIL_FROM: ${EMAIL_FROM:-nao-responda@pokerstudio.com.br}
+      EMAIL_FROM_NAME: ${EMAIL_FROM_NAME:-PokerStudio Replayer}
       EMAIL_PROVIDER_KEY: ${EMAIL_PROVIDER_KEY:-}
       TURNSTILE_SECRET: ${TURNSTILE_SECRET:-}
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
-      GOOGLE_REDIRECT_URI: https://replayer.pokerstudio.com.br/api/v1/auth/google/callback
+      GOOGLE_REDIRECT_URI: ${GOOGLE_REDIRECT_URI:-}
+      ERROR_LOG_RETENTION_DAYS: ${ERROR_LOG_RETENTION_DAYS:-30}
+    networks: [internal, edge]
     expose:
       - '3001'
+    healthcheck:
+      test: ['CMD-SHELL', 'wget -qO- http://127.0.0.1:3001/api/v1/health >/dev/null || exit 1']
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    logging: *json-logging
 
   web:
-    build:
-      context: ../..
-      dockerfile: infra/docker/Dockerfile
+    image: ${WEB_IMAGE:?set WEB_IMAGE}
     restart: unless-stopped
+    environment:
+      ROBOTS_POLICY: ${ROBOTS_POLICY:-index}
+    networks: [edge]
     expose:
       - '80'
+    logging: *json-logging
 
-  caddy:
-    image: caddy:2-alpine
+  landing:
+    image: ${LANDING_IMAGE:?set LANDING_IMAGE}
     restart: unless-stopped
-    depends_on: [web, api]
-    ports:
-      - '80:80'
-      - '443:443'
-    volumes:
-      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
-      - caddy_data:/data
-      - caddy_config:/config
+    environment:
+      ROBOTS_POLICY: ${ROBOTS_POLICY:-index}
+    networks: [edge]
+    expose:
+      - '80'
+    logging: *json-logging
+
+networks:
+  # Private to this environment: the database is only ever reachable here.
+  internal:
+  # Shared with the single Caddy that owns ports 80 and 443 on the host.
+  edge:
+    external: true
+    name: pokerstudio-edge
 
 volumes:
   pgdata:
-  caddy_data:
-  caddy_config:

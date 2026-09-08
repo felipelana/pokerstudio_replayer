@@ -2,8 +2,12 @@
 FROM node:22-alpine AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
+# Every workspace manifest, because npm ci checks the whole tree against the
+# lockfile even when only one workspace is being installed.
+COPY apps/web/package.json apps/web/
 COPY apps/api/package.json apps/api/
 COPY packages/shared/package.json packages/shared/
+COPY landingpage/package.json landingpage/
 RUN npm ci --no-audit --no-fund --workspace @pokerstudio/api --include-workspace-root
 COPY packages/shared packages/shared
 COPY apps/api apps/api

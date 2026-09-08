@@ -1,0 +1,16 @@
+# Production. Same shape as staging; only the names on the edge network differ.
+services:
+  api:
+    networks:
+      edge:
+        aliases: [api-prod]
+
+  web:
+    networks:
+      edge:
+        aliases: [web-prod]
+
+  landing:
+    networks:
+      edge:
+        aliases: [landing-prod]

@@ -1,0 +1,38 @@
+# The edge. It runs once on the host, on its own project, and outlives any
+# deploy of staging or production — restarting an environment never drops the
+# certificates or the open connections of the other one.
+#
+#   docker network create pokerstudio-edge   # once
+#   docker compose -p pokerstudio-edge -f docker-compose.edge.yml up -d
+
+services:
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+    environment:
+      ACME_EMAIL: ${ACME_EMAIL:?set ACME_EMAIL}
+      STAGING_USER: ${STAGING_USER:?set STAGING_USER}
+      # Produced by: docker run --rm caddy:2-alpine caddy hash-password --plaintext 'senha'
+      STAGING_PASSWORD_HASH: ${STAGING_PASSWORD_HASH:?set STAGING_PASSWORD_HASH}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks: [edge]
+    logging:
+      driver: json-file
+      options:
+        max-size: '10m'
+        max-file: '5'
+
+networks:
+  edge:
+    external: true
+    name: pokerstudio-edge
+
+volumes:
+  caddy_data:
+  caddy_config:

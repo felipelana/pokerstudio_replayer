@@ -1,14 +1,16 @@
 /**
  * Where the call to action sends people.
  *
- * The rule that matters: a visitor on the real site is never sent to localhost.
- * `VITE_REPLAYER_URL` wins when it is set (that is what `.env.development`
- * does). Otherwise the destination is chosen from the hostname the page is
- * being served from, so a production bundle opened on a laptop still behaves
- * correctly, and the production domain always points at production.
+ * The rule that matters: a visitor is never sent to the wrong environment. A
+ * page served from localhost sends people to the local replayer, a page served
+ * from the staging host sends them to the staging replayer, and everything
+ * else — the real site — sends them to production. Because the destination is
+ * read from the hostname the page is being served from, one built image is
+ * correct on every host, and `VITE_REPLAYER_URL` only exists to override it.
  */
 
 const PROD_URL = import.meta.env.VITE_REPLAYER_URL_PROD ?? 'https://replayer.pokerstudio.com.br';
+const STAGING_URL = import.meta.env.VITE_REPLAYER_URL_STAGING ?? 'https://stage.replayer.pokerstudio.com.br';
 const DEV_URL = import.meta.env.VITE_REPLAYER_URL_DEV ?? 'http://localhost:5173';
 
 /** Hostnames that mean "someone is developing", not "a visitor". */
@@ -25,11 +27,19 @@ function isLocalHost(hostname: string): boolean {
   );
 }
 
+/** The host this landing page is served from when it is the staging copy. */
+function isStagingHost(hostname: string): boolean {
+  return hostname === 'web.replayer.pokerstudio.com.br';
+}
+
 export function replayerUrl(): string {
   const explicit = import.meta.env.VITE_REPLAYER_URL;
   if (explicit) return explicit;
   if (typeof window === 'undefined') return PROD_URL;
-  return isLocalHost(window.location.hostname) ? DEV_URL : PROD_URL;
+  const { hostname } = window.location;
+  if (isLocalHost(hostname)) return DEV_URL;
+  if (isStagingHost(hostname)) return STAGING_URL;
+  return PROD_URL;
 }
 
 export const SITE_URL = import.meta.env.VITE_SITE_URL ?? 'https://pokerstudio.com.br';
