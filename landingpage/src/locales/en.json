@@ -180,14 +180,19 @@
   },
   "rooms": {
     "title": "Poker rooms",
-    "lead": "Import works from the .txt hand history files these rooms export.",
-    "note": "Import reads .txt files. PokerStudio has no commercial relationship with these rooms; the names are shown only to say which formats are read."
+    "lead": "The importer reads .txt hand histories from PokerStars and the Chico network. The other rooms are on the way.",
+    "note": "Importing uses .txt files. The rooms marked \"coming soon\" are already recognised by the importer but not yet replayed: we would rather say so than hand you a hand put back together wrongly. PokerStudio has no commercial relationship with these rooms; the names appear only to show which formats are read.",
+    "soon": "Coming soon"
   },
   "roadmap": {
     "title": "Coming soon",
     "lead": "Planned, not available yet. No release dates are announced.",
     "badge": "Coming soon",
     "items": {
+      "shared": {
+        "title": "Review shared with a coach or a friend",
+        "text": "A link and a password for whoever you ask to read your hands, with a deadline and a way to revoke it, keeping your own assessment and each coach’s apart."
+      },
       "audio": {
         "title": "Coach feedback by audio",
         "text": "Recorded comments attached to the hand."

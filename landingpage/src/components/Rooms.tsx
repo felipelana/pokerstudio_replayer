@@ -3,6 +3,11 @@ import { Section } from '@/components/Section';
 import { ROOMS } from '@/data/rooms';
 import { ROOM_MARKS } from '@/components/RoomLogos';
 
+/**
+ * Two rooms read today; the rest are on the way. The card says which is which
+ * rather than leaving a visitor to find out after importing a file — a grid of
+ * ten logos at equal weight would promise ten.
+ */
 export function Rooms() {
   const { t } = useTranslation();
 
@@ -14,12 +19,28 @@ export function Rooms() {
           return (
             <li
               key={room.id}
-              className="group flex flex-col items-center justify-center gap-4 rounded-xl border border-line bg-black px-3 py-7 text-center transition-colors hover:border-[color:var(--border-strong)]"
+              className={`group relative flex flex-col items-center justify-center gap-4 rounded-xl border bg-black px-3 py-7 text-center transition-colors ${
+                room.available
+                  ? 'border-[color:var(--border-strong)] hover:border-white/40'
+                  : 'border-line opacity-40 hover:opacity-60'
+              }`}
             >
-              <span className="flex h-11 w-full items-center justify-center text-white/85 transition-colors group-hover:text-white">
+              <span
+                className={`flex h-11 w-full items-center justify-center transition-colors ${
+                  room.available ? 'text-white' : 'text-white/70'
+                }`}
+              >
                 <Mark className="h-11 w-auto max-w-[86%]" />
               </span>
-              <span className="text-sm font-semibold leading-tight text-white">{room.name}</span>
+              <span className="flex flex-col gap-1">
+                <span className="text-sm font-semibold leading-tight text-white">{room.name}</span>
+                {room.network && <span className="text-[11px] leading-tight text-faint">{room.network}</span>}
+                {!room.available && (
+                  <span className="text-[11px] font-semibold uppercase leading-tight tracking-wide text-faint">
+                    {t('rooms.soon')}
+                  </span>
+                )}
+              </span>
             </li>
           );
         })}

@@ -93,6 +93,84 @@ function FaqIcon(p: { className?: string }) {
   );
 }
 
+/* ------------------------------------------------------------------ */
+/* Roadmap cards — same grid, same stroke, so the section reads as a set */
+/* ------------------------------------------------------------------ */
+
+/** A shared review: a link handed from one hand to another. */
+function SharedIcon(p: { className?: string }) {
+  return (
+    <Icon {...p}>
+      <path d="M10 13.5a3.5 3.5 0 0 0 5 0l3-3a3.5 3.5 0 0 0-5-5l-1 1" />
+      <path d="M14 10.5a3.5 3.5 0 0 0-5 0l-3 3a3.5 3.5 0 0 0 5 5l1-1" />
+    </Icon>
+  );
+}
+
+/** Audio feedback: a microphone. */
+function AudioIcon(p: { className?: string }) {
+  return (
+    <Icon {...p}>
+      <rect x="9" y="3" width="6" height="10" rx="3" />
+      <path d="M5.5 11a6.5 6.5 0 0 0 13 0" />
+      <path d="M12 17.5V21" />
+    </Icon>
+  );
+}
+
+/** Video feedback: a camera. */
+function VideoIcon(p: { className?: string }) {
+  return (
+    <Icon {...p}>
+      <rect x="3" y="6" width="12" height="12" rx="2.5" />
+      <path d="M15 10.5 21 7v10l-6-3.5v-3Z" />
+    </Icon>
+  );
+}
+
+/** Coach profile: a person with a badge. */
+function ProfileIcon(p: { className?: string }) {
+  return (
+    <Icon {...p}>
+      <circle cx="12" cy="8" r="3.5" />
+      <path d="M5 20a7 7 0 0 1 14 0" />
+      <path d="M17.5 3.5 19 5l3-2" />
+    </Icon>
+  );
+}
+
+/** Dashboard: panels side by side. */
+function DashboardIcon(p: { className?: string }) {
+  return (
+    <Icon {...p}>
+      <rect x="3" y="3.5" width="7.5" height="7" rx="1.5" />
+      <rect x="3" y="13.5" width="7.5" height="7" rx="1.5" />
+      <rect x="13.5" y="3.5" width="7.5" height="17" rx="1.5" />
+    </Icon>
+  );
+}
+
+/** Real-time analysis: a spark over a chart. */
+function AiIcon(p: { className?: string }) {
+  return (
+    <Icon {...p}>
+      <path d="M3.5 20V8.5" />
+      <path d="M8.5 20v-6" />
+      <path d="M13.5 20v-9" />
+      <path d="M18.5 3 20 6.5 23 8l-3 1.5L18.5 13 17 9.5 14 8l3-1.5L18.5 3Z" />
+    </Icon>
+  );
+}
+
+export const ROADMAP_ICONS: Record<string, (p: { className?: string }) => JSX.Element> = {
+  shared: SharedIcon,
+  audio: AudioIcon,
+  video: VideoIcon,
+  profile: ProfileIcon,
+  dashboard: DashboardIcon,
+  ai: AiIcon,
+};
+
 export const SECTION_ICONS: Record<SectionId, (p: { className?: string }) => JSX.Element> = {
   features: FeaturesIcon,
   how: HowIcon,
