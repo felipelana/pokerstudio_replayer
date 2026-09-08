@@ -704,7 +704,30 @@
     "feedbackCount": "전체 {{total}}건 · 읽지 않음 {{unread}}건",
     "feedbackEmpty": "아직 제안이 없습니다.",
     "feedbackNote": "팀 메모",
-    "feedbackNoAccount": "삭제된 계정"
+    "feedbackNoAccount": "삭제된 계정",
+    "logs": "로그",
+    "level": "수준",
+    "source": "출처",
+    "environment": "환경",
+    "last24h": "최근 24시간",
+    "refresh": "새로고침",
+    "logSearchHint": "메시지 또는 경로",
+    "colWhen": "시각",
+    "colMessage": "메시지",
+    "colRoute": "경로",
+    "colStatusCode": "상태",
+    "colRequestId": "요청",
+    "noStack": "스택이 기록되지 않았습니다.",
+    "builtAt": "빌드 {{when}}",
+    "levels": {
+      "WARN": "경고",
+      "ERROR": "오류",
+      "FATAL": "치명적"
+    },
+    "sources": {
+      "SERVER": "서버",
+      "CLIENT": "브라우저"
+    }
   },
   "twofa": {
     "setupTitle": "2단계 인증 설정",

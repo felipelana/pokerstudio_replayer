@@ -87,6 +87,48 @@ export interface AccessLogRepository {
   purgeOlderThan(date: Date): Promise<number>;
 }
 
+export type ErrorSource = 'SERVER' | 'CLIENT';
+export type ErrorLevel = 'WARN' | 'ERROR' | 'FATAL';
+
+export interface ErrorLogInput {
+  source: ErrorSource;
+  level: ErrorLevel;
+  env: string;
+  release?: string;
+  message: string;
+  stack?: string;
+  route?: string;
+  statusCode?: number;
+  requestId?: string;
+  userId?: string;
+  ip?: string;
+  userAgent?: string;
+  context?: Record<string, unknown>;
+}
+
+export type ErrorLogRow = ErrorLogInput & { id: string; createdAt: Date };
+
+export interface ErrorLogFilter {
+  level?: ErrorLevel;
+  source?: ErrorSource;
+  env?: string;
+  /** Matches the message or the route; how an administrator looks for a fault. */
+  q?: string;
+  from?: Date;
+  to?: Date;
+  page: number;
+  pageSize: number;
+}
+
+export interface ErrorLogRepository {
+  record(input: ErrorLogInput): Promise<void>;
+  list(filter: ErrorLogFilter): Promise<{ items: ErrorLogRow[]; total: number }>;
+  find(id: string): Promise<ErrorLogRow | undefined>;
+  /** Counts by level since a moment — what the tab shows above the table. */
+  summarise(since: Date): Promise<{ level: ErrorLevel; count: number }[]>;
+  purgeOlderThan(date: Date): Promise<number>;
+}
+
 export interface LoginAttemptRepository {
   /** Returns the lock expiry when the key is currently locked. */
   lockedUntil(key: string, now: Date): Promise<Date | undefined>;

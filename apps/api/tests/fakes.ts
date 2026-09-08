@@ -2,6 +2,8 @@ import { createHash, randomUUID } from 'node:crypto';
 import type {
   AccessLogInput,
   AccessLogRepository,
+  ErrorLogInput,
+  ErrorLogRepository,
   EmailTokenRepository,
   LoginAttemptRepository,
   ReferralRepository,
@@ -119,6 +121,32 @@ export function fakeLog(): AccessLogRepository & { entries: AccessLogInput[] } {
     async list({ page, pageSize }) {
       const items = entries.map((e, i) => ({ ...e, id: String(i), createdAt: new Date() }));
       return { items: items.slice((page - 1) * pageSize, page * pageSize), total: items.length };
+    },
+    async purgeOlderThan() {
+      return 0;
+    },
+  };
+}
+
+export function fakeErrors(): ErrorLogRepository & { entries: ErrorLogInput[] } {
+  const entries: ErrorLogInput[] = [];
+  return {
+    entries,
+    async record(input) {
+      entries.push(input);
+    },
+    async list({ page, pageSize }) {
+      const items = entries.map((e, i) => ({ ...e, id: String(i), createdAt: new Date() }));
+      return { items: items.slice((page - 1) * pageSize, page * pageSize), total: items.length };
+    },
+    async find(id) {
+      const found = entries[Number(id)];
+      return found ? { ...found, id, createdAt: new Date() } : undefined;
+    },
+    async summarise() {
+      const counts = new Map<string, number>();
+      for (const e of entries) counts.set(e.level, (counts.get(e.level) ?? 0) + 1);
+      return [...counts].map(([level, count]) => ({ level: level as ErrorLogInput['level'], count }));
     },
     async purgeOlderThan() {
       return 0;

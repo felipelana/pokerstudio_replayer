@@ -704,7 +704,30 @@
     "feedbackCount": "{{total}} insgesamt · {{unread}} ungelesen",
     "feedbackEmpty": "Noch keine Vorschläge.",
     "feedbackNote": "Notiz des Teams",
-    "feedbackNoAccount": "Konto gelöscht"
+    "feedbackNoAccount": "Konto gelöscht",
+    "logs": "Protokolle",
+    "level": "Stufe",
+    "source": "Quelle",
+    "environment": "Umgebung",
+    "last24h": "letzte 24 Std.",
+    "refresh": "Aktualisieren",
+    "logSearchHint": "Meldung oder Route",
+    "colWhen": "Wann",
+    "colMessage": "Meldung",
+    "colRoute": "Route",
+    "colStatusCode": "Status",
+    "colRequestId": "Anfrage",
+    "noStack": "Kein Stack aufgezeichnet.",
+    "builtAt": "erstellt am {{when}}",
+    "levels": {
+      "WARN": "Warnung",
+      "ERROR": "Fehler",
+      "FATAL": "Fatal"
+    },
+    "sources": {
+      "SERVER": "Server",
+      "CLIENT": "Browser"
+    }
   },
   "twofa": {
     "setupTitle": "Zweiten Faktor einrichten",

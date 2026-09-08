@@ -70,6 +70,35 @@ export interface AdminEmailRow {
   error?: string;
 }
 
+export type ErrorLevel = 'WARN' | 'ERROR' | 'FATAL';
+export type ErrorSource = 'SERVER' | 'CLIENT';
+
+export interface AdminErrorLogRow {
+  id: string;
+  source: ErrorSource;
+  level: ErrorLevel;
+  env: string;
+  release?: string;
+  message: string;
+  /** Only the detail carries it; the list would be unreadable with it. */
+  stack?: string;
+  route?: string;
+  statusCode?: number;
+  requestId?: string;
+  userId?: string;
+  ip?: string;
+  userAgent?: string;
+  context?: Record<string, unknown>;
+  createdAt: string;
+}
+
+export interface AdminErrorLogPage {
+  total: number;
+  items: AdminErrorLogRow[];
+  /** Counted over the last 24 hours, whatever the filter says. */
+  summary: { level: ErrorLevel; count: number }[];
+}
+
 /** Everything under /admstudio. The server checks the role again on each call. */
 export const adminApi = {
   users: (query: { q?: string; status?: string; country?: string; page?: number; pageSize?: number }) =>
@@ -80,6 +109,17 @@ export const adminApi = {
   revokeSessions: (id: string) => api.post<{ revoked: number }>(`/admin/users/${id}/revoke-sessions`),
   accessLogs: (query: { userId?: string; event?: string; from?: string; to?: string; page?: number; pageSize?: number }) =>
     api.get<{ total: number; items: AdminAccessLogRow[] }>(`/admin/access-logs?${toQuery(query)}`),
+  errorLogs: (query: {
+    level?: string;
+    source?: string;
+    env?: string;
+    q?: string;
+    from?: string;
+    to?: string;
+    page?: number;
+    pageSize?: number;
+  }) => api.get<AdminErrorLogPage>(`/admin/error-logs?${toQuery(query)}`),
+  errorLog: (id: string) => api.get<AdminErrorLogRow>(`/admin/error-logs/${id}`),
   stats: () => api.get<AdminStats>('/admin/stats'),
   emailOutbox: () => api.get<AdminEmailRow[]>('/admin/email-outbox'),
   emailSettings: () => api.get<AdminEmailSettings>('/admin/email-settings'),

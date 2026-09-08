@@ -704,7 +704,30 @@
     "feedbackCount": "合計 {{total}} 件 · 未読 {{unread}} 件",
     "feedbackEmpty": "まだ要望はありません。",
     "feedbackNote": "チームのメモ",
-    "feedbackNoAccount": "削除されたアカウント"
+    "feedbackNoAccount": "削除されたアカウント",
+    "logs": "ログ",
+    "level": "レベル",
+    "source": "発生元",
+    "environment": "環境",
+    "last24h": "過去24時間",
+    "refresh": "更新",
+    "logSearchHint": "メッセージまたはルート",
+    "colWhen": "日時",
+    "colMessage": "メッセージ",
+    "colRoute": "ルート",
+    "colStatusCode": "ステータス",
+    "colRequestId": "リクエスト",
+    "noStack": "スタックは記録されていません。",
+    "builtAt": "ビルド {{when}}",
+    "levels": {
+      "WARN": "警告",
+      "ERROR": "エラー",
+      "FATAL": "致命的"
+    },
+    "sources": {
+      "SERVER": "サーバー",
+      "CLIENT": "ブラウザ"
+    }
   },
   "twofa": {
     "setupTitle": "二要素認証を設定",

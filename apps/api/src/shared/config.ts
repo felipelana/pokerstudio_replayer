@@ -26,11 +26,23 @@ const schema = z.object({
   SESSION_SECRET: z.string().min(32),
   ENCRYPTION_KEY: z.string().length(64, 'ENCRYPTION_KEY must be 32 bytes in hex'),
   APP_URL: z.string().url().default('http://localhost:5173'),
+  /**
+   * Which deployment this process is. It is not NODE_ENV: staging and
+   * production both run as 'production' node, and only this tells them apart —
+   * in /health, in the admin footer, and on every error that gets stored.
+   */
+  APP_ENV: z.enum(['development', 'test', 'staging', 'production']).default('development'),
+  /** Stamped into the image by the release pipeline; see docs/DEPLOY.md. */
+  APP_VERSION: z.string().default('0.0.0'),
+  APP_COMMIT: z.string().default('unknown'),
+  APP_BUILT_AT: credential,
   /** Review sessions one account may push to the server per day. */
   REVIEW_UPLOADS_PER_DAY: z.coerce.number().int().min(1).default(20),
   /** Blank means a host-only cookie, which is what keeps staging and
    * production from ever sharing a session under pokerstudio.com.br. */
   COOKIE_DOMAIN: credential,
+  /** How long a stored failure is kept before the nightly purge takes it. */
+  ERROR_LOG_RETENTION_DAYS: z.coerce.number().int().min(1).max(365).default(30),
   ADMIN_EMAILS: z.string().default(''),
   ADMIN_BOOTSTRAP_EMAIL: z.string().email().optional(),
   ADMIN_BOOTSTRAP_PASSWORD: z.string().min(10).optional(),

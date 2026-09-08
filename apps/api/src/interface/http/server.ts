@@ -13,6 +13,8 @@ import { twoFactorRoutes } from './routes/twofactor.js';
 import { reviewRoutes } from './routes/reviews.js';
 import { usageRoutes } from './routes/usage.js';
 import { feedbackRoutes } from './routes/feedback.js';
+import { healthRoutes } from './routes/health.js';
+import { clientErrorRoutes } from './routes/clientErrors.js';
 import type { AppContainer } from '../../main-container.js';
 
 /** Methods that change state must carry the header and a same-site origin. */
@@ -20,7 +22,25 @@ const UNSAFE = new Set(['POST', 'PUT', 'PATCH', 'DELETE']);
 
 export async function buildServer(container: AppContainer): Promise<FastifyInstance> {
   const app = Fastify({
-    logger: { level: container.config.isProduction ? 'info' : 'debug' },
+    logger: {
+      level: container.config.isProduction ? 'info' : 'debug',
+      // A log line is read by people and shipped to files. Nothing that can
+      // authenticate anybody is allowed into one, whichever way it arrives.
+      redact: {
+        paths: [
+          'req.headers.cookie',
+          'req.headers.authorization',
+          'res.headers["set-cookie"]',
+          'req.body.password',
+          'req.body.newPassword',
+          'req.body.currentPassword',
+          'req.body.token',
+          'req.body.code',
+          'req.body.secret',
+        ],
+        censor: '[redacted]',
+      },
+    },
     trustProxy: true,
   });
 
@@ -40,7 +60,12 @@ export async function buildServer(container: AppContainer): Promise<FastifyInsta
   await app.register(cookie, { secret: container.config.SESSION_SECRET });
   await app.register(rateLimit, { max: 300, timeWindow: '1 minute' });
 
-  registerErrorHandler(app, container.config.isProduction);
+  registerErrorHandler(app, container.config.isProduction, {
+    errors: container.errors,
+    env: container.config.APP_ENV,
+    release: container.config.APP_VERSION,
+    onFailure: (err) => app.log.error({ err }, 'could not store a server error'),
+  });
 
   // CORS is deliberately narrow: only the product's own origins.
   const allowedOrigins = new Set([container.config.APP_URL, 'http://localhost:5173']);
@@ -82,6 +107,8 @@ export async function buildServer(container: AppContainer): Promise<FastifyInsta
     await loadSession(container, request);
   });
 
+  // Kept at the root for the container's own healthcheck, which has no proxy
+  // in front of it. The full answer lives under the versioned prefix.
   app.get('/health', async () => ({ ok: true }));
 
   await app.register(
@@ -95,6 +122,8 @@ export async function buildServer(container: AppContainer): Promise<FastifyInsta
       await reviewRoutes(api, container);
       await usageRoutes(api, container);
       await feedbackRoutes(api, container);
+      await healthRoutes(api, container);
+      await clientErrorRoutes(api, container);
     },
     { prefix: '/api/v1' },
   );

@@ -3,6 +3,11 @@ import type { User } from '../../../domain/entities/User.js';
 import type {
   AccessLogRepository,
   EmailTokenRepository,
+  ErrorLevel,
+  ErrorLogFilter,
+  ErrorLogRepository,
+  ErrorLogRow,
+  ErrorSource,
   IdentityRepository,
   LoginAttemptRepository,
   ReferralRepository,
@@ -384,6 +389,109 @@ export function createTwoFactorRepository(prisma: PrismaClient): TwoFactorReposi
     },
     async countRecoveryCodes(userId) {
       return prisma.recoveryCode.count({ where: { userId, usedAt: null } });
+    },
+  };
+}
+
+export function createErrorLogRepository(prisma: PrismaClient): ErrorLogRepository {
+  const toRow = (r: {
+    id: bigint;
+    source: string;
+    level: string;
+    env: string;
+    release: string | null;
+    message: string;
+    stack: string | null;
+    route: string | null;
+    statusCode: number | null;
+    requestId: string | null;
+    userId: string | null;
+    ip: string | null;
+    userAgent: string | null;
+    context: unknown;
+    createdAt: Date;
+  }): ErrorLogRow => ({
+    id: String(r.id),
+    source: r.source as ErrorSource,
+    level: r.level as ErrorLevel,
+    env: r.env,
+    release: r.release ?? undefined,
+    message: r.message,
+    stack: r.stack ?? undefined,
+    route: r.route ?? undefined,
+    statusCode: r.statusCode ?? undefined,
+    requestId: r.requestId ?? undefined,
+    userId: r.userId ?? undefined,
+    ip: r.ip ?? undefined,
+    userAgent: r.userAgent ?? undefined,
+    context: (r.context as Record<string, unknown>) ?? undefined,
+    createdAt: r.createdAt,
+  });
+
+  const whereFrom = ({ level, source, env, q, from, to }: ErrorLogFilter) => ({
+    ...(level ? { level: level as never } : {}),
+    ...(source ? { source: source as never } : {}),
+    ...(env ? { env } : {}),
+    ...(from || to ? { createdAt: { gte: from, lte: to } } : {}),
+    ...(q
+      ? {
+          OR: [
+            { message: { contains: q, mode: 'insensitive' as const } },
+            { route: { contains: q, mode: 'insensitive' as const } },
+          ],
+        }
+      : {}),
+  });
+
+  return {
+    async record(input) {
+      await prisma.errorLog.create({
+        data: {
+          source: input.source as never,
+          level: input.level as never,
+          env: input.env,
+          release: input.release,
+          message: input.message,
+          stack: input.stack,
+          route: input.route,
+          statusCode: input.statusCode,
+          requestId: input.requestId,
+          userId: input.userId,
+          ip: input.ip,
+          userAgent: input.userAgent,
+          context: input.context as object | undefined,
+        },
+      });
+    },
+    async list(filter) {
+      const where = whereFrom(filter);
+      const [rows, total] = await Promise.all([
+        prisma.errorLog.findMany({
+          where,
+          orderBy: { createdAt: 'desc' },
+          skip: (filter.page - 1) * filter.pageSize,
+          take: filter.pageSize,
+        }),
+        prisma.errorLog.count({ where }),
+      ]);
+      // The list never carries the stack: it is long, and only the detail needs it.
+      return { items: rows.map((r) => ({ ...toRow(r), stack: undefined })), total };
+    },
+    async find(id) {
+      const row = await prisma.errorLog.findUnique({ where: { id: BigInt(id) } }).catch(() => null);
+      return row ? toRow(row) : undefined;
+    },
+    async summarise(since) {
+      const rows = await prisma.errorLog.groupBy({
+        by: ['level'],
+        where: { createdAt: { gte: since } },
+        _count: { _all: true },
+      });
+      return rows.map((r) => ({ level: r.level as ErrorLevel, count: r._count._all }));
+    },
+    async purgeOlderThan(date) {
+      const { count } = await prisma.errorLog.deleteMany({ where: { createdAt: { lt: date } } });
+      return count;
     },
   };
 }

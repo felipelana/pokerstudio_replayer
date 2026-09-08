@@ -704,7 +704,30 @@
     "feedbackCount": "{{total}} en total · {{unread}} sin leer",
     "feedbackEmpty": "Aún no hay sugerencias.",
     "feedbackNote": "Nota del equipo",
-    "feedbackNoAccount": "Cuenta eliminada"
+    "feedbackNoAccount": "Cuenta eliminada",
+    "logs": "Registros",
+    "level": "Nivel",
+    "source": "Origen",
+    "environment": "Entorno",
+    "last24h": "últimas 24 h",
+    "refresh": "Actualizar",
+    "logSearchHint": "Mensaje o ruta",
+    "colWhen": "Cuándo",
+    "colMessage": "Mensaje",
+    "colRoute": "Ruta",
+    "colStatusCode": "Estado",
+    "colRequestId": "Solicitud",
+    "noStack": "No se registró ningún stack.",
+    "builtAt": "compilado el {{when}}",
+    "levels": {
+      "WARN": "Advertencia",
+      "ERROR": "Error",
+      "FATAL": "Fatal"
+    },
+    "sources": {
+      "SERVER": "Servidor",
+      "CLIENT": "Navegador"
+    }
   },
   "twofa": {
     "setupTitle": "Configurar el segundo factor",

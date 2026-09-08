@@ -710,7 +710,30 @@
     "feedbackCount": "всего {{total}} · не прочитано {{unread}}",
     "feedbackEmpty": "Пока предложений нет.",
     "feedbackNote": "Заметка команды",
-    "feedbackNoAccount": "Аккаунт удалён"
+    "feedbackNoAccount": "Аккаунт удалён",
+    "logs": "Журналы",
+    "level": "Уровень",
+    "source": "Источник",
+    "environment": "Среда",
+    "last24h": "за 24 часа",
+    "refresh": "Обновить",
+    "logSearchHint": "Сообщение или маршрут",
+    "colWhen": "Когда",
+    "colMessage": "Сообщение",
+    "colRoute": "Маршрут",
+    "colStatusCode": "Статус",
+    "colRequestId": "Запрос",
+    "noStack": "Стек не записан.",
+    "builtAt": "собрано {{when}}",
+    "levels": {
+      "WARN": "Предупреждение",
+      "ERROR": "Ошибка",
+      "FATAL": "Критическая"
+    },
+    "sources": {
+      "SERVER": "Сервер",
+      "CLIENT": "Браузер"
+    }
   },
   "twofa": {
     "setupTitle": "Настроить второй фактор",

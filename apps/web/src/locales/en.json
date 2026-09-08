@@ -704,7 +704,30 @@
     "feedbackCount": "{{total}} in total · {{unread}} unread",
     "feedbackEmpty": "No suggestions yet.",
     "feedbackNote": "Team note",
-    "feedbackNoAccount": "Account removed"
+    "feedbackNoAccount": "Account removed",
+    "logs": "Logs",
+    "level": "Level",
+    "source": "Source",
+    "environment": "Environment",
+    "last24h": "last 24h",
+    "refresh": "Refresh",
+    "logSearchHint": "Message or route",
+    "colWhen": "When",
+    "colMessage": "Message",
+    "colRoute": "Route",
+    "colStatusCode": "Status",
+    "colRequestId": "Request",
+    "noStack": "No stack was recorded.",
+    "builtAt": "built {{when}}",
+    "levels": {
+      "WARN": "Warning",
+      "ERROR": "Error",
+      "FATAL": "Fatal"
+    },
+    "sources": {
+      "SERVER": "Server",
+      "CLIENT": "Browser"
+    }
   },
   "twofa": {
     "setupTitle": "Set up two-factor",

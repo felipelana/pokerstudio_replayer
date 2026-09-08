@@ -704,7 +704,30 @@
     "feedbackCount": "共 {{total}} 条 · 未读 {{unread}} 条",
     "feedbackEmpty": "还没有建议。",
     "feedbackNote": "团队备注",
-    "feedbackNoAccount": "账户已删除"
+    "feedbackNoAccount": "账户已删除",
+    "logs": "日志",
+    "level": "级别",
+    "source": "来源",
+    "environment": "环境",
+    "last24h": "最近 24 小时",
+    "refresh": "刷新",
+    "logSearchHint": "消息或路由",
+    "colWhen": "时间",
+    "colMessage": "消息",
+    "colRoute": "路由",
+    "colStatusCode": "状态",
+    "colRequestId": "请求",
+    "noStack": "未记录堆栈。",
+    "builtAt": "构建于 {{when}}",
+    "levels": {
+      "WARN": "警告",
+      "ERROR": "错误",
+      "FATAL": "严重"
+    },
+    "sources": {
+      "SERVER": "服务器",
+      "CLIENT": "浏览器"
+    }
   },
   "twofa": {
     "setupTitle": "设置两步验证",

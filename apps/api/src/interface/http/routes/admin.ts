@@ -193,6 +193,49 @@ export async function adminRoutes(app: FastifyInstance, container: AppContainer)
     const rows = await container.prisma.emailOutbox.findMany({ orderBy: { createdAt: 'desc' }, take: 200 });
     return reply.send(rows);
   });
+
+  /* ---------------------------------------------------------------- */
+  /* Error logs                                                        */
+  /* ---------------------------------------------------------------- */
+
+  /**
+   * What has been going wrong, most recent first. The summary above the table
+   * is counted over the last 24 hours, because the question an administrator
+   * opens this screen with is 'is something broken right now'.
+   */
+  app.get('/admin/error-logs', async (request, reply) => {
+    const admin = requireAdmin(request, reply);
+    if (!admin) return;
+    const query = z
+      .object({
+        level: z.enum(['WARN', 'ERROR', 'FATAL']).optional(),
+        source: z.enum(['SERVER', 'CLIENT']).optional(),
+        env: z.string().max(20).optional(),
+        q: z.string().max(200).optional(),
+        from: z.coerce.date().optional(),
+        to: z.coerce.date().optional(),
+        page: z.coerce.number().int().min(1).default(1),
+        pageSize: z.coerce.number().int().min(1).max(200).default(50),
+      })
+      .parse(request.query);
+
+    const since = new Date(Date.now() - 24 * 60 * 60 * 1000);
+    const [result, summary] = await Promise.all([
+      container.errors.list(query),
+      container.errors.summarise(since),
+    ]);
+    return reply.send({ total: result.total, items: result.items, summary });
+  });
+
+  /** The whole of one failure, stack included. */
+  app.get('/admin/error-logs/:id', async (request, reply) => {
+    const admin = requireAdmin(request, reply);
+    if (!admin) return;
+    const { id } = z.object({ id: z.string().regex(/^[0-9]+$/) }).parse(request.params);
+    const row = await container.errors.find(id);
+    if (!row) return problem(reply, { code: 'not_found', message: 'Error log not found.', status: 404 });
+    return reply.send(row);
+  });
 }
 
 function csv(value: string): string {

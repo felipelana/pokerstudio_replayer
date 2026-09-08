@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import type {
   AccessLogRepository,
   EmailTokenRepository,
+  ErrorLogRepository,
   IdentityRepository,
   LoginAttemptRepository,
   ReferralRepository,
@@ -28,6 +29,7 @@ import { createEmailSender } from './infrastructure/email/index.js';
 import {
   createAccessLogRepository,
   createEmailTokenRepository,
+  createErrorLogRepository,
   createIdentityRepository,
   createLoginAttemptRepository,
   createReferralRepository,
@@ -53,6 +55,8 @@ export interface AppContainer {
   sessions: SessionRepository;
   tokens: EmailTokenRepository;
   log: AccessLogRepository;
+  /** Application failures, kept for the administration screen. */
+  errors: ErrorLogRepository;
   attempts: LoginAttemptRepository;
   identities: IdentityRepository;
   skins: SkinRepository;
@@ -86,6 +90,7 @@ export async function createContainer(config: Config, prisma = new PrismaClient(
     sessions: createSessionRepository(prisma),
     tokens: createEmailTokenRepository(prisma),
     log: createAccessLogRepository(prisma),
+    errors: createErrorLogRepository(prisma),
     attempts: createLoginAttemptRepository(prisma),
     identities: createIdentityRepository(prisma),
     skins: createSkinRepository(prisma),

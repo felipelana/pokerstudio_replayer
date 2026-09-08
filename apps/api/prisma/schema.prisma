@@ -172,26 +172,27 @@ model User {
   updatedAt       DateTime   @updatedAt
   deletedAt       DateTime?
 
-  blockedBy     User?           @relation("BlockedBy", fields: [blockedById], references: [id])
-  blockedUsers  User[]          @relation("BlockedBy")
-  referredBy    User?           @relation("ReferredBy", fields: [referredById], references: [id])
-  referredUsers User[]          @relation("ReferredBy")
-  sessions      Session[]
-  identities    AuthIdentity[]
-  emailTokens   EmailToken[]
-  accessLogs    AccessLog[]
-  referrals     Referral[]      @relation("Referrer")
-  twoFactor     TwoFactor[]
-  recoveryCodes RecoveryCode[]
-  trustedDevs   TrustedDevice[]
-  reviews       ReviewSession[]
-  skins         UserSkin[]
-  usage         UsageEvent[]
-  feedback      Feedback[]
-  roomNicks     RoomNick[]
-  assessments   Assessment[]
-  coachInvites  CoachInvite[]  @relation("InviteAuthor")
-  claimedInvites CoachInvite[] @relation("InviteClaimant")
+  blockedBy      User?           @relation("BlockedBy", fields: [blockedById], references: [id])
+  blockedUsers   User[]          @relation("BlockedBy")
+  referredBy     User?           @relation("ReferredBy", fields: [referredById], references: [id])
+  referredUsers  User[]          @relation("ReferredBy")
+  sessions       Session[]
+  identities     AuthIdentity[]
+  emailTokens    EmailToken[]
+  accessLogs     AccessLog[]
+  errorLogs      ErrorLog[]
+  referrals      Referral[]      @relation("Referrer")
+  twoFactor      TwoFactor[]
+  recoveryCodes  RecoveryCode[]
+  trustedDevs    TrustedDevice[]
+  reviews        ReviewSession[]
+  skins          UserSkin[]
+  usage          UsageEvent[]
+  feedback       Feedback[]
+  roomNicks      RoomNick[]
+  assessments    Assessment[]
+  coachInvites   CoachInvite[]   @relation("InviteAuthor")
+  claimedInvites CoachInvite[]   @relation("InviteClaimant")
 
   @@index([status, createdAt])
   @@index([countryCode])
@@ -354,7 +355,7 @@ model ReviewSession {
   createdAt          DateTime     @default(now())
   updatedAt          DateTime     @updatedAt
 
-  user  User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   hands       HandRecord[]
   assessments Assessment[]
   invites     CoachInvite[]
@@ -508,11 +509,11 @@ model Feedback {
 /// lot: it is how a hand history written by any site can be recognised as
 /// belonging to the reader, whatever the file says.
 model RoomNick {
-  id       String   @id @default(uuid())
+  id       String @id @default(uuid())
   userId   String
   /// Room key as the parsers spell it: pokerstars, ggpoker, 888, ipoker…
-  room     String   @db.VarChar(24)
-  nickname String   @db.VarChar(60)
+  room     String @db.VarChar(24)
+  nickname String @db.VarChar(60)
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -524,21 +525,21 @@ model RoomNick {
 /// else's. The player has exactly one (SELF); each invited coach has their own,
 /// and neither can see nor touch the other.
 model Assessment {
-  id               String           @id @default(uuid())
-  reviewSessionId  String
-  role             AssessorRole
+  id                String           @id @default(uuid())
+  reviewSessionId   String
+  role              AssessorRole
   /// Set for SELF: the account whose reading this is.
-  userId           String?
+  userId            String?
   /// Set for COACH: the invitation this reading belongs to.
-  coachInviteId    String?          @unique
-  status           AssessmentStatus @default(NOT_STARTED)
+  coachInviteId     String?          @unique
+  status            AssessmentStatus @default(NOT_STARTED)
   /// Where this assessor stopped, so each one resumes on their own hand.
-  currentHandIndex Int              @default(0)
-  currentFrameIndex Int             @default(0)
+  currentHandIndex  Int              @default(0)
+  currentFrameIndex Int              @default(0)
   /// Once set, nothing in this assessment may change again.
-  completedAt      DateTime?
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @updatedAt
+  completedAt       DateTime?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
 
   session ReviewSession    @relation(fields: [reviewSessionId], references: [id], onDelete: Cascade)
   user    User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -594,9 +595,9 @@ model CoachInvite {
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
 
-  session   ReviewSession @relation(fields: [reviewSessionId], references: [id], onDelete: Cascade)
-  createdBy User          @relation("InviteAuthor", fields: [createdById], references: [id], onDelete: Cascade)
-  claimedBy User?         @relation("InviteClaimant", fields: [claimedByUserId], references: [id])
+  session    ReviewSession @relation(fields: [reviewSessionId], references: [id], onDelete: Cascade)
+  createdBy  User          @relation("InviteAuthor", fields: [createdById], references: [id], onDelete: Cascade)
+  claimedBy  User?         @relation("InviteClaimant", fields: [claimedByUserId], references: [id])
   assessment Assessment?
 
   @@index([reviewSessionId])
@@ -624,4 +625,51 @@ model ShareSettings {
   /// The furthest a player may push a link out.
   maxHours     Int      @default(168)
   updatedAt    DateTime @updatedAt
+}
+
+/// Where a failure was noticed. The server sees its own exceptions; the browser
+/// reports what only it can see — a render that threw, a promise nobody caught.
+enum ErrorSource {
+  SERVER
+  CLIENT
+}
+
+enum ErrorLevel {
+  WARN
+  ERROR
+  FATAL
+}
+
+/// A failure worth an administrator's attention, kept long enough to find a
+/// pattern in it and no longer. What is stored is what helps to reproduce the
+/// fault — never a credential, a cookie or a body: the redaction happens before
+/// a row is ever written.
+model ErrorLog {
+  id         BigInt      @id @default(autoincrement())
+  source     ErrorSource @default(SERVER)
+  level      ErrorLevel  @default(ERROR)
+  /// Which deployment produced it: staging and production share a schema, not a story.
+  env        String      @db.VarChar(20)
+  /// The release it happened on, so a fix can be told from a regression.
+  release    String?     @db.VarChar(80)
+  message    String      @db.VarChar(500)
+  stack      String?
+  /// Method and path, with the ids taken out, so the same fault groups together.
+  route      String?     @db.VarChar(200)
+  statusCode Int?
+  /// Ties a row to the response the person actually saw.
+  requestId  String?     @db.VarChar(60)
+  userId     String?
+  ip         String?     @db.Inet
+  userAgent  String?     @db.VarChar(300)
+  /// Anything else that helps, already redacted.
+  context    Json?
+  createdAt  DateTime    @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([createdAt])
+  @@index([level, createdAt])
+  @@index([env, createdAt])
+  @@index([source, createdAt])
 }
