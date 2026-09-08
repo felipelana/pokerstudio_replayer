@@ -619,7 +619,9 @@
       "provider_email_unverified": "That account has no verified e-mail. Verify it with the provider and try again."
     },
     "continueWith": "Continue with {{provider}}",
-    "signUpWith": "Sign up with {{provider}}"
+    "signUpWith": "Sign up with {{provider}}",
+    "providerNotConfigured": "{{provider}} is not configured on this deployment yet.",
+    "providerSetupHint": "The dimmed providers have no credentials on this deployment. They are shown here in development only."
   },
   "account": {
     "title": "My account",

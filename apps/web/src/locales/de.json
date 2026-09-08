@@ -619,7 +619,9 @@
       "provider_email_unverified": "Dieses Konto hat keine bestätigte E-Mail. Bestätige sie beim Anbieter und versuche es erneut."
     },
     "continueWith": "Weiter mit {{provider}}",
-    "signUpWith": "Mit {{provider}} registrieren"
+    "signUpWith": "Mit {{provider}} registrieren",
+    "providerNotConfigured": "{{provider}} ist in dieser Umgebung noch nicht eingerichtet.",
+    "providerSetupHint": "Die abgeblendeten Anbieter haben in dieser Umgebung keine Zugangsdaten. Sie erscheinen hier nur in der Entwicklung."
   },
   "account": {
     "title": "Mein Konto",

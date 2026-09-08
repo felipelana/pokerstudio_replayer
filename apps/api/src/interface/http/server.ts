@@ -13,6 +13,7 @@ import { twoFactorRoutes } from './routes/twofactor.js';
 import { reviewRoutes } from './routes/reviews.js';
 import { usageRoutes } from './routes/usage.js';
 import { feedbackRoutes } from './routes/feedback.js';
+import { assessmentRoutes } from './routes/assessments.js';
 import { healthRoutes } from './routes/health.js';
 import { clientErrorRoutes } from './routes/clientErrors.js';
 import type { AppContainer } from '../../main-container.js';
@@ -122,6 +123,7 @@ export async function buildServer(container: AppContainer): Promise<FastifyInsta
       await reviewRoutes(api, container);
       await usageRoutes(api, container);
       await feedbackRoutes(api, container);
+      await assessmentRoutes(api, container);
       await healthRoutes(api, container);
       await clientErrorRoutes(api, container);
     },

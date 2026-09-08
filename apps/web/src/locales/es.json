@@ -619,7 +619,9 @@
       "provider_email_unverified": "Esa cuenta no tiene un correo verificado. Verifícalo con el proveedor e inténtalo de nuevo."
     },
     "continueWith": "Continuar con {{provider}}",
-    "signUpWith": "Registrarse con {{provider}}"
+    "signUpWith": "Registrarse con {{provider}}",
+    "providerNotConfigured": "{{provider}} aún no está configurado en este entorno.",
+    "providerSetupHint": "Los proveedores atenuados no tienen credenciales en este entorno. Aparecen aquí solo en desarrollo."
   },
   "account": {
     "title": "Mi cuenta",

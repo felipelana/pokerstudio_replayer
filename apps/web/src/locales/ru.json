@@ -625,7 +625,9 @@
       "provider_email_unverified": "У этого аккаунта нет подтверждённой почты. Подтвердите её у провайдера и повторите."
     },
     "continueWith": "Продолжить с {{provider}}",
-    "signUpWith": "Регистрация через {{provider}}"
+    "signUpWith": "Регистрация через {{provider}}",
+    "providerNotConfigured": "{{provider}} ещё не настроен в этой среде.",
+    "providerSetupHint": "У приглушённых провайдеров нет учётных данных в этой среде. Здесь они видны только в разработке."
   },
   "account": {
     "title": "Мой аккаунт",

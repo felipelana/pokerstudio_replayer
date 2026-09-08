@@ -619,7 +619,9 @@
       "provider_email_unverified": "该账户没有已验证的邮箱。请在对应平台验证后重试。"
     },
     "continueWith": "使用 {{provider}} 继续",
-    "signUpWith": "使用 {{provider}} 注册"
+    "signUpWith": "使用 {{provider}} 注册",
+    "providerNotConfigured": "{{provider}} 尚未在此环境中配置。",
+    "providerSetupHint": "变暗的登录方式在此环境中没有配置凭据，仅在开发时显示。"
   },
   "account": {
     "title": "我的账户",

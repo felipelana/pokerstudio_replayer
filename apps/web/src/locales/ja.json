@@ -619,7 +619,9 @@
       "provider_email_unverified": "このアカウントには確認済みのメールがありません。提供元で確認してからお試しください。"
     },
     "continueWith": "{{provider}} で続行",
-    "signUpWith": "{{provider}} で登録"
+    "signUpWith": "{{provider}} で登録",
+    "providerNotConfigured": "{{provider}} はこの環境ではまだ設定されていません。",
+    "providerSetupHint": "薄く表示されている提供元には、この環境の認証情報がありません。開発時のみ表示されます。"
   },
   "account": {
     "title": "マイアカウント",

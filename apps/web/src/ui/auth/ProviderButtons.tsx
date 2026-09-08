@@ -88,10 +88,13 @@ export function ProviderButton({
   provider,
   redirect = '/',
   label,
+  disabled = false,
 }: {
   provider: ProviderName;
   redirect?: string;
   label?: string;
+  /** Shown, but not usable: this deployment has no credentials for it. */
+  disabled?: boolean;
 }) {
   const { t } = useTranslation();
   const { background, color, borderColor, Mark } = LOOKS[provider];
@@ -107,14 +110,35 @@ export function ProviderButton({
   const params = new URLSearchParams({ redirect });
   if (referral) params.set('ref', referral);
 
+  const face = (
+    <>
+      <Mark />
+      {label ?? t(`auth.continueWith`, { provider: PROVIDER_LABEL[provider] })}
+    </>
+  );
+  const look = { background, color, borderColor, fontFamily: 'Inter, system-ui, sans-serif' };
+
+  if (disabled) {
+    return (
+      <button
+        type="button"
+        disabled
+        title={t('auth.providerNotConfigured', { provider: PROVIDER_LABEL[provider] })}
+        className="flex h-10 w-full cursor-not-allowed items-center justify-center gap-3 rounded-md border text-sm font-medium opacity-45"
+        style={look}
+      >
+        {face}
+      </button>
+    );
+  }
+
   return (
     <a
       href={`/api/v1/auth/${provider}?${params.toString()}`}
       className="flex h-10 w-full items-center justify-center gap-3 rounded-md border text-sm font-medium transition-opacity hover:opacity-90"
-      style={{ background, color, borderColor, fontFamily: 'Inter, system-ui, sans-serif' }}
+      style={look}
     >
-      <Mark />
-      {label ?? t(`auth.continueWith`, { provider: PROVIDER_LABEL[provider] })}
+      {face}
     </a>
   );
 }
@@ -125,9 +149,14 @@ const PROVIDER_LABEL: Record<ProviderName, string> = { google: 'Google', faceboo
 export function ProviderButtons({ redirect = '/', signUp = false }: { redirect?: string; signUp?: boolean }) {
   const { t } = useTranslation();
   const available = useProviders();
-  const shown = (Object.keys(LOOKS) as ProviderName[]).filter((p) => available[p]);
+  const all = Object.keys(LOOKS) as ProviderName[];
+  // Outside production every provider is on screen — the ones without
+  // credentials disabled and saying so — because a button that quietly is not
+  // there reads as a bug. In production, only what actually works is offered.
+  const shown = import.meta.env.DEV ? all : all.filter((p) => available[p]);
 
   if (shown.length === 0) return null;
+  const missing = shown.some((p) => !available[p]);
 
   return (
     <div className="mb-4 flex flex-col gap-2">
@@ -136,6 +165,7 @@ export function ProviderButtons({ redirect = '/', signUp = false }: { redirect?:
           key={provider}
           provider={provider}
           redirect={redirect}
+          disabled={!available[provider]}
           label={
             signUp
               ? t('auth.signUpWith', { provider: PROVIDER_LABEL[provider] })
@@ -143,6 +173,11 @@ export function ProviderButtons({ redirect = '/', signUp = false }: { redirect?:
           }
         />
       ))}
+      {missing && (
+        <p className="text-[11px] leading-snug" style={{ color: 'var(--text-muted)' }}>
+          {t('auth.providerSetupHint')}
+        </p>
+      )}
       <div className="mt-1 flex items-center gap-3 text-xs" style={{ color: 'var(--text-muted)' }}>
         <span className="h-px flex-1" style={{ background: 'var(--border)' }} />
         {t('auth.or')}
