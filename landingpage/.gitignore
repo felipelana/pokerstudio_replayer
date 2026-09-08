@@ -1,0 +1,8 @@
+node_modules
+dist
+*.tsbuildinfo
+
+# Untreated captures. They still carry readable player nicknames, so they are
+# never committed and never served — scripts/prepare-assets.ps1 reads them from
+# here and writes the blurred versions into src/assets/shots.
+_source/

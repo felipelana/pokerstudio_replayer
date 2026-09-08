@@ -5,7 +5,8 @@
   "type": "module",
   "workspaces": [
     "apps/*",
-    "packages/*"
+    "packages/*",
+    "landingpage"
   ],
   "scripts": {
     "dev": "npm run dev -w @pokerstudio/web",
@@ -19,7 +20,9 @@
     "db:migrate": "npm run db:migrate -w @pokerstudio/api",
     "db:seed": "npm run db:seed -w @pokerstudio/api",
     "db:reset": "npm run db:reset -w @pokerstudio/api",
-    "db:studio": "npm run db:studio -w @pokerstudio/api"
+    "db:studio": "npm run db:studio -w @pokerstudio/api",
+    "dev:landing": "npm run dev -w @pokerstudio/landingpage",
+    "build:landing": "npm run build -w @pokerstudio/landingpage"
   },
   "devDependencies": {
     "prettier": "^3.3.3",

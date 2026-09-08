@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;600&family=Noto+Sans+JP:wght@400;600&family=Noto+Sans+KR:wght@400;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * The palette comes from the logo: a near-black ground, a few dark greys and
+ * one red. Nothing else is coloured, so the red always means "this is the
+ * thing to look at".
+ */
+:root {
+  --bg: #08080a;
+  --bg-2: #0d0d10;
+  --surface: #131318;
+  --surface-2: #1b1b22;
+  --text: #f3f4f6;
+  --text-muted: #a6a9b1;
+  --text-faint: #83868e;
+  --accent: #e10600;
+  --accent-soft: #ff5a52;
+  /* The darker red the navigation fills with on hover. */
+  --accent-deep: #5c0200;
+  --border: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  color-scheme: dark;
+}
+
+html {
+  /* Anchors land below the fixed header even without JavaScript. */
+  scroll-padding-top: 84px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family:
+    Inter,
+    'Noto Sans',
+    'Noto Sans SC',
+    'Noto Sans JP',
+    'Noto Sans KR',
+    system-ui,
+    -apple-system,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+:lang(zh-CN) body {
+  font-family: Inter, 'Noto Sans SC', system-ui, sans-serif;
+}
+:lang(ja) body {
+  font-family: Inter, 'Noto Sans JP', system-ui, sans-serif;
+}
+:lang(ko) body {
+  font-family: Inter, 'Noto Sans KR', system-ui, sans-serif;
+}
+
+/* One visible focus ring everywhere, on every background. */
+:focus-visible {
+  outline: 2px solid var(--accent-soft);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-page px-5 sm:px-8;
+  }
+
+  .label-caps {
+    @apply text-[11px] font-semibold uppercase tracking-[0.16em] text-faint;
+  }
+
+  .card {
+    @apply rounded-2xl border border-line bg-surface p-6;
+  }
+
+  /* The one red button. */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-accent px-6 py-3
+           text-base font-semibold text-white transition-transform;
+  }
+  .btn-primary:hover {
+    background: #f51100;
+  }
+  .btn-primary:active {
+    transform: translateY(1px);
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-line
+           bg-surface px-5 py-3 text-base font-medium text-content transition-colors;
+  }
+  .btn-ghost:hover {
+    border-color: var(--border-strong);
+    background: var(--surface-2);
+  }
+
+  .shot-frame {
+    @apply overflow-hidden rounded-xl border border-line bg-bg-2;
+  }
+}
+
+/* A hairline of brand red under the fixed header. */
+.header-rule {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(225, 6, 0, 0.55) 22%,
+    rgba(225, 6, 0, 0.9) 50%,
+    rgba(225, 6, 0, 0.55) 78%,
+    transparent 100%
+  );
+}
+
+/* Entrance animation, used sparingly and only when motion is welcome. */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.55s ease-out,
+    transform 0.55s ease-out;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

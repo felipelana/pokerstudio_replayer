@@ -1,0 +1,298 @@
+{
+  "meta": {
+    "title": "PokerStudio Replayer — reveja suas mãos e estude melhor",
+    "description": "Reproduza suas mãos de cash e torneios no navegador, avalie cada decisão, escreva comentários por street e compartilhe a sessão com seu coach. Gratuito por tempo limitado."
+  },
+  "nav": {
+    "label": "Seções",
+    "top": "Voltar ao topo",
+    "features": "Recursos",
+    "how": "Como funciona",
+    "coach": "Coach",
+    "reports": "Relatórios",
+    "rooms": "Salas",
+    "roadmap": "Em breve",
+    "faq": "Dúvidas",
+    "open": "Abrir o menu",
+    "close": "Fechar o menu",
+    "skip": "Ir para o conteúdo",
+    "language": "Idioma",
+    "chooseLanguage": "Escolher idioma"
+  },
+  "cta": {
+    "primary": "Experimente grátis",
+    "secondary": "Ver as funcionalidades",
+    "free": "Gratuito por tempo limitado. Aproveite agora!",
+    "opensReplayer": "Abre o PokerStudio Replayer em uma nova aba"
+  },
+  "hero": {
+    "eyebrow": "Ferramenta de estudo de poker",
+    "headline": "Reveja cada decisão e transforme suas mãos em estudo de verdade.",
+    "sub": "O PokerStudio Replayer reproduz seus hand histories de cash e torneios no navegador — mão a mão, street a street — para você avaliar suas decisões, anotar o que viu e compartilhar a sessão com seu coach.",
+    "audience": "Para quem estuda sozinho, para quem tem acompanhamento de coach e para coaches e times de poker."
+  },
+  "features": {
+    "title": "O que o Replayer faz",
+    "lead": "Oito coisas que você faz com uma sessão já importada.",
+    "prev": "Funcionalidade anterior",
+    "next": "Próxima funcionalidade",
+    "goTo": "Mostrar a funcionalidade {{number}}: {{title}}",
+    "position": "Funcionalidade {{current}} de {{total}}",
+    "region": "Carrossel de funcionalidades",
+    "items": {
+      "replay": {
+        "title": "Reproduza suas mãos de cash e torneios",
+        "text": "Importe o hand history e assista a cada mão acontecer: lugares, posições, stacks em fichas ou big blinds, board e pote, em 3D ou 2D."
+      },
+      "feedback": {
+        "title": "Receba feedbacks por mão e comentários por street",
+        "text": "Cada mão recebe uma nota, tags de leaks e um comentário escrito, além de anotações separadas para preflop, flop, turn e river."
+      },
+      "resume": {
+        "title": "Retome sua review de onde parou",
+        "text": "A sessão guarda a mão e o momento em que cada avaliador parou, então uma review longa pode ser feita em várias sentadas."
+      },
+      "save": {
+        "title": "Salve e organize reviews no banco de dados",
+        "text": "As reviews ficam na sua conta, não em um navegador: suas sessões, anotações e avaliações acompanham você em qualquer dispositivo."
+      },
+      "share": {
+        "title": "Compartilhe uma sessão com seu coach",
+        "text": "Gere um link com senha e data de expiração. Seu coach avalia de forma assíncrona, sem criar conta e sem troca de e-mails."
+      },
+      "reports": {
+        "title": "Consulte relatórios e identifique seus principais leaks",
+        "text": "O relatório reúne as notas, o percentual de mãos revisadas e as tags de leaks que mais apareceram, pronto para exportar."
+      },
+      "evolution": {
+        "title": "Acompanhe a evolução das avaliações",
+        "text": "A série da sua autoavaliação e a média dos coaches, dentro do período que você escolher, com linha de tendência."
+      },
+      "skins": {
+        "title": "Personalize mesa, cartas e aparência",
+        "text": "O editor de skins muda o estilo e as cores do baralho, o verso das cartas, a mesa, o zoom e os espaçamentos. Salve, duplique, exporte e importe suas skins."
+      }
+    },
+    "pause": "Pausar o carrossel",
+    "play": "Reproduzir o carrossel"
+  },
+  "how": {
+    "title": "Como funciona",
+    "lead": "Do arquivo que a sala exporta até uma review que dá para usar.",
+    "steps": {
+      "import": {
+        "title": "Importe sua hand history",
+        "text": "Carregue os arquivos .txt que sua sala exporta. Tudo é lido no navegador."
+      },
+      "review": {
+        "title": "Revise a sessão no Replayer",
+        "text": "Percorra as mãos, use os filtros e pare onde a decisão merece um segundo olhar."
+      },
+      "assess": {
+        "title": "Faça sua autoavaliação ou compartilhe com um coach",
+        "text": "Escreva sua própria avaliação ou envie um link com senha para o coach fazer a dele."
+      },
+      "read": {
+        "title": "Consulte feedbacks e relatórios",
+        "text": "Notas, tags de leaks e comentários por mão e por street, reunidos em um relatório."
+      },
+      "follow": {
+        "title": "Acompanhe sua evolução",
+        "text": "Compare sessões ao longo do tempo e veja se os mesmos leaks continuam voltando."
+      }
+    }
+  },
+  "coach": {
+    "title": "Review com coach",
+    "lead": "O jogador continua no controle da sessão; o coach só precisa do link e da senha.",
+    "items": {
+      "link": {
+        "title": "Um link e uma senha",
+        "text": "A senha nunca viaja na URL e nunca é guardada em texto aberto."
+      },
+      "expiry": {
+        "title": "Acesso temporário, com data de expiração",
+        "text": "Você escolhe a duração do link ao criá-lo, dentro do intervalo permitido pela administração."
+      },
+      "async": {
+        "title": "Avaliação assíncrona",
+        "text": "O coach trabalha quando puder; ninguém precisa estar online ao mesmo tempo."
+      },
+      "scores": {
+        "title": "Notas de 0 a 100, tags e comentários",
+        "text": "Cada mão recebe uma nota, as tags de leaks que se aplicam e um comentário escrito."
+      },
+      "partial": {
+        "title": "Feedbacks parciais conforme chegam",
+        "text": "O jogador acompanha o que já foi escrito enquanto o coach ainda trabalha."
+      },
+      "several": {
+        "title": "Vários coaches, avaliações separadas",
+        "text": "Cada convite gera a sua própria leitura, e um coach nunca vê a do outro."
+      },
+      "compare": {
+        "title": "Comparação com a sua autoavaliação",
+        "text": "A sua leitura e a do coach ficam lado a lado, mão a mão."
+      },
+      "pdf": {
+        "title": "Relatórios individuais e comparativos",
+        "text": "Exporte em PDF, sozinho ou com todas as avaliações da sessão juntas."
+      }
+    }
+  },
+  "reports": {
+    "title": "Relatórios e evolução",
+    "lead": "O que os números dizem — e o que eles não dizem.",
+    "disclaimer": "São avaliações das decisões, escritas por você ou pelo seu coach. O Replayer não promete lucratividade e não faz análise das mãos por IA.",
+    "items": {
+      "score": {
+        "title": "Scores de 0 a 100",
+        "text": "Uma nota por mão e a média da sessão."
+      },
+      "coverage": {
+        "title": "Percentual de mãos revisadas",
+        "text": "Quanto da sessão foi de fato avaliado."
+      },
+      "leaks": {
+        "title": "Principais leaks",
+        "text": "Ordenados a partir das tags registradas nas mãos."
+      },
+      "self": {
+        "title": "Série de autoavaliação",
+        "text": "Suas próprias notas, sessão após sessão."
+      },
+      "coaches": {
+        "title": "Média das avaliações dos coaches",
+        "text": "Uma segunda série com a média das avaliações que você recebeu."
+      },
+      "filter": {
+        "title": "Filtro de datas e linha de tendência",
+        "text": "Estreite o período e veja para onde a série está indo."
+      }
+    },
+    "chart": {
+      "caption": "Ilustração do gráfico de evolução — não é uma captura do produto.",
+      "alt": "Gráfico ilustrativo com duas séries de notas de 0 a 100 ao longo do tempo: autoavaliação e média dos coaches, com linha de tendência.",
+      "self": "Autoavaliação",
+      "coaches": "Média dos coaches",
+      "trend": "Tendência"
+    }
+  },
+  "rooms": {
+    "title": "Salas compatíveis",
+    "lead": "A importação funciona a partir dos arquivos .txt de hand history que estas salas exportam.",
+    "note": "A importação usa arquivos .txt. O PokerStudio não tem relação comercial com estas salas; os nomes aparecem apenas para indicar quais formatos são lidos."
+  },
+  "roadmap": {
+    "title": "Funcionalidades futuras",
+    "lead": "Planejadas, ainda não disponíveis. Não anunciamos datas de lançamento.",
+    "badge": "Em breve",
+    "items": {
+      "audio": {
+        "title": "Feedback do coach por áudio",
+        "text": "Comentários gravados anexados à mão."
+      },
+      "video": {
+        "title": "Feedback do coach por vídeo",
+        "text": "Uma explicação gravada da mão, ao lado das anotações escritas."
+      },
+      "profile": {
+        "title": "Perfil de coach",
+        "text": "Cadastro por e-mail e área para acompanhar alunos."
+      },
+      "dashboard": {
+        "title": "Dashboard e analytics",
+        "text": "Uma visão geral das suas sessões e avaliações em um só lugar."
+      },
+      "ai": {
+        "title": "Análise por IA em tempo real",
+        "text": "Com base em Nash e GTO e na importação da sua própria estratégia."
+      }
+    }
+  },
+  "faq": {
+    "title": "Dúvidas frequentes",
+    "lead": "Respostas curtas sobre o que o Replayer faz hoje.",
+    "items": {
+      "free": {
+        "q": "É gratuito mesmo?",
+        "a": "Sim — gratuito por tempo limitado. Criar a conta também é gratuito, e é a conta que guarda suas reviews."
+      },
+      "files": {
+        "q": "Quais arquivos posso importar?",
+        "a": "Os arquivos .txt de hand history que a sua sala exporta. Nenhum outro formato é suportado."
+      },
+      "formats": {
+        "q": "Cash e torneios?",
+        "a": "Os dois. O Replayer lê mesas de cash e torneios, incluindo níveis, antes e bounties."
+      },
+      "rooms": {
+        "q": "Quais salas são compatíveis?",
+        "a": "As salas listadas na seção de salas compatíveis, sempre a partir do arquivo .txt exportado."
+      },
+      "skins": {
+        "q": "Dá para mudar a aparência da mesa?",
+        "a": "Dá. O editor de skins muda estilo e cores do baralho, verso das cartas, mesa, zoom e espaçamentos, e as suas skins podem ser exportadas e importadas."
+      },
+      "coach": {
+        "q": "Como funciona a review com um coach?",
+        "a": "Você gera um link com senha e data de expiração. O coach abre, percorre as mãos e deixa notas de 0 a 100, tags de leaks e comentários — de forma assíncrona, sem criar conta."
+      },
+      "reports": {
+        "q": "Existem relatórios parciais e finais?",
+        "a": "Você acompanha os feedbacks conforme são escritos, e quando uma avaliação é concluída ela é fechada e pode ser exportada em PDF, sozinha ou comparada com as demais."
+      },
+      "expiry": {
+        "q": "Quanto tempo dura um link compartilhado?",
+        "a": "Você escolhe a expiração ao criar o link. O intervalo permitido é definido pela administração e pode mudar, por isso não é fixado aqui."
+      }
+    }
+  },
+  "final": {
+    "title": "Traga sua próxima sessão e revise direito.",
+    "sub": "Importe um arquivo .txt, percorra as mãos e veja onde as decisões custaram caro."
+  },
+  "footer": {
+    "tagline": "Ferramentas de estudo de poker.",
+    "site": "Site institucional",
+    "sections": "Seções",
+    "rights": "PokerStudio. Todos os direitos reservados.",
+    "shots": "As capturas do produto nesta página são reais. Os nomes dos jogadores foram desfocados; cartas, stacks, posições e controles não foram alterados."
+  },
+  "alt": {
+    "logo": "PokerStudio Replayer",
+    "replayerFull": "O PokerStudio Replayer reproduzindo uma mão de torneio: a lista de mãos à esquerda, a mesa no centro e os controles de reprodução embaixo.",
+    "handList": "Lista de mãos de uma sessão importada, cada linha com as cartas, a posição e o resultado em big blinds.",
+    "filters": "Painel de filtros: posição, mãos ganhas ou perdidas, mãos jogadas e opções de exibição.",
+    "table": "A mesa 3D no meio de uma mão, com as plaquinhas dos lugares, o pote e as apostas no feltro.",
+    "timeline": "Controles de reprodução: botões de street, play, velocidade e uma linha do tempo com uma marca por mão.",
+    "reviewPanel": "Painel de review com tags de leaks, campo de anotações e a opção de incluir a mão no relatório.",
+    "streetNotes": "Anotações por street: preflop, flop, turn e river, cada uma com o seu campo.",
+    "displayPanel": "Painel de exibição: skin, cores do baralho, cartas fechadas e controles de zoom para mesa, cartas, fichas, lugares e espaçamento do board.",
+    "skinsFull": "O editor de skins com a prévia da mesa ao vivo e o menu de idiomas aberto.",
+    "deck": "Prévia do baralho: frentes das cartas e quatro padrões de verso.",
+    "languages": "Menu de idiomas com os oito idiomas disponíveis."
+  },
+  "illus": {
+    "label": "Ilustração",
+    "note": "Ilustração, não é uma captura do produto.",
+    "share": {
+      "alt": "Ilustração do compartilhamento: a sessão gera um link e uma senha, e o coach abre até a data de expiração.",
+      "session": "Sessão",
+      "link": "Link + senha",
+      "coach": "Coach",
+      "expires": "Expira na data escolhida"
+    },
+    "resume": {
+      "alt": "Ilustração da retomada: uma lista de mãos em que as primeiras já foram revisadas e uma está marcada como o ponto de continuar.",
+      "done": "Revisadas",
+      "here": "Continue aqui",
+      "todo": "Restantes"
+    },
+    "save": {
+      "alt": "Ilustração das reviews salvas: sessões guardadas na conta e acessíveis de qualquer dispositivo.",
+      "account": "Sua conta",
+      "sessions": "Sessões, anotações e avaliações"
+    }
+  }
+}

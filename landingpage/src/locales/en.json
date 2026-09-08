@@ -1,0 +1,298 @@
+{
+  "meta": {
+    "title": "PokerStudio Replayer — replay your hands and study better",
+    "description": "Replay your cash and tournament hands in the browser, rate every decision, write comments per street and share the session with your coach. Free for a limited time."
+  },
+  "nav": {
+    "label": "Sections",
+    "top": "Back to the top",
+    "features": "Features",
+    "how": "How it works",
+    "coach": "Coach",
+    "reports": "Reports",
+    "rooms": "Rooms",
+    "roadmap": "Coming soon",
+    "faq": "FAQ",
+    "open": "Open the menu",
+    "close": "Close the menu",
+    "skip": "Skip to the content",
+    "language": "Language",
+    "chooseLanguage": "Choose a language"
+  },
+  "cta": {
+    "primary": "Try it free",
+    "secondary": "See the features",
+    "free": "Free for a limited time. Take advantage now!",
+    "opensReplayer": "Opens the PokerStudio Replayer in a new tab"
+  },
+  "hero": {
+    "eyebrow": "Poker study tool",
+    "headline": "Review every decision and turn your hands into real study.",
+    "sub": "PokerStudio Replayer replays your cash and tournament hand histories in the browser — hand by hand, street by street — so you can rate your decisions, write notes and share the session with your coach.",
+    "audience": "For players who study on their own, players who work with a coach, and coaches and poker teams."
+  },
+  "features": {
+    "title": "What the Replayer does",
+    "lead": "Eight things you can do with a session that has already been imported.",
+    "prev": "Previous feature",
+    "next": "Next feature",
+    "goTo": "Show feature {{number}}: {{title}}",
+    "position": "Feature {{current}} of {{total}}",
+    "region": "Features carousel",
+    "items": {
+      "replay": {
+        "title": "Replay your cash and tournament hands",
+        "text": "Import the hand history and watch every hand play out: seats, positions, stacks in chips or big blinds, board and pot, in 3D or 2D."
+      },
+      "feedback": {
+        "title": "Feedback per hand and comments per street",
+        "text": "Each hand takes a score, leak tags and a written comment, plus separate notes for preflop, flop, turn and river."
+      },
+      "resume": {
+        "title": "Pick your review up where you left off",
+        "text": "The session remembers the hand and the frame each assessor stopped on, so a long review can be done in several sittings."
+      },
+      "save": {
+        "title": "Save and organise reviews in the database",
+        "text": "Reviews live in your account, not in one browser: your sessions, notes and assessments follow you across devices."
+      },
+      "share": {
+        "title": "Share a session with your coach",
+        "text": "Generate a link with a password and an expiry date. Your coach reviews it asynchronously, with no account and no e-mail exchange."
+      },
+      "reports": {
+        "title": "Read reports and find your main leaks",
+        "text": "A report brings together scores, the share of hands reviewed and the leak tags that came up most often, ready to export."
+      },
+      "evolution": {
+        "title": "Follow how your assessments evolve",
+        "text": "Your self-assessment series and the coaches' average, over a date range, with a trend line."
+      },
+      "skins": {
+        "title": "Customise table, cards and looks",
+        "text": "The skin editor changes deck style and colours, card backs, table, zoom and spacing. Save, duplicate, export and import your skins."
+      }
+    },
+    "pause": "Pause the carousel",
+    "play": "Play the carousel"
+  },
+  "how": {
+    "title": "How it works",
+    "lead": "From the file your poker room exports to a review you can act on.",
+    "steps": {
+      "import": {
+        "title": "Import your hand history",
+        "text": "Load the .txt files your poker room exports. Everything is read in the browser."
+      },
+      "review": {
+        "title": "Review the session in the Replayer",
+        "text": "Go through the hands, use the filters and stop wherever a decision deserves a second look."
+      },
+      "assess": {
+        "title": "Rate it yourself, or share it with a coach",
+        "text": "Write your own assessment, or send a link with a password so a coach can do it."
+      },
+      "read": {
+        "title": "Read the feedback and the reports",
+        "text": "Scores, leak tags and comments per hand and per street, gathered in one report."
+      },
+      "follow": {
+        "title": "Follow your evolution",
+        "text": "Compare sessions over time and see whether the same leaks keep coming back."
+      }
+    }
+  },
+  "coach": {
+    "title": "Review with a coach",
+    "lead": "The player keeps control of the session; the coach only needs the link and the password.",
+    "items": {
+      "link": {
+        "title": "A link and a password",
+        "text": "The password never travels in the URL and is never stored in the clear."
+      },
+      "expiry": {
+        "title": "Temporary access, with an expiry date",
+        "text": "You choose how long the link lasts when you create it, within the range the administration allows."
+      },
+      "async": {
+        "title": "Asynchronous assessment",
+        "text": "The coach works whenever it suits them; nobody has to be online at the same time."
+      },
+      "scores": {
+        "title": "Scores from 0 to 100, tags and comments",
+        "text": "Each hand takes a score, the leak tags that apply and a written comment."
+      },
+      "partial": {
+        "title": "Partial feedback as it arrives",
+        "text": "The player follows what has already been written while the coach is still working."
+      },
+      "several": {
+        "title": "Several coaches, separate assessments",
+        "text": "Each invitation produces its own reading, and one coach never sees another's."
+      },
+      "compare": {
+        "title": "Compared with your own assessment",
+        "text": "Your reading and the coach's sit side by side, hand by hand."
+      },
+      "pdf": {
+        "title": "Individual and comparative reports",
+        "text": "Export to PDF, on your own or with every assessment of the session together."
+      }
+    }
+  },
+  "reports": {
+    "title": "Reports and evolution",
+    "lead": "What the numbers say — and what they do not.",
+    "disclaimer": "These are assessments of decisions, written by you or by your coach. The Replayer does not promise profit and does not analyse hands with AI.",
+    "items": {
+      "score": {
+        "title": "Scores from 0 to 100",
+        "text": "One score per hand, and the session's average."
+      },
+      "coverage": {
+        "title": "Share of hands reviewed",
+        "text": "How much of the session has actually been assessed."
+      },
+      "leaks": {
+        "title": "Main leaks",
+        "text": "Ranked from the tags recorded on the hands."
+      },
+      "self": {
+        "title": "Self-assessment series",
+        "text": "Your own scores, session after session."
+      },
+      "coaches": {
+        "title": "Coaches' average",
+        "text": "A second series with the average of the assessments you received."
+      },
+      "filter": {
+        "title": "Date filter and trend line",
+        "text": "Narrow the window and see which way the series is going."
+      }
+    },
+    "chart": {
+      "caption": "Illustration of the evolution chart — not a capture of the product.",
+      "alt": "Illustrative chart with two series of scores from 0 to 100 over time: self-assessment and the coaches' average, with a trend line.",
+      "self": "Self-assessment",
+      "coaches": "Coaches' average",
+      "trend": "Trend"
+    }
+  },
+  "rooms": {
+    "title": "Poker rooms",
+    "lead": "Import works from the .txt hand history files these rooms export.",
+    "note": "Import reads .txt files. PokerStudio has no commercial relationship with these rooms; the names are shown only to say which formats are read."
+  },
+  "roadmap": {
+    "title": "Coming soon",
+    "lead": "Planned, not available yet. No release dates are announced.",
+    "badge": "Coming soon",
+    "items": {
+      "audio": {
+        "title": "Coach feedback by audio",
+        "text": "Recorded comments attached to the hand."
+      },
+      "video": {
+        "title": "Coach feedback by video",
+        "text": "A recorded walkthrough of the hand, alongside the written notes."
+      },
+      "profile": {
+        "title": "Coach profile",
+        "text": "Sign-up by e-mail and an area to follow students."
+      },
+      "dashboard": {
+        "title": "Dashboard and analytics",
+        "text": "An overview of your sessions and assessments in one place."
+      },
+      "ai": {
+        "title": "Real-time AI analysis",
+        "text": "Based on Nash and GTO, and on importing your own strategy."
+      }
+    }
+  },
+  "faq": {
+    "title": "Frequently asked questions",
+    "lead": "Short answers about what the Replayer does today.",
+    "items": {
+      "free": {
+        "q": "Is it really free?",
+        "a": "Yes — free for a limited time. Creating an account is free too, and an account is what you need to save your reviews."
+      },
+      "files": {
+        "q": "Which files can I import?",
+        "a": "The .txt hand history files your poker room exports. No other format is supported."
+      },
+      "formats": {
+        "q": "Cash games and tournaments?",
+        "a": "Both. The Replayer reads cash tables and tournaments, including levels, antes and bounties."
+      },
+      "rooms": {
+        "q": "Which poker rooms are supported?",
+        "a": "The rooms listed in the poker rooms section above, always from their .txt export."
+      },
+      "skins": {
+        "q": "Can I change how the table looks?",
+        "a": "Yes. The skin editor changes deck style and colours, card backs, table, zoom and spacing, and your skins can be exported and imported."
+      },
+      "coach": {
+        "q": "How does a review with a coach work?",
+        "a": "You generate a link with a password and an expiry date. Your coach opens it, goes through the hands and leaves scores from 0 to 100, leak tags and comments — asynchronously, with no account."
+      },
+      "reports": {
+        "q": "Do I get partial and final reports?",
+        "a": "You follow the feedback as it is written, and once an assessment is completed it is closed and can be exported to PDF, on its own or compared with the others."
+      },
+      "expiry": {
+        "q": "How long does a shared link last?",
+        "a": "You choose the expiry when you create it. The allowed range is set by the administration and can change, so it is not fixed here."
+      }
+    }
+  },
+  "final": {
+    "title": "Bring your next session and review it properly.",
+    "sub": "Import a .txt file, go through the hands and see where the decisions cost you."
+  },
+  "footer": {
+    "tagline": "Poker study tools.",
+    "site": "Institutional site",
+    "sections": "Sections",
+    "rights": "PokerStudio. All rights reserved.",
+    "shots": "The product captures on this page are real. Player names have been blurred; cards, stacks, positions and controls are untouched."
+  },
+  "alt": {
+    "logo": "PokerStudio Replayer",
+    "replayerFull": "The PokerStudio Replayer replaying a tournament hand: the hand list on the left, the table in the middle and the playback controls at the bottom.",
+    "handList": "Hand list of an imported session, each row with the hole cards, the position and the result in big blinds.",
+    "filters": "Filter panel: position, won or lost hands, hands played, and display options.",
+    "table": "The 3D table mid-hand, with the seat plates, the pot and the bets on the felt.",
+    "timeline": "Playback controls: street buttons, play, speed and a timeline with one mark per hand.",
+    "reviewPanel": "Review panel with leak tags, a notes field and the option to include the hand in the report.",
+    "streetNotes": "Notes by street: preflop, flop, turn and river, each with its own field.",
+    "displayPanel": "Display panel: skin, deck colours, hole cards and zoom sliders for table, cards, chips, seats and board spacing.",
+    "skinsFull": "The skin editor with the live preview of the table and the language menu open.",
+    "deck": "Preview of the deck: card fronts and four back patterns.",
+    "languages": "Language menu with the eight available languages."
+  },
+  "illus": {
+    "label": "Illustration",
+    "note": "Illustration, not a capture of the product.",
+    "share": {
+      "alt": "Illustration of sharing: a session produces a link and a password, and the coach opens it until the expiry date.",
+      "session": "Session",
+      "link": "Link + password",
+      "coach": "Coach",
+      "expires": "Expires on the chosen date"
+    },
+    "resume": {
+      "alt": "Illustration of resuming: a list of hands where the earlier ones are done and one is marked as the point to continue from.",
+      "done": "Reviewed",
+      "here": "Continue here",
+      "todo": "Remaining"
+    },
+    "save": {
+      "alt": "Illustration of saved reviews: sessions stored in the account and reachable from any device.",
+      "account": "Your account",
+      "sessions": "Sessions, notes and assessments"
+    }
+  }
+}

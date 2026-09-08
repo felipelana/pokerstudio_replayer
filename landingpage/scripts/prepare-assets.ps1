@@ -213,7 +213,6 @@ $outputs = @{
   'shot-skins.png' = @{
     full  = @{ name = 'skins-full'; width = 1600; jpeg = $true }
     crops = @(
-      @{ name = 'crop-skin-editor';  box = (From-Box    0   44  398 1069); jpeg = $false }
       @{ name = 'crop-deck';         box = (From-Box  408   52  990  186); jpeg = $false }
       @{ name = 'crop-languages';    box = (From-Box 1548   44 1786  342); jpeg = $false }
     )
@@ -256,6 +255,28 @@ foreach ($file in $outputs.Keys | Sort-Object) {
 
   # A treated full-size copy, so the redaction can be audited without the originals.
   $bmp.Dispose()
+}
+
+# --- Social preview ----------------------------------------------------------
+# 1200x630 for og:image, built from the treated replayer capture so the picture
+# shared on social networks is the same one on the page.
+$ogSource = Join-Path $OutDir 'replayer-full.jpg'
+if (Test-Path $ogSource) {
+  $publicDir = Join-Path $PSScriptRoot '..\public'
+  if (-not (Test-Path $publicDir)) { New-Item -ItemType Directory -Path $publicDir -Force | Out-Null }
+  $src = [System.Drawing.Bitmap]::FromFile($ogSource)
+  $og = New-Object System.Drawing.Bitmap 1200, 630
+  $g = [System.Drawing.Graphics]::FromImage($og)
+  $g.Clear([System.Drawing.Color]::FromArgb(255, 8, 8, 10))
+  $g.InterpolationMode = [System.Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
+  $w = 1120
+  $h = [int][Math]::Round($src.Height * ($w / [double]$src.Width))
+  $g.DrawImage($src, [int]((1200 - $w) / 2), [int]((630 - $h) / 2), $w, $h)
+  $g.Dispose()
+  $ogPath = Join-Path $publicDir 'og-image.jpg'
+  [Redact]::SaveJpeg($og, $ogPath, 84)
+  "  {0} -> 1200x630" -f (Split-Path $ogPath -Leaf)
+  $og.Dispose(); $src.Dispose()
 }
 
 # --- Logo --------------------------------------------------------------------
