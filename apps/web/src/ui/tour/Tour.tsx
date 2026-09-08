@@ -2,6 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppStore, type TourFlow } from '@/state/store';
+import { useAuthStore } from '@/state/authStore';
 import { IconClose, IconHelp } from '../icons';
 
 interface Step {
@@ -81,6 +82,7 @@ export function Tour() {
   const settingsLoaded = useAppStore((s) => s.settingsLoaded);
   const updateSettings = useAppStore((s) => s.updateSettings);
   const setHelpCenterOpen = useAppStore((s) => s.setHelpCenterOpen);
+  const signedIn = useAuthStore((s) => s.phase === 'authenticated');
   const [index, setIndex] = useState(0);
   const [spot, setSpot] = useState<Spot>();
 
@@ -91,7 +93,9 @@ export function Tour() {
   // First run, on each screen that has something to say. Offered once, and
   // never again unasked.
   useEffect(() => {
-    if (!settingsLoaded || open) return;
+    // Nothing to show a visitor who has not signed in: every step points at a
+    // part of the app that only exists behind the login screen.
+    if (!settingsLoaded || open || !signedIn) return;
     if (inReplayer && !settings.tourReplayerSeen) {
       setIndex(0);
       setOpen(true, 'replayer');
@@ -99,7 +103,7 @@ export function Tour() {
       setIndex(0);
       setOpen(true, 'library');
     }
-  }, [settingsLoaded, open, inReplayer, settings.tourSeen, settings.tourReplayerSeen, setOpen]);
+  }, [settingsLoaded, open, signedIn, inReplayer, settings.tourSeen, settings.tourReplayerSeen, setOpen]);
 
   // A step may live on another page; go there before pointing at anything.
   useEffect(() => {
