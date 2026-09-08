@@ -1,10 +1,14 @@
 node_modules
 dist
-.env
-.env.local
-*.local
 .DS_Store
 coverage
+
+# Every .env is local and private. Only the *.example files are versioned,
+# and they carry placeholders, never a real secret.
+.env
+.env.*
+!.env.example
+*.local
 
 .claude/
 /fixture-pokerstars-ko-tournament-dealer-export.txt
