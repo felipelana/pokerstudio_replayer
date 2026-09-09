@@ -298,7 +298,14 @@
     "captureSaved": "Screenshot saved with this note",
     "coachTitle": "What the coach said",
     "coachPlayedWell": "Played well",
-    "coachInProgress": "review still open"
+    "coachInProgress": "review still open",
+    "score": "Your score from 0 to 100",
+    "noScore": "no score",
+    "quickScore": "Quick scores",
+    "clearScore": "clear",
+    "countsForCoverage": "Hand played. It counts towards the coverage of the session.",
+    "notPlayed": "Hand not played. It can carry a score, but it is outside coverage.",
+    "manageTags": "Manage tags"
   },
   "settings": {
     "title": "Settings",
@@ -352,7 +359,12 @@
     "groupStudy": "Study",
     "groupData": "Data",
     "comingSoon": "Coming soon",
-    "roomNicksSoonHint": "The rooms marked as coming soon are not read by the importer yet. The screen name is kept and starts working the day the room arrives."
+    "roomNicksSoonHint": "The rooms marked as coming soon are not read by the importer yet. The screen name is kept and starts working the day the room arrives.",
+    "tagRemove": "Delete the tag {{tag}}",
+    "tagRemoveFree": "This tag is not on any hand. Deleting it loses nothing.",
+    "tagInUse": "This tag is on {{hands}} hand(s), across {{reviews}} review(s):",
+    "tagCascadeNote": "Deleting it anyway takes the tag off those hands. The notes, the scores and everything else stay where they are.",
+    "tagRemoveCascade": "Delete and take it off those hands"
   },
   "shortcuts": {
     "title": "Keyboard shortcuts",

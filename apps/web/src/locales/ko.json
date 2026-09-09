@@ -298,7 +298,14 @@
     "captureSaved": "스크린샷이 저장되었습니다",
     "coachTitle": "코치의 평가",
     "coachPlayedWell": "잘 친 플레이",
-    "coachInProgress": "평가 진행 중"
+    "coachInProgress": "평가 진행 중",
+    "score": "0에서 100까지 내 점수",
+    "noScore": "점수 없음",
+    "quickScore": "빠른 점수",
+    "clearScore": "지우기",
+    "countsForCoverage": "플레이한 핸드입니다. 세션 커버리지에 들어갑니다.",
+    "notPlayed": "플레이하지 않은 핸드입니다. 점수는 줄 수 있지만 커버리지에는 들어가지 않습니다.",
+    "manageTags": "태그 관리"
   },
   "settings": {
     "title": "설정",
@@ -352,7 +359,12 @@
     "groupStudy": "학습",
     "groupData": "데이터",
     "comingSoon": "준비 중",
-    "roomNicksSoonHint": "준비 중으로 표시된 룸은 아직 불러오지 못합니다. 닉네임은 저장되어 있다가 룸이 추가되는 날부터 쓰입니다."
+    "roomNicksSoonHint": "준비 중으로 표시된 룸은 아직 불러오지 못합니다. 닉네임은 저장되어 있다가 룸이 추가되는 날부터 쓰입니다.",
+    "tagRemove": "태그 {{tag}} 삭제",
+    "tagRemoveFree": "이 태그는 어떤 핸드에도 없습니다. 삭제해도 잃을 것이 없습니다.",
+    "tagInUse": "이 태그는 리뷰 {{reviews}}개의 {{hands}}핸드에 있습니다:",
+    "tagCascadeNote": "그래도 삭제하면 그 핸드에서도 태그가 사라집니다. 메모와 점수 등은 그대로 남습니다.",
+    "tagRemoveCascade": "삭제하고 그 핸드에서도 빼기"
   },
   "shortcuts": {
     "title": "키보드 단축키",

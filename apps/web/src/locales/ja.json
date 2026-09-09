@@ -298,7 +298,14 @@
     "captureSaved": "スクリーンショットを保存しました",
     "coachTitle": "コーチのコメント",
     "coachPlayedWell": "良いプレー",
-    "coachInProgress": "評価は進行中"
+    "coachInProgress": "評価は進行中",
+    "score": "0 から 100 のあなたの点数",
+    "noScore": "点数なし",
+    "quickScore": "かんたん採点",
+    "clearScore": "取り消す",
+    "countsForCoverage": "プレイしたハンドです。セッションのカバー率に入ります。",
+    "notPlayed": "プレイしていないハンドです。点数は付けられますが、カバー率には入りません。",
+    "manageTags": "タグを管理"
   },
   "settings": {
     "title": "設定",
@@ -352,7 +359,12 @@
     "groupStudy": "学習",
     "groupData": "データ",
     "comingSoon": "近日対応",
-    "roomNicksSoonHint": "近日対応と表示されたルームはまだ読み込めません。ニックネームは保存され、対応した日から使われます。"
+    "roomNicksSoonHint": "近日対応と表示されたルームはまだ読み込めません。ニックネームは保存され、対応した日から使われます。",
+    "tagRemove": "タグ {{tag}} を削除",
+    "tagRemoveFree": "このタグはどのハンドにも付いていません。削除しても何も失いません。",
+    "tagInUse": "このタグは {{reviews}} 件のレビューの {{hands}} ハンドに付いています。",
+    "tagCascadeNote": "それでも削除すると、そのハンドからもタグが外れます。メモや点数などはそのまま残ります。",
+    "tagRemoveCascade": "削除してハンドからも外す"
   },
   "shortcuts": {
     "title": "キーボードショートカット",

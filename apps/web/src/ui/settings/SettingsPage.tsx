@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { removeTagEverywhere, usesOfTag, type TagUse } from '@/db/tagUsage';
 import { DEFAULT_LOOKUP_TEMPLATE, isValidLookupTemplate } from '@/model/lookup';
 import i18n, { LANGUAGES } from '@/i18n';
 import { getRepository } from '@/db/repository';
@@ -95,9 +97,35 @@ export function SettingsPage() {
     setNotice(t('settings.cleared'));
   };
 
-  const [tab, setTab] = useState<PanelId>(() => remembered(PANEL_KEY, 'general') as PanelId);
-  const [openGroup, setOpenGroup] = useState(() => remembered(OPEN_KEY, 'preferences'));
+  const [params, setParams] = useSearchParams();
+  const asked = params.get('panel') as PanelId | null;
+  const [tab, setTab] = useState<PanelId>(() => (asked ?? (remembered(PANEL_KEY, 'general') as PanelId)));
+  const [openGroup, setOpenGroup] = useState(() =>
+    asked ? (GROUPS.find((g) => g.items.some((i) => i.id === asked))?.id ?? 'preferences') : remembered(OPEN_KEY, 'preferences'),
+  );
   const [confirmingClear, setConfirmingClear] = useState(false);
+  /** A tag the reader asked to delete, and where it is already in use. */
+  const [removingTag, setRemovingTag] = useState<{ id: string; label: string; uses: TagUse[] }>();
+
+  // Arriving with ?panel= opens that panel, then the address goes back to being
+  // plain: the choice is remembered from here on like any other.
+  useEffect(() => {
+    if (!asked) return;
+    setTab(asked);
+    setOpenGroup(GROUPS.find((g) => g.items.some((i) => i.id === asked))?.id ?? 'preferences');
+    setParams({}, { replace: true });
+  }, [asked, setParams]);
+
+  /** Nothing is removed before the reader has been told what it is on. */
+  const askToRemoveTag = async (tag: { id: string; label: string }) => {
+    setRemovingTag({ ...tag, uses: await usesOfTag(tag.id) });
+  };
+
+  const dropTag = async (id: string, alsoFromHands: boolean) => {
+    if (alsoFromHands) await removeTagEverywhere(id);
+    update({ leakTags: settings.leakTags.filter((x) => x.id !== id) });
+    setRemovingTag(undefined);
+  };
 
   useEffect(() => remember(PANEL_KEY, tab), [tab]);
   useEffect(() => remember(OPEN_KEY, openGroup), [openGroup]);
@@ -117,6 +145,14 @@ export function SettingsPage() {
         }}
       />
       <h1 className="mb-4 text-2xl font-semibold">{t('settings.title')}</h1>
+
+      {removingTag && (
+        <TagRemoval
+          tag={removingTag}
+          onCancel={() => setRemovingTag(undefined)}
+          onConfirm={(alsoFromHands) => void dropTag(removingTag.id, alsoFromHands)}
+        />
+      )}
 
       <div className="flex flex-col gap-4 md:flex-row md:items-start">
       <nav className="w-full shrink-0 md:w-56" aria-label={t('settings.title')}>
@@ -351,7 +387,7 @@ export function SettingsPage() {
                 className="btn-icon !px-1.5 !py-1"
                 title={t('common.delete')}
                 aria-label={`${t('common.delete')} ${tag.label}`}
-                onClick={() => update({ leakTags: settings.leakTags.filter((x) => x.id !== tag.id) })}
+                onClick={() => void askToRemoveTag(tag)}
               >
                 ✕
               </button>
@@ -415,6 +451,86 @@ export function SettingsPage() {
       </section>
       )}
       </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * What happens when a tag is already on hands.
+ *
+ * A tag with no hands behind it goes quietly. One that has been used names the
+ * reviews it is on and offers the only two honest ways out: leave it alone, or
+ * take it off those hands as well, said in as many words before it happens.
+ */
+function TagRemoval({
+  tag,
+  onCancel,
+  onConfirm,
+}: {
+  tag: { id: string; label: string; uses: TagUse[] };
+  onCancel(): void;
+  onConfirm(alsoFromHands: boolean): void;
+}) {
+  const { t } = useTranslation();
+  const hands = tag.uses.reduce((total, use) => total + use.hands.length, 0);
+
+  if (tag.uses.length === 0) {
+    return (
+      <ConfirmDialog
+        open
+        title={t('settings.tagRemove', { tag: tag.label })}
+        body={t('settings.tagRemoveFree')}
+        confirmLabel={t('common.delete')}
+        danger
+        onCancel={onCancel}
+        onConfirm={() => onConfirm(false)}
+      />
+    );
+  }
+
+  return (
+    <div className="fixed inset-0 z-[120] flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.6)' }} onClick={onCancel}>
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={t('settings.tagRemove', { tag: tag.label })}
+        className="panel flex max-h-[80vh] w-full max-w-[540px] flex-col gap-3 p-5 shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h2 className="text-lg font-semibold">{t('settings.tagRemove', { tag: tag.label })}</h2>
+        <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+          {t('settings.tagInUse', { hands, reviews: tag.uses.length })}
+        </p>
+
+        <ul className="min-h-0 flex-1 overflow-auto rounded-lg border p-2 text-sm" style={{ borderColor: 'var(--border)' }}>
+          {tag.uses.map((use) => (
+            <li key={use.sessionId} className="py-1">
+              <span className="font-semibold">{use.sessionName}</span>
+              <span className="ml-2 text-xs" style={{ color: 'var(--text-muted)' }}>
+                {use.hands.map((hand) => `#${hand.position}`).join(', ')}
+              </span>
+            </li>
+          ))}
+        </ul>
+
+        <p className="text-xs leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+          {t('settings.tagCascadeNote')}
+        </p>
+
+        <div className="flex flex-wrap justify-end gap-2">
+          <button type="button" className="btn" onClick={onCancel}>
+            {t('common.cancel')}
+          </button>
+          <button
+            type="button"
+            className="btn"
+            style={{ background: 'var(--result-lost)', borderColor: 'transparent', color: '#fff' }}
+            onClick={() => onConfirm(true)}
+          >
+            {t('settings.tagRemoveCascade')}
+          </button>
+        </div>
       </div>
     </div>
   );

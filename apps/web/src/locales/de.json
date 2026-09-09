@@ -298,7 +298,14 @@
     "captureSaved": "Screenshot zu dieser Notiz gespeichert",
     "coachTitle": "Was der Coach sagt",
     "coachPlayedWell": "Gut gespielt",
-    "coachInProgress": "Einschätzung läuft noch"
+    "coachInProgress": "Einschätzung läuft noch",
+    "score": "Ihre Note von 0 bis 100",
+    "noScore": "keine Note",
+    "quickScore": "Schnelle Noten",
+    "clearScore": "entfernen",
+    "countsForCoverage": "Hand gespielt. Sie zählt für die Abdeckung der Sitzung.",
+    "notPlayed": "Hand nicht gespielt. Sie darf eine Note tragen, bleibt aber außerhalb der Abdeckung.",
+    "manageTags": "Etiketten verwalten"
   },
   "settings": {
     "title": "Einstellungen",
@@ -352,7 +359,12 @@
     "groupStudy": "Studium",
     "groupData": "Daten",
     "comingSoon": "Demnächst",
-    "roomNicksSoonHint": "Die als demnächst markierten Räume liest der Import noch nicht. Der Name wird aufbewahrt und gilt, sobald der Raum dazukommt."
+    "roomNicksSoonHint": "Die als demnächst markierten Räume liest der Import noch nicht. Der Name wird aufbewahrt und gilt, sobald der Raum dazukommt.",
+    "tagRemove": "Etikett {{tag}} löschen",
+    "tagRemoveFree": "Dieses Etikett ist auf keiner Hand. Löschen kostet nichts.",
+    "tagInUse": "Dieses Etikett ist auf {{hands}} Hand/Händen in {{reviews}} Review(s):",
+    "tagCascadeNote": "Wird es trotzdem gelöscht, verschwindet es auch von diesen Händen. Notizen, Noten und alles Übrige bleiben.",
+    "tagRemoveCascade": "Löschen und von diesen Händen nehmen"
   },
   "shortcuts": {
     "title": "Tastaturkürzel",

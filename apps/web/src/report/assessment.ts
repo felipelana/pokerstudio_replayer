@@ -29,12 +29,23 @@ export interface SessionAssessment {
   reviewedHands: number;
 }
 
+/**
+ * What this hand scored, whichever way it was written down. A number typed by
+ * the reader wins; a review from before the 0 to 100 scale falls back to the
+ * stars, read on the shared ruler.
+ */
+export function scoreOf(review: Review | undefined): number | undefined {
+  if (!review) return undefined;
+  if (typeof review.score === 'number') return review.score;
+  return scoreForStars(review.rating);
+}
+
 function inputFor(hand: Hand, review: Review | undefined): HandInput {
   return {
     heroVpip: quickResult(hand).vpip,
     assessment: review
       ? {
-          score: scoreForStars(review.rating),
+          score: scoreOf(review),
           comment: review.notes,
           tags: review.tags,
           streetComments: review.streetNotes,

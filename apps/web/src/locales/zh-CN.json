@@ -298,7 +298,14 @@
     "captureSaved": "截图已随此笔记保存",
     "coachTitle": "教练的评价",
     "coachPlayedWell": "打得不错",
-    "coachInProgress": "评价进行中"
+    "coachInProgress": "评价进行中",
+    "score": "你的 0 到 100 分",
+    "noScore": "无分数",
+    "quickScore": "快速打分",
+    "clearScore": "清除",
+    "countsForCoverage": "这手打过。它计入本次会话的覆盖率。",
+    "notPlayed": "这手没打。可以打分，但不计入覆盖率。",
+    "manageTags": "管理标签"
   },
   "settings": {
     "title": "设置",
@@ -352,7 +359,12 @@
     "groupStudy": "学习",
     "groupData": "数据",
     "comingSoon": "即将支持",
-    "roomNicksSoonHint": "标记为即将支持的房间还无法导入。昵称会先保存，等房间接入当天开始生效。"
+    "roomNicksSoonHint": "标记为即将支持的房间还无法导入。昵称会先保存，等房间接入当天开始生效。",
+    "tagRemove": "删除标签 {{tag}}",
+    "tagRemoveFree": "这个标签没有用在任何一手上，删除不会丢失什么。",
+    "tagInUse": "这个标签用在 {{reviews}} 份复盘的 {{hands}} 手上：",
+    "tagCascadeNote": "仍然删除的话，标签也会从那些手上移除。笔记、分数和其他内容都保持不变。",
+    "tagRemoveCascade": "删除并从那些手上移除"
   },
   "shortcuts": {
     "title": "键盘快捷键",

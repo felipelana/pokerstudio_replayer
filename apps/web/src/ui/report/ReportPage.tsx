@@ -5,7 +5,7 @@ import { useAppStore } from '@/state/store';
 import { buildReport, handHeadline, type ReportData } from '@/report/buildReport';
 import type { UserTag } from '@/model/types';
 import { exportDocx, exportPdf } from '@/report/export';
-import { leakLabel } from '@/report/assessment';
+import { leakLabel, scoreOf } from '@/report/assessment';
 import { useCoachReadings } from '@/ui/hooks/useCoachReadings';
 import { formatScore } from '@pokerstudio/shared';
 import { IconClose } from '@/ui/icons';
@@ -109,7 +109,13 @@ export function ReportPage() {
                 ))}
               </div>
             )}
-            {item.review.rating && <div className="text-sm">{'★'.repeat(item.review.rating)}</div>}
+            {scoreOf(item.review) !== undefined && (
+              <div className="text-sm">
+                <span className="font-semibold tabular-nums" style={{ color: 'var(--accent)' }}>
+                  {scoreOf(item.review)}/100
+                </span>
+              </div>
+            )}
             {item.image && <img src={item.image} alt="" className="w-full rounded-md" />}
             {item.review.notes.trim() && <p className="whitespace-pre-wrap text-sm">{item.review.notes}</p>}
             {item.coaches.map((c) => (

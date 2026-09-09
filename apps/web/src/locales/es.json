@@ -298,7 +298,14 @@
     "captureSaved": "Captura guardada con esta nota",
     "coachTitle": "Lo que dijo el coach",
     "coachPlayedWell": "Bien jugada",
-    "coachInProgress": "valoración en curso"
+    "coachInProgress": "valoración en curso",
+    "score": "Tu puntuación de 0 a 100",
+    "noScore": "sin puntuación",
+    "quickScore": "Puntuaciones rápidas",
+    "clearScore": "quitar",
+    "countsForCoverage": "Mano jugada. Cuenta en la cobertura de la sesión.",
+    "notPlayed": "Mano no jugada. Puede llevar puntuación, pero queda fuera de la cobertura.",
+    "manageTags": "Gestionar etiquetas"
   },
   "settings": {
     "title": "Ajustes",
@@ -352,7 +359,12 @@
     "groupStudy": "Estudio",
     "groupData": "Datos",
     "comingSoon": "Próximamente",
-    "roomNicksSoonHint": "Las salas marcadas como próximamente todavía no se leen. El nick se guarda y empieza a valer el día en que la sala entre."
+    "roomNicksSoonHint": "Las salas marcadas como próximamente todavía no se leen. El nick se guarda y empieza a valer el día en que la sala entre.",
+    "tagRemove": "Eliminar la etiqueta {{tag}}",
+    "tagRemoveFree": "Esta etiqueta no está en ninguna mano. Puedes eliminarla sin perder nada.",
+    "tagInUse": "Esta etiqueta está en {{hands}} mano(s), en {{reviews}} review(s):",
+    "tagCascadeNote": "Si la eliminas igual, la etiqueta sale de esas manos. Las notas, las puntuaciones y lo demás se quedan.",
+    "tagRemoveCascade": "Eliminar y quitarla de esas manos"
   },
   "shortcuts": {
     "title": "Atajos de teclado",
