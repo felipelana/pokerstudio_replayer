@@ -90,6 +90,9 @@ export function ShareReviewDialog({
   const [hours, setHours] = useState(24);
   const [scope, setScope] = useState<'review' | 'hand'>('review');
   const [onAccount, setOnAccount] = useState(true);
+  // Only whether there is a hand matters here, and a fresh object on every
+  // render would restart this effect for no reason.
+  const hasHand = !!hand;
   const [created, setCreated] = useState<NewInvite | undefined>();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
@@ -122,12 +125,12 @@ export function ShareReviewDialog({
     setCreated(undefined);
     // Opened over a hand, the offer starts on that hand: it is what the reader
     // was looking at when they reached for the button.
-    setScope(hand ? 'hand' : 'review');
+    setScope(hasHand ? 'hand' : 'review');
     void reload().catch(() => undefined);
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
-  }, [open, onClose, reload]);
+  }, [open, onClose, reload, hasHand]);
 
   if (!open) return null;
 
