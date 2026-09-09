@@ -295,7 +295,10 @@
     "captureImage": "Capture table",
     "captureText": "Text only",
     "capturing": "Capturing…",
-    "captureSaved": "Screenshot saved with this note"
+    "captureSaved": "Screenshot saved with this note",
+    "coachTitle": "What the coach said",
+    "coachPlayedWell": "Played well",
+    "coachInProgress": "review still open"
   },
   "settings": {
     "title": "Settings",

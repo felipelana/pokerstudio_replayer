@@ -295,7 +295,10 @@
     "captureImage": "Capturar la mesa",
     "captureText": "Solo texto",
     "capturing": "Capturando…",
-    "captureSaved": "Captura guardada con esta nota"
+    "captureSaved": "Captura guardada con esta nota",
+    "coachTitle": "Lo que dijo el coach",
+    "coachPlayedWell": "Bien jugada",
+    "coachInProgress": "valoración en curso"
   },
   "settings": {
     "title": "Ajustes",

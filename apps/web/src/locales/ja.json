@@ -295,7 +295,10 @@
     "captureImage": "テーブルを撮影",
     "captureText": "テキストのみ",
     "capturing": "撮影中…",
-    "captureSaved": "スクリーンショットを保存しました"
+    "captureSaved": "スクリーンショットを保存しました",
+    "coachTitle": "コーチのコメント",
+    "coachPlayedWell": "良いプレー",
+    "coachInProgress": "評価は進行中"
   },
   "settings": {
     "title": "設定",

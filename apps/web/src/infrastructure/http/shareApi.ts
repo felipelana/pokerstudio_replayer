@@ -51,6 +51,24 @@ export interface CoachAssessment {
   summary: { score: number | null; coverage: { total: number; reviewed: number }; pending: number };
 }
 
+/** One assessor of a review, as the owner of the review sees them listed. */
+export interface SessionAssessmentRow {
+  id: string;
+  role: 'SELF' | 'COACH';
+  status: string;
+  completedAt?: string | null;
+  coachName?: string;
+  inviteId?: string;
+  expiresAt?: string;
+  revokedAt?: string | null;
+  summary: {
+    score: { value: number | null; scored: number };
+    coverage: { reviewed: number; total: number; percent: number | null };
+    leaks: { tag: string; hands: number; percent: number | null }[];
+    reviewedHands: number;
+  };
+}
+
 export const shareApi = {
   settings: () => api.get<ShareSettings>('/share-settings'),
   list: (reviewId: string) => api.get<{ items: Invite[] }>(`/reviews/${reviewId}/invites`),
@@ -59,6 +77,11 @@ export const shareApi = {
   revoke: (inviteId: string) => api.post<{ id: string }>(`/invites/${inviteId}/revoke`),
   /** What a coach wrote, read by the player who owns the review. */
   readingOf: (assessmentId: string) => api.get<CoachAssessment>(`/assessments/${assessmentId}`),
+  /** Every reading of one review: the player's own, and each coach's. */
+  assessmentsOf: (reviewId: string) =>
+    api.get<{ session: { id: string; title: string; handCount: number }; items: SessionAssessmentRow[] }>(
+      `/reviews/${reviewId}/assessments`,
+    ),
 
   /** The coach's side: the token comes from the link, the password from the player. */
   open: (token: string, password: string) =>

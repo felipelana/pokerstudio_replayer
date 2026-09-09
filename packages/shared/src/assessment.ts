@@ -246,3 +246,26 @@ export function suggestCoachPassword(random: (max: number) => number): string {
   // Deterministic fallback that satisfies the rule, so this never returns junk.
   return 'Pk7Studio'.slice(0, COACH_PASSWORD_LENGTH);
 }
+
+/* ------------------------------------------------------------------ */
+/* The player's own reading                                            */
+/* ------------------------------------------------------------------ */
+
+/**
+ * The replayer has always let the player rate a hand from one to five stars.
+ * A coach writes a number from 0 to 100. To put the two side by side, the
+ * stars are read on this ruler, decided with the product owner:
+ *
+ *   ★ 10   ★★ 30   ★★★ 50   ★★★★ 75   ★★★★★ 95
+ *
+ * It is deliberately not linear. One star means the hand was played badly, not
+ * that it scored 20; five means very well, not perfect. The gap at the top is
+ * what keeps a session of five-star hands from reading as a flawless 100.
+ */
+export const STAR_SCORE: Record<1 | 2 | 3 | 4 | 5, number> = { 1: 10, 2: 30, 3: 50, 4: 75, 5: 95 };
+
+/** The 0 to 100 score a star rating stands for, or undefined when unrated. */
+export function scoreForStars(stars?: number | null): number | undefined {
+  if (stars === undefined || stars === null) return undefined;
+  return STAR_SCORE[Math.min(5, Math.max(1, Math.round(stars))) as 1 | 2 | 3 | 4 | 5];
+}

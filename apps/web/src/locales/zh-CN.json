@@ -295,7 +295,10 @@
     "captureImage": "截取牌桌",
     "captureText": "仅文字",
     "capturing": "截取中…",
-    "captureSaved": "截图已随此笔记保存"
+    "captureSaved": "截图已随此笔记保存",
+    "coachTitle": "教练的评价",
+    "coachPlayedWell": "打得不错",
+    "coachInProgress": "评价进行中"
   },
   "settings": {
     "title": "设置",

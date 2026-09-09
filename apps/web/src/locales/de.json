@@ -295,7 +295,10 @@
     "captureImage": "Tisch aufnehmen",
     "captureText": "Nur Text",
     "capturing": "Aufnahme…",
-    "captureSaved": "Screenshot zu dieser Notiz gespeichert"
+    "captureSaved": "Screenshot zu dieser Notiz gespeichert",
+    "coachTitle": "Was der Coach sagt",
+    "coachPlayedWell": "Gut gespielt",
+    "coachInProgress": "Einschätzung läuft noch"
   },
   "settings": {
     "title": "Einstellungen",

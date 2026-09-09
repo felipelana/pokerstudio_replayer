@@ -301,7 +301,10 @@
     "captureImage": "Снимок стола",
     "captureText": "Только текст",
     "capturing": "Снимок…",
-    "captureSaved": "Снимок сохранён с заметкой"
+    "captureSaved": "Снимок сохранён с заметкой",
+    "coachTitle": "Что сказал тренер",
+    "coachPlayedWell": "Сыграно верно",
+    "coachInProgress": "разбор ещё идёт"
   },
   "settings": {
     "title": "Настройки",

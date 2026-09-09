@@ -295,7 +295,10 @@
     "captureImage": "테이블 캡처",
     "captureText": "텍스트만",
     "capturing": "캡처 중…",
-    "captureSaved": "스크린샷이 저장되었습니다"
+    "captureSaved": "스크린샷이 저장되었습니다",
+    "coachTitle": "코치의 평가",
+    "coachPlayedWell": "잘 친 플레이",
+    "coachInProgress": "평가 진행 중"
   },
   "settings": {
     "title": "설정",
