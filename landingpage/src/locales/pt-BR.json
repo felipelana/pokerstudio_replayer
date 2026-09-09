@@ -182,7 +182,8 @@
     "title": "Salas compatíveis",
     "lead": "A importação lê os arquivos .txt de hand history do PokerStars e da rede Chico. As demais salas estão a caminho.",
     "note": "A importação usa arquivos .txt. As salas marcadas como \"em breve\" já são reconhecidas pelo importador, mas ainda não são reproduzidas: preferimos dizer isso a entregar uma mão remontada errado. O PokerStudio não tem relação comercial com estas salas; os nomes aparecem apenas para indicar quais formatos são lidos.",
-    "soon": "Em breve"
+    "soon": "Em breve",
+    "available": "Disponível"
   },
   "roadmap": {
     "title": "Funcionalidades futuras",

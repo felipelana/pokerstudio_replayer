@@ -182,7 +182,8 @@
     "title": "Unterstützte Räume",
     "lead": "Der Import liest .txt-Handhistorien von PokerStars und aus dem Chico-Netzwerk. Die übrigen Räume folgen.",
     "note": "Der Import verwendet .txt-Dateien. Die mit \"demnächst\" markierten Räume erkennt der Import bereits, gibt sie aber noch nicht wieder: lieber sagen wir das, als eine falsch zusammengesetzte Hand zu liefern. PokerStudio steht in keiner geschäftlichen Beziehung zu diesen Räumen; die Namen zeigen nur, welche Formate gelesen werden.",
-    "soon": "Demnächst"
+    "soon": "Demnächst",
+    "available": "Verfügbar"
   },
   "roadmap": {
     "title": "Künftige Funktionen",

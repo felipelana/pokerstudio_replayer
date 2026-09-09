@@ -4,6 +4,7 @@
  */
 
 export * from './assessment.js';
+export * from './rooms.js';
 
 export const LANGUAGE_CODES = ['pt-BR', 'en', 'es', 'de', 'ru', 'zh-CN', 'ja', 'ko'] as const;
 export type LanguageCode = (typeof LANGUAGE_CODES)[number];
