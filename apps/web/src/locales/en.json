@@ -930,15 +930,15 @@
       },
       "analysis": {
         "0": "Pot odds on the action panel.",
-        "1": "Notes, leak tags and comments per hand, with a PDF report."
+        "1": "Notes, leak tags and comments per hand, with a PDF report.",
+        "2": "Share a review with a coach or a friend: a link, a password and a deadline, and their reading comes back to you."
       },
       "languages": {
         "0": "Interface in Portuguese, English, Spanish, German, Russian, Mandarin, Japanese and Korean."
       },
       "next": {
         "0": "More rooms: GGPoker, 888poker, iPoker, WPN, CoinPoker and Ignition (Bodog).",
-        "1": "More languages: French and Italian.",
-        "2": "Share a review with a coach or a friend, with a link, a password and a deadline."
+        "1": "More languages: French and Italian."
       }
     }
   },

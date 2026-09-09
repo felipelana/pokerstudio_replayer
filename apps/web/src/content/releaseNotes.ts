@@ -28,7 +28,7 @@ export const RELEASES: Release[] = [
     version: '1.0.0',
     date: '2026-09-08',
     channel: 'stable',
-    sections: { rooms: 2, replay: 5, visual: 4, analysis: 2, languages: 1, next: 3 },
+    sections: { rooms: 2, replay: 5, visual: 4, analysis: 3, languages: 1, next: 2 },
   },
 ];
 

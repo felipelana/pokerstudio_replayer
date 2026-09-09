@@ -930,15 +930,15 @@
       },
       "analysis": {
         "0": "Pot odds na tela de ação.",
-        "1": "Notas, tags de leak e comentários por mão, com relatório em PDF."
+        "1": "Notas, tags de leak e comentários por mão, com relatório em PDF.",
+        "2": "Compartilhar uma review com um coach ou amigo: link, senha e prazo, e a avaliação dele volta para você."
       },
       "languages": {
         "0": "Interface em português, inglês, espanhol, alemão, russo, mandarim, japonês e coreano."
       },
       "next": {
         "0": "Novas salas: GGPoker, 888poker, iPoker, WPN, CoinPoker e Ignition (Bodog).",
-        "1": "Novos idiomas: francês e italiano.",
-        "2": "Compartilhar a review com um coach ou amigo, com link, senha e prazo."
+        "1": "Novos idiomas: francês e italiano."
       }
     }
   },

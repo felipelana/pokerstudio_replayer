@@ -930,15 +930,15 @@
       },
       "analysis": {
         "0": "Pot Odds im Aktionsfeld.",
-        "1": "Notizen, Leak-Tags und Kommentare je Hand, mit PDF-Bericht."
+        "1": "Notizen, Leak-Tags und Kommentare je Hand, mit PDF-Bericht.",
+        "2": "Eine Review mit einem Coach oder Freund teilen: Link, Passwort und Frist, und die Einschätzung kommt zu Ihnen zurück."
       },
       "languages": {
         "0": "Oberfläche auf Portugiesisch, Englisch, Spanisch, Deutsch, Russisch, Mandarin, Japanisch und Koreanisch."
       },
       "next": {
         "0": "Weitere Räume: GGPoker, 888poker, iPoker, WPN, CoinPoker und Ignition (Bodog).",
-        "1": "Weitere Sprachen: Französisch und Italienisch.",
-        "2": "Die Review mit einem Coach oder Freund teilen, mit Link, Passwort und Frist."
+        "1": "Weitere Sprachen: Französisch und Italienisch."
       }
     }
   },
