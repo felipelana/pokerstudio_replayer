@@ -884,5 +884,56 @@
     "howTo": "How to use it",
     "startTour": "Take the tour again",
     "askUs": "Ask us something"
+  },
+  "releases": {
+    "title": "What is new",
+    "lead": "What changed in each version.",
+    "unread": "There is a version you have not read yet.",
+    "nextNote": "Planned, with no release date.",
+    "footer": "You are on version {{version}}.",
+    "channel": {
+      "beta": "Beta",
+      "stable": "Stable"
+    },
+    "sections": {
+      "rooms": "Rooms supported",
+      "replay": "Replay",
+      "visual": "Look",
+      "analysis": "Study",
+      "languages": "Languages",
+      "next": "Coming next"
+    },
+    "v1_0_0": {
+      "highlight": "The first complete version. Import your histories, replay hand by hand, assess your decisions and keep it all on your account.",
+      "rooms": {
+        "0": "PokerStars, cash and tournament.",
+        "1": "Chico network: BetOnline, TigerGaming and SportsBetting."
+      },
+      "replay": {
+        "0": "Keyboard navigation: left and right walk actions and streets, up and down change hand.",
+        "1": "Tournament and cash, with blinds, antes and level changes.",
+        "2": "Every amount switches between chips and big blinds.",
+        "3": "Hero at the bottom centre seat, with the option to sit somewhere else.",
+        "4": "Exact resume: a review reopens on the hand and the point where you stopped."
+      },
+      "visual": {
+        "0": "Light and dark themes.",
+        "1": "Deck skins in four colours and in two, black and white.",
+        "2": "Skin editor: felt, table, chips, name plates and card by card.",
+        "3": "A light 3D table, with a 2D alternative that works without WebGL."
+      },
+      "analysis": {
+        "0": "Pot odds on the action panel.",
+        "1": "Notes, leak tags and comments per hand, with a PDF report."
+      },
+      "languages": {
+        "0": "Interface in Portuguese, English, Spanish, German, Russian, Mandarin, Japanese and Korean."
+      },
+      "next": {
+        "0": "More rooms: GGPoker, 888poker, iPoker, WPN, CoinPoker and Ignition (Bodog).",
+        "1": "More languages: French and Italian.",
+        "2": "Share a review with a coach or a friend, with a link, a password and a deadline."
+      }
+    }
   }
 }

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { LegalLink } from '@/ui/legal/LegalDialog';
 import type { Session } from '@/model/types';
@@ -781,6 +781,9 @@ export function LibraryPage() {
 
 
       <footer className="mt-6 flex items-center gap-4 pb-4 text-xs" style={{ color: 'var(--text-muted)' }}>
+        <NavLink to="/novidades" className="hover:underline">
+          {t('releases.title')}
+        </NavLink>
         <LegalLink doc="privacy" className="hover:underline">
           {t('legal.privacy')}
         </LegalLink>

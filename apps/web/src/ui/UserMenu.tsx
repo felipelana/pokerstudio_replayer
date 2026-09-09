@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/state/authStore';
-import { IconCompass, IconInfo, IconLogout, IconMegaphone, IconShield, IconUser } from './icons';
+import { IconCompass, IconInfo, IconLogout, IconMegaphone, IconShield, IconSparkle, IconUser } from './icons';
+import { hasUnread } from '@/content/releaseNotes';
 import { useAppStore } from '@/state/store';
 import { AboutDialog } from './about/AboutDialog';
 
@@ -18,6 +19,7 @@ export function UserMenu() {
   const logout = useAuthStore((s) => s.logout);
   const setTourOpen = useAppStore((s) => s.setTourOpen);
   const setFeedbackOpen = useAppStore((s) => s.setFeedbackOpen);
+  const [unread] = useState(hasUnread);
   const [open, setOpen] = useState(false);
   const [about, setAbout] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -100,6 +102,13 @@ export function UserMenu() {
           >
             <IconCompass size={15} />
             {t('tour.title')}
+          </button>
+          <button type="button" role="menuitem" className="menu-item" onClick={() => go('/novidades')}>
+            <IconSparkle size={15} />
+            <span className="flex-1">{t('releases.title')}</span>
+            {unread && (
+              <span aria-hidden="true" className="h-2 w-2 rounded-full" style={{ background: 'var(--accent)' }} />
+            )}
           </button>
           <button
             type="button"

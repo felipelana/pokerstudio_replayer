@@ -884,5 +884,56 @@
     "howTo": "Cómo usarla",
     "startTour": "Repetir el tour",
     "askUs": "Preguntarnos algo"
+  },
+  "releases": {
+    "title": "Novedades",
+    "lead": "Qué cambió en cada versión.",
+    "unread": "Hay una versión que aún no has leído.",
+    "nextNote": "Planificado, sin fecha de lanzamiento.",
+    "footer": "Estás en la versión {{version}}.",
+    "channel": {
+      "beta": "Beta",
+      "stable": "Estable"
+    },
+    "sections": {
+      "rooms": "Salas compatibles",
+      "replay": "Replay",
+      "visual": "Aspecto",
+      "analysis": "Estudio",
+      "languages": "Idiomas",
+      "next": "Próximas funciones"
+    },
+    "v1_0_0": {
+      "highlight": "La primera versión completa. Importa tus historiales, revisa mano a mano, evalúa tus decisiones y guarda todo en tu cuenta.",
+      "rooms": {
+        "0": "PokerStars, en cash y torneo.",
+        "1": "Red Chico: BetOnline, TigerGaming y SportsBetting."
+      },
+      "replay": {
+        "0": "Navegación por teclado: izquierda y derecha recorren acciones y calles, arriba y abajo cambian de mano.",
+        "1": "Modo torneo y cash, con ciegas, antes y cambios de nivel.",
+        "2": "Todos los importes alternan entre fichas y ciegas grandes.",
+        "3": "Héroe en el asiento inferior central, con la opción de sentarse en otro sitio.",
+        "4": "Reanudación exacta: la review vuelve a abrirse en la mano y el punto donde lo dejaste."
+      },
+      "visual": {
+        "0": "Temas claro y oscuro.",
+        "1": "Skins de baraja en cuatro colores y en dos, blanco y negro.",
+        "2": "Editor de skin: tapete, mesa, fichas, placas y carta por carta.",
+        "3": "Mesa en 3D ligero, con alternativa en 2D que funciona sin WebGL."
+      },
+      "analysis": {
+        "0": "Pot odds en el panel de acción.",
+        "1": "Notas, etiquetas de leaks y comentarios por mano, con informe en PDF."
+      },
+      "languages": {
+        "0": "Interfaz en portugués, inglés, español, alemán, ruso, mandarín, japonés y coreano."
+      },
+      "next": {
+        "0": "Más salas: GGPoker, 888poker, iPoker, WPN, CoinPoker e Ignition (Bodog).",
+        "1": "Más idiomas: francés e italiano.",
+        "2": "Compartir la review con un coach o un amigo, con enlace, contraseña y plazo."
+      }
+    }
   }
 }

@@ -125,6 +125,13 @@ export const IconCompass = (p: Props) => (
   </Svg>
 );
 
+export const IconSparkle = (p: Props) => (
+  <Svg {...p}>
+    <path d="M12 3.5 13.9 9l5.6 1.9-5.6 1.9L12 18.5 10.1 12.8 4.5 10.9 10.1 9 12 3.5Z" />
+    <path d="M18.5 3.5v3M20 5h-3" />
+  </Svg>
+);
+
 export const IconInfo = (p: Props) => (
   <Svg {...p}>
     <circle cx="12" cy="12" r="9" />

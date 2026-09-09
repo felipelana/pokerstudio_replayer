@@ -884,5 +884,56 @@
     "howTo": "Como usar",
     "startTour": "Refazer o tour",
     "askUs": "Perguntar para a gente"
+  },
+  "releases": {
+    "title": "Novidades",
+    "lead": "O que mudou em cada versão.",
+    "unread": "Há uma versão que você ainda não leu.",
+    "nextNote": "Planejado, sem data de lançamento.",
+    "footer": "Você está na versão {{version}}.",
+    "channel": {
+      "beta": "Beta",
+      "stable": "Estável"
+    },
+    "sections": {
+      "rooms": "Salas suportadas",
+      "replay": "Replay",
+      "visual": "Visual",
+      "analysis": "Análise",
+      "languages": "Idiomas",
+      "next": "Próximas features"
+    },
+    "v1_0_0": {
+      "highlight": "Primeira versão completa. Importe seus históricos, reveja mão a mão, avalie suas decisões e guarde tudo na sua conta.",
+      "rooms": {
+        "0": "PokerStars, em cash e torneio.",
+        "1": "Rede Chico: BetOnline, TigerGaming e SportsBetting."
+      },
+      "replay": {
+        "0": "Navegação por teclado: setas esquerda e direita percorrem ações e streets, cima e baixo trocam de mão.",
+        "1": "Modo torneio e cash, com blinds, antes e mudança de nível.",
+        "2": "Alternância entre fichas e big blinds em todos os valores.",
+        "3": "Herói no assento inferior central, com a opção de sentar em outro lugar.",
+        "4": "Retomada exata: a review reabre na mão e no ponto em que você parou."
+      },
+      "visual": {
+        "0": "Temas claro e escuro.",
+        "1": "Skins de baralho em quatro cores e em duas cores, preto e branco.",
+        "2": "Editor de skin: feltro, mesa, fichas, plaquinhas e carta a carta.",
+        "3": "Mesa em 3D leve, com alternativa em 2D que funciona sem WebGL."
+      },
+      "analysis": {
+        "0": "Pot odds na tela de ação.",
+        "1": "Notas, tags de leak e comentários por mão, com relatório em PDF."
+      },
+      "languages": {
+        "0": "Interface em português, inglês, espanhol, alemão, russo, mandarim, japonês e coreano."
+      },
+      "next": {
+        "0": "Novas salas: GGPoker, 888poker, iPoker, WPN, CoinPoker e Ignition (Bodog).",
+        "1": "Novos idiomas: francês e italiano.",
+        "2": "Compartilhar a review com um coach ou amigo, com link, senha e prazo."
+      }
+    }
   }
 }

@@ -6,6 +6,7 @@ import { useAppStore, useActiveSkin } from '@/state/store';
 import { applySkinCssVariables } from '@/skins/presets';
 import { Header } from '@/ui/Header';
 import { Tour } from '@/ui/tour/Tour';
+import { ReleaseNotesPage } from '@/ui/releases/ReleaseNotesPage';
 import { HelpCenter } from '@/ui/help/HelpCenter';
 import { FeedbackDialog } from '@/ui/feedback/FeedbackDialog';
 import { ConsentBanner } from '@/ui/ConsentBanner';
@@ -86,6 +87,7 @@ export function App() {
           <Route path="/admin" element={<RequireAuth><AdminPage /></RequireAuth>} />
           <Route path="/admstudio" element={<RequireAuth><AdmStudioPage /></RequireAuth>} />
           <Route path="/report/:sessionId" element={<RequireAuth><ReportPage /></RequireAuth>} />
+          <Route path="/novidades" element={<ReleaseNotesPage />} />
           <Route path="/privacidade" element={<LegalPage doc="privacy" />} />
           <Route path="/termos" element={<LegalPage doc="terms" />} />
           <Route path="*" element={<RequireAuth><LibraryPage /></RequireAuth>} />
