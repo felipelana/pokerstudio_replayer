@@ -51,7 +51,7 @@ export function ImportPanel({ onImported, compact }: Props) {
         if (s.duplicates) parts.push(t('library.importedDuplicates', { count: s.duplicates }));
         msgs.push({
           kind: warnCount ? 'warn' : 'ok',
-          text: `${t('library.importedOk')} — ${s.session.name}: ${parts.join(' · ')}`,
+          text: `${t('library.importedOk')} · ${s.session.name}: ${parts.join(' · ')}`,
         });
       }
       setMessages(msgs);

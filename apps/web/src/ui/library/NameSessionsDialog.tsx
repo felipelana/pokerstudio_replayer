@@ -59,7 +59,7 @@ export function NameSessionsDialog({
           {sessions.map((session) => (
             <li key={session.id} className="flex items-center gap-2">
               <span className="w-[150px] shrink-0 truncate text-xs" style={{ color: 'var(--text-muted)' }} title={session.sourceFileName}>
-                {session.sourceFileName ?? '—'}
+                {session.sourceFileName ?? '-'}
               </span>
               <input
                 className="input flex-1"

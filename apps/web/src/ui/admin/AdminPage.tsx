@@ -203,7 +203,7 @@ export function AdminPage() {
       const existing = skins.find((s) => !s.isBuiltIn && s.derivedFrom === skin.id);
       skin.derivedFrom = skin.id;
       skin.id = existing?.id ?? newId();
-      skin.name = existing?.name ?? `${draft.name} — ${t('admin.myCopy')}`;
+      skin.name = existing?.name ?? `${draft.name} · ${t('admin.myCopy')}`;
     }
     await getRepository().saveSkin(skin);
     await loadSkins();

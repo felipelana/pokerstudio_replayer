@@ -144,11 +144,11 @@ function DashboardTab() {
         <Sparkline title={t('admstudio.loginsChart')} rows={data.logins} />
         <Breakdown
           title={t('admstudio.devices')}
-          rows={data.devices.map((row) => ({ label: row.deviceType ?? '—', value: row._count }))}
+          rows={data.devices.map((row) => ({ label: row.deviceType ?? '-', value: row._count }))}
         />
         <Breakdown
           title={t('admstudio.topSkins')}
-          rows={data.topSkins.map((row) => ({ label: row.skinId ?? '—', value: row._count }))}
+          rows={data.topSkins.map((row) => ({ label: row.skinId ?? '-', value: row._count }))}
         />
       </div>
     </div>
@@ -174,7 +174,7 @@ function Sparkline({ title, rows }: { title: string; rows: { day: string; value:
           {series.map((row) => (
             <div
               key={row.day}
-              title={`${new Date(row.day).toLocaleDateString()} — ${row.value}`}
+              title={`${new Date(row.day).toLocaleDateString()} · ${row.value}`}
               className="flex-1 rounded-t"
               style={{
                 height: `${Math.max(4, (row.value / max) * 100)}%`,
@@ -439,7 +439,7 @@ function UserDrawer({ id, onClose, onChanged }: { id: string; onClose: () => voi
                 <Field label={t('admstudio.colCountry')}>{countryName(data.user.countryCode, i18n.language)}</Field>
                 <Field label={t('auth.language')}>{data.user.language}</Field>
                 <Field label={t('admstudio.referralCode')}>{data.user.referralCode}</Field>
-                <Field label={t('admstudio.identities')}>{data.identities.join(', ') || '—'}</Field>
+                <Field label={t('admstudio.identities')}>{data.identities.join(', ') || '-'}</Field>
               </div>
             </section>
 
@@ -481,7 +481,7 @@ function UserDrawer({ id, onClose, onChanged }: { id: string; onClose: () => voi
                 {data.sessions.length === 0 && <li style={{ color: 'var(--text-muted)' }}>{t('admstudio.nothing')}</li>}
                 {data.sessions.map((session) => (
                   <li key={session.id} className="flex justify-between gap-2 panel p-2">
-                    <span className="truncate">{session.userAgent ?? '—'}</span>
+                    <span className="truncate">{session.userAgent ?? '-'}</span>
                     <span style={{ color: 'var(--text-muted)' }}>
                       {session.revokedAt ? t('admstudio.revoked') : dateTime(session.expiresAt)}
                     </span>
@@ -630,9 +630,9 @@ function LogList({ rows }: { rows: AdminAccessLogRow[] }) {
           <span className="tabular-nums" style={{ color: 'var(--text-muted)' }}>
             {dateTime(row.createdAt)}
           </span>
-          <span style={{ color: 'var(--text-muted)' }}>{row.ip ?? '—'}</span>
+          <span style={{ color: 'var(--text-muted)' }}>{row.ip ?? '-'}</span>
           <span style={{ color: 'var(--text-muted)' }}>
-            {[row.deviceType, row.os, row.browser].filter(Boolean).join(' · ') || '—'}
+            {[row.deviceType, row.os, row.browser].filter(Boolean).join(' · ') || '-'}
           </span>
         </li>
       ))}

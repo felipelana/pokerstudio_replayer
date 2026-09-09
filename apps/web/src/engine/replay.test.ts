@@ -24,7 +24,7 @@ function checkInvariants(frame: Frame, hand: Hand) {
   }
 }
 
-describe('replay engine — KO tournament', () => {
+describe('replay engine, KO tournament', () => {
   const [h1, h2, h3] = hands('synthetic-ko-tournament.txt');
 
   it('builds frames with invariants holding everywhere', () => {
@@ -113,7 +113,7 @@ describe('replay engine — KO tournament', () => {
   });
 });
 
-describe('replay engine — cash', () => {
+describe('replay engine, cash', () => {
   const [c1, c2, c3] = hands('synthetic-cash.txt');
 
   it('holds invariants and reconciles rake', () => {

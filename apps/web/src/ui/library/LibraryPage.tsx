@@ -374,7 +374,7 @@ export function LibraryPage() {
               className="btn btn-primary"
               onClick={() => navigate(`/replay/${s.session.id}`)}
             >
-              {t('library.openInReplayer')} — {sessions.find((row) => row.id === s.session.id)?.name ?? s.session.name}
+              {t('library.openInReplayer')} · {sessions.find((row) => row.id === s.session.id)?.name ?? s.session.name}
             </button>
           ))}
         </div>
@@ -607,7 +607,7 @@ export function LibraryPage() {
                         title={s.name}
                         onClick={() => navigate(`/replay/${s.id}`)}
                       >
-                        {s.name === s.sourceFileName ? '—' : s.name}
+                        {s.name === s.sourceFileName ? '-' : s.name}
                       </button>
                     </td>
                     <td className="px-3 py-2" style={{ background: 'var(--row-bg, var(--surface))', color: 'var(--text-muted)' }}>
@@ -617,7 +617,7 @@ export function LibraryPage() {
                         title={s.sourceFileName ?? undefined}
                         onClick={() => navigate(`/replay/${s.id}`)}
                       >
-                        {s.sourceFileName ?? '—'}
+                        {s.sourceFileName ?? '-'}
                       </button>
                     </td>
                     <td className="truncate whitespace-nowrap px-3 py-2" style={{ background: 'var(--row-bg, var(--surface))' }} title={siteName(s.site)}>
@@ -660,7 +660,7 @@ export function LibraryPage() {
                       )}
                     </td>
                     <td className="truncate whitespace-nowrap px-3 py-2 text-right tabular-nums" style={{ color: 'var(--text-muted)' }}>
-                      {s.lastHandIndex ? `${s.lastHandIndex + 1} / ${s.handCount}` : '—'}
+                      {s.lastHandIndex ? `${s.lastHandIndex + 1} / ${s.handCount}` : '-'}
                     </td>
                     <td className="truncate whitespace-nowrap px-3 py-2">
                       {savedIds.has(s.id) ? (
@@ -680,7 +680,7 @@ export function LibraryPage() {
                     </td>
                     <td className="truncate whitespace-nowrap px-3 py-2 text-xs tabular-nums" style={{ color: 'var(--text-muted)' }}>
                       <span title={s.lastOpenedAt ? df.dateTime(s.lastOpenedAt) : undefined}>
-                        {s.lastOpenedAt ? df.dateTime(s.lastOpenedAt) : '—'}
+                        {s.lastOpenedAt ? df.dateTime(s.lastOpenedAt) : '-'}
                       </span>
                     </td>
                     <td className="px-2 py-2 text-right">

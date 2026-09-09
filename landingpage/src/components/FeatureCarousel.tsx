@@ -200,7 +200,7 @@ export function FeatureCarousel() {
 
       {/* Position announced for screen readers without moving focus. */}
       <p className="sr-only" aria-live="polite">
-        {t('features.position', { current: index + 1, total: SLIDES.length })} —{' '}
+        {t('features.position', { current: index + 1, total: SLIDES.length })} ·{' '}
         {t(`features.items.${SLIDES[index].key}.title`)}
       </p>
 

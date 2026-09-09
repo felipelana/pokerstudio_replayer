@@ -36,7 +36,17 @@ desenvolvimento) está em **[docs/DEV-SETUP.md](docs/DEV-SETUP.md)**.
 | `npm test` | testes de todos os workspaces |
 | `npm run lint` | ESLint, incluindo as regras de fronteira entre camadas |
 | `npm run check:locales` | garante que nenhum idioma tem chave faltando |
+| `npm run check:copy` | recusa travessão e clichê de IA em qualquer texto de interface |
 | `npm run db:migrate` / `db:seed` / `db:reset` / `db:studio` | banco |
+
+## Texto de interface
+
+O texto que o leitor vê não usa travessão. Onde a vontade for de abrir um
+aparte, use vírgula, dois-pontos ou ponto; para separar dois campos na mesma
+linha use `·`; para um valor que não existe use `-`. `npm run check:copy`
+varre os oito idiomas do replayer, os oito da landing page e os literais de
+texto no código, e falha se algum travessão ou clichê de IA voltar. Comentários
+de código ficam de fora da varredura.
 
 ## Atalhos do replayer
 

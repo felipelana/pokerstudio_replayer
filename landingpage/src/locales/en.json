@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "PokerStudio Replayer — replay your hands and study better",
+    "title": "PokerStudio Replayer: replay your hands and study better",
     "description": "Replay your cash and tournament hands in the browser, rate every decision, write comments per street and share the session with your coach. Free for a limited time."
   },
   "nav": {
@@ -28,7 +28,7 @@
   "hero": {
     "eyebrow": "Poker study tool",
     "headline": "Review every decision and turn your hands into real study.",
-    "sub": "PokerStudio Replayer replays your cash and tournament hand histories in the browser — hand by hand, street by street — so you can rate your decisions, write notes and share the session with your coach.",
+    "sub": "PokerStudio Replayer replays your cash and tournament hand histories in the browser, hand by hand, street by street, so you can rate your decisions, write notes and share the session with your coach.",
     "audience": "For players who study on their own, players who work with a coach, and coaches and poker teams."
   },
   "features": {
@@ -142,7 +142,7 @@
   },
   "reports": {
     "title": "Reports and evolution",
-    "lead": "What the numbers say — and what they do not.",
+    "lead": "What the numbers say, and what they do not.",
     "disclaimer": "These are assessments of decisions, written by you or by your coach. The Replayer does not promise profit and does not analyse hands with AI.",
     "items": {
       "score": {
@@ -171,7 +171,7 @@
       }
     },
     "chart": {
-      "caption": "Illustration of the evolution chart — not a capture of the product.",
+      "caption": "Illustration of the evolution chart, not a capture of the product.",
       "alt": "Illustrative chart with two series of scores from 0 to 100 over time: self-assessment and the coaches' average, with a trend line.",
       "self": "Self-assessment",
       "coaches": "Coaches' average",
@@ -222,7 +222,7 @@
     "items": {
       "free": {
         "q": "Is it really free?",
-        "a": "Yes — free for a limited time. Creating an account is free too, and an account is what you need to save your reviews."
+        "a": "Yes, free for a limited time. Creating an account is free too, and an account is what you need to save your reviews."
       },
       "files": {
         "q": "Which files can I import?",
@@ -242,7 +242,7 @@
       },
       "coach": {
         "q": "How does a review with a coach work?",
-        "a": "You generate a link with a password and an expiry date. Your coach opens it, goes through the hands and leaves scores from 0 to 100, leak tags and comments — asynchronously, with no account."
+        "a": "You generate a link with a password and an expiry date. Your coach opens it, goes through the hands and leaves scores from 0 to 100, leak tags and comments, asynchronously, with no account."
       },
       "reports": {
         "q": "Do I get partial and final reports?",

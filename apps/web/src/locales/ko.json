@@ -132,7 +132,7 @@
     "storageSaved": "저장된 것만",
     "storageLocal": "저장 안 된 것만",
     "sort": "정렬 기준",
-    "storageHint": "“이 브라우저만”으로 표시된 세션은 여기에만 있습니다 — 브라우저를 비우면 사라집니다. 계정에 저장하면 보관되고 다른 기기에서도 열 수 있습니다.",
+    "storageHint": "“이 브라우저만”으로 표시된 세션은 여기에만 있습니다. 브라우저를 비우면 사라집니다. 계정에 저장하면 보관되고 다른 기기에서도 열 수 있습니다.",
     "confirmDeleteSaved": "그중 {{count}}개는 계정에 저장되어 있어 이 브라우저뿐 아니라 데이터베이스에서도 삭제됩니다.",
     "statusInProgress": "진행 중",
     "pasteButton": "핸드 히스토리 붙여넣기",
@@ -141,7 +141,7 @@
     "keepFileNames": "파일 이름 유지",
     "perPage": "페이지당",
     "importedOk": "가져왔습니다",
-    "onlyFirstFile": "“{{name}}”만 가져왔습니다 — 다른 {{count}}개는 제외되었습니다. 하나씩 가져오세요.",
+    "onlyFirstFile": "“{{name}}”만 가져왔습니다. 다른 {{count}}개는 제외되었습니다. 하나씩 가져오세요.",
     "colLastHand": "마지막 핸드"
   },
   "sidebar": {
@@ -228,7 +228,7 @@
     "end": "종료"
   },
   "log": {
-    "start": "핸드 #{{number}} — {{table}}",
+    "start": "핸드 #{{number}} · {{table}}",
     "dealHole": "홀 카드 배분",
     "dealFlop": "플랍: {{cards}}",
     "dealTurn": "턴: {{cards}}",
@@ -250,7 +250,7 @@
     "collect": "{{player}} {{amount}} 획득",
     "collectFrom": "{{player}} {{pot}}에서 {{amount}} 획득",
     "show": "{{player}} {{cards}} 공개",
-    "showWith": "{{player}} {{cards}} 공개 — {{detail}}",
+    "showWith": "{{player}} {{cards}} 공개 · {{detail}}",
     "muck": "{{player}} 머크",
     "timeout": "{{player}} 시간 초과",
     "disconnected": "{{player}} 연결 끊김",
@@ -425,7 +425,7 @@
       "artChange": "변경",
       "artReset": "스킨 기본값",
       "artTooLarge": "파일이 2 MB를 넘습니다. 더 가벼운 파일을 쓰세요.",
-      "artHint": "SVG가 가장 좋습니다(흐려지지 않음). 투명 PNG나 WebP도 됩니다 — 약 500 × 700 px, 카드와 같은 비율.",
+      "artHint": "SVG가 가장 좋습니다(흐려지지 않음). 투명 PNG나 WebP도 됩니다, 약 500 × 700 px, 카드와 같은 비율.",
       "boardGap": "보드 카드 간격"
     },
     "felt": {
@@ -526,7 +526,7 @@
       "tooLarge": "이미지가 너무 큽니다(최대 6MB)."
     },
     "chooseSkin": "편집 중인 스킨",
-    "savedLocallyOnly": "이 기기에 저장했습니다 — 계정에 연결하지 못했습니다.",
+    "savedLocallyOnly": "이 기기에 저장했습니다. 계정에 연결하지 못했습니다.",
     "myCopy": "내 버전",
     "discardChanges": "변경 취소",
     "changesDiscarded": "변경을 취소했습니다.",
@@ -538,7 +538,7 @@
     "show": "경고 표시"
   },
   "positions": {
-    "none": "—"
+    "none": "-"
   },
   "consent": {
     "title": "쿠키 및 저장",
@@ -614,7 +614,7 @@
     "hide": "숨기기",
     "capsLock": "Caps Lock이 켜져 있습니다",
     "offline": "서버에 연결하지 못했습니다. 잠시 후 다시 시도하세요.",
-    "offlineBanner": "서버를 사용할 수 없습니다 — 로컬 데이터로만 작동합니다.",
+    "offlineBanner": "서버를 사용할 수 없습니다. 로컬 데이터로만 작동합니다.",
     "or": "또는",
     "oauthError": {
       "link_requires_verification": "이 이메일로 된 계정이 이미 있습니다. 비밀번호로 로그인해 이메일을 먼저 확인해 주세요.",
@@ -752,7 +752,7 @@
     "useRecovery": "복구 코드 사용",
     "useApp": "인증 앱 사용",
     "recoveryTitle": "복구 코드를 저장하세요",
-    "recoveryBody": "각 코드는 한 번만 쓸 수 있고 지금만 표시됩니다. 안전한 곳에 보관하세요 — 휴대폰을 잃었을 때 돌아올 방법입니다.",
+    "recoveryBody": "각 코드는 한 번만 쓸 수 있고 지금만 표시됩니다. 안전한 곳에 보관하세요. 휴대폰을 잃었을 때 돌아올 방법입니다.",
     "copy": "복사",
     "saved": "저장했습니다"
   },
@@ -774,7 +774,7 @@
   "replayer": {
     "startOver": "처음부터",
     "boardGap": "보드 카드 간격",
-    "resumedAt": "멈춘 곳에서 이어서 — {{total}}핸드 중 {{current}}.",
+    "resumedAt": "멈춘 곳에서 이어서, {{total}}핸드 중 {{current}}.",
     "keepGoing": "확인",
     "seatDistance": "좌석"
   },
@@ -796,7 +796,7 @@
     "body": "설명",
     "bodyHint": "기대한 것, 실제로 일어난 것, 그리고 어느 화면인지.",
     "send": "보내기",
-    "thanks": "접수되었습니다. 고맙습니다 — 작업 목록에 들어갑니다.",
+    "thanks": "접수되었습니다. 고맙습니다. 작업 목록에 들어갑니다.",
     "mine": "보낸 내용",
     "kinds": {
       "SUGGESTION": "제안",
@@ -824,7 +824,7 @@
       },
       "import": {
         "title": "1. 핸드를 가져오세요",
-        "body": ".txt 핸드 히스토리를 여기로 끌어다 놓거나 클릭해서 고르세요. 한 번에 한 파일 — 토너먼트를 하나씩 치는 것과 같습니다."
+        "body": ".txt 핸드 히스토리를 여기로 끌어다 놓거나 클릭해서 고르세요. 한 번에 한 파일, 토너먼트를 하나씩 치는 것과 같습니다."
       },
       "sessions": {
         "title": "2. 리뷰 열기",
@@ -856,7 +856,7 @@
       },
       "replayQuick": {
         "title": "빠른 설정",
-        "body": "스킨, 덱 색상, 히어로 카드 배치, 테이블·카드·칩 확대, 좌석 거리, 보드 간격 — 핸드를 벗어나지 않고 조절합니다."
+        "body": "스킨, 덱 색상, 히어로 카드 배치, 테이블·카드·칩 확대, 좌석 거리, 보드 간격, 핸드를 벗어나지 않고 조절합니다."
       },
       "replayFullscreen": {
         "title": "전체 화면",

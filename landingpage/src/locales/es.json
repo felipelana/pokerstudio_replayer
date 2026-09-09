@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "PokerStudio Replayer — revisa tus manos y estudia mejor",
+    "title": "PokerStudio Replayer: revisa tus manos y estudia mejor",
     "description": "Reproduce tus manos de cash y torneos en el navegador, evalúa cada decisión, escribe comentarios por street y comparte la sesión con tu coach. Gratis por tiempo limitado."
   },
   "nav": {
@@ -28,7 +28,7 @@
   "hero": {
     "eyebrow": "Herramienta de estudio de póker",
     "headline": "Revisa cada decisión y convierte tus manos en estudio de verdad.",
-    "sub": "PokerStudio Replayer reproduce tus historiales de manos de cash y torneos en el navegador — mano a mano, street a street — para que evalúes tus decisiones, anotes lo que viste y compartas la sesión con tu coach.",
+    "sub": "PokerStudio Replayer reproduce tus historiales de manos de cash y torneos en el navegador, mano a mano, street a street, para que evalúes tus decisiones, anotes lo que viste y compartas la sesión con tu coach.",
     "audience": "Para quien estudia solo, para quien tiene acompañamiento de un coach y para coaches y equipos de póker."
   },
   "features": {
@@ -142,7 +142,7 @@
   },
   "reports": {
     "title": "Informes y evolución",
-    "lead": "Lo que dicen los números — y lo que no dicen.",
+    "lead": "Lo que dicen los números, y lo que no dicen.",
     "disclaimer": "Son evaluaciones de las decisiones, escritas por ti o por tu coach. El Replayer no promete rentabilidad y no analiza las manos con IA.",
     "items": {
       "score": {
@@ -171,7 +171,7 @@
       }
     },
     "chart": {
-      "caption": "Ilustración del gráfico de evolución — no es una captura del producto.",
+      "caption": "Ilustración del gráfico de evolución, no es una captura del producto.",
       "alt": "Gráfico ilustrativo con dos series de notas de 0 a 100 a lo largo del tiempo: autoevaluación y media de los coaches, con línea de tendencia.",
       "self": "Autoevaluación",
       "coaches": "Media de los coaches",
@@ -222,7 +222,7 @@
     "items": {
       "free": {
         "q": "¿Es gratis de verdad?",
-        "a": "Sí — gratis por tiempo limitado. Crear la cuenta también es gratis, y es la cuenta la que guarda tus reviews."
+        "a": "Sí, gratis por tiempo limitado. Crear la cuenta también es gratis, y es la cuenta la que guarda tus reviews."
       },
       "files": {
         "q": "¿Qué archivos puedo importar?",
@@ -242,7 +242,7 @@
       },
       "coach": {
         "q": "¿Cómo funciona la review con un coach?",
-        "a": "Generas un enlace con contraseña y fecha de expiración. El coach lo abre, recorre las manos y deja notas de 0 a 100, etiquetas de leaks y comentarios — de forma asíncrona, sin crear cuenta."
+        "a": "Generas un enlace con contraseña y fecha de expiración. El coach lo abre, recorre las manos y deja notas de 0 a 100, etiquetas de leaks y comentarios, de forma asíncrona, sin crear cuenta."
       },
       "reports": {
         "q": "¿Hay informes parciales y finales?",

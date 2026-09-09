@@ -150,7 +150,7 @@
     "colorHintResults": "按结果着色",
     "hands": "牌局",
     "copyRaw": "复制此牌局的原始文本",
-    "noHero": "此文件中没有主角——点击座位以设置关注玩家。",
+    "noHero": "此文件中没有主角。点击座位以设置关注玩家。",
     "focus": "关注：{{player}}",
     "clearFocus": "取消关注",
     "noSession": "未加载会话",
@@ -191,7 +191,7 @@
     "sidePot": "边池 {{index}}",
     "noHands": "加载牌局记录以开始回放。",
     "winner": "赢家",
-    "webglUnavailable": "WebGL 不可用——使用 2D 渲染器。",
+    "webglUnavailable": "WebGL 不可用。使用 2D 渲染器。",
     "empty": "空",
     "toCall": "跟注 {{amount}}",
     "returned": "已退回",
@@ -228,7 +228,7 @@
     "end": "结束"
   },
   "log": {
-    "start": "牌局 #{{number}} — {{table}}",
+    "start": "牌局 #{{number}} · {{table}}",
     "dealHole": "发底牌",
     "dealFlop": "翻牌：{{cards}}",
     "dealTurn": "转牌：{{cards}}",
@@ -250,7 +250,7 @@
     "collect": "{{player}} 收取 {{amount}}",
     "collectFrom": "{{player}} 从{{pot}}收取 {{amount}}",
     "show": "{{player}} 亮牌 {{cards}}",
-    "showWith": "{{player}} 亮牌 {{cards}} — {{detail}}",
+    "showWith": "{{player}} 亮牌 {{cards}} · {{detail}}",
     "muck": "{{player}} 盖牌",
     "timeout": "{{player}} 超时",
     "disconnected": "{{player}} 已断线",
@@ -343,7 +343,7 @@
     "roomNicksHint": "可选。告诉我们你在每个房间使用的名字，即使手牌文件没有标明英雄，复盘器也能认出你。",
     "roomNickPlaceholder": "你在该房间的名字",
     "roomNicksSaved": "已保存到你的账户。",
-    "roomNicksSignedOut": "登录后即可保存用户名——它保存在账户中，而不是这个浏览器里。",
+    "roomNicksSignedOut": "登录后即可保存用户名。它保存在账户中，而不是这个浏览器里。",
     "groupPreferences": "偏好",
     "groupRooms": "房间",
     "groupStudy": "学习",
@@ -425,7 +425,7 @@
       "artChange": "更换",
       "artReset": "皮肤默认",
       "artTooLarge": "文件超过 2 MB，请换更小的。",
-      "artHint": "首选 SVG（永不模糊）。带透明的 PNG 或 WebP 也可以 — 约 500 × 700 像素，与牌面同比例。",
+      "artHint": "首选 SVG（永不模糊）。带透明的 PNG 或 WebP 也可以，约 500 × 700 像素，与牌面同比例。",
       "boardGap": "公共牌间距"
     },
     "felt": {
@@ -526,7 +526,7 @@
       "tooLarge": "图片过大（最大 6 MB）。"
     },
     "chooseSkin": "正在编辑的皮肤",
-    "savedLocallyOnly": "已保存到本设备 — 无法连接账户。",
+    "savedLocallyOnly": "已保存到本设备。无法连接账户。",
     "myCopy": "我的版本",
     "discardChanges": "放弃更改",
     "changesDiscarded": "更改已放弃。",
@@ -538,7 +538,7 @@
     "show": "显示警告"
   },
   "positions": {
-    "none": "—"
+    "none": "-"
   },
   "consent": {
     "title": "Cookie 与本地存储",
@@ -614,7 +614,7 @@
     "hide": "隐藏",
     "capsLock": "大写锁定已开启",
     "offline": "无法连接服务器，请稍后再试。",
-    "offlineBanner": "服务器不可用 — 仅使用本地数据。",
+    "offlineBanner": "服务器不可用。仅使用本地数据。",
     "or": "或",
     "oauthError": {
       "link_requires_verification": "该邮箱已有账户。请先用密码登录并确认邮箱。",
@@ -752,7 +752,7 @@
     "useRecovery": "改用恢复码",
     "useApp": "改用身份验证器应用",
     "recoveryTitle": "请保存恢复码",
-    "recoveryBody": "每个恢复码只能使用一次，并且只在此刻显示。请妥善保管——手机丢失时它们是唯一的退路。",
+    "recoveryBody": "每个恢复码只能使用一次，并且只在此刻显示。请妥善保管。手机丢失时它们是唯一的退路。",
     "copy": "复制",
     "saved": "已保存"
   },
@@ -774,7 +774,7 @@
   "replayer": {
     "startOver": "从头开始",
     "boardGap": "公共牌间距",
-    "resumedAt": "已从上次停下的地方继续 — 第 {{current}} / {{total}} 手。",
+    "resumedAt": "已从上次停下的地方继续，第 {{current}} / {{total}} 手。",
     "keepGoing": "好",
     "seatDistance": "座位"
   },
@@ -782,7 +782,7 @@
     "title": "关于",
     "tagline": "谁在做，为什么做。",
     "author": "PokerStudio Replayer 由拥有 23 年以上从业经验的信息技术专家 Felipe Carvalho Lana 构思并开发。他是计算机技术员、计算机科学学士，并取得 FGV 的信息技术管理 MBA；二十多年来，他从一行代码到系统架构再到技术管理，一直在设计、构建和带领系统。",
-    "origin": "这个工具源自扑克市场上真实存在的空缺，也源自 Felipe 作为牌手自己的不满：缺少一个直观、好看、好用并且真正在进步的复盘器。这里每一个界面都要经受这个检验——帮助学习的留下，妨碍学习的去掉。",
+    "origin": "这个工具源自扑克市场上真实存在的空缺，也源自 Felipe 作为牌手自己的不满：缺少一个直观、好看、好用并且真正在进步的复盘器。这里每一个界面都要经受这个检验：帮助学习的留下，妨碍学习的去掉。",
     "method": "持续改进不是页脚上的一句承诺，而是方法本身：复盘器在真实使用中不断被检视，牌手提出的需求会进入工作队列。",
     "visionTitle": "PokerStudio 的愿景",
     "vision": "复盘器只是起点。PokerStudio 希望成为帮助扑克牌手学习、实战并在牌桌上表现更好的工具标杆。"
@@ -796,7 +796,7 @@
     "body": "描述",
     "bodyHint": "你期待什么、发生了什么、在哪个界面。",
     "send": "发送",
-    "thanks": "已收到，谢谢——它会进入工作队列。",
+    "thanks": "已收到，谢谢。它会进入工作队列。",
     "mine": "你已提交的内容",
     "kinds": {
       "SUGGESTION": "建议",
@@ -824,7 +824,7 @@
       },
       "import": {
         "title": "1. 导入你的手牌",
-        "body": "把 .txt 手牌记录拖到这里，或点击选择。一次一个文件——就像一次打一场比赛。"
+        "body": "把 .txt 手牌记录拖到这里，或点击选择。一次一个文件，就像一次打一场比赛。"
       },
       "sessions": {
         "title": "2. 打开一份复盘",
@@ -832,7 +832,7 @@
       },
       "settings": {
         "title": "3. 调成你的样子",
-        "body": "日期格式、英雄坐在哪里、座位距离、漏洞标签，以及你在各房间的用户名——都在设置里。"
+        "body": "日期格式、英雄坐在哪里、座位距离、漏洞标签，以及你在各房间的用户名，都在设置里。"
       },
       "skins": {
         "title": "4. 装扮牌桌",
@@ -856,7 +856,7 @@
       },
       "replayQuick": {
         "title": "快速设置",
-        "body": "皮肤、牌面配色、英雄手牌的摆法、牌桌与牌张与筹码的缩放、座位距离、公共牌间距——都不用离开这手牌。"
+        "body": "皮肤、牌面配色、英雄手牌的摆法、牌桌与牌张与筹码的缩放、座位距离、公共牌间距，都不用离开这手牌。"
       },
       "replayFullscreen": {
         "title": "全屏",

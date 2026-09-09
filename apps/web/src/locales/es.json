@@ -228,7 +228,7 @@
     "end": "Fin"
   },
   "log": {
-    "start": "Mano #{{number}} — {{table}}",
+    "start": "Mano #{{number}} · {{table}}",
     "dealHole": "Repartiendo cartas",
     "dealFlop": "Flop: {{cards}}",
     "dealTurn": "Turn: {{cards}}",
@@ -250,7 +250,7 @@
     "collect": "{{player}} recoge {{amount}}",
     "collectFrom": "{{player}} recoge {{amount}} del {{pot}}",
     "show": "{{player}} muestra {{cards}}",
-    "showWith": "{{player}} muestra {{cards}} — {{detail}}",
+    "showWith": "{{player}} muestra {{cards}} · {{detail}}",
     "muck": "{{player}} descarta",
     "timeout": "{{player}} agotó el tiempo",
     "disconnected": "{{player}} se desconectó",
@@ -538,7 +538,7 @@
     "show": "Mostrar avisos"
   },
   "positions": {
-    "none": "—"
+    "none": "-"
   },
   "consent": {
     "title": "Cookies y almacenamiento",
@@ -781,7 +781,7 @@
   "about": {
     "title": "Acerca de",
     "tagline": "Quién lo hace, y para qué.",
-    "author": "PokerStudio Replayer está ideado y construido por Felipe Carvalho Lana, profesional de Tecnología de la Información con más de 23 años de carrera. Técnico en Informática, licenciado en Ciencias de la Computación y MBA en Gestión de Tecnología de la Información por la FGV, Felipe ha pasado más de dos décadas diseñando, construyendo y dirigiendo sistemas — desde la línea de código hasta la arquitectura y la gestión de la tecnología.",
+    "author": "PokerStudio Replayer está ideado y construido por Felipe Carvalho Lana, profesional de Tecnología de la Información con más de 23 años de carrera. Técnico en Informática, licenciado en Ciencias de la Computación y MBA en Gestión de Tecnología de la Información por la FGV, Felipe ha pasado más de dos décadas diseñando, construyendo y dirigiendo sistemas, desde la línea de código hasta la arquitectura y la gestión de la tecnología.",
     "origin": "La herramienta nace de una demanda real del mercado del póker y de la inquietud del propio Felipe como jugador: faltaba un replayer intuitivo, bonito, fácil de usar y que mejorara de verdad. Ese es el criterio de cada pantalla: lo que ayuda a estudiar se queda; lo que estorba, se va.",
     "method": "La mejora continua no es una promesa al pie de página, es el método: el replayer se revisa con el uso real, y lo que piden los jugadores entra en la cola de trabajo.",
     "visionTitle": "La visión de PokerStudio",
@@ -796,7 +796,7 @@
     "body": "Descripción",
     "bodyHint": "Qué esperabas, qué pasó y dónde.",
     "send": "Enviar",
-    "thanks": "Recibido. Gracias — esto entra en la cola de trabajo.",
+    "thanks": "Recibido. Gracias. Esto entra en la cola de trabajo.",
     "mine": "Lo que has enviado",
     "kinds": {
       "SUGGESTION": "Sugerencia",
@@ -856,7 +856,7 @@
       },
       "replayQuick": {
         "title": "Controles rápidos",
-        "body": "Skin, colores de la baraja, disposición de las cartas del héroe, zoom de mesa, cartas y fichas, distancia de los asientos y espaciado del board — sin salir de la mano."
+        "body": "Skin, colores de la baraja, disposición de las cartas del héroe, zoom de mesa, cartas y fichas, distancia de los asientos y espaciado del board, sin salir de la mano."
       },
       "replayFullscreen": {
         "title": "Pantalla completa",
