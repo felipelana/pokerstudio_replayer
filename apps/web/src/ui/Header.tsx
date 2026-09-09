@@ -32,6 +32,10 @@ export function Header() {
   const location = useLocation();
   const navigate = useNavigate();
   const inReplayer = location.pathname.startsWith('/replay');
+  // The skin studio draws the same table as the replayer, so the controls that
+  // change how that table is drawn belong on both screens. Chips and big blinds
+  // do not: there are no amounts to read in the studio.
+  const overTable = inReplayer || location.pathname.startsWith('/admin');
   const inAuth = AUTH_PATHS.some((path) => location.pathname.startsWith(path));
 
   // The sign-in screens carry the brand themselves — the app chrome would only
@@ -112,7 +116,7 @@ export function Header() {
         </select>
       </label>
 
-      {inReplayer && (
+      {overTable && (
         <>
           <button
             type="button"
@@ -171,7 +175,7 @@ export function Header() {
       </span>
 
       {/* Everything above, in one place, when the bar runs out of room. */}
-      <HeaderMenu inReplayer={inReplayer} />
+      <HeaderMenu inReplayer={inReplayer} overTable={overTable} />
 
       {/* The version, and the way to what changed in it. */}
       <NavLink
