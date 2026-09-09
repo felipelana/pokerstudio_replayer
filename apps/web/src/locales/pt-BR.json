@@ -997,7 +997,15 @@
     "readFeedback": "Ver a avaliação",
     "feedbackFrom": "Avaliação de {{coach}}",
     "feedbackEmpty": "Ainda não há nada escrito nesta avaliação.",
-    "handNumber": "Mão {{number}}"
+    "handNumber": "Mão {{number}}",
+    "tooltipHand": "Compartilhar esta mão ou a review inteira",
+    "scope": "O que compartilhar",
+    "scopeHand": "Só a mão {{hand}}",
+    "scopeReview": "A review inteira",
+    "oneHand": "mão {{number}}",
+    "readOnlyNoteHand": "Quem abrir o link vê apenas essa mão, e mais nada da sessão. Pode revê-la e escrever o que achou dela.",
+    "notOnAccount": "Esta review ainda está só neste navegador. Para gerar um link, ela precisa estar na sua conta.",
+    "sendToAccount": "Salvar na conta e continuar"
   },
   "coach": {
     "title": "Revisar uma sessão",
@@ -1024,6 +1032,7 @@
     "saved": "Salvo",
     "finish": "Concluir avaliação",
     "finishNote": "Ao concluir, a avaliação é enviada para quem compartilhou e não pode mais ser alterada.",
-    "finished": "Avaliação concluída e enviada para quem compartilhou."
+    "finished": "Avaliação concluída e enviada para quem compartilhou.",
+    "reviewingHand": "Mão {{number}} da sessão de {{player}}."
   }
 }

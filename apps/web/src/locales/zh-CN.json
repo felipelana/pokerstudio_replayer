@@ -997,7 +997,15 @@
     "readFeedback": "查看评价",
     "feedbackFrom": "{{coach}} 的评价",
     "feedbackEmpty": "这份评价还没有写下任何内容。",
-    "handNumber": "第 {{number}} 手"
+    "handNumber": "第 {{number}} 手",
+    "tooltipHand": "共享这一手或整份复盘",
+    "scope": "共享什么",
+    "scopeHand": "只共享第 {{hand}} 手",
+    "scopeReview": "整份复盘",
+    "oneHand": "第 {{number}} 手",
+    "readOnlyNoteHand": "打开链接的人只看到那一手，会话的其他部分都看不到。他可以回放并写下看法。",
+    "notOnAccount": "这份复盘目前只在这个浏览器里。要生成链接，它得先在你的账户上。",
+    "sendToAccount": "保存到账户并继续"
   },
   "coach": {
     "title": "查看一个会话",
@@ -1024,6 +1032,7 @@
     "saved": "已保存",
     "finish": "完成评价",
     "finished": "评价已完成并发送给共享会话的人。",
-    "finishNote": "完成后评价会发送给共享会话的人，之后不能再修改。"
+    "finishNote": "完成后评价会发送给共享会话的人，之后不能再修改。",
+    "reviewingHand": "{{player}} 会话中的第 {{number}} 手。"
   }
 }

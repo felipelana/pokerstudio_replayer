@@ -997,7 +997,15 @@
     "readFeedback": "Einschätzung lesen",
     "feedbackFrom": "Einschätzung von {{coach}}",
     "feedbackEmpty": "In dieser Einschätzung steht noch nichts.",
-    "handNumber": "Hand {{number}}"
+    "handNumber": "Hand {{number}}",
+    "tooltipHand": "Diese Hand oder die ganze Review teilen",
+    "scope": "Was geteilt wird",
+    "scopeHand": "Nur Hand {{hand}}",
+    "scopeReview": "Die ganze Review",
+    "oneHand": "Hand {{number}}",
+    "readOnlyNoteHand": "Wer den Link öffnet, sieht diese Hand und sonst nichts aus der Sitzung. Er kann sie nachspielen und aufschreiben, was er denkt.",
+    "notOnAccount": "Diese Review liegt bisher nur in diesem Browser. Für einen Link muss sie im Konto sein.",
+    "sendToAccount": "Im Konto speichern und weiter"
   },
   "coach": {
     "title": "Eine Sitzung lesen",
@@ -1024,6 +1032,7 @@
     "saved": "Gespeichert",
     "finish": "Einschätzung abschließen",
     "finished": "Einschätzung abgeschlossen und an die teilende Person geschickt.",
-    "finishNote": "Mit dem Abschluss geht die Einschätzung an die teilende Person und lässt sich danach nicht mehr ändern."
+    "finishNote": "Mit dem Abschluss geht die Einschätzung an die teilende Person und lässt sich danach nicht mehr ändern.",
+    "reviewingHand": "Hand {{number}} aus der Sitzung von {{player}}."
   }
 }

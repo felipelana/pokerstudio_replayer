@@ -8,7 +8,7 @@ import { STAR_SCORE } from '@pokerstudio/shared';
 import { quickResult } from '@/engine/replay';
 import { scoreOf } from '@/report/assessment';
 import { useAppStore } from '@/state/store';
-import { IconCheck, IconEye, IconMore } from '@/ui/icons';
+import { IconCheck, IconEye, IconMore, IconShare } from '@/ui/icons';
 import type { CoachReading } from '@/ui/hooks/useCoachReadings';
 import { captureTable } from './capture';
 
@@ -20,12 +20,15 @@ export function ReviewPanel({
   hand,
   handIndex,
   coaches,
+  onShare,
   onClose,
 }: {
   hand: Hand;
   /** Position of this hand in the session, which is how a coach files their reading. */
   handIndex: number;
   coaches: CoachReading[];
+  /** Raises the sharing dialog on this hand. */
+  onShare(): void;
   onClose(): void;
 }) {
   const { t } = useTranslation();
@@ -87,6 +90,15 @@ export function ReviewPanel({
           {status === 'saving' ? t('review.saving') : status === 'saved' ? t('review.saved') : ''}
         </span>
         <div className="flex-1" />
+        <button
+          type="button"
+          className="btn-icon !px-1.5"
+          title={t('share.tooltipHand')}
+          aria-label={t('share.tooltipHand')}
+          onClick={onShare}
+        >
+          <IconShare size={14} />
+        </button>
         <button type="button" className="btn btn-ghost" onClick={onClose} aria-label={t('common.close')}>
           ✕
         </button>
@@ -96,8 +108,12 @@ export function ReviewPanel({
 
       <ScoreField
         score={scoreOf(review)}
+        stars={review.rating}
         played={quickResult(hand).vpip}
-        onChange={(score) => update({ score, rating: undefined })}
+        onStars={(rating) =>
+          update({ rating, score: rating === undefined ? undefined : STAR_SCORE[rating] })
+        }
+        onScore={(score) => update({ score, rating: undefined })}
       />
 
       <div>
@@ -269,18 +285,52 @@ function CoachNotes({ coaches, handIndex }: { coaches: CoachReading[]; handIndex
  */
 function ScoreField({
   score,
+  stars,
   played,
-  onChange,
+  onStars,
+  onScore,
 }: {
   score?: number;
+  stars?: 1 | 2 | 3 | 4 | 5;
   played: boolean;
-  onChange(score: number | undefined): void;
+  onStars(stars: 1 | 2 | 3 | 4 | 5 | undefined): void;
+  onScore(score: number | undefined): void;
 }) {
   const { t } = useTranslation();
   const steps = [1, 2, 3, 4, 5] as const;
+  // A hand rated with the stars shows those stars. One scored with the slider
+  // shows the stars it has earned, so the row is never blank on a scored hand.
+  const lit = stars ?? (score === undefined ? 0 : steps.filter((n) => score >= STAR_SCORE[n]).length);
 
   return (
     <div className="flex flex-col gap-1.5">
+      <div className="flex items-center">
+        <label className="label">{t('review.rating')}</label>
+        <div className="flex-1" />
+        {stars !== undefined && (
+          <button type="button" className="btn btn-ghost !px-2 !py-0.5 text-xs" onClick={() => onStars(undefined)}>
+            {t('review.clearScore')}
+          </button>
+        )}
+      </div>
+
+      <div className="flex items-center gap-1" role="radiogroup" aria-label={t('review.rating')}>
+        {steps.map((n) => (
+          <button
+            key={n}
+            type="button"
+            role="radio"
+            aria-checked={stars === n}
+            className="text-xl leading-none"
+            title={`${n} · ${STAR_SCORE[n]}`}
+            style={{ color: lit >= n ? 'var(--result-break-even)' : 'var(--text-muted)' }}
+            onClick={() => onStars(stars === n ? undefined : n)}
+          >
+            ★
+          </button>
+        ))}
+      </div>
+
       <div className="flex items-baseline">
         <label className="label" htmlFor="review-score">
           {t('review.score')}
@@ -289,33 +339,6 @@ function ScoreField({
         <span className="text-lg font-semibold tabular-nums" style={{ color: score === undefined ? 'var(--text-muted)' : 'var(--accent)' }}>
           {score === undefined ? t('review.noScore') : score}
         </span>
-      </div>
-
-      <div className="flex items-center gap-1" role="group" aria-label={t('review.quickScore')}>
-        {steps.map((n) => {
-          const value = STAR_SCORE[n];
-          const on = score !== undefined && score >= value;
-          return (
-            <button
-              key={n}
-              type="button"
-              className="text-xl leading-none"
-              title={`${value}`}
-              aria-label={`${t('review.score')} ${value}`}
-              aria-pressed={score === value}
-              style={{ color: on ? 'var(--result-break-even)' : 'var(--text-muted)' }}
-              onClick={() => onChange(score === value ? undefined : value)}
-            >
-              ★
-            </button>
-          );
-        })}
-        <div className="flex-1" />
-        {score !== undefined && (
-          <button type="button" className="btn btn-ghost !px-2 !py-0.5 text-xs" onClick={() => onChange(undefined)}>
-            {t('review.clearScore')}
-          </button>
-        )}
       </div>
 
       <input
@@ -327,7 +350,7 @@ function ScoreField({
         value={score ?? 50}
         style={{ accentColor: 'var(--accent)' }}
         aria-label={t('review.score')}
-        onChange={(e) => onChange(Number(e.target.value))}
+        onChange={(e) => onScore(Number(e.target.value))}
       />
 
       <p className="text-[11px] leading-relaxed" style={{ color: 'var(--text-muted)' }}>

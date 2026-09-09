@@ -141,7 +141,9 @@ export function CoachPage() {
           {t('coach.badge')}
         </span>
         <span className="truncate text-xs" style={{ color: 'var(--text-muted)' }}>
-          {t('coach.reviewing', { player: session.player, hands: session.session.handCount })}
+          {session.handIndex === null || session.handIndex === undefined
+            ? t('coach.reviewing', { player: session.player, hands: session.session.handCount })
+            : t('coach.reviewingHand', { player: session.player, number: session.handIndex + 1 })}
         </span>
         <div className="flex-1" />
         <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
@@ -273,6 +275,7 @@ function CoachReview({ session }: { session: CoachSession }) {
   return (
     <div className="flex min-h-0 flex-1 flex-col overflow-y-auto lg:flex-row lg:overflow-hidden">
       {/* the hands */}
+      {hands.length > 1 && (
       <nav
         className="max-h-28 shrink-0 overflow-auto border-b lg:max-h-none lg:w-52 lg:border-b-0 lg:border-r"
         style={{ borderColor: 'var(--border)' }}
@@ -301,6 +304,7 @@ function CoachReview({ session }: { session: CoachSession }) {
           })}
         </ul>
       </nav>
+      )}
 
       {/* the table */}
       <main className="flex min-h-[420px] min-w-0 shrink-0 flex-col lg:min-h-0 lg:flex-1 lg:shrink">

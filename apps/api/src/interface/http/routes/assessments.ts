@@ -156,6 +156,8 @@ export async function assessmentRoutes(app: FastifyInstance, container: AppConta
         coachName: z.string().trim().min(1).max(80),
         password: z.string().min(8).max(8),
         expiresAt: z.string().datetime().optional(),
+        /** Omit to share the whole review; give a position to share one hand. */
+        handIndex: z.number().int().min(0).optional(),
       })
       .parse(request.body);
     const result = await createInvite(inviteDeps, user.id, {
@@ -163,6 +165,7 @@ export async function assessmentRoutes(app: FastifyInstance, container: AppConta
       coachName: body.coachName,
       password: body.password,
       expiresAt: body.expiresAt ? new Date(body.expiresAt) : undefined,
+      handIndex: body.handIndex,
     });
     if (!result.ok) return problem(reply, result.error);
     return reply.code(201).send(result.value);
@@ -268,6 +271,8 @@ export async function assessmentRoutes(app: FastifyInstance, container: AppConta
       expiresAt: invite.expiresAt,
       assessmentId: assessment.id,
       player: session.user.name,
+      /** Null for the whole review; a position when the link is for one hand. */
+      handIndex: invite.handIndex,
       session: {
         id: session.id,
         title: session.title,
@@ -293,7 +298,12 @@ export async function assessmentRoutes(app: FastifyInstance, container: AppConta
     if (!session) return problem(reply, Errors.notFound('Review'));
     if (!session.storeHandHistory) return reply.send({ stored: false, items: [] });
     const hands = await container.prisma.handRecord.findMany({
-      where: { reviewSessionId: invite.reviewSessionId },
+      // A link for one hand hands over that hand and no other. The filter is
+      // here, on the server, not in what the screen chooses to draw.
+      where: {
+        reviewSessionId: invite.reviewSessionId,
+        ...(invite.handIndex === null ? {} : { index: invite.handIndex }),
+      },
       orderBy: { index: 'asc' },
       select: { index: true, handId: true, rawHistory: true },
     });

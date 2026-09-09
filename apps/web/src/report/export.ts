@@ -78,7 +78,8 @@ export function exportPdf(report: ReportData, labels: ReportLabels) {
     line(handHeadline(item), 12, true, 2);
     if (item.tags.length) line(`${labels.tags}: ${item.tags.map((t) => t.label).join(', ')}`, 9, false, 2);
     const own = scoreOf(item.review);
-    if (own !== undefined) line(`${labels.rating}: ${own}/100`, 9, false, 2);
+    const stars = item.review.rating ? ` ${'★'.repeat(item.review.rating)}` : '';
+    if (own !== undefined) line(`${labels.rating}: ${own}/100${stars}`, 9, false, 2);
     if (item.image) {
       const w = A4.w - A4.margin * 2;
       const h = w * 0.64;
@@ -122,7 +123,8 @@ export async function exportDocx(report: ReportData, labels: ReportLabels) {
     }
     const own = scoreOf(item.review);
     if (own !== undefined) {
-      children.push(new Paragraph({ children: [new TextRun({ text: `${labels.rating}: ${own}/100`, size: 18 })] }));
+      const stars = item.review.rating ? ` ${'★'.repeat(item.review.rating)}` : '';
+      children.push(new Paragraph({ children: [new TextRun({ text: `${labels.rating}: ${own}/100${stars}`, size: 18 })] }));
     }
     if (item.image) {
       const data = Uint8Array.from(atob(item.image.split(',')[1]), (c) => c.charCodeAt(0));

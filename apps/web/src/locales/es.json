@@ -997,7 +997,15 @@
     "readFeedback": "Ver la valoración",
     "feedbackFrom": "Valoración de {{coach}}",
     "feedbackEmpty": "Todavía no hay nada escrito en esta valoración.",
-    "handNumber": "Mano {{number}}"
+    "handNumber": "Mano {{number}}",
+    "tooltipHand": "Compartir esta mano o la review entera",
+    "scope": "Qué compartir",
+    "scopeHand": "Solo la mano {{hand}}",
+    "scopeReview": "La review entera",
+    "oneHand": "mano {{number}}",
+    "readOnlyNoteHand": "Quien abra el enlace ve solo esa mano y nada más de la sesión. Puede repasarla y escribir lo que piensa.",
+    "notOnAccount": "Esta review todavía vive solo en este navegador. Para generar un enlace tiene que estar en tu cuenta.",
+    "sendToAccount": "Guardar en la cuenta y seguir"
   },
   "coach": {
     "title": "Revisar una sesión",
@@ -1024,6 +1032,7 @@
     "saved": "Guardado",
     "finish": "Terminar la valoración",
     "finished": "Valoración terminada y enviada a quien compartió la sesión.",
-    "finishNote": "Al terminar, la valoración se envía a quien compartió la sesión y ya no se puede cambiar."
+    "finishNote": "Al terminar, la valoración se envía a quien compartió la sesión y ya no se puede cambiar.",
+    "reviewingHand": "Mano {{number}} de la sesión de {{player}}."
   }
 }

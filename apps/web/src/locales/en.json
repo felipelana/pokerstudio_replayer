@@ -997,7 +997,15 @@
     "readFeedback": "Read the review",
     "feedbackFrom": "Review by {{coach}}",
     "feedbackEmpty": "Nothing has been written in this review yet.",
-    "handNumber": "Hand {{number}}"
+    "handNumber": "Hand {{number}}",
+    "tooltipHand": "Share this hand or the whole review",
+    "scope": "What to share",
+    "scopeHand": "Only hand {{hand}}",
+    "scopeReview": "The whole review",
+    "oneHand": "hand {{number}}",
+    "readOnlyNoteHand": "Whoever opens the link sees that hand and nothing else from the session. They can replay it and write what they think of it.",
+    "notOnAccount": "This review still lives in this browser only. A link needs it to be on your account.",
+    "sendToAccount": "Save to the account and carry on"
   },
   "coach": {
     "title": "Read a session",
@@ -1024,6 +1032,7 @@
     "saved": "Saved",
     "finish": "Finish the review",
     "finished": "Review finished and sent to whoever shared the session.",
-    "finishNote": "Finishing sends the review to whoever shared the session, and it cannot be changed afterwards."
+    "finishNote": "Finishing sends the review to whoever shared the session, and it cannot be changed afterwards.",
+    "reviewingHand": "Hand {{number}} from {{player}}'s session."
   }
 }

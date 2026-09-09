@@ -110,10 +110,13 @@ export function ReportPage() {
               </div>
             )}
             {scoreOf(item.review) !== undefined && (
-              <div className="text-sm">
+              <div className="flex items-center gap-2 text-sm">
                 <span className="font-semibold tabular-nums" style={{ color: 'var(--accent)' }}>
                   {scoreOf(item.review)}/100
                 </span>
+                {item.review.rating && (
+                  <span style={{ color: 'var(--result-break-even)' }}>{'★'.repeat(item.review.rating)}</span>
+                )}
               </div>
             )}
             {item.image && <img src={item.image} alt="" className="w-full rounded-md" />}

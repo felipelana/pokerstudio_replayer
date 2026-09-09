@@ -591,6 +591,10 @@ model CoachInvite {
   passwordHash    String
   expiresAt       DateTime
   revokedAt       DateTime?
+  /// When set, the link opens one hand of the review instead of all of it.
+  /// The number is the hand position in the session, the same one an
+  /// assessment files its notes under.
+  handIndex       Int?
   /// Kept for a future coach account to claim this invitation.
   claimedByUserId String?
   createdAt       DateTime  @default(now())
