@@ -1,11 +1,13 @@
 import { useEffect } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuthStore } from '@/state/authStore';
 import { useAppStore, useActiveSkin } from '@/state/store';
 import { applySkinCssVariables } from '@/skins/presets';
 import { Header } from '@/ui/Header';
 import { Tour } from '@/ui/tour/Tour';
+import { ReleaseNotesPage } from '@/ui/releases/ReleaseNotesPage';
+import { CoachPage } from '@/ui/share/CoachPage';
 import { HelpCenter } from '@/ui/help/HelpCenter';
 import { FeedbackDialog } from '@/ui/feedback/FeedbackDialog';
 import { ConsentBanner } from '@/ui/ConsentBanner';
@@ -39,6 +41,9 @@ export function App() {
   const language = useAppStore((s) => s.settings.language);
   const animations = useAppStore((s) => s.settings.animations);
   const skin = useActiveSkin();
+  // A shared review is not the app. The coach gets their own chrome and none
+  // of ours: no navigation, no tour, no dialogs raised from the store.
+  const coachView = useLocation().pathname.startsWith('/coach/');
 
   useEffect(() => {
     void loadSettings();
@@ -65,6 +70,20 @@ export function App() {
     document.documentElement.lang = i18n.language;
   }, [t, language]);
 
+  if (coachView) {
+    return (
+      <div className={`flex h-full flex-col ${animations ? 'anim' : ''}`}>
+        <main className="min-h-0 flex-1 overflow-hidden">
+          <Routes>
+            {/* The coach has no account: their way in is the link and a password. */}
+            <Route path="/coach/:token" element={<CoachPage />} />
+          </Routes>
+        </main>
+        <ConsentBanner />
+      </div>
+    );
+  }
+
   return (
     <div className={`flex h-full flex-col ${animations ? 'anim' : ''}`}>
       <Header />
@@ -86,6 +105,7 @@ export function App() {
           <Route path="/admin" element={<RequireAuth><AdminPage /></RequireAuth>} />
           <Route path="/admstudio" element={<RequireAuth><AdmStudioPage /></RequireAuth>} />
           <Route path="/report/:sessionId" element={<RequireAuth><ReportPage /></RequireAuth>} />
+          <Route path="/novidades" element={<ReleaseNotesPage />} />
           <Route path="/privacidade" element={<LegalPage doc="privacy" />} />
           <Route path="/termos" element={<LegalPage doc="terms" />} />
           <Route path="*" element={<RequireAuth><LibraryPage /></RequireAuth>} />

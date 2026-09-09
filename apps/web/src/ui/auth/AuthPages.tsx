@@ -640,7 +640,7 @@ export function AccountPage() {
             {sessions.map((s) => (
               <li key={s.id} className="flex items-center gap-2 border-t py-1" style={{ borderColor: 'var(--border)' }}>
                 <span className="flex-1 truncate">
-                  {s.ip ?? '—'} · {s.userAgent?.slice(0, 48) ?? '—'}
+                  {s.ip ?? '-'} · {s.userAgent?.slice(0, 48) ?? '-'}
                 </span>
                 {s.current ? (
                   <span className="chip-tag">{t('account.currentSession')}</span>

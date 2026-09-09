@@ -36,6 +36,7 @@ const handSchema = z.object({
   handId: z.string().max(80).optional(),
   rawHistory: z.string().max(200_000).optional(),
   heroPosition: z.string().max(10).optional(),
+  heroVpip: z.boolean().optional(),
   result: z.enum(['WON', 'LOST', 'FOLDED']).optional(),
   potWon: z.number().optional(),
   reviewedAt: z.string().datetime().optional(),

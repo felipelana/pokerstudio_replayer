@@ -9,7 +9,7 @@ import { LanguageSelector } from './LanguageSelector';
  * hold them in a row — a phone held sideways, mostly. Above `lg` the header
  * shows them inline and this button is not rendered at all.
  */
-export function HeaderMenu({ inReplayer }: { inReplayer: boolean }) {
+export function HeaderMenu({ inReplayer, overTable }: { inReplayer: boolean; overTable: boolean }) {
   const { t } = useTranslation();
   const settings = useAppStore((s) => s.settings);
   const updateSettings = useAppStore((s) => s.updateSettings);
@@ -70,7 +70,7 @@ export function HeaderMenu({ inReplayer }: { inReplayer: boolean }) {
             </select>
           </label>
 
-          {inReplayer && (
+          {overTable && (
             <div className="flex gap-2">
               <button
                 type="button"

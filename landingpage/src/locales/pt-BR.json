@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "PokerStudio Replayer — reveja suas mãos e estude melhor",
+    "title": "PokerStudio Replayer: reveja suas mãos e estude melhor",
     "description": "Reproduza suas mãos de cash e torneios no navegador, avalie cada decisão, escreva comentários por street e compartilhe a sessão com seu coach. Gratuito por tempo limitado."
   },
   "nav": {
@@ -28,7 +28,7 @@
   "hero": {
     "eyebrow": "Ferramenta de estudo de poker",
     "headline": "Reveja cada decisão e transforme suas mãos em estudo de verdade.",
-    "sub": "O PokerStudio Replayer reproduz seus hand histories de cash e torneios no navegador — mão a mão, street a street — para você avaliar suas decisões, anotar o que viu e compartilhar a sessão com seu coach.",
+    "sub": "O PokerStudio Replayer reproduz seus hand histories de cash e torneios no navegador, mão a mão, street a street, para você avaliar suas decisões, anotar o que viu e compartilhar a sessão com seu coach.",
     "audience": "Para quem estuda sozinho, para quem tem acompanhamento de coach e para coaches e times de poker."
   },
   "features": {
@@ -142,7 +142,7 @@
   },
   "reports": {
     "title": "Relatórios e evolução",
-    "lead": "O que os números dizem — e o que eles não dizem.",
+    "lead": "O que os números dizem, e o que eles não dizem.",
     "disclaimer": "São avaliações das decisões, escritas por você ou pelo seu coach. O Replayer não promete lucratividade e não faz análise das mãos por IA.",
     "items": {
       "score": {
@@ -171,7 +171,7 @@
       }
     },
     "chart": {
-      "caption": "Ilustração do gráfico de evolução — não é uma captura do produto.",
+      "caption": "Ilustração do gráfico de evolução, não é uma captura do produto.",
       "alt": "Gráfico ilustrativo com duas séries de notas de 0 a 100 ao longo do tempo: autoavaliação e média dos coaches, com linha de tendência.",
       "self": "Autoavaliação",
       "coaches": "Média dos coaches",
@@ -182,7 +182,8 @@
     "title": "Salas compatíveis",
     "lead": "A importação lê os arquivos .txt de hand history do PokerStars e da rede Chico. As demais salas estão a caminho.",
     "note": "A importação usa arquivos .txt. As salas marcadas como \"em breve\" já são reconhecidas pelo importador, mas ainda não são reproduzidas: preferimos dizer isso a entregar uma mão remontada errado. O PokerStudio não tem relação comercial com estas salas; os nomes aparecem apenas para indicar quais formatos são lidos.",
-    "soon": "Em breve"
+    "soon": "Em breve",
+    "available": "Disponível"
   },
   "roadmap": {
     "title": "Funcionalidades futuras",
@@ -221,7 +222,7 @@
     "items": {
       "free": {
         "q": "É gratuito mesmo?",
-        "a": "Sim — gratuito por tempo limitado. Criar a conta também é gratuito, e é a conta que guarda suas reviews."
+        "a": "Sim, gratuito por tempo limitado. Criar a conta também é gratuito, e é a conta que guarda suas reviews."
       },
       "files": {
         "q": "Quais arquivos posso importar?",
@@ -241,7 +242,7 @@
       },
       "coach": {
         "q": "Como funciona a review com um coach?",
-        "a": "Você gera um link com senha e data de expiração. O coach abre, percorre as mãos e deixa notas de 0 a 100, tags de leaks e comentários — de forma assíncrona, sem criar conta."
+        "a": "Você gera um link com senha e data de expiração. O coach abre, percorre as mãos e deixa notas de 0 a 100, tags de leaks e comentários, de forma assíncrona, sem criar conta."
       },
       "reports": {
         "q": "Existem relatórios parciais e finais?",

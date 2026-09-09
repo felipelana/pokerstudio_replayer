@@ -24,7 +24,8 @@
     "dev:landing": "npm run dev -w @pokerstudio/landingpage",
     "build:landing": "npm run build -w @pokerstudio/landingpage",
     "changelog": "node infra/scripts/changelog.mjs",
-    "changelog:check": "node infra/scripts/changelog.mjs --check"
+    "changelog:check": "node infra/scripts/changelog.mjs --check",
+    "check:copy": "node infra/scripts/check-copy.mjs"
   },
   "devDependencies": {
     "prettier": "^3.3.3",

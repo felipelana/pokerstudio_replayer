@@ -86,7 +86,7 @@ describe('Chico: the 660 real hands', () => {
     expect(off).toEqual([]);
   });
 
-  it('pays out exactly what the pot held — the rake is zero in these tournaments', () => {
+  it('pays out exactly what the pot held, since the rake is zero in these tournaments', () => {
     const off = all
       .map((hand) => {
         const won = hand.summary.pots.flatMap((p) => p.winners).reduce((sum, w) => sum + w.amount, 0);

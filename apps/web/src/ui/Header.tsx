@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { CURRENT_RELEASE, hasUnread } from '@/content/releaseNotes';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/store';
 import { IconBack, IconHelp, IconLibrary, IconMoon, IconNeon, IconPalette, IconSliders, IconSun } from './icons';
@@ -24,9 +26,16 @@ export function Header() {
   const skins = useAppStore((s) => s.skins);
   const user = useAuthStore((s) => s.user);
   const setHelpCenterOpen = useAppStore((s) => s.setHelpCenterOpen);
+  // Read once per mount: the page itself clears it, and re-reading on every
+  // render would make the dot flicker as the reader navigates.
+  const [unread] = useState(hasUnread);
   const location = useLocation();
   const navigate = useNavigate();
   const inReplayer = location.pathname.startsWith('/replay');
+  // The skin studio draws the same table as the replayer, so the controls that
+  // change how that table is drawn belong on both screens. Chips and big blinds
+  // do not: there are no amounts to read in the studio.
+  const overTable = inReplayer || location.pathname.startsWith('/admin');
   const inAuth = AUTH_PATHS.some((path) => location.pathname.startsWith(path));
 
   // The sign-in screens carry the brand themselves — the app chrome would only
@@ -107,7 +116,7 @@ export function Header() {
         </select>
       </label>
 
-      {inReplayer && (
+      {overTable && (
         <>
           <button
             type="button"
@@ -166,7 +175,24 @@ export function Header() {
       </span>
 
       {/* Everything above, in one place, when the bar runs out of room. */}
-      <HeaderMenu inReplayer={inReplayer} />
+      <HeaderMenu inReplayer={inReplayer} overTable={overTable} />
+
+      {/* The version, and the way to what changed in it. */}
+      <NavLink
+        to="/novidades"
+        className="relative hidden rounded-full border px-2 py-0.5 text-[11px] font-semibold tabular-nums transition-colors sm:inline-flex"
+        style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}
+        title={t('releases.title')}
+      >
+        v{CURRENT_RELEASE.version}
+        {unread && (
+          <span
+            aria-hidden="true"
+            className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full"
+            style={{ background: 'var(--accent)' }}
+          />
+        )}
+      </NavLink>
 
       {/* Questions about the tool, from any screen. */}
       <button

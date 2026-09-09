@@ -170,7 +170,7 @@ export function LogsTab() {
                   {row.message}
                 </td>
                 <td className="max-w-[240px] truncate p-2 font-mono text-xs" style={{ color: 'var(--text-muted)' }} title={row.route}>
-                  {row.route ?? '—'}
+                  {row.route ?? '-'}
                 </td>
                 <td className="whitespace-nowrap p-2 text-xs" style={{ color: 'var(--text-muted)' }}>
                   {row.env}
@@ -228,10 +228,10 @@ function ErrorDetail({ id, onClose }: { id: string; onClose(): void }) {
             <Field label={t('admstudio.source')} value={t(`admstudio.sources.${data.source}`)} />
             <Field label={t('admstudio.environment')} value={`${data.env}${data.release ? ` · ${data.release}` : ''}`} />
             <Field label={t('admstudio.colWhen')} value={dateTime(data.createdAt)} />
-            <Field label={t('admstudio.colRoute')} value={data.route ?? '—'} />
-            <Field label={t('admstudio.colStatusCode')} value={data.statusCode ? String(data.statusCode) : '—'} />
-            <Field label={t('admstudio.colRequestId')} value={data.requestId ?? '—'} />
-            <Field label={t('admstudio.colUser')} value={data.userId ?? '—'} />
+            <Field label={t('admstudio.colRoute')} value={data.route ?? '-'} />
+            <Field label={t('admstudio.colStatusCode')} value={data.statusCode ? String(data.statusCode) : '-'} />
+            <Field label={t('admstudio.colRequestId')} value={data.requestId ?? '-'} />
+            <Field label={t('admstudio.colUser')} value={data.userId ?? '-'} />
           </dl>
 
           {data.userAgent && (

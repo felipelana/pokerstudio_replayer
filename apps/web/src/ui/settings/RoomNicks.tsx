@@ -1,12 +1,21 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ROOMS, type Room } from '@pokerstudio/shared';
 import { accountApi, type RoomNick } from '@/infrastructure/http/accountApi';
 import { ApiError } from '@/infrastructure/http/client';
-import { SITE_NAMES } from '@/model/sites';
 import { useAuthStore } from '@/state/authStore';
-import type { Site } from '@/model/types';
 
-const ROOMS = Object.keys(SITE_NAMES) as Site[];
+/**
+ * The key a nickname is filed under. Rooms with a parser keep that parser's
+ * key, which is what the replayer looks up and what older rows already use;
+ * the rest are filed under their catalogue id.
+ */
+function keyOf(room: Room): string {
+  return room.site ?? room.id;
+}
+
+/** Rooms that can be read come first: those are the ones a nickname acts on today. */
+const LISTED = [...ROOMS].sort((a, b) => (a.status === b.status ? 0 : a.status === 'available' ? -1 : 1));
 
 /**
  * The screen names the reader plays under, one per room. Optional — but once
@@ -71,24 +80,45 @@ export function RoomNicks() {
       <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
         {t('settings.roomNicksHint')}
       </p>
+      <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+        {t('settings.roomNicksSoonHint')}
+      </p>
 
       <div className="grid gap-2 sm:grid-cols-2">
-        {ROOMS.map((room) => (
-          <label key={room} className="flex flex-col gap-1 text-sm">
-            {SITE_NAMES[room]}
-            <input
-              className="input"
-              maxLength={60}
-              placeholder={t('settings.roomNickPlaceholder')}
-              value={nicks[room] ?? ''}
-              disabled={!loaded}
-              onChange={(e) => {
-                setSaved(false);
-                setNicks((n) => ({ ...n, [room]: e.target.value }));
-              }}
-            />
-          </label>
-        ))}
+        {LISTED.map((room) => {
+          const key = keyOf(room);
+          return (
+            <label key={key} className="flex flex-col gap-1 text-sm">
+              <span className="flex flex-wrap items-baseline gap-x-2">
+                <span>{room.name}</span>
+                {room.status === 'coming-soon' && (
+                  <span
+                    className="rounded-full border px-1.5 text-[10px] font-semibold uppercase tracking-wide"
+                    style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}
+                  >
+                    {t('settings.comingSoon')}
+                  </span>
+                )}
+                {room.network && (
+                  <span className="text-[11px]" style={{ color: 'var(--text-muted)' }}>
+                    {room.network}
+                  </span>
+                )}
+              </span>
+              <input
+                className="input"
+                maxLength={60}
+                placeholder={t('settings.roomNickPlaceholder')}
+                value={nicks[key] ?? ''}
+                disabled={!loaded}
+                onChange={(e) => {
+                  setSaved(false);
+                  setNicks((n) => ({ ...n, [key]: e.target.value }));
+                }}
+              />
+            </label>
+          );
+        })}
       </div>
 
       {error && (

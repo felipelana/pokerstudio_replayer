@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "PokerStudio Replayer — Hände nachspielen und besser studieren",
+    "title": "PokerStudio Replayer: Hände nachspielen und besser studieren",
     "description": "Spiele deine Cash- und Turnierhände im Browser nach, bewerte jede Entscheidung, schreibe Kommentare pro Street und teile die Session mit deinem Coach. Für begrenzte Zeit kostenlos."
   },
   "nav": {
@@ -28,7 +28,7 @@
   "hero": {
     "eyebrow": "Werkzeug zum Pokerstudium",
     "headline": "Sieh dir jede Entscheidung noch einmal an und mache aus deinen Händen echtes Studium.",
-    "sub": "Der PokerStudio Replayer spielt deine Cash- und Turnier-Handhistorien im Browser nach — Hand für Hand, Street für Street — damit du deine Entscheidungen bewertest, Notizen schreibst und die Session mit deinem Coach teilst.",
+    "sub": "Der PokerStudio Replayer spielt deine Cash- und Turnier-Handhistorien im Browser nach, Hand für Hand, Street für Street, damit du deine Entscheidungen bewertest, Notizen schreibst und die Session mit deinem Coach teilst.",
     "audience": "Für alle, die allein studieren, die von einem Coach betreut werden, und für Coaches und Pokerteams."
   },
   "features": {
@@ -50,7 +50,7 @@
       },
       "resume": {
         "title": "Setze dein Review dort fort, wo du aufgehört hast",
-        "text": "Die Session merkt sich Hand und Moment, an dem jeder Bewerter aufgehört hat — ein langes Review geht so in mehreren Sitzungen."
+        "text": "Die Session merkt sich Hand und Moment, an dem jeder Bewerter aufgehört hat, ein langes Review geht so in mehreren Sitzungen."
       },
       "save": {
         "title": "Reviews in der Datenbank speichern und ordnen",
@@ -62,7 +62,7 @@
       },
       "reports": {
         "title": "Berichte lesen und deine größten Leaks finden",
-        "text": "Der Bericht bündelt Noten, den Anteil geprüfter Hände und die häufigsten Leak-Tags — bereit zum Export."
+        "text": "Der Bericht bündelt Noten, den Anteil geprüfter Hände und die häufigsten Leak-Tags, bereit zum Export."
       },
       "evolution": {
         "title": "Verfolge die Entwicklung der Bewertungen",
@@ -112,7 +112,7 @@
       },
       "expiry": {
         "title": "Befristeter Zugang mit Ablaufdatum",
-        "text": "Du wählst beim Erstellen, wie lange der Link gilt — innerhalb des von der Verwaltung erlaubten Rahmens."
+        "text": "Du wählst beim Erstellen, wie lange der Link gilt, innerhalb des von der Verwaltung erlaubten Rahmens."
       },
       "async": {
         "title": "Asynchrone Bewertung",
@@ -142,7 +142,7 @@
   },
   "reports": {
     "title": "Berichte und Entwicklung",
-    "lead": "Was die Zahlen sagen — und was nicht.",
+    "lead": "Was die Zahlen sagen, und was nicht.",
     "disclaimer": "Es sind Bewertungen von Entscheidungen, geschrieben von dir oder deinem Coach. Der Replayer verspricht keine Gewinne und analysiert die Hände nicht per KI.",
     "items": {
       "score": {
@@ -171,7 +171,7 @@
       }
     },
     "chart": {
-      "caption": "Illustration des Entwicklungsdiagramms — keine Aufnahme des Produkts.",
+      "caption": "Illustration des Entwicklungsdiagramms, keine Aufnahme des Produkts.",
       "alt": "Illustratives Diagramm mit zwei Notenreihen von 0 bis 100 über die Zeit: Selbstbewertung und Durchschnitt der Coaches, mit Trendlinie.",
       "self": "Selbstbewertung",
       "coaches": "Durchschnitt der Coaches",
@@ -182,7 +182,8 @@
     "title": "Unterstützte Räume",
     "lead": "Der Import liest .txt-Handhistorien von PokerStars und aus dem Chico-Netzwerk. Die übrigen Räume folgen.",
     "note": "Der Import verwendet .txt-Dateien. Die mit \"demnächst\" markierten Räume erkennt der Import bereits, gibt sie aber noch nicht wieder: lieber sagen wir das, als eine falsch zusammengesetzte Hand zu liefern. PokerStudio steht in keiner geschäftlichen Beziehung zu diesen Räumen; die Namen zeigen nur, welche Formate gelesen werden.",
-    "soon": "Demnächst"
+    "soon": "Demnächst",
+    "available": "Verfügbar"
   },
   "roadmap": {
     "title": "Künftige Funktionen",
@@ -191,7 +192,7 @@
     "items": {
       "shared": {
         "title": "Review mit einem Coach oder Freund geteilt",
-        "text": "Ein Link und ein Passwort für den, der Ihre Hände lesen soll, mit Frist und Widerruf — Ihre eigene Bewertung und die jedes Coaches bleiben getrennt."
+        "text": "Ein Link und ein Passwort für den, der Ihre Hände lesen soll, mit Frist und Widerruf, Ihre eigene Bewertung und die jedes Coaches bleiben getrennt."
       },
       "audio": {
         "title": "Coach-Feedback per Audio",
@@ -221,7 +222,7 @@
     "items": {
       "free": {
         "q": "Ist es wirklich kostenlos?",
-        "a": "Ja — für begrenzte Zeit kostenlos. Auch das Konto ist kostenlos, und im Konto liegen deine Reviews."
+        "a": "Ja, für begrenzte Zeit kostenlos. Auch das Konto ist kostenlos, und im Konto liegen deine Reviews."
       },
       "files": {
         "q": "Welche Dateien kann ich importieren?",
@@ -241,11 +242,11 @@
       },
       "coach": {
         "q": "Wie läuft ein Review mit einem Coach ab?",
-        "a": "Du erzeugst einen Link mit Passwort und Ablaufdatum. Der Coach öffnet ihn, geht die Hände durch und hinterlässt Noten von 0 bis 100, Leak-Tags und Kommentare — asynchron, ohne Konto."
+        "a": "Du erzeugst einen Link mit Passwort und Ablaufdatum. Der Coach öffnet ihn, geht die Hände durch und hinterlässt Noten von 0 bis 100, Leak-Tags und Kommentare, asynchron, ohne Konto."
       },
       "reports": {
         "q": "Gibt es Zwischen- und Abschlussberichte?",
-        "a": "Du siehst das Feedback, während es geschrieben wird; ist eine Bewertung abgeschlossen, wird sie geschlossen und lässt sich als PDF exportieren — allein oder im Vergleich mit den anderen."
+        "a": "Du siehst das Feedback, während es geschrieben wird; ist eine Bewertung abgeschlossen, wird sie geschlossen und lässt sich als PDF exportieren, allein oder im Vergleich mit den anderen."
       },
       "expiry": {
         "q": "Wie lange gilt ein geteilter Link?",

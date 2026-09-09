@@ -188,6 +188,9 @@ export async function assessmentRoutes(app: FastifyInstance, container: AppConta
    * from the database now, not from what was true at sign-in.
    */
   async function requireCoach(request: FastifyRequest, reply: FastifyReply) {
+    // A second link opened in the same browser must not be answered by the
+    // first one's cookie: when the caller names a token, it has to be this one.
+    const asked = z.object({ token: z.string().max(64).optional() }).safeParse(request.query);
     const signed = request.cookies?.[COACH_COOKIE];
     const unsigned = signed ? request.unsignCookie(signed) : undefined;
     if (!unsigned?.valid || !unsigned.value) {
@@ -204,6 +207,10 @@ export async function assessmentRoutes(app: FastifyInstance, container: AppConta
       return undefined;
     }
     if (state.state !== 'ok' || !state.invite) {
+      void problem(reply, Errors.notAuthenticated());
+      return undefined;
+    }
+    if (asked.success && asked.data.token && asked.data.token !== state.invite.token) {
       void problem(reply, Errors.notAuthenticated());
       return undefined;
     }
@@ -268,6 +275,31 @@ export async function assessmentRoutes(app: FastifyInstance, container: AppConta
         room: session.roomDetected,
         handCount: session.handCount,
       },
+    });
+  });
+
+  /**
+   * The hands themselves, so the coach can replay what the player replayed.
+   * Only the histories the player chose to keep on the account travel: a review
+   * saved without them comes back empty, and the screen says so.
+   */
+  app.get('/coach/hands', async (request, reply) => {
+    const invite = await requireCoach(request, reply);
+    if (!invite) return;
+    const session = await container.prisma.reviewSession.findUnique({
+      where: { id: invite.reviewSessionId },
+      select: { storeHandHistory: true },
+    });
+    if (!session) return problem(reply, Errors.notFound('Review'));
+    if (!session.storeHandHistory) return reply.send({ stored: false, items: [] });
+    const hands = await container.prisma.handRecord.findMany({
+      where: { reviewSessionId: invite.reviewSessionId },
+      orderBy: { index: 'asc' },
+      select: { index: true, handId: true, rawHistory: true },
+    });
+    return reply.send({
+      stored: true,
+      items: hands.filter((hand) => !!hand.rawHistory),
     });
   });
 

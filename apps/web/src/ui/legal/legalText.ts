@@ -28,7 +28,7 @@ export const PRIVACY_POLICY: LegalDoc = {
       heading: '1. Quais dados coletamos',
       body: [
         'Dados de cadastro que você informa: nome, e-mail, telefone (opcional, no formato internacional), país de origem e idioma principal.',
-        'Dados de autenticação: senha armazenada apenas como hash irreversível (Argon2id) — nunca em texto claro — e, quando você usa "Continuar com Google", o identificador e o e-mail verificado devolvidos pelo Google.',
+        'Dados de autenticação: senha armazenada apenas como hash irreversível (Argon2id), nunca em texto claro, e, quando você usa "Continuar com Google", o identificador e o e-mail verificado devolvidos pelo Google.',
         'Dados de acesso, registrados automaticamente: endereço IP, país aproximado derivado do IP, data e hora, tipo de dispositivo, sistema operacional e navegador, além do resultado da tentativa (sucesso ou falha).',
         'Dados de uso do produto: eventos como abrir o aplicativo, importar mãos, iniciar, salvar ou concluir uma review, exportar relatório e aplicar uma skin.',
         'Conteúdo que você opta por salvar na nuvem: históricos de mãos e anotações de review. Essa gravação é opcional e depende de escolha explícita sua; sem ela, o conteúdo permanece apenas no seu navegador.',
@@ -68,7 +68,7 @@ export const PRIVACY_POLICY: LegalDoc = {
       body: [
         'Provedor de envio de e-mail transacional, estritamente para entregar as mensagens do serviço.',
         'Provedor de infraestrutura onde a aplicação está hospedada.',
-        'Google, quando você escolhe entrar com a conta Google — nesse caso o Google atua como provedor de identidade.',
+        'Google, quando você escolhe entrar com a conta Google. Nesse caso o Google atua como provedor de identidade.',
         'Autoridades públicas, quando houver obrigação legal ou ordem judicial.',
         'Não vendemos dados pessoais e não os cedemos para uso comercial de terceiros.',
       ],

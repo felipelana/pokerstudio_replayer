@@ -93,8 +93,8 @@
     "importedDuplicates_one": "跳过 {{count}} 个重复项",
     "importedDuplicates_other": "跳过 {{count}} 个重复项",
     "nothingParsed": "在“{{name}}”中未找到牌局。",
-    "unsupported": "已识别格式（{{site}}），但暂不支持。",
-    "unknownFormat": "无法识别的牌局记录格式。",
+    "unsupported": "我们还无法读取 {{site}} 的手牌。文件已被识别，对这个房间的支持正在准备中。",
+    "unknownFormat": "我们无法将这个文件识别为手牌记录。请确认它是房间导出的 .txt。",
     "sampleTitle": "还没有牌局记录？",
     "loadSample": "加载演示样本",
     "siteOverride": "强制指定平台",
@@ -150,7 +150,7 @@
     "colorHintResults": "按结果着色",
     "hands": "牌局",
     "copyRaw": "复制此牌局的原始文本",
-    "noHero": "此文件中没有主角——点击座位以设置关注玩家。",
+    "noHero": "此文件中没有主角。点击座位以设置关注玩家。",
     "focus": "关注：{{player}}",
     "clearFocus": "取消关注",
     "noSession": "未加载会话",
@@ -191,7 +191,7 @@
     "sidePot": "边池 {{index}}",
     "noHands": "加载牌局记录以开始回放。",
     "winner": "赢家",
-    "webglUnavailable": "WebGL 不可用——使用 2D 渲染器。",
+    "webglUnavailable": "WebGL 不可用。使用 2D 渲染器。",
     "empty": "空",
     "toCall": "跟注 {{amount}}",
     "returned": "已退回",
@@ -228,7 +228,7 @@
     "end": "结束"
   },
   "log": {
-    "start": "牌局 #{{number}} — {{table}}",
+    "start": "牌局 #{{number}} · {{table}}",
     "dealHole": "发底牌",
     "dealFlop": "翻牌：{{cards}}",
     "dealTurn": "转牌：{{cards}}",
@@ -250,7 +250,7 @@
     "collect": "{{player}} 收取 {{amount}}",
     "collectFrom": "{{player}} 从{{pot}}收取 {{amount}}",
     "show": "{{player}} 亮牌 {{cards}}",
-    "showWith": "{{player}} 亮牌 {{cards}} — {{detail}}",
+    "showWith": "{{player}} 亮牌 {{cards}} · {{detail}}",
     "muck": "{{player}} 盖牌",
     "timeout": "{{player}} 超时",
     "disconnected": "{{player}} 已断线",
@@ -295,7 +295,10 @@
     "captureImage": "截取牌桌",
     "captureText": "仅文字",
     "capturing": "截取中…",
-    "captureSaved": "截图已随此笔记保存"
+    "captureSaved": "截图已随此笔记保存",
+    "coachTitle": "教练的评价",
+    "coachPlayedWell": "打得不错",
+    "coachInProgress": "评价进行中"
   },
   "settings": {
     "title": "设置",
@@ -343,7 +346,13 @@
     "roomNicksHint": "可选。告诉我们你在每个房间使用的名字，即使手牌文件没有标明英雄，复盘器也能认出你。",
     "roomNickPlaceholder": "你在该房间的名字",
     "roomNicksSaved": "已保存到你的账户。",
-    "roomNicksSignedOut": "登录后即可保存用户名——它保存在账户中，而不是这个浏览器里。"
+    "roomNicksSignedOut": "登录后即可保存用户名。它保存在账户中，而不是这个浏览器里。",
+    "groupPreferences": "偏好",
+    "groupRooms": "房间",
+    "groupStudy": "学习",
+    "groupData": "数据",
+    "comingSoon": "即将支持",
+    "roomNicksSoonHint": "标记为即将支持的房间还无法导入。昵称会先保存，等房间接入当天开始生效。"
   },
   "shortcuts": {
     "title": "键盘快捷键",
@@ -419,7 +428,7 @@
       "artChange": "更换",
       "artReset": "皮肤默认",
       "artTooLarge": "文件超过 2 MB，请换更小的。",
-      "artHint": "首选 SVG（永不模糊）。带透明的 PNG 或 WebP 也可以 — 约 500 × 700 像素，与牌面同比例。",
+      "artHint": "首选 SVG（永不模糊）。带透明的 PNG 或 WebP 也可以，约 500 × 700 像素，与牌面同比例。",
       "boardGap": "公共牌间距"
     },
     "felt": {
@@ -520,7 +529,7 @@
       "tooLarge": "图片过大（最大 6 MB）。"
     },
     "chooseSkin": "正在编辑的皮肤",
-    "savedLocallyOnly": "已保存到本设备 — 无法连接账户。",
+    "savedLocallyOnly": "已保存到本设备。无法连接账户。",
     "myCopy": "我的版本",
     "discardChanges": "放弃更改",
     "changesDiscarded": "更改已放弃。",
@@ -532,7 +541,7 @@
     "show": "显示警告"
   },
   "positions": {
-    "none": "—"
+    "none": "-"
   },
   "consent": {
     "title": "Cookie 与本地存储",
@@ -569,7 +578,18 @@
     "count": "已选 {{count}} 手牌",
     "empty": "尚未勾选任何手牌进入报告。",
     "savePdf": "保存 PDF",
-    "saveDocx": "保存 DOCX"
+    "saveDocx": "保存 DOCX",
+    "summary": "这次会话的数字",
+    "score": "你的分数",
+    "scoreDetail": "已打分 {{count}} 手",
+    "coverage": "覆盖率",
+    "coverageDetail": "已打的 {{total}} 手中的 {{reviewed}} 手",
+    "reviewed": "已看过的手数",
+    "reviewedDetail": "有分数、标签或笔记的",
+    "leaks": "标记最多的漏洞",
+    "coachNumbers": "每位评价者的数字",
+    "noScore": "无分数",
+    "noCoverage": "没有打过的手"
   },
   "auth": {
     "loginTitle": "登录",
@@ -608,7 +628,7 @@
     "hide": "隐藏",
     "capsLock": "大写锁定已开启",
     "offline": "无法连接服务器，请稍后再试。",
-    "offlineBanner": "服务器不可用 — 仅使用本地数据。",
+    "offlineBanner": "服务器不可用。仅使用本地数据。",
     "or": "或",
     "oauthError": {
       "link_requires_verification": "该邮箱已有账户。请先用密码登录并确认邮箱。",
@@ -746,7 +766,7 @@
     "useRecovery": "改用恢复码",
     "useApp": "改用身份验证器应用",
     "recoveryTitle": "请保存恢复码",
-    "recoveryBody": "每个恢复码只能使用一次，并且只在此刻显示。请妥善保管——手机丢失时它们是唯一的退路。",
+    "recoveryBody": "每个恢复码只能使用一次，并且只在此刻显示。请妥善保管。手机丢失时它们是唯一的退路。",
     "copy": "复制",
     "saved": "已保存"
   },
@@ -768,7 +788,7 @@
   "replayer": {
     "startOver": "从头开始",
     "boardGap": "公共牌间距",
-    "resumedAt": "已从上次停下的地方继续 — 第 {{current}} / {{total}} 手。",
+    "resumedAt": "已从上次停下的地方继续，第 {{current}} / {{total}} 手。",
     "keepGoing": "好",
     "seatDistance": "座位"
   },
@@ -776,7 +796,7 @@
     "title": "关于",
     "tagline": "谁在做，为什么做。",
     "author": "PokerStudio Replayer 由拥有 23 年以上从业经验的信息技术专家 Felipe Carvalho Lana 构思并开发。他是计算机技术员、计算机科学学士，并取得 FGV 的信息技术管理 MBA；二十多年来，他从一行代码到系统架构再到技术管理，一直在设计、构建和带领系统。",
-    "origin": "这个工具源自扑克市场上真实存在的空缺，也源自 Felipe 作为牌手自己的不满：缺少一个直观、好看、好用并且真正在进步的复盘器。这里每一个界面都要经受这个检验——帮助学习的留下，妨碍学习的去掉。",
+    "origin": "这个工具源自扑克市场上真实存在的空缺，也源自 Felipe 作为牌手自己的不满：缺少一个直观、好看、好用并且真正在进步的复盘器。这里每一个界面都要经受这个检验：帮助学习的留下，妨碍学习的去掉。",
     "method": "持续改进不是页脚上的一句承诺，而是方法本身：复盘器在真实使用中不断被检视，牌手提出的需求会进入工作队列。",
     "visionTitle": "PokerStudio 的愿景",
     "vision": "复盘器只是起点。PokerStudio 希望成为帮助扑克牌手学习、实战并在牌桌上表现更好的工具标杆。"
@@ -790,7 +810,7 @@
     "body": "描述",
     "bodyHint": "你期待什么、发生了什么、在哪个界面。",
     "send": "发送",
-    "thanks": "已收到，谢谢——它会进入工作队列。",
+    "thanks": "已收到，谢谢。它会进入工作队列。",
     "mine": "你已提交的内容",
     "kinds": {
       "SUGGESTION": "建议",
@@ -818,7 +838,7 @@
       },
       "import": {
         "title": "1. 导入你的手牌",
-        "body": "把 .txt 手牌记录拖到这里，或点击选择。一次一个文件——就像一次打一场比赛。"
+        "body": "把 .txt 手牌记录拖到这里，或点击选择。一次一个文件，就像一次打一场比赛。"
       },
       "sessions": {
         "title": "2. 打开一份复盘",
@@ -826,7 +846,7 @@
       },
       "settings": {
         "title": "3. 调成你的样子",
-        "body": "日期格式、英雄坐在哪里、座位距离、漏洞标签，以及你在各房间的用户名——都在设置里。"
+        "body": "日期格式、英雄坐在哪里、座位距离、漏洞标签，以及你在各房间的用户名，都在设置里。"
       },
       "skins": {
         "title": "4. 装扮牌桌",
@@ -850,7 +870,7 @@
       },
       "replayQuick": {
         "title": "快速设置",
-        "body": "皮肤、牌面配色、英雄手牌的摆法、牌桌与牌张与筹码的缩放、座位距离、公共牌间距——都不用离开这手牌。"
+        "body": "皮肤、牌面配色、英雄手牌的摆法、牌桌与牌张与筹码的缩放、座位距离、公共牌间距，都不用离开这手牌。"
       },
       "replayFullscreen": {
         "title": "全屏",
@@ -884,5 +904,114 @@
     "howTo": "如何使用",
     "startTour": "再看一次教程",
     "askUs": "向我们提问"
+  },
+  "releases": {
+    "title": "更新内容",
+    "lead": "每个版本改了什么。",
+    "unread": "有一个版本你还没有看过。",
+    "nextNote": "已规划，暂无发布日期。",
+    "footer": "你正在使用 {{version}} 版本。",
+    "channel": {
+      "beta": "测试版",
+      "stable": "正式版"
+    },
+    "sections": {
+      "rooms": "支持的房间",
+      "replay": "回放",
+      "visual": "外观",
+      "analysis": "分析",
+      "languages": "语言",
+      "next": "接下来"
+    },
+    "v1_0_0": {
+      "highlight": "第一个完整版本。导入你的手牌记录，逐手回放，评估自己的决策，并把这些留在账户里。",
+      "rooms": {
+        "0": "PokerStars，现金桌与锦标赛。",
+        "1": "Chico 网络：BetOnline、TigerGaming、SportsBetting。"
+      },
+      "replay": {
+        "0": "键盘操作：左右浏览动作与街道，上下切换手牌。",
+        "1": "锦标赛与现金桌，包含盲注、前注和级别变化。",
+        "2": "所有金额可在筹码与大盲之间切换。",
+        "3": "英雄位于下方中央座位，也可以坐到别处。",
+        "4": "精确续读：复盘会回到你停下的那一手和那个位置。"
+      },
+      "visual": {
+        "0": "浅色与深色主题。",
+        "1": "四色牌面与黑白两色牌面。",
+        "2": "皮肤编辑器：台面、牌桌、筹码、名牌，以及逐张牌。",
+        "3": "轻量 3D 牌桌，并有无需 WebGL 的 2D 方案。"
+      },
+      "analysis": {
+        "0": "动作面板上的底池赔率。",
+        "1": "每手牌的笔记、漏洞标签与评论，并可导出 PDF 报告。",
+        "2": "与教练或朋友共享复盘：链接、密码和期限，对方的评价会回到你这里。"
+      },
+      "languages": {
+        "0": "界面支持葡萄牙语、英语、西班牙语、德语、俄语、中文、日语和韩语。"
+      },
+      "next": {
+        "0": "新增房间：GGPoker、888poker、iPoker、WPN、CoinPoker 和 Ignition (Bodog)。",
+        "1": "新增语言：法语和意大利语。"
+      }
+    }
+  },
+  "share": {
+    "title": "共享复盘",
+    "tooltip": "生成链接和密码，让教练或朋友查看这个会话",
+    "subtitle": "给你指定的人查看 {{review}} 的链接和密码。",
+    "coachName": "查看者的名字",
+    "coachNameHint": "你怎么称呼他",
+    "password": "密码",
+    "newPassword": "换一个",
+    "passwordRule": "八个字符，包含大写、小写和数字，且不能有连续数字。",
+    "expiry": "访问有效期",
+    "expiryNote": "将在 {{when}} 过期。最长为 {{max}} 小时。",
+    "hours": "{{count}} 小时",
+    "create": "生成链接",
+    "created": "已为 {{coach}} 生成链接。",
+    "link": "链接",
+    "copy": "复制",
+    "passwordOnce": "密码只在此刻显示，不会再出现。它不在链接里，请把两者一起发送，需要的话自行保存。",
+    "readOnlyNote": "打开链接的人只看到这个会话，可以回放牌局并写下对每一手的看法。你账户的其他部分都无法访问。",
+    "another": "再为别人生成一个",
+    "existing": "这个会话的链接",
+    "revoke": "撤销",
+    "stateWaiting": "尚未打开",
+    "stateReading": "查看中",
+    "stateDone": "已完成",
+    "stateExpired": "已过期",
+    "stateRevoked": "已撤销",
+    "readFeedback": "查看评价",
+    "feedbackFrom": "{{coach}} 的评价",
+    "feedbackEmpty": "这份评价还没有写下任何内容。",
+    "handNumber": "第 {{number}} 手"
+  },
+  "coach": {
+    "title": "查看一个会话",
+    "lead": "你收到了一个链接。请输入随附的密码。",
+    "password": "密码",
+    "open": "打开",
+    "badge": "共享视图",
+    "leave": "离开",
+    "expiresAt": "可访问至 {{when}}",
+    "reviewing": "{{player}} 的会话，共 {{hands}} 手。",
+    "privacyNote": "你只能看到这个会话。共享者账户的其他部分无法通过这个链接访问。",
+    "badLink": "这个链接无效。请向共享会话的人索取新的链接。",
+    "noHistory": "这个会话保存时没有保留手牌原文，因此无法在这里回放。共享者可以打开保留手牌记录的选项，再发一个新链接。",
+    "loadFailed": "现在无法加载手牌。请稍后再试。",
+    "prevHand": "上一手",
+    "nextHand": "下一手",
+    "back": "后退",
+    "forward": "前进",
+    "yourReading": "你对这一手的评价",
+    "playedWell": "打得不错",
+    "score": "0 到 100 的分数",
+    "comment": "评语",
+    "saving": "保存中",
+    "saved": "已保存",
+    "finish": "完成评价",
+    "finished": "评价已完成并发送给共享会话的人。",
+    "finishNote": "完成后评价会发送给共享会话的人，之后不能再修改。"
   }
 }

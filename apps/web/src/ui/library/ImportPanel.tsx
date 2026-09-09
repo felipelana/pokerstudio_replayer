@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState, type DragEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Site } from '@/model/types';
+import { roomName } from '@pokerstudio/shared';
 import { filesFromDataTransfer, importFiles, importText, type ImportSummary } from '@/parsers/importer';
 import { parsers } from '@/parsers/registry';
 import { useDateFormatter } from '@/ui/hooks/useFormat';
@@ -31,13 +32,13 @@ export function ImportPanel({ onImported, compact }: Props) {
           else if (s.result.failures.length)
             msgs.push({
               kind: 'error',
-              text: `${s.session.name}: ${t('library.unsupported', { site: parsers.find((p) => p.site === s.result.site)?.displayName ?? s.result.site })}`,
+              text: `${s.session.name}: ${t('library.unsupported', { site: roomName(s.result.site) ?? s.result.site })}`,
             });
           else msgs.push({ kind: 'warn', text: t('library.nothingParsed', { name: s.session.name }) });
           continue;
         }
         const first = s.result.hands[0];
-        const siteName = parsers.find((p) => p.site === s.result.site)?.displayName ?? s.result.site;
+        const siteName = roomName(s.result.site) ?? s.result.site;
         const game =
           first.gameType === 'tournament'
             ? `${t('game.tournament')} #${first.tournament?.id ?? ''}`
@@ -50,7 +51,7 @@ export function ImportPanel({ onImported, compact }: Props) {
         if (s.duplicates) parts.push(t('library.importedDuplicates', { count: s.duplicates }));
         msgs.push({
           kind: warnCount ? 'warn' : 'ok',
-          text: `${t('library.importedOk')} — ${s.session.name}: ${parts.join(' · ')}`,
+          text: `${t('library.importedOk')} · ${s.session.name}: ${parts.join(' · ')}`,
         });
       }
       setMessages(msgs);

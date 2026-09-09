@@ -28,6 +28,8 @@ export interface CloudReviewHand {
   handId?: string;
   rawHistory?: string;
   heroPosition?: string;
+  /** Did the hero voluntarily put money in? The base for coverage. */
+  heroVpip?: boolean;
   result?: 'WON' | 'LOST' | 'FOLDED';
   potWon?: number;
   reviewedAt?: string;

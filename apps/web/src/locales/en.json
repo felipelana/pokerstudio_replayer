@@ -93,8 +93,8 @@
     "importedDuplicates_one": "{{count}} duplicate skipped",
     "importedDuplicates_other": "{{count}} duplicates skipped",
     "nothingParsed": "No hands found in \"{{name}}\".",
-    "unsupported": "Format recognised ({{site}}) but not supported yet.",
-    "unknownFormat": "Unrecognised hand history format.",
+    "unsupported": "We do not read {{site}} hands yet. The file was recognised, and support for this room is on the way.",
+    "unknownFormat": "We do not recognise this file as a hand history. Check that it is the .txt the room exports.",
     "sampleTitle": "No hand histories yet?",
     "loadSample": "Load the demo sample",
     "siteOverride": "Force site",
@@ -132,7 +132,7 @@
     "storageSaved": "Saved only",
     "storageLocal": "Not saved",
     "sort": "Sort by",
-    "storageHint": "Sessions marked “This browser” live only here — clearing the browser loses them. Save one to your account to keep it and open it on another machine.",
+    "storageHint": "Sessions marked “This browser” live only here. Clearing the browser loses them. Save one to your account to keep it and open it on another machine.",
     "confirmDeleteSaved": "{{count}} of them are stored on your account and will be deleted from the database as well, not only from this browser.",
     "statusInProgress": "In progress",
     "pasteButton": "Paste hand history",
@@ -141,7 +141,7 @@
     "keepFileNames": "Keep file names",
     "perPage": "Per page",
     "importedOk": "Imported",
-    "onlyFirstFile": "Only “{{name}}” was imported — {{count}} other file(s) were left out. Import one at a time.",
+    "onlyFirstFile": "Only “{{name}}” was imported. {{count}} other file(s) were left out. Import one at a time.",
     "colLastHand": "Last hand"
   },
   "sidebar": {
@@ -150,7 +150,7 @@
     "colorHintResults": "Color hint results",
     "hands": "Hands",
     "copyRaw": "Copy raw text of this hand",
-    "noHero": "No hero in this file — click a seat to set the focus player.",
+    "noHero": "No hero in this file. Click a seat to set the focus player.",
     "focus": "Focus: {{player}}",
     "clearFocus": "Clear focus",
     "noSession": "No session loaded",
@@ -191,7 +191,7 @@
     "sidePot": "Side {{index}}",
     "noHands": "Load a hand history to start replaying.",
     "winner": "Winner",
-    "webglUnavailable": "WebGL unavailable — using the 2D renderer.",
+    "webglUnavailable": "WebGL unavailable. Using the 2D renderer.",
     "empty": "Empty",
     "toCall": "to call {{amount}}",
     "returned": "Returned",
@@ -228,7 +228,7 @@
     "end": "End"
   },
   "log": {
-    "start": "Hand #{{number}} — {{table}}",
+    "start": "Hand #{{number}} · {{table}}",
     "dealHole": "Dealing hole cards",
     "dealFlop": "Flop: {{cards}}",
     "dealTurn": "Turn: {{cards}}",
@@ -250,7 +250,7 @@
     "collect": "{{player}} collects {{amount}}",
     "collectFrom": "{{player}} collects {{amount}} from {{pot}}",
     "show": "{{player}} shows {{cards}}",
-    "showWith": "{{player}} shows {{cards}} — {{detail}}",
+    "showWith": "{{player}} shows {{cards}} · {{detail}}",
     "muck": "{{player}} mucks",
     "timeout": "{{player}} has timed out",
     "disconnected": "{{player}} is disconnected",
@@ -295,7 +295,10 @@
     "captureImage": "Capture table",
     "captureText": "Text only",
     "capturing": "Capturing…",
-    "captureSaved": "Screenshot saved with this note"
+    "captureSaved": "Screenshot saved with this note",
+    "coachTitle": "What the coach said",
+    "coachPlayedWell": "Played well",
+    "coachInProgress": "review still open"
   },
   "settings": {
     "title": "Settings",
@@ -340,10 +343,16 @@
     "seatRight": "Right",
     "seatDistance": "Seat distance",
     "roomNicks": "My screen names",
-    "roomNicksHint": "Optional. Tell us the name you play under in each room and the replayer will recognise you in any history — even when the file does not say who the hero is.",
+    "roomNicksHint": "Optional. Tell us the name you play under in each room and the replayer will recognise you in any history, even when the file does not say who the hero is.",
     "roomNickPlaceholder": "Your name in this room",
     "roomNicksSaved": "Saved to your account.",
-    "roomNicksSignedOut": "Sign in to keep your screen names — they live on the account, not in this browser."
+    "roomNicksSignedOut": "Sign in to keep your screen names. They live on the account, not in this browser.",
+    "groupPreferences": "Preferences",
+    "groupRooms": "Rooms",
+    "groupStudy": "Study",
+    "groupData": "Data",
+    "comingSoon": "Coming soon",
+    "roomNicksSoonHint": "The rooms marked as coming soon are not read by the importer yet. The screen name is kept and starts working the day the room arrives."
   },
   "shortcuts": {
     "title": "Keyboard shortcuts",
@@ -418,8 +427,8 @@
       "artUpload": "Image",
       "artChange": "Change",
       "artReset": "skin default",
-      "artTooLarge": "That file is over 2 MB — use a lighter one.",
-      "artHint": "SVG is best (it never blurs). PNG or WebP with transparency also work — around 500 × 700 px, the card's own proportion.",
+      "artTooLarge": "That file is over 2 MB. Use a lighter one.",
+      "artHint": "SVG is best (it never blurs). PNG or WebP with transparency also work, around 500 × 700 px, the card's own proportion.",
       "boardGap": "Board spacing"
     },
     "felt": {
@@ -520,7 +529,7 @@
       "tooLarge": "Image too large (max 6 MB)."
     },
     "chooseSkin": "Skin being edited",
-    "savedLocallyOnly": "Saved on this device — the account could not be reached.",
+    "savedLocallyOnly": "Saved on this device. The account could not be reached.",
     "myCopy": "my version",
     "discardChanges": "Discard changes",
     "changesDiscarded": "Changes discarded.",
@@ -532,7 +541,7 @@
     "show": "Show warnings"
   },
   "positions": {
-    "none": "—"
+    "none": "-"
   },
   "consent": {
     "title": "Cookies and storage",
@@ -569,7 +578,18 @@
     "count": "{{count}} hands selected",
     "empty": "No hand is marked for the report yet. Tick \"Include in report\" in a review.",
     "savePdf": "Save PDF",
-    "saveDocx": "Save DOCX"
+    "saveDocx": "Save DOCX",
+    "summary": "The session in numbers",
+    "score": "Your score",
+    "scoreDetail": "{{count}} hand(s) scored",
+    "coverage": "Coverage",
+    "coverageDetail": "{{reviewed}} of {{total}} hands played",
+    "reviewed": "Hands read",
+    "reviewedDetail": "with a score, a tag or a note",
+    "leaks": "Leaks marked most",
+    "coachNumbers": "What each assessor scored",
+    "noScore": "no score",
+    "noCoverage": "no hands played"
   },
   "auth": {
     "loginTitle": "Sign in",
@@ -608,7 +628,7 @@
     "hide": "Hide",
     "capsLock": "Caps Lock is on",
     "offline": "Could not reach the server. Try again shortly.",
-    "offlineBanner": "Server unavailable — working with local data only.",
+    "offlineBanner": "Server unavailable. Working with local data only.",
     "or": "or",
     "oauthError": {
       "link_requires_verification": "An account already uses this e-mail. Sign in with your password and confirm your e-mail first.",
@@ -746,13 +766,13 @@
     "useRecovery": "Use a recovery code instead",
     "useApp": "Use the authenticator app instead",
     "recoveryTitle": "Save your recovery codes",
-    "recoveryBody": "Each one works once, and they are shown only now. Keep them somewhere safe — they are the way back in if you lose the phone.",
+    "recoveryBody": "Each one works once, and they are shown only now. Keep them somewhere safe. They are the way back in if you lose the phone.",
     "copy": "Copy",
     "saved": "I saved them"
   },
   "cloud": {
     "title": "Reviews on my account",
-    "hint": "Imported sessions live in this browser only. Send one to your account and it is stored in the database, so you can carry on from another machine — or get it back if this browser is cleared.",
+    "hint": "Imported sessions live in this browser only. Send one to your account and it is stored in the database, so you can carry on from another machine, or get it back if this browser is cleared.",
     "quota": "{{used}} of {{perDay}} today",
     "withHistory": "Include the hand histories",
     "chooseSession": "Choose a session…",
@@ -768,15 +788,15 @@
   "replayer": {
     "startOver": "Start over",
     "boardGap": "Board spacing",
-    "resumedAt": "Picked up where you stopped — hand {{current}} of {{total}}.",
+    "resumedAt": "Picked up where you stopped, hand {{current}} of {{total}}.",
     "keepGoing": "Fine",
     "seatDistance": "Seats"
   },
   "about": {
     "title": "About",
     "tagline": "Who builds it, and what for.",
-    "author": "PokerStudio Replayer is conceived and built by Felipe Carvalho Lana, an IT professional with more than 23 years in the field. A computing technician, with a BSc in Computer Science and an MBA in Information Technology Management from FGV, Felipe has spent over two decades designing, building and leading systems — from the line of code to the architecture and the running of technology itself.",
-    "origin": "The tool comes out of a real gap in the poker market and out of Felipe’s own restlessness as a player: there was no replayer that was intuitive, good-looking, easy to use and genuinely improving. That is the test every screen here has to pass — what helps you study stays; what gets in the way goes.",
+    "author": "PokerStudio Replayer is conceived and built by Felipe Carvalho Lana, an IT professional with more than 23 years in the field. A computing technician, with a BSc in Computer Science and an MBA in Information Technology Management from FGV, Felipe has spent over two decades designing, building and leading systems, from the line of code to the architecture and the running of technology itself.",
+    "origin": "The tool comes out of a real gap in the poker market and out of Felipe’s own restlessness as a player: there was no replayer that was intuitive, good-looking, easy to use and genuinely improving. That is the test every screen here has to pass: what helps you study stays; what gets in the way goes.",
     "method": "Continuous improvement is not a line in a footer here, it is the method: the replayer is revisited against real use, and what players ask for goes into the queue.",
     "visionTitle": "The PokerStudio vision",
     "vision": "The replayer is only the kick-off. PokerStudio means to be the reference in tools that help poker players study, play and perform better at the tables."
@@ -790,7 +810,7 @@
     "body": "Description",
     "bodyHint": "What you expected, what happened, and where.",
     "send": "Send",
-    "thanks": "Received. Thank you — this goes into the queue.",
+    "thanks": "Received. Thank you. This goes into the queue.",
     "mine": "What you have sent",
     "kinds": {
       "SUGGESTION": "Suggestion",
@@ -818,7 +838,7 @@
       },
       "import": {
         "title": "1. Bring your hands in",
-        "body": "Drag a .txt hand history here, or click to choose one. One file at a time — the way you play one tournament at a time."
+        "body": "Drag a .txt hand history here, or click to choose one. One file at a time, the way you play one tournament at a time."
       },
       "sessions": {
         "title": "2. Open a review",
@@ -826,7 +846,7 @@
       },
       "settings": {
         "title": "3. Make it yours",
-        "body": "Date format, where the hero sits, how close the seats are, leak tags and your screen names per room — all under Settings."
+        "body": "Date format, where the hero sits, how close the seats are, leak tags and your screen names per room, all under Settings."
       },
       "skins": {
         "title": "4. Dress the table",
@@ -850,7 +870,7 @@
       },
       "replayQuick": {
         "title": "Quick controls",
-        "body": "Skin, deck colours, how the hero cards are laid out, zoom for table, cards and chips, how close the seats sit and the board spacing — without leaving the hand."
+        "body": "Skin, deck colours, how the hero cards are laid out, zoom for table, cards and chips, how close the seats sit and the board spacing, without leaving the hand."
       },
       "replayFullscreen": {
         "title": "Full screen",
@@ -866,7 +886,7 @@
       },
       "replayStreets": {
         "title": "Jump to a street",
-        "body": "Preflop, the hero’s first action, flop, turn and river. Every one has a keyboard shortcut — press ? for the list."
+        "body": "Preflop, the hero’s first action, flop, turn and river. Every one has a keyboard shortcut. Press ? for the list."
       },
       "replayTransport": {
         "title": "Drive the replay",
@@ -884,5 +904,114 @@
     "howTo": "How to use it",
     "startTour": "Take the tour again",
     "askUs": "Ask us something"
+  },
+  "releases": {
+    "title": "What is new",
+    "lead": "What changed in each version.",
+    "unread": "There is a version you have not read yet.",
+    "nextNote": "Planned, with no release date.",
+    "footer": "You are on version {{version}}.",
+    "channel": {
+      "beta": "Beta",
+      "stable": "Stable"
+    },
+    "sections": {
+      "rooms": "Rooms supported",
+      "replay": "Replay",
+      "visual": "Look",
+      "analysis": "Study",
+      "languages": "Languages",
+      "next": "Coming next"
+    },
+    "v1_0_0": {
+      "highlight": "The first complete version. Import your histories, replay hand by hand, assess your decisions and keep it all on your account.",
+      "rooms": {
+        "0": "PokerStars, cash and tournament.",
+        "1": "Chico network: BetOnline, TigerGaming and SportsBetting."
+      },
+      "replay": {
+        "0": "Keyboard navigation: left and right walk actions and streets, up and down change hand.",
+        "1": "Tournament and cash, with blinds, antes and level changes.",
+        "2": "Every amount switches between chips and big blinds.",
+        "3": "Hero at the bottom centre seat, with the option to sit somewhere else.",
+        "4": "Exact resume: a review reopens on the hand and the point where you stopped."
+      },
+      "visual": {
+        "0": "Light and dark themes.",
+        "1": "Deck skins in four colours and in two, black and white.",
+        "2": "Skin editor: felt, table, chips, name plates and card by card.",
+        "3": "A light 3D table, with a 2D alternative that works without WebGL."
+      },
+      "analysis": {
+        "0": "Pot odds on the action panel.",
+        "1": "Notes, leak tags and comments per hand, with a PDF report.",
+        "2": "Share a review with a coach or a friend: a link, a password and a deadline, and their reading comes back to you."
+      },
+      "languages": {
+        "0": "Interface in Portuguese, English, Spanish, German, Russian, Mandarin, Japanese and Korean."
+      },
+      "next": {
+        "0": "More rooms: GGPoker, 888poker, iPoker, WPN, CoinPoker and Ignition (Bodog).",
+        "1": "More languages: French and Italian."
+      }
+    }
+  },
+  "share": {
+    "title": "Share review",
+    "tooltip": "Create a link and a password for a coach or friend to read this session",
+    "subtitle": "A link and a password for whoever you ask to read {{review}}.",
+    "coachName": "Name of the person reading",
+    "coachNameHint": "What you call them",
+    "password": "Password",
+    "newPassword": "Draw another",
+    "passwordRule": "Eight characters, with upper case, lower case and a digit, and no digits in a run.",
+    "expiry": "Access expires in",
+    "expiryNote": "Expires on {{when}}. The most allowed is {{max}} hours.",
+    "hours": "{{count}} hours",
+    "create": "Create link",
+    "created": "Link created for {{coach}}.",
+    "link": "Link",
+    "copy": "Copy",
+    "passwordOnce": "The password is shown now and not again. It is not in the link, so send both and keep the password if you may need it.",
+    "readOnlyNote": "Whoever opens the link sees this session alone, replays the hands and writes what they think of each one. Nothing else on your account is reachable.",
+    "another": "Create one for someone else",
+    "existing": "Links to this session",
+    "revoke": "Revoke",
+    "stateWaiting": "Not opened yet",
+    "stateReading": "Reading",
+    "stateDone": "Finished",
+    "stateExpired": "Expired",
+    "stateRevoked": "Revoked",
+    "readFeedback": "Read the review",
+    "feedbackFrom": "Review by {{coach}}",
+    "feedbackEmpty": "Nothing has been written in this review yet.",
+    "handNumber": "Hand {{number}}"
+  },
+  "coach": {
+    "title": "Read a session",
+    "lead": "You were sent a link. Type the password that came with it.",
+    "password": "Password",
+    "open": "Open",
+    "badge": "Shared view",
+    "leave": "Leave",
+    "expiresAt": "Access until {{when}}",
+    "reviewing": "{{player}}'s session, {{hands}} hands.",
+    "privacyNote": "You see this session and nothing else. No other part of the account that shared it is reachable through this link.",
+    "badLink": "This link is not valid. Ask for another from whoever shared the session.",
+    "noHistory": "This session was saved without the text of the hands, so they cannot be replayed here. Whoever shared it can turn on keeping the histories and send a new link.",
+    "loadFailed": "The hands could not be loaded right now. Try again in a moment.",
+    "prevHand": "Previous hand",
+    "nextHand": "Next hand",
+    "back": "Back",
+    "forward": "Forward",
+    "yourReading": "Your reading of this hand",
+    "playedWell": "Played well",
+    "score": "Score from 0 to 100",
+    "comment": "Comment",
+    "saving": "Saving",
+    "saved": "Saved",
+    "finish": "Finish the review",
+    "finished": "Review finished and sent to whoever shared the session.",
+    "finishNote": "Finishing sends the review to whoever shared the session, and it cannot be changed afterwards."
   }
 }

@@ -4,13 +4,26 @@ import type { Hand, Review, Street } from '@/model/types';
 import { STREETS } from '@/model/types';
 import { getRepository } from '@/db/repository';
 import { useAppStore } from '@/state/store';
+import { IconCheck, IconEye } from '@/ui/icons';
+import type { CoachReading } from '@/ui/hooks/useCoachReadings';
 import { captureTable } from './capture';
 
 function emptyReview(handId: string): Review {
   return { handId, notes: '', tags: [], streetNotes: {}, createdAt: new Date(), updatedAt: new Date() };
 }
 
-export function ReviewPanel({ hand, onClose }: { hand: Hand; onClose(): void }) {
+export function ReviewPanel({
+  hand,
+  handIndex,
+  coaches,
+  onClose,
+}: {
+  hand: Hand;
+  /** Position of this hand in the session, which is how a coach files their reading. */
+  handIndex: number;
+  coaches: CoachReading[];
+  onClose(): void;
+}) {
   const { t } = useTranslation();
   const tags = useAppStore((s) => s.settings.leakTags);
   const [capturing, setCapturing] = useState(false);
@@ -68,6 +81,8 @@ export function ReviewPanel({ hand, onClose }: { hand: Hand; onClose(): void }) 
           ✕
         </button>
       </div>
+
+      <CoachNotes coaches={coaches} handIndex={handIndex} />
 
       <div>
         <label className="label">{t('review.rating')}</label>
@@ -177,5 +192,56 @@ export function ReviewPanel({ hand, onClose }: { hand: Hand; onClose(): void }) 
         </div>
       </div>
     </aside>
+  );
+}
+
+/**
+ * What each coach said about the hand on screen, read only.
+ *
+ * It sits above the player's own reading because that is the news: the reader
+ * came back to this hand to see it. A coach who has not written about this hand
+ * is not listed at all, so the panel stays quiet on the hands nobody marked.
+ */
+function CoachNotes({ coaches, handIndex }: { coaches: CoachReading[]; handIndex: number }) {
+  const { t } = useTranslation();
+  const said = coaches
+    .map((coach) => ({ coach, reading: coach.byIndex.get(handIndex) }))
+    .filter((row) => row.reading && (row.reading.comment || typeof row.reading.score === 'number' || row.reading.markedOk));
+
+  if (said.length === 0) return null;
+
+  return (
+    <section
+      className="flex flex-col gap-2 rounded-lg border p-2.5"
+      style={{ borderColor: 'var(--accent)', background: 'color-mix(in srgb, var(--accent) 8%, transparent)' }}
+      aria-label={t('review.coachTitle')}
+    >
+      <h3 className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide">
+        <IconEye size={12} />
+        {t('review.coachTitle')}
+      </h3>
+      {said.map(({ coach, reading }) => (
+        <div key={coach.id} className="flex flex-col gap-1">
+          <div className="flex items-baseline gap-2 text-xs">
+            <span className="font-semibold">{coach.coachName}</span>
+            {typeof reading?.score === 'number' && (
+              <span className="tabular-nums" style={{ color: 'var(--accent)' }}>
+                {reading.score}/100
+              </span>
+            )}
+            {reading?.markedOk && (
+              <span className="inline-flex items-center gap-0.5" style={{ color: 'var(--result-won)' }}>
+                <IconCheck size={11} />
+                {t('review.coachPlayedWell')}
+              </span>
+            )}
+            {!coach.completedAt && (
+              <span style={{ color: 'var(--text-muted)' }}>{t('review.coachInProgress')}</span>
+            )}
+          </div>
+          {reading?.comment && <p className="whitespace-pre-wrap text-sm leading-relaxed">{reading.comment}</p>}
+        </div>
+      ))}
+    </section>
   );
 }

@@ -93,8 +93,8 @@
     "importedDuplicates_one": "{{count}} duplicado omitido",
     "importedDuplicates_other": "{{count}} duplicados omitidos",
     "nothingParsed": "No se encontraron manos en \"{{name}}\".",
-    "unsupported": "Formato reconocido ({{site}}) pero aún no soportado.",
-    "unknownFormat": "Formato de historial no reconocido.",
+    "unsupported": "Todavía no leemos las manos de {{site}}. El archivo fue reconocido y el soporte para esta sala está en camino.",
+    "unknownFormat": "No reconocemos este archivo como un historial de manos. Comprueba que sea el .txt que exporta la sala.",
     "sampleTitle": "¿Aún sin historiales?",
     "loadSample": "Cargar la muestra de demostración",
     "siteOverride": "Forzar sala",
@@ -228,7 +228,7 @@
     "end": "Fin"
   },
   "log": {
-    "start": "Mano #{{number}} — {{table}}",
+    "start": "Mano #{{number}} · {{table}}",
     "dealHole": "Repartiendo cartas",
     "dealFlop": "Flop: {{cards}}",
     "dealTurn": "Turn: {{cards}}",
@@ -250,7 +250,7 @@
     "collect": "{{player}} recoge {{amount}}",
     "collectFrom": "{{player}} recoge {{amount}} del {{pot}}",
     "show": "{{player}} muestra {{cards}}",
-    "showWith": "{{player}} muestra {{cards}} — {{detail}}",
+    "showWith": "{{player}} muestra {{cards}} · {{detail}}",
     "muck": "{{player}} descarta",
     "timeout": "{{player}} agotó el tiempo",
     "disconnected": "{{player}} se desconectó",
@@ -295,7 +295,10 @@
     "captureImage": "Capturar la mesa",
     "captureText": "Solo texto",
     "capturing": "Capturando…",
-    "captureSaved": "Captura guardada con esta nota"
+    "captureSaved": "Captura guardada con esta nota",
+    "coachTitle": "Lo que dijo el coach",
+    "coachPlayedWell": "Bien jugada",
+    "coachInProgress": "valoración en curso"
   },
   "settings": {
     "title": "Ajustes",
@@ -343,7 +346,13 @@
     "roomNicksHint": "Opcional. Dinos con qué nombre juegas en cada sala y el replayer te reconocerá en cualquier historial, incluso cuando el archivo no dice quién es el héroe.",
     "roomNickPlaceholder": "Tu nick en esta sala",
     "roomNicksSaved": "Guardado en tu cuenta.",
-    "roomNicksSignedOut": "Inicia sesión para guardar tus nicks: viven en la cuenta, no en este navegador."
+    "roomNicksSignedOut": "Inicia sesión para guardar tus nicks: viven en la cuenta, no en este navegador.",
+    "groupPreferences": "Preferencias",
+    "groupRooms": "Salas",
+    "groupStudy": "Estudio",
+    "groupData": "Datos",
+    "comingSoon": "Próximamente",
+    "roomNicksSoonHint": "Las salas marcadas como próximamente todavía no se leen. El nick se guarda y empieza a valer el día en que la sala entre."
   },
   "shortcuts": {
     "title": "Atajos de teclado",
@@ -532,7 +541,7 @@
     "show": "Mostrar avisos"
   },
   "positions": {
-    "none": "—"
+    "none": "-"
   },
   "consent": {
     "title": "Cookies y almacenamiento",
@@ -569,7 +578,18 @@
     "count": "{{count}} manos seleccionadas",
     "empty": "Ninguna mano marcada para el informe.",
     "savePdf": "Guardar PDF",
-    "saveDocx": "Guardar DOCX"
+    "saveDocx": "Guardar DOCX",
+    "summary": "La sesión en números",
+    "score": "Tu puntuación",
+    "scoreDetail": "{{count}} mano(s) con puntuación",
+    "coverage": "Cobertura",
+    "coverageDetail": "{{reviewed}} de {{total}} manos jugadas",
+    "reviewed": "Manos revisadas",
+    "reviewedDetail": "con puntuación, etiqueta o nota",
+    "leaks": "Leaks más marcados",
+    "coachNumbers": "Números de cada evaluador",
+    "noScore": "sin puntuación",
+    "noCoverage": "sin manos jugadas"
   },
   "auth": {
     "loginTitle": "Iniciar sesión",
@@ -775,7 +795,7 @@
   "about": {
     "title": "Acerca de",
     "tagline": "Quién lo hace, y para qué.",
-    "author": "PokerStudio Replayer está ideado y construido por Felipe Carvalho Lana, profesional de Tecnología de la Información con más de 23 años de carrera. Técnico en Informática, licenciado en Ciencias de la Computación y MBA en Gestión de Tecnología de la Información por la FGV, Felipe ha pasado más de dos décadas diseñando, construyendo y dirigiendo sistemas — desde la línea de código hasta la arquitectura y la gestión de la tecnología.",
+    "author": "PokerStudio Replayer está ideado y construido por Felipe Carvalho Lana, profesional de Tecnología de la Información con más de 23 años de carrera. Técnico en Informática, licenciado en Ciencias de la Computación y MBA en Gestión de Tecnología de la Información por la FGV, Felipe ha pasado más de dos décadas diseñando, construyendo y dirigiendo sistemas, desde la línea de código hasta la arquitectura y la gestión de la tecnología.",
     "origin": "La herramienta nace de una demanda real del mercado del póker y de la inquietud del propio Felipe como jugador: faltaba un replayer intuitivo, bonito, fácil de usar y que mejorara de verdad. Ese es el criterio de cada pantalla: lo que ayuda a estudiar se queda; lo que estorba, se va.",
     "method": "La mejora continua no es una promesa al pie de página, es el método: el replayer se revisa con el uso real, y lo que piden los jugadores entra en la cola de trabajo.",
     "visionTitle": "La visión de PokerStudio",
@@ -790,7 +810,7 @@
     "body": "Descripción",
     "bodyHint": "Qué esperabas, qué pasó y dónde.",
     "send": "Enviar",
-    "thanks": "Recibido. Gracias — esto entra en la cola de trabajo.",
+    "thanks": "Recibido. Gracias. Esto entra en la cola de trabajo.",
     "mine": "Lo que has enviado",
     "kinds": {
       "SUGGESTION": "Sugerencia",
@@ -850,7 +870,7 @@
       },
       "replayQuick": {
         "title": "Controles rápidos",
-        "body": "Skin, colores de la baraja, disposición de las cartas del héroe, zoom de mesa, cartas y fichas, distancia de los asientos y espaciado del board — sin salir de la mano."
+        "body": "Skin, colores de la baraja, disposición de las cartas del héroe, zoom de mesa, cartas y fichas, distancia de los asientos y espaciado del board, sin salir de la mano."
       },
       "replayFullscreen": {
         "title": "Pantalla completa",
@@ -884,5 +904,114 @@
     "howTo": "Cómo usarla",
     "startTour": "Repetir el tour",
     "askUs": "Preguntarnos algo"
+  },
+  "releases": {
+    "title": "Novedades",
+    "lead": "Qué cambió en cada versión.",
+    "unread": "Hay una versión que aún no has leído.",
+    "nextNote": "Planificado, sin fecha de lanzamiento.",
+    "footer": "Estás en la versión {{version}}.",
+    "channel": {
+      "beta": "Beta",
+      "stable": "Estable"
+    },
+    "sections": {
+      "rooms": "Salas compatibles",
+      "replay": "Replay",
+      "visual": "Aspecto",
+      "analysis": "Estudio",
+      "languages": "Idiomas",
+      "next": "Próximas funciones"
+    },
+    "v1_0_0": {
+      "highlight": "La primera versión completa. Importa tus historiales, revisa mano a mano, evalúa tus decisiones y guarda todo en tu cuenta.",
+      "rooms": {
+        "0": "PokerStars, en cash y torneo.",
+        "1": "Red Chico: BetOnline, TigerGaming y SportsBetting."
+      },
+      "replay": {
+        "0": "Navegación por teclado: izquierda y derecha recorren acciones y calles, arriba y abajo cambian de mano.",
+        "1": "Modo torneo y cash, con ciegas, antes y cambios de nivel.",
+        "2": "Todos los importes alternan entre fichas y ciegas grandes.",
+        "3": "Héroe en el asiento inferior central, con la opción de sentarse en otro sitio.",
+        "4": "Reanudación exacta: la review vuelve a abrirse en la mano y el punto donde lo dejaste."
+      },
+      "visual": {
+        "0": "Temas claro y oscuro.",
+        "1": "Skins de baraja en cuatro colores y en dos, blanco y negro.",
+        "2": "Editor de skin: tapete, mesa, fichas, placas y carta por carta.",
+        "3": "Mesa en 3D ligero, con alternativa en 2D que funciona sin WebGL."
+      },
+      "analysis": {
+        "0": "Pot odds en el panel de acción.",
+        "1": "Notas, etiquetas de leaks y comentarios por mano, con informe en PDF.",
+        "2": "Compartir una review con un coach o un amigo: enlace, contraseña y plazo, y su valoración vuelve a ti."
+      },
+      "languages": {
+        "0": "Interfaz en portugués, inglés, español, alemán, ruso, mandarín, japonés y coreano."
+      },
+      "next": {
+        "0": "Más salas: GGPoker, 888poker, iPoker, WPN, CoinPoker e Ignition (Bodog).",
+        "1": "Más idiomas: francés e italiano."
+      }
+    }
+  },
+  "share": {
+    "title": "Compartir review",
+    "tooltip": "Crear un enlace y una contraseña para que un coach o amigo lea esta sesión",
+    "subtitle": "Un enlace y una contraseña para quien elijas que lea {{review}}.",
+    "coachName": "Nombre de quien va a revisar",
+    "coachNameHint": "Cómo lo llamas",
+    "password": "Contraseña",
+    "newPassword": "Generar otra",
+    "passwordRule": "Ocho caracteres, con mayúscula, minúscula y número, sin números seguidos.",
+    "expiry": "El acceso caduca en",
+    "expiryNote": "Caduca el {{when}}. El máximo permitido es {{max}} horas.",
+    "hours": "{{count}} horas",
+    "create": "Crear enlace",
+    "created": "Enlace creado para {{coach}}.",
+    "link": "Enlace",
+    "copy": "Copiar",
+    "passwordOnce": "La contraseña se muestra ahora y no vuelve a aparecer. No va en el enlace, así que envía las dos cosas y guárdala si la vas a necesitar.",
+    "readOnlyNote": "Quien abra el enlace ve solo esta sesión, repasa las manos y escribe lo que piensa de cada una. Nada más de tu cuenta queda accesible.",
+    "another": "Crear otro para alguien más",
+    "existing": "Enlaces de esta sesión",
+    "revoke": "Revocar",
+    "stateWaiting": "Aún no lo abrió",
+    "stateReading": "Revisando",
+    "stateDone": "Terminada",
+    "stateExpired": "Caducado",
+    "stateRevoked": "Revocado",
+    "readFeedback": "Ver la valoración",
+    "feedbackFrom": "Valoración de {{coach}}",
+    "feedbackEmpty": "Todavía no hay nada escrito en esta valoración.",
+    "handNumber": "Mano {{number}}"
+  },
+  "coach": {
+    "title": "Revisar una sesión",
+    "lead": "Recibiste un enlace. Escribe la contraseña que vino con él.",
+    "password": "Contraseña",
+    "open": "Entrar",
+    "badge": "Vista compartida",
+    "leave": "Salir",
+    "expiresAt": "Acceso hasta {{when}}",
+    "reviewing": "Sesión de {{player}}, con {{hands}} manos.",
+    "privacyNote": "Ves solo esta sesión. Ninguna otra parte de la cuenta que la compartió es accesible por este enlace.",
+    "badLink": "Este enlace no es válido. Pide otro a quien compartió la sesión.",
+    "noHistory": "Esta sesión se guardó sin el texto de las manos, así que no se pueden repasar aquí. Quien la compartió puede activar el guardado del historial y enviar un enlace nuevo.",
+    "loadFailed": "No se pudieron cargar las manos ahora. Inténtalo de nuevo en un momento.",
+    "prevHand": "Mano anterior",
+    "nextHand": "Mano siguiente",
+    "back": "Atrás",
+    "forward": "Adelante",
+    "yourReading": "Tu valoración de esta mano",
+    "playedWell": "Bien jugada",
+    "score": "Puntuación de 0 a 100",
+    "comment": "Comentario",
+    "saving": "Guardando",
+    "saved": "Guardado",
+    "finish": "Terminar la valoración",
+    "finished": "Valoración terminada y enviada a quien compartió la sesión.",
+    "finishNote": "Al terminar, la valoración se envía a quien compartió la sesión y ya no se puede cambiar."
   }
 }

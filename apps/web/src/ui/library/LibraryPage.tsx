@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { LegalLink } from '@/ui/legal/LegalDialog';
+import { ShareReviewDialog } from '@/ui/share/ShareReviewDialog';
 import type { Session } from '@/model/types';
 import {
   IconCloudCheck,
@@ -11,6 +12,7 @@ import {
   IconDownload,
   IconPencil,
   IconPlay,
+  IconShare,
   IconTrash,
 } from '@/ui/icons';
 import { ConfirmDialog } from '@/ui/ConfirmDialog';
@@ -50,6 +52,7 @@ export function LibraryPage() {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [confirming, setConfirming] = useState<'all' | 'selected' | undefined>(undefined);
   const [naming, setNaming] = useState<Session[]>([]);
+  const [sharing, setSharing] = useState<Session | undefined>();
 
   // The view lives in the store: coming back from the replayer should land on
   // the same list, in the same order and on the same page.
@@ -371,7 +374,7 @@ export function LibraryPage() {
               className="btn btn-primary"
               onClick={() => navigate(`/replay/${s.session.id}`)}
             >
-              {t('library.openInReplayer')} — {sessions.find((row) => row.id === s.session.id)?.name ?? s.session.name}
+              {t('library.openInReplayer')} · {sessions.find((row) => row.id === s.session.id)?.name ?? s.session.name}
             </button>
           ))}
         </div>
@@ -529,7 +532,7 @@ export function LibraryPage() {
             {notice}
           </div>
         )}
-        {sessions.length === 0 ? (
+        {matching.length === 0 ? (
           <div className="flex flex-col items-start gap-3 p-6 text-sm" style={{ color: 'var(--text-muted)' }}>
             <div>{t('library.empty')}</div>
             <div className="flex items-center gap-2">
@@ -604,7 +607,7 @@ export function LibraryPage() {
                         title={s.name}
                         onClick={() => navigate(`/replay/${s.id}`)}
                       >
-                        {s.name === s.sourceFileName ? '—' : s.name}
+                        {s.name === s.sourceFileName ? '-' : s.name}
                       </button>
                     </td>
                     <td className="px-3 py-2" style={{ background: 'var(--row-bg, var(--surface))', color: 'var(--text-muted)' }}>
@@ -614,7 +617,7 @@ export function LibraryPage() {
                         title={s.sourceFileName ?? undefined}
                         onClick={() => navigate(`/replay/${s.id}`)}
                       >
-                        {s.sourceFileName ?? '—'}
+                        {s.sourceFileName ?? '-'}
                       </button>
                     </td>
                     <td className="truncate whitespace-nowrap px-3 py-2" style={{ background: 'var(--row-bg, var(--surface))' }} title={siteName(s.site)}>
@@ -657,7 +660,7 @@ export function LibraryPage() {
                       )}
                     </td>
                     <td className="truncate whitespace-nowrap px-3 py-2 text-right tabular-nums" style={{ color: 'var(--text-muted)' }}>
-                      {s.lastHandIndex ? `${s.lastHandIndex + 1} / ${s.handCount}` : '—'}
+                      {s.lastHandIndex ? `${s.lastHandIndex + 1} / ${s.handCount}` : '-'}
                     </td>
                     <td className="truncate whitespace-nowrap px-3 py-2">
                       {savedIds.has(s.id) ? (
@@ -677,7 +680,7 @@ export function LibraryPage() {
                     </td>
                     <td className="truncate whitespace-nowrap px-3 py-2 text-xs tabular-nums" style={{ color: 'var(--text-muted)' }}>
                       <span title={s.lastOpenedAt ? df.dateTime(s.lastOpenedAt) : undefined}>
-                        {s.lastOpenedAt ? df.dateTime(s.lastOpenedAt) : '—'}
+                        {s.lastOpenedAt ? df.dateTime(s.lastOpenedAt) : '-'}
                       </span>
                     </td>
                     <td className="px-2 py-2 text-right">
@@ -707,6 +710,17 @@ export function LibraryPage() {
                             onClick={() => void saveToAccount(s)}
                           >
                             <IconCloudUp size={15} />
+                          </button>
+                        )}
+                        {savedIds.has(s.id) && (
+                          <button
+                            type="button"
+                            className="btn-icon !px-1.5"
+                            title={t('share.tooltip')}
+                            aria-label={`${t('share.title')}: ${s.name || s.sourceFileName || ''}`}
+                            onClick={() => setSharing(s)}
+                          >
+                            <IconShare size={13} />
                           </button>
                         )}
                         {!!s.handIds.length && (
@@ -780,7 +794,17 @@ export function LibraryPage() {
       />
 
 
+      <ShareReviewDialog
+        reviewId={sharing?.id ?? ''}
+        reviewTitle={sharing?.name || sharing?.sourceFileName || ''}
+        open={!!sharing}
+        onClose={() => setSharing(undefined)}
+      />
+
       <footer className="mt-6 flex items-center gap-4 pb-4 text-xs" style={{ color: 'var(--text-muted)' }}>
+        <NavLink to="/novidades" className="hover:underline">
+          {t('releases.title')}
+        </NavLink>
         <LegalLink doc="privacy" className="hover:underline">
           {t('legal.privacy')}
         </LegalLink>

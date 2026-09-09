@@ -13,6 +13,7 @@ import { IconClose, IconNote } from '@/ui/icons';
 import { Footer } from './Footer';
 import { HelpModal } from './HelpModal';
 import { ReviewPanel } from './ReviewPanel';
+import { useCoachReadings } from '@/ui/hooks/useCoachReadings';
 import { Sidebar, type HandRow } from './Sidebar';
 import { TableArea } from './TableArea';
 import { useReplayerKeyboard } from './useKeyboard';
@@ -42,6 +43,9 @@ export function ReplayerPage() {
   const fullscreen = useAppStore((s) => s.fullscreen);
   const setFullscreen = useAppStore((s) => s.setFullscreen);
   const rootRef = useRef<HTMLDivElement>(null);
+  // What any coach wrote about this review. Empty for a session that never left
+  // this browser, and for a reader who is not signed in.
+  const coaches = useCoachReadings(sessionId);
 
   // Fullscreen (R17): the browser API and our own state are kept in sync, so
   // leaving with Esc restores the layout too.
@@ -256,7 +260,7 @@ export function ReplayerPage() {
           <ResumePrompt handCount={hands.length} onGoTo={goToHand} />
           <TableArea replay={replay} frame={frame} heroName={heroName} onSeatClick={onSeatClick} />
           {reviewOpen ? (
-            <ReviewPanel hand={hand} onClose={() => setReviewOpen(false)} />
+            <ReviewPanel hand={hand} handIndex={handIndex} coaches={coaches} onClose={() => setReviewOpen(false)} />
           ) : (
             <button
               type="button"

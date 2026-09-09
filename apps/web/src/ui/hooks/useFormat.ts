@@ -38,7 +38,7 @@ export function useDateFormatter() {
   return useMemo(
     () => ({
       dateTime: (d?: Date) => {
-        if (!d || Number.isNaN(d.getTime())) return '—';
+        if (!d || Number.isNaN(d.getTime())) return '-';
         // An explicit choice is written out by hand: Intl has no option for
         // "the order I want", only "the order this locale uses".
         if (dateFormat !== 'auto') {
@@ -51,7 +51,7 @@ export function useDateFormatter() {
         return new Intl.DateTimeFormat(locale, { dateStyle: 'medium', timeStyle: 'short' }).format(d);
       },
       date: (d?: Date) => {
-        if (!d || Number.isNaN(d.getTime())) return '—';
+        if (!d || Number.isNaN(d.getTime())) return '-';
         if (dateFormat !== 'auto') {
           const pad = (n: number) => String(n).padStart(2, '0');
           const day = pad(d.getDate());

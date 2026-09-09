@@ -27,6 +27,10 @@ export async function buildCloudReview(session: Session, storeHandHistory: boole
       index,
       handId: hand.id,
       rawHistory: storeHandHistory ? hand.raw : undefined,
+      // Coverage is measured against the hands the hero actually played, so
+      // the fact has to travel with them. Without it a coach's coverage is
+      // unknowable and the report says nothing at all.
+      heroVpip: meta.vpip,
       result: meta.result === 'won' ? 'WON' : meta.result === 'folded' ? 'FOLDED' : meta.result ? 'LOST' : undefined,
       potWon: meta.net,
       reviewedAt: review?.updatedAt ? new Date(review.updatedAt).toISOString() : undefined,

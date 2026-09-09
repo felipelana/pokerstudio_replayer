@@ -83,6 +83,13 @@ export const IconDice = (p: Props) => (
   </Svg>
 );
 
+export const IconRefresh = (p: Props) => (
+  <Svg {...p}>
+    <path d="M20 11a8 8 0 1 0-2.3 5.6" />
+    <path d="M20 5v6h-6" />
+  </Svg>
+);
+
 export const IconCopy = (p: Props) => (
   <Svg {...p}>
     <rect x="9" y="9" width="11" height="11" rx="2.5" />
@@ -122,6 +129,13 @@ export const IconCompass = (p: Props) => (
   <Svg {...p}>
     <circle cx="12" cy="12" r="9" />
     <path d="m15 9-2 4.2-4 1.8 2-4.2Z" />
+  </Svg>
+);
+
+export const IconSparkle = (p: Props) => (
+  <Svg {...p}>
+    <path d="M12 3.5 13.9 9l5.6 1.9-5.6 1.9L12 18.5 10.1 12.8 4.5 10.9 10.1 9 12 3.5Z" />
+    <path d="M18.5 3.5v3M20 5h-3" />
   </Svg>
 );
 

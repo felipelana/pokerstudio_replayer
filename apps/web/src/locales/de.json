@@ -93,8 +93,8 @@
     "importedDuplicates_one": "{{count}} Duplikat übersprungen",
     "importedDuplicates_other": "{{count}} Duplikate übersprungen",
     "nothingParsed": "Keine Hände in \"{{name}}\" gefunden.",
-    "unsupported": "Format erkannt ({{site}}), aber noch nicht unterstützt.",
-    "unknownFormat": "Unbekanntes Hand-History-Format.",
+    "unsupported": "Hände von {{site}} lesen wir noch nicht. Die Datei wurde erkannt, die Unterstützung für diesen Raum kommt.",
+    "unknownFormat": "Wir erkennen diese Datei nicht als Handhistorie. Prüfen Sie, ob es die .txt aus dem Raum ist.",
     "sampleTitle": "Noch keine Hand-Histories?",
     "loadSample": "Demo-Beispiel laden",
     "siteOverride": "Anbieter erzwingen",
@@ -132,7 +132,7 @@
     "storageSaved": "Nur gespeicherte",
     "storageLocal": "Nicht gespeichert",
     "sort": "Sortieren nach",
-    "storageHint": "Sitzungen mit „Nur hier\" liegen ausschließlich in diesem Browser — wird er geleert, sind sie weg. Im Konto gespeichert bleiben sie und lassen sich an einem anderen Rechner öffnen.",
+    "storageHint": "Sitzungen mit „Nur hier\" liegen ausschließlich in diesem Browser. Wird er geleert, sind sie weg. Im Konto gespeichert bleiben sie und lassen sich an einem anderen Rechner öffnen.",
     "confirmDeleteSaved": "{{count}} davon liegen in deinem Konto und werden auch aus der Datenbank gelöscht, nicht nur aus diesem Browser.",
     "statusInProgress": "Läuft",
     "pasteButton": "Handverlauf einfügen",
@@ -141,7 +141,7 @@
     "keepFileNames": "Dateinamen behalten",
     "perPage": "Pro Seite",
     "importedOk": "Erfolgreich importiert",
-    "onlyFirstFile": "Nur „{{name}}“ wurde importiert — {{count}} weitere Datei(en) blieben außen vor. Bitte einzeln importieren.",
+    "onlyFirstFile": "Nur „{{name}}“ wurde importiert. {{count}} weitere Datei(en) blieben außen vor. Bitte einzeln importieren.",
     "colLastHand": "Letzte Hand"
   },
   "sidebar": {
@@ -150,7 +150,7 @@
     "colorHintResults": "Nach Ergebnis einfärben",
     "hands": "Hände",
     "copyRaw": "Rohtext dieser Hand kopieren",
-    "noHero": "Kein Hero in dieser Datei – klicke auf einen Platz, um den Fokusspieler zu setzen.",
+    "noHero": "Kein Hero in dieser Datei. Klicke auf einen Platz, um den Fokusspieler zu setzen.",
     "focus": "Fokus: {{player}}",
     "clearFocus": "Fokus aufheben",
     "noSession": "Keine Sitzung geladen",
@@ -191,7 +191,7 @@
     "sidePot": "Sidepot {{index}}",
     "noHands": "Lade eine Hand-History, um mit dem Nachspielen zu beginnen.",
     "winner": "Gewinner",
-    "webglUnavailable": "WebGL nicht verfügbar – 2D-Renderer wird verwendet.",
+    "webglUnavailable": "WebGL nicht verfügbar. 2D-Renderer wird verwendet.",
     "empty": "Leer",
     "toCall": "zu zahlen {{amount}}",
     "returned": "Zurückgegeben",
@@ -228,7 +228,7 @@
     "end": "Ende"
   },
   "log": {
-    "start": "Hand #{{number}} — {{table}}",
+    "start": "Hand #{{number}} · {{table}}",
     "dealHole": "Karten werden ausgeteilt",
     "dealFlop": "Flop: {{cards}}",
     "dealTurn": "Turn: {{cards}}",
@@ -250,7 +250,7 @@
     "collect": "{{player}} gewinnt {{amount}}",
     "collectFrom": "{{player}} gewinnt {{amount}} aus dem {{pot}}",
     "show": "{{player}} zeigt {{cards}}",
-    "showWith": "{{player}} zeigt {{cards}} — {{detail}}",
+    "showWith": "{{player}} zeigt {{cards}} · {{detail}}",
     "muck": "{{player}} muckt",
     "timeout": "{{player}} hat die Zeit überschritten",
     "disconnected": "{{player}} ist getrennt",
@@ -295,7 +295,10 @@
     "captureImage": "Tisch aufnehmen",
     "captureText": "Nur Text",
     "capturing": "Aufnahme…",
-    "captureSaved": "Screenshot zu dieser Notiz gespeichert"
+    "captureSaved": "Screenshot zu dieser Notiz gespeichert",
+    "coachTitle": "Was der Coach sagt",
+    "coachPlayedWell": "Gut gespielt",
+    "coachInProgress": "Einschätzung läuft noch"
   },
   "settings": {
     "title": "Einstellungen",
@@ -340,10 +343,16 @@
     "seatRight": "Rechts",
     "seatDistance": "Sitzabstand",
     "roomNicks": "Meine Spielernamen",
-    "roomNicksHint": "Optional. Sagen Sie uns, unter welchem Namen Sie in jedem Raum spielen, und der Replayer erkennt Sie in jeder Historie — auch wenn die Datei den Helden nicht nennt.",
+    "roomNicksHint": "Optional. Sagen Sie uns, unter welchem Namen Sie in jedem Raum spielen, und der Replayer erkennt Sie in jeder Historie, auch wenn die Datei den Helden nicht nennt.",
     "roomNickPlaceholder": "Ihr Name in diesem Raum",
     "roomNicksSaved": "Im Konto gespeichert.",
-    "roomNicksSignedOut": "Melden Sie sich an, um Ihre Spielernamen zu speichern — sie gehören zum Konto, nicht zu diesem Browser."
+    "roomNicksSignedOut": "Melden Sie sich an, um Ihre Spielernamen zu speichern. Sie gehören zum Konto, nicht zu diesem Browser.",
+    "groupPreferences": "Einstellungen",
+    "groupRooms": "Räume",
+    "groupStudy": "Studium",
+    "groupData": "Daten",
+    "comingSoon": "Demnächst",
+    "roomNicksSoonHint": "Die als demnächst markierten Räume liest der Import noch nicht. Der Name wird aufbewahrt und gilt, sobald der Raum dazukommt."
   },
   "shortcuts": {
     "title": "Tastaturkürzel",
@@ -418,8 +427,8 @@
       "artUpload": "Bild",
       "artChange": "Ersetzen",
       "artReset": "Skin-Standard",
-      "artTooLarge": "Die Datei ist über 2 MB — nimm eine leichtere.",
-      "artHint": "SVG ist am besten (bleibt immer scharf). PNG oder WebP mit Transparenz gehen auch — etwa 500 × 700 px, das Seitenverhältnis der Karte.",
+      "artTooLarge": "Die Datei ist über 2 MB. Nimm eine leichtere.",
+      "artHint": "SVG ist am besten (bleibt immer scharf). PNG oder WebP mit Transparenz gehen auch, etwa 500 × 700 px, das Seitenverhältnis der Karte.",
       "boardGap": "Abstand der Boardkarten"
     },
     "felt": {
@@ -520,7 +529,7 @@
       "tooLarge": "Bild zu groß (max. 6 MB)."
     },
     "chooseSkin": "Bearbeitete Skin",
-    "savedLocallyOnly": "Auf diesem Gerät gespeichert — das Konto war nicht erreichbar.",
+    "savedLocallyOnly": "Auf diesem Gerät gespeichert. Das Konto war nicht erreichbar.",
     "myCopy": "meine Version",
     "discardChanges": "Änderungen verwerfen",
     "changesDiscarded": "Änderungen verworfen.",
@@ -532,7 +541,7 @@
     "show": "Warnungen anzeigen"
   },
   "positions": {
-    "none": "—"
+    "none": "-"
   },
   "consent": {
     "title": "Cookies und Speicherung",
@@ -569,7 +578,18 @@
     "count": "{{count}} Hände ausgewählt",
     "empty": "Noch keine Hand für den Bericht markiert.",
     "savePdf": "PDF speichern",
-    "saveDocx": "DOCX speichern"
+    "saveDocx": "DOCX speichern",
+    "summary": "Die Sitzung in Zahlen",
+    "score": "Ihre Note",
+    "scoreDetail": "{{count}} Hand/Hände bewertet",
+    "coverage": "Abdeckung",
+    "coverageDetail": "{{reviewed}} von {{total}} gespielten Händen",
+    "reviewed": "Gelesene Hände",
+    "reviewedDetail": "mit Note, Etikett oder Notiz",
+    "leaks": "Häufigste Leaks",
+    "coachNumbers": "Zahlen der Bewertenden",
+    "noScore": "keine Note",
+    "noCoverage": "keine gespielten Hände"
   },
   "auth": {
     "loginTitle": "Anmelden",
@@ -608,7 +628,7 @@
     "hide": "Verbergen",
     "capsLock": "Feststelltaste ist an",
     "offline": "Der Server war nicht erreichbar. Versuch es gleich noch einmal.",
-    "offlineBanner": "Server nicht erreichbar — es wird nur mit lokalen Daten gearbeitet.",
+    "offlineBanner": "Server nicht erreichbar. Es wird nur mit lokalen Daten gearbeitet.",
     "or": "oder",
     "oauthError": {
       "link_requires_verification": "Für diese E-Mail gibt es bereits ein Konto. Melde dich mit deinem Passwort an und bestätige zuerst die E-Mail.",
@@ -746,13 +766,13 @@
     "useRecovery": "Stattdessen einen Wiederherstellungscode nutzen",
     "useApp": "Stattdessen die Authenticator-App nutzen",
     "recoveryTitle": "Wiederherstellungscodes sichern",
-    "recoveryBody": "Jeder Code funktioniert einmal und sie werden nur jetzt angezeigt. Bewahre sie sicher auf — sie sind der Weg zurück, wenn das Telefon weg ist.",
+    "recoveryBody": "Jeder Code funktioniert einmal und sie werden nur jetzt angezeigt. Bewahre sie sicher auf. Sie sind der Weg zurück, wenn das Telefon weg ist.",
     "copy": "Kopieren",
     "saved": "Gespeichert"
   },
   "cloud": {
     "title": "Analysen in meinem Konto",
-    "hint": "Importierte Sitzungen liegen nur in diesem Browser. Im Konto gespeichert landen sie in der Datenbank — so geht es an einem anderen Rechner weiter, und nichts ist weg, wenn der Browser geleert wird.",
+    "hint": "Importierte Sitzungen liegen nur in diesem Browser. Im Konto gespeichert landen sie in der Datenbank, so geht es an einem anderen Rechner weiter, und nichts ist weg, wenn der Browser geleert wird.",
     "quota": "{{used}} von {{perDay}} heute",
     "withHistory": "Handverläufe mitschicken",
     "chooseSession": "Sitzung wählen…",
@@ -768,15 +788,15 @@
   "replayer": {
     "startOver": "Von vorn",
     "boardGap": "Abstand der Boardkarten",
-    "resumedAt": "Dort weiter, wo du aufgehört hast — Hand {{current}} von {{total}}.",
+    "resumedAt": "Dort weiter, wo du aufgehört hast, Hand {{current}} von {{total}}.",
     "keepGoing": "Alles klar",
     "seatDistance": "Sitze"
   },
   "about": {
     "title": "Über",
     "tagline": "Wer es baut, und wofür.",
-    "author": "PokerStudio Replayer wird von Felipe Carvalho Lana entworfen und gebaut, einem IT-Fachmann mit über 23 Jahren Berufserfahrung. Als Informatiktechniker, Bachelor der Informatik und MBA in IT-Management der FGV hat Felipe mehr als zwei Jahrzehnte damit verbracht, Systeme zu entwerfen, zu bauen und zu führen — von der Codezeile bis zur Architektur und zur Technologieleitung.",
-    "origin": "Das Werkzeug entsteht aus einer echten Lücke im Pokermarkt und aus Felipes eigener Unruhe als Spieler: Es fehlte ein Replayer, der intuitiv, schön, leicht zu bedienen ist und sich wirklich weiterentwickelt. Daran wird hier jeder Bildschirm gemessen — was beim Studieren hilft, bleibt; was stört, geht.",
+    "author": "PokerStudio Replayer wird von Felipe Carvalho Lana entworfen und gebaut, einem IT-Fachmann mit über 23 Jahren Berufserfahrung. Als Informatiktechniker, Bachelor der Informatik und MBA in IT-Management der FGV hat Felipe mehr als zwei Jahrzehnte damit verbracht, Systeme zu entwerfen, zu bauen und zu führen, von der Codezeile bis zur Architektur und zur Technologieleitung.",
+    "origin": "Das Werkzeug entsteht aus einer echten Lücke im Pokermarkt und aus Felipes eigener Unruhe als Spieler: Es fehlte ein Replayer, der intuitiv, schön, leicht zu bedienen ist und sich wirklich weiterentwickelt. Daran wird hier jeder Bildschirm gemessen: was beim Studieren hilft, bleibt; was stört, geht.",
     "method": "Kontinuierliche Verbesserung ist hier kein Satz in der Fußzeile, sondern die Methode: Der Replayer wird am echten Gebrauch geprüft, und was Spieler wünschen, kommt in die Warteschlange.",
     "visionTitle": "Die Vision von PokerStudio",
     "vision": "Der Replayer ist erst der Anfang. PokerStudio will die Referenz für Werkzeuge sein, die Pokerspielern helfen, zu lernen, zu spielen und am Tisch besser abzuschneiden."
@@ -790,7 +810,7 @@
     "body": "Beschreibung",
     "bodyHint": "Was Sie erwartet haben, was passiert ist und wo.",
     "send": "Senden",
-    "thanks": "Angekommen. Danke — das kommt in die Warteschlange.",
+    "thanks": "Angekommen. Danke. Das kommt in die Warteschlange.",
     "mine": "Was Sie gesendet haben",
     "kinds": {
       "SUGGESTION": "Vorschlag",
@@ -818,7 +838,7 @@
       },
       "import": {
         "title": "1. Hände einlesen",
-        "body": "Ziehen Sie eine .txt-Handhistorie hierher oder klicken Sie zum Auswählen. Eine Datei nach der anderen — so wie man ein Turnier nach dem anderen spielt."
+        "body": "Ziehen Sie eine .txt-Handhistorie hierher oder klicken Sie zum Auswählen. Eine Datei nach der anderen, so wie man ein Turnier nach dem anderen spielt."
       },
       "sessions": {
         "title": "2. Eine Review öffnen",
@@ -826,7 +846,7 @@
       },
       "settings": {
         "title": "3. Nach Ihrem Geschmack",
-        "body": "Datumsformat, wo der Held sitzt, wie nah die Plätze stehen, Leak-Tags und Ihre Spielernamen pro Raum — alles unter Einstellungen."
+        "body": "Datumsformat, wo der Held sitzt, wie nah die Plätze stehen, Leak-Tags und Ihre Spielernamen pro Raum, alles unter Einstellungen."
       },
       "skins": {
         "title": "4. Den Tisch einkleiden",
@@ -850,7 +870,7 @@
       },
       "replayQuick": {
         "title": "Schnelleinstellungen",
-        "body": "Skin, Deckfarben, Anordnung der Heldenkarten, Zoom für Tisch, Karten und Chips, Sitzabstand und Board-Abstand — ohne die Hand zu verlassen."
+        "body": "Skin, Deckfarben, Anordnung der Heldenkarten, Zoom für Tisch, Karten und Chips, Sitzabstand und Board-Abstand, ohne die Hand zu verlassen."
       },
       "replayFullscreen": {
         "title": "Vollbild",
@@ -866,7 +886,7 @@
       },
       "replayStreets": {
         "title": "Zu einer Straße springen",
-        "body": "Preflop, die erste Aktion des Helden, Flop, Turn und River. Jede hat ein Tastenkürzel — ? zeigt die Liste."
+        "body": "Preflop, die erste Aktion des Helden, Flop, Turn und River. Jede hat ein Tastenkürzel. ? zeigt die Liste."
       },
       "replayTransport": {
         "title": "Die Wiedergabe steuern",
@@ -874,7 +894,7 @@
       },
       "replayTimeline": {
         "title": "Die Handleiste",
-        "body": "Ein Kästchen je Hand der Review, nach Ergebnis gefärbt. Ein Klick führt hin — und die großen Hände sieht man auf einen Blick."
+        "body": "Ein Kästchen je Hand der Review, nach Ergebnis gefärbt. Ein Klick führt hin, und die großen Hände sieht man auf einen Blick."
       }
     }
   },
@@ -884,5 +904,114 @@
     "howTo": "So wird es benutzt",
     "startTour": "Tour erneut ansehen",
     "askUs": "Uns etwas fragen"
+  },
+  "releases": {
+    "title": "Neuerungen",
+    "lead": "Was sich in jeder Version geändert hat.",
+    "unread": "Es gibt eine Version, die Sie noch nicht gelesen haben.",
+    "nextNote": "Geplant, ohne Termin.",
+    "footer": "Sie sind auf Version {{version}}.",
+    "channel": {
+      "beta": "Beta",
+      "stable": "Stabil"
+    },
+    "sections": {
+      "rooms": "Unterstützte Räume",
+      "replay": "Replay",
+      "visual": "Darstellung",
+      "analysis": "Analyse",
+      "languages": "Sprachen",
+      "next": "Als Nächstes"
+    },
+    "v1_0_0": {
+      "highlight": "Die erste vollständige Version. Historien einlesen, Hand für Hand nachspielen, Entscheidungen bewerten und alles im Konto behalten.",
+      "rooms": {
+        "0": "PokerStars, Cash und Turnier.",
+        "1": "Chico-Netzwerk: BetOnline, TigerGaming und SportsBetting."
+      },
+      "replay": {
+        "0": "Tastatur: links und rechts durch Aktionen und Straßen, hoch und runter zur nächsten Hand.",
+        "1": "Turnier und Cash, mit Blinds, Antes und Levelwechseln.",
+        "2": "Jeder Betrag wechselt zwischen Chips und Big Blinds.",
+        "3": "Held auf dem unteren mittleren Platz, mit der Möglichkeit, sich anders zu setzen.",
+        "4": "Genaues Fortsetzen: die Review öffnet an der Hand und der Stelle, an der Sie aufgehört haben."
+      },
+      "visual": {
+        "0": "Helles und dunkles Thema.",
+        "1": "Deck-Skins in vier Farben und in zwei, Schwarz und Weiß.",
+        "2": "Skin-Editor: Filz, Tisch, Chips, Namensschilder und Karte für Karte.",
+        "3": "Leichter 3D-Tisch, mit 2D-Alternative, die ohne WebGL läuft."
+      },
+      "analysis": {
+        "0": "Pot Odds im Aktionsfeld.",
+        "1": "Notizen, Leak-Tags und Kommentare je Hand, mit PDF-Bericht.",
+        "2": "Eine Review mit einem Coach oder Freund teilen: Link, Passwort und Frist, und die Einschätzung kommt zu Ihnen zurück."
+      },
+      "languages": {
+        "0": "Oberfläche auf Portugiesisch, Englisch, Spanisch, Deutsch, Russisch, Mandarin, Japanisch und Koreanisch."
+      },
+      "next": {
+        "0": "Weitere Räume: GGPoker, 888poker, iPoker, WPN, CoinPoker und Ignition (Bodog).",
+        "1": "Weitere Sprachen: Französisch und Italienisch."
+      }
+    }
+  },
+  "share": {
+    "title": "Review teilen",
+    "tooltip": "Einen Link und ein Passwort erzeugen, damit ein Coach oder Freund diese Sitzung liest",
+    "subtitle": "Ein Link und ein Passwort für den, der {{review}} lesen soll.",
+    "coachName": "Name der Person, die liest",
+    "coachNameHint": "Wie Sie sie nennen",
+    "password": "Passwort",
+    "newPassword": "Neu erzeugen",
+    "passwordRule": "Acht Zeichen, mit Groß, Klein und einer Ziffer, ohne Ziffern in Folge.",
+    "expiry": "Zugang läuft ab in",
+    "expiryNote": "Läuft am {{when}} ab. Erlaubt sind höchstens {{max}} Stunden.",
+    "hours": "{{count}} Stunden",
+    "create": "Link erzeugen",
+    "created": "Link für {{coach}} erzeugt.",
+    "link": "Link",
+    "copy": "Kopieren",
+    "passwordOnce": "Das Passwort erscheint jetzt und danach nicht mehr. Es steht nicht im Link, schicken Sie also beides und bewahren Sie es auf.",
+    "readOnlyNote": "Wer den Link öffnet, sieht nur diese Sitzung, spielt die Hände nach und schreibt zu jeder, was er denkt. Sonst ist von Ihrem Konto nichts erreichbar.",
+    "another": "Einen für jemand anderen",
+    "existing": "Links zu dieser Sitzung",
+    "revoke": "Widerrufen",
+    "stateWaiting": "Noch nicht geöffnet",
+    "stateReading": "Liest",
+    "stateDone": "Abgeschlossen",
+    "stateExpired": "Abgelaufen",
+    "stateRevoked": "Widerrufen",
+    "readFeedback": "Einschätzung lesen",
+    "feedbackFrom": "Einschätzung von {{coach}}",
+    "feedbackEmpty": "In dieser Einschätzung steht noch nichts.",
+    "handNumber": "Hand {{number}}"
+  },
+  "coach": {
+    "title": "Eine Sitzung lesen",
+    "lead": "Sie haben einen Link bekommen. Geben Sie das Passwort ein, das dabei war.",
+    "password": "Passwort",
+    "open": "Öffnen",
+    "badge": "Geteilte Ansicht",
+    "leave": "Verlassen",
+    "expiresAt": "Zugang bis {{when}}",
+    "reviewing": "Sitzung von {{player}}, {{hands}} Hände.",
+    "privacyNote": "Sie sehen nur diese Sitzung. Kein anderer Teil des Kontos, das sie geteilt hat, ist über diesen Link erreichbar.",
+    "badLink": "Dieser Link ist ungültig. Bitten Sie um einen neuen von der Person, die die Sitzung geteilt hat.",
+    "noHistory": "Diese Sitzung wurde ohne den Text der Hände gespeichert, sie lassen sich hier also nicht nachspielen. Wer sie geteilt hat, kann das Aufbewahren der Historien einschalten und einen neuen Link schicken.",
+    "loadFailed": "Die Hände konnten gerade nicht geladen werden. Versuchen Sie es gleich noch einmal.",
+    "prevHand": "Vorige Hand",
+    "nextHand": "Nächste Hand",
+    "back": "Zurück",
+    "forward": "Vor",
+    "yourReading": "Ihre Einschätzung dieser Hand",
+    "playedWell": "Gut gespielt",
+    "score": "Note von 0 bis 100",
+    "comment": "Kommentar",
+    "saving": "Wird gespeichert",
+    "saved": "Gespeichert",
+    "finish": "Einschätzung abschließen",
+    "finished": "Einschätzung abgeschlossen und an die teilende Person geschickt.",
+    "finishNote": "Mit dem Abschluss geht die Einschätzung an die teilende Person und lässt sich danach nicht mehr ändern."
   }
 }
