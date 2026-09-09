@@ -578,7 +578,18 @@
     "count": "{{count}} mãos selecionadas",
     "empty": "Nenhuma mão marcada para o relatório. Marque \"Incluir no relatório\" em uma review.",
     "savePdf": "Salvar PDF",
-    "saveDocx": "Salvar DOCX"
+    "saveDocx": "Salvar DOCX",
+    "summary": "Os números da sessão",
+    "score": "Sua nota",
+    "scoreDetail": "{{count}} mão(s) com nota",
+    "coverage": "Cobertura",
+    "coverageDetail": "{{reviewed}} de {{total}} mãos jogadas",
+    "reviewed": "Mãos revistas",
+    "reviewedDetail": "com nota, etiqueta ou anotação",
+    "leaks": "Leaks mais marcados",
+    "coachNumbers": "Números de quem avaliou",
+    "noScore": "sem nota",
+    "noCoverage": "sem mãos jogadas"
   },
   "auth": {
     "loginTitle": "Entrar",

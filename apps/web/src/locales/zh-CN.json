@@ -578,7 +578,18 @@
     "count": "已选 {{count}} 手牌",
     "empty": "尚未勾选任何手牌进入报告。",
     "savePdf": "保存 PDF",
-    "saveDocx": "保存 DOCX"
+    "saveDocx": "保存 DOCX",
+    "summary": "这次会话的数字",
+    "score": "你的分数",
+    "scoreDetail": "已打分 {{count}} 手",
+    "coverage": "覆盖率",
+    "coverageDetail": "已打的 {{total}} 手中的 {{reviewed}} 手",
+    "reviewed": "已看过的手数",
+    "reviewedDetail": "有分数、标签或笔记的",
+    "leaks": "标记最多的漏洞",
+    "coachNumbers": "每位评价者的数字",
+    "noScore": "无分数",
+    "noCoverage": "没有打过的手"
   },
   "auth": {
     "loginTitle": "登录",

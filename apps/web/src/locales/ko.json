@@ -578,7 +578,18 @@
     "count": "{{count}}개 핸드 선택됨",
     "empty": "리포트에 포함된 핸드가 아직 없습니다.",
     "savePdf": "PDF 저장",
-    "saveDocx": "DOCX 저장"
+    "saveDocx": "DOCX 저장",
+    "summary": "세션의 숫자",
+    "score": "내 점수",
+    "scoreDetail": "점수를 준 핸드 {{count}}개",
+    "coverage": "커버리지",
+    "coverageDetail": "플레이한 {{total}}핸드 중 {{reviewed}}개",
+    "reviewed": "살펴본 핸드",
+    "reviewedDetail": "점수나 태그나 메모가 있는 것",
+    "leaks": "가장 많이 표시된 리크",
+    "coachNumbers": "평가한 사람의 숫자",
+    "noScore": "점수 없음",
+    "noCoverage": "플레이한 핸드 없음"
   },
   "auth": {
     "loginTitle": "로그인",

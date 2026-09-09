@@ -1,4 +1,5 @@
 import { jsPDF } from 'jspdf';
+import { formatScore } from '@pokerstudio/shared';
 import { AlignmentType, Document, HeadingLevel, ImageRun, Packer, Paragraph, TextRun } from 'docx';
 import { handHeadline, type ReportData } from './buildReport';
 
@@ -14,7 +15,36 @@ function download(blob: Blob, filename: string) {
 const A4 = { w: 595, h: 842, margin: 48 };
 
 /** Client-side PDF (L4). */
-export function exportPdf(report: ReportData, labels: { notes: string; tags: string; rating: string }) {
+export interface ReportLabels {
+  notes: string;
+  tags: string;
+  rating: string;
+  summary: string;
+  score: string;
+  coverage: string;
+  leaks: string;
+  coach: string;
+  noScore: string;
+  noCoverage: string;
+}
+
+/** The numbers as one line each, the same in both file formats. */
+function summaryLines(report: ReportData, labels: ReportLabels): string[] {
+  const pct = (v: number | null) => (v === null ? labels.noCoverage : `${Math.round(v)}%`);
+  const lines = [
+    `${labels.score}: ${formatScore(report.summary.score) ?? labels.noScore}`,
+    `${labels.coverage}: ${pct(report.summary.coverage.percent)} (${report.summary.coverage.reviewed}/${report.summary.coverage.total})`,
+  ];
+  if (report.summary.leaks.length) {
+    lines.push(`${labels.leaks}: ${report.summary.leaks.slice(0, 8).map((l) => `${l.tag} (${l.hands})`).join(', ')}`);
+  }
+  for (const coach of report.coaches) {
+    lines.push(`${coach.name}: ${formatScore(coach.summary.score.value) ?? labels.noScore} · ${labels.coverage} ${pct(coach.summary.coverage.percent)}`);
+  }
+  return lines;
+}
+
+export function exportPdf(report: ReportData, labels: ReportLabels) {
   const doc = new jsPDF({ unit: 'pt', format: 'a4' });
   let y = A4.margin;
 
@@ -33,7 +63,11 @@ export function exportPdf(report: ReportData, labels: { notes: string; tags: str
   };
 
   line(report.title, 18, true, 4);
-  line(report.generatedAt.toLocaleString(), 9, false, 14);
+  line(report.generatedAt.toLocaleString(), 9, false, 8);
+
+  line(labels.summary, 11, true, 2);
+  for (const text of summaryLines(report, labels)) line(text, 9, false, 2);
+  y += 8;
 
   for (const item of report.items) {
     if (y > A4.h - A4.margin - 60) {
@@ -54,6 +88,13 @@ export function exportPdf(report: ReportData, labels: { notes: string; tags: str
       y += h + 10;
     }
     if (item.review.notes.trim()) line(item.review.notes.trim(), 10, false, 4);
+    for (const c of item.coaches) {
+      const head = [`${labels.coach} · ${c.name}`, typeof c.reading.score === 'number' ? `${c.reading.score}/100` : '']
+        .filter(Boolean)
+        .join(': ');
+      line(head, 9, true, 2);
+      if (c.reading.comment) line(c.reading.comment, 9, false, 2);
+    }
     for (const [street, note] of Object.entries(item.review.streetNotes ?? {})) {
       if (note?.trim()) line(`${street}: ${note.trim()}`, 9, false, 2);
     }
@@ -64,10 +105,12 @@ export function exportPdf(report: ReportData, labels: { notes: string; tags: str
 }
 
 /** Client-side DOCX (L4). */
-export async function exportDocx(report: ReportData, labels: { notes: string; tags: string; rating: string }) {
+export async function exportDocx(report: ReportData, labels: ReportLabels) {
   const children: Paragraph[] = [
     new Paragraph({ text: report.title, heading: HeadingLevel.HEADING_1 }),
     new Paragraph({ children: [new TextRun({ text: report.generatedAt.toLocaleString(), size: 18, color: '666666' })] }),
+    new Paragraph({ text: labels.summary, heading: HeadingLevel.HEADING_2 }),
+    ...summaryLines(report, labels).map((text) => new Paragraph({ children: [new TextRun({ text, size: 18 })] })),
   ];
 
   for (const item of report.items) {
@@ -88,6 +131,13 @@ export async function exportDocx(report: ReportData, labels: { notes: string; ta
       );
     }
     if (item.review.notes.trim()) children.push(new Paragraph({ text: item.review.notes.trim() }));
+    for (const c of item.coaches) {
+      const head = [`${labels.coach} · ${c.name}`, typeof c.reading.score === 'number' ? `${c.reading.score}/100` : '']
+        .filter(Boolean)
+        .join(': ');
+      children.push(new Paragraph({ children: [new TextRun({ text: head, bold: true, size: 18 })] }));
+      if (c.reading.comment) children.push(new Paragraph({ children: [new TextRun({ text: c.reading.comment, size: 18 })] }));
+    }
     for (const [street, note] of Object.entries(item.review.streetNotes ?? {})) {
       if (note?.trim()) children.push(new Paragraph({ children: [new TextRun({ text: `${street}: ${note.trim()}`, size: 18 })] }));
     }

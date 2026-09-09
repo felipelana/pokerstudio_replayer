@@ -578,7 +578,18 @@
     "count": "{{count}} manos seleccionadas",
     "empty": "Ninguna mano marcada para el informe.",
     "savePdf": "Guardar PDF",
-    "saveDocx": "Guardar DOCX"
+    "saveDocx": "Guardar DOCX",
+    "summary": "La sesión en números",
+    "score": "Tu puntuación",
+    "scoreDetail": "{{count}} mano(s) con puntuación",
+    "coverage": "Cobertura",
+    "coverageDetail": "{{reviewed}} de {{total}} manos jugadas",
+    "reviewed": "Manos revisadas",
+    "reviewedDetail": "con puntuación, etiqueta o nota",
+    "leaks": "Leaks más marcados",
+    "coachNumbers": "Números de cada evaluador",
+    "noScore": "sin puntuación",
+    "noCoverage": "sin manos jugadas"
   },
   "auth": {
     "loginTitle": "Iniciar sesión",

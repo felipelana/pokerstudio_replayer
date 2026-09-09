@@ -584,7 +584,18 @@
     "count": "Выбрано раздач: {{count}}",
     "empty": "Ни одна раздача не отмечена для отчёта.",
     "savePdf": "Сохранить PDF",
-    "saveDocx": "Сохранить DOCX"
+    "saveDocx": "Сохранить DOCX",
+    "summary": "Сессия в цифрах",
+    "score": "Ваша оценка",
+    "scoreDetail": "раздач с оценкой: {{count}}",
+    "coverage": "Охват",
+    "coverageDetail": "{{reviewed}} из {{total}} сыгранных раздач",
+    "reviewed": "Разобрано раздач",
+    "reviewedDetail": "с оценкой, меткой или заметкой",
+    "leaks": "Самые частые ошибки",
+    "coachNumbers": "Цифры тех, кто разбирал",
+    "noScore": "без оценки",
+    "noCoverage": "нет сыгранных раздач"
   },
   "auth": {
     "loginTitle": "Вход",

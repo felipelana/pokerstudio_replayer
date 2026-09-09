@@ -578,7 +578,18 @@
     "count": "{{count}} ハンドを選択",
     "empty": "レポートに含めるハンドがまだありません。",
     "savePdf": "PDF を保存",
-    "saveDocx": "DOCX を保存"
+    "saveDocx": "DOCX を保存",
+    "summary": "セッションの数字",
+    "score": "あなたの点数",
+    "scoreDetail": "採点したハンド {{count}}",
+    "coverage": "カバー率",
+    "coverageDetail": "プレイした {{total}} 中 {{reviewed}} ハンド",
+    "reviewed": "見直したハンド",
+    "reviewedDetail": "点数、タグ、メモのいずれかがあるもの",
+    "leaks": "よく付いたリーク",
+    "coachNumbers": "評価した人の数字",
+    "noScore": "点数なし",
+    "noCoverage": "プレイしたハンドなし"
   },
   "auth": {
     "loginTitle": "ログイン",

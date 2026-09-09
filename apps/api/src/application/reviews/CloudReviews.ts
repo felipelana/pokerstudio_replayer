@@ -25,6 +25,7 @@ export interface ReviewSessionInput {
     handId?: string;
     rawHistory?: string;
     heroPosition?: string;
+    heroVpip?: boolean;
     result?: 'WON' | 'LOST' | 'FOLDED';
     potWon?: number;
     reviewedAt?: string;
@@ -110,6 +111,7 @@ export async function saveReview(
     handId: hand.handId,
     rawHistory: keepRaw ? hand.rawHistory : undefined,
     heroPosition: hand.heroPosition,
+    heroVpip: hand.heroVpip,
     result: hand.result,
     potWon: hand.potWon,
     reviewedAt: hand.reviewedAt ? new Date(hand.reviewedAt) : undefined,

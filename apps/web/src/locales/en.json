@@ -578,7 +578,18 @@
     "count": "{{count}} hands selected",
     "empty": "No hand is marked for the report yet. Tick \"Include in report\" in a review.",
     "savePdf": "Save PDF",
-    "saveDocx": "Save DOCX"
+    "saveDocx": "Save DOCX",
+    "summary": "The session in numbers",
+    "score": "Your score",
+    "scoreDetail": "{{count}} hand(s) scored",
+    "coverage": "Coverage",
+    "coverageDetail": "{{reviewed}} of {{total}} hands played",
+    "reviewed": "Hands read",
+    "reviewedDetail": "with a score, a tag or a note",
+    "leaks": "Leaks marked most",
+    "coachNumbers": "What each assessor scored",
+    "noScore": "no score",
+    "noCoverage": "no hands played"
   },
   "auth": {
     "loginTitle": "Sign in",

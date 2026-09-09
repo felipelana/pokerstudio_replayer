@@ -1,6 +1,9 @@
 import type { Hand, Review, UserTag } from '@/model/types';
 import { getRepository } from '@/db/repository';
 import { siteName } from '@/model/sites';
+import { ownAssessment, type SessionAssessment } from './assessment';
+import type { CoachReading } from '@/ui/hooks/useCoachReadings';
+import type { HandReading } from '@/infrastructure/http/shareApi';
 
 export interface ReportItem {
   hand: Hand;
@@ -10,12 +13,21 @@ export interface ReportItem {
   /** Data URL of the captured table, when the user asked for a picture. */
   image?: string;
   tags: UserTag[];
+  /** What each coach said about this hand, when one did. */
+  coaches: { name: string; reading: HandReading }[];
 }
 
 export interface ReportData {
   title: string;
   generatedAt: Date;
   items: ReportItem[];
+  /**
+   * The reader's own numbers for the whole session, not only the hands they
+   * chose to print: score, coverage and the leaks that came up most.
+   */
+  summary: SessionAssessment;
+  /** The same three numbers from each coach who read the session. */
+  coaches: { name: string; summary: CoachReading['summary']; completed: boolean }[];
 }
 
 async function assetDataUrl(id?: string): Promise<string | undefined> {
@@ -33,7 +45,12 @@ async function assetDataUrl(id?: string): Promise<string | undefined> {
  * Collects the hands the user marked for the report (L2), with their notes,
  * tags and optional captures (L3). Everything happens in the browser.
  */
-export async function buildReport(hands: Hand[], title: string, tagList: UserTag[]): Promise<ReportData> {
+export async function buildReport(
+  hands: Hand[],
+  title: string,
+  tagList: UserTag[],
+  coachReadings: CoachReading[] = [],
+): Promise<ReportData> {
   const repo = getRepository();
   const items: ReportItem[] = [];
   for (const [i, hand] of hands.entries()) {
@@ -45,9 +62,22 @@ export async function buildReport(hands: Hand[], title: string, tagList: UserTag
       position: i + 1,
       image: review.capture === 'image' ? await assetDataUrl(review.imageAssetId) : undefined,
       tags: tagList.filter((t) => review.tags.includes(t.id)),
+      coaches: coachReadings
+        .map((coach) => ({ name: coach.coachName, reading: coach.byIndex.get(i) }))
+        .filter((row): row is { name: string; reading: HandReading } => !!row.reading),
     });
   }
-  return { title, generatedAt: new Date(), items };
+  return {
+    title,
+    generatedAt: new Date(),
+    items,
+    summary: await ownAssessment(hands),
+    coaches: coachReadings.map((coach) => ({
+      name: coach.coachName,
+      summary: coach.summary,
+      completed: !!coach.completedAt,
+    })),
+  };
 }
 
 /** One-line header for a hand inside the report. */

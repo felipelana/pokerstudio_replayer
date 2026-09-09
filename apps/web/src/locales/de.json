@@ -578,7 +578,18 @@
     "count": "{{count}} Hände ausgewählt",
     "empty": "Noch keine Hand für den Bericht markiert.",
     "savePdf": "PDF speichern",
-    "saveDocx": "DOCX speichern"
+    "saveDocx": "DOCX speichern",
+    "summary": "Die Sitzung in Zahlen",
+    "score": "Ihre Note",
+    "scoreDetail": "{{count}} Hand/Hände bewertet",
+    "coverage": "Abdeckung",
+    "coverageDetail": "{{reviewed}} von {{total}} gespielten Händen",
+    "reviewed": "Gelesene Hände",
+    "reviewedDetail": "mit Note, Etikett oder Notiz",
+    "leaks": "Häufigste Leaks",
+    "coachNumbers": "Zahlen der Bewertenden",
+    "noScore": "keine Note",
+    "noCoverage": "keine gespielten Hände"
   },
   "auth": {
     "loginTitle": "Anmelden",
