@@ -353,7 +353,9 @@
     "groupPreferences": "Предпочтения",
     "groupRooms": "Румы",
     "groupStudy": "Разбор",
-    "groupData": "Данные"
+    "groupData": "Данные",
+    "comingSoon": "Скоро",
+    "roomNicksSoonHint": "Румы с пометкой «скоро» импорт пока не читает. Ник сохранится и начнёт работать, как только рум появится."
   },
   "shortcuts": {
     "title": "Горячие клавиши",

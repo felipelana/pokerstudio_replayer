@@ -511,7 +511,8 @@ model Feedback {
 model RoomNick {
   id       String @id @default(uuid())
   userId   String
-  /// Room key as the parsers spell it: pokerstars, ggpoker, 888, ipoker…
+  /// Room key: the parser's own for rooms that have one, otherwise the
+  /// catalogue id (packages/shared/src/rooms.ts) — ignition, winamax…
   room     String @db.VarChar(24)
   nickname String @db.VarChar(60)
 

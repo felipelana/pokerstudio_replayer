@@ -347,7 +347,9 @@
     "groupPreferences": "Preferências",
     "groupRooms": "Salas",
     "groupStudy": "Estudo",
-    "groupData": "Dados"
+    "groupData": "Dados",
+    "comingSoon": "Em breve",
+    "roomNicksSoonHint": "As salas marcadas como em breve ainda não são lidas pelo importador. O nick fica guardado e passa a valer no dia em que a sala entrar."
   },
   "shortcuts": {
     "title": "Atalhos de teclado",

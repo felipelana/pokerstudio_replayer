@@ -347,7 +347,9 @@
     "groupPreferences": "偏好",
     "groupRooms": "房间",
     "groupStudy": "学习",
-    "groupData": "数据"
+    "groupData": "数据",
+    "comingSoon": "即将支持",
+    "roomNicksSoonHint": "标记为即将支持的房间还无法导入。昵称会先保存，等房间接入当天开始生效。"
   },
   "shortcuts": {
     "title": "键盘快捷键",

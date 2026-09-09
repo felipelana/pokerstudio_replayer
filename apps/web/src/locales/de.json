@@ -347,7 +347,9 @@
     "groupPreferences": "Einstellungen",
     "groupRooms": "Räume",
     "groupStudy": "Studium",
-    "groupData": "Daten"
+    "groupData": "Daten",
+    "comingSoon": "Demnächst",
+    "roomNicksSoonHint": "Die als demnächst markierten Räume liest der Import noch nicht. Der Name wird aufbewahrt und gilt, sobald der Raum dazukommt."
   },
   "shortcuts": {
     "title": "Tastaturkürzel",

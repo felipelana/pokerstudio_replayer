@@ -347,7 +347,9 @@
     "groupPreferences": "Preferences",
     "groupRooms": "Rooms",
     "groupStudy": "Study",
-    "groupData": "Data"
+    "groupData": "Data",
+    "comingSoon": "Coming soon",
+    "roomNicksSoonHint": "The rooms marked as coming soon are not read by the importer yet. The screen name is kept and starts working the day the room arrives."
   },
   "shortcuts": {
     "title": "Keyboard shortcuts",

@@ -347,7 +347,9 @@
     "groupPreferences": "環境設定",
     "groupRooms": "ルーム",
     "groupStudy": "学習",
-    "groupData": "データ"
+    "groupData": "データ",
+    "comingSoon": "近日対応",
+    "roomNicksSoonHint": "近日対応と表示されたルームはまだ読み込めません。ニックネームは保存され、対応した日から使われます。"
   },
   "shortcuts": {
     "title": "キーボードショートカット",

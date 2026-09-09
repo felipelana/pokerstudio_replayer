@@ -347,7 +347,9 @@
     "groupPreferences": "환경 설정",
     "groupRooms": "룸",
     "groupStudy": "학습",
-    "groupData": "데이터"
+    "groupData": "데이터",
+    "comingSoon": "준비 중",
+    "roomNicksSoonHint": "준비 중으로 표시된 룸은 아직 불러오지 못합니다. 닉네임은 저장되어 있다가 룸이 추가되는 날부터 쓰입니다."
   },
   "shortcuts": {
     "title": "키보드 단축키",
