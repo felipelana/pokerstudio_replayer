@@ -57,7 +57,7 @@ export function UserMenu() {
         onClick={() => setOpen((o) => !o)}
       >
         <IconUser size={14} />
-        <span className="max-w-[120px] truncate">{user.name}</span>
+        <span className="hidden max-w-[120px] truncate sm:inline">{user.name}</span>
         <span aria-hidden="true" className="text-xs opacity-60">
           ▾
         </span>

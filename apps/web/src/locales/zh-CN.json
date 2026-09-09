@@ -343,7 +343,11 @@
     "roomNicksHint": "可选。告诉我们你在每个房间使用的名字，即使手牌文件没有标明英雄，复盘器也能认出你。",
     "roomNickPlaceholder": "你在该房间的名字",
     "roomNicksSaved": "已保存到你的账户。",
-    "roomNicksSignedOut": "登录后即可保存用户名——它保存在账户中，而不是这个浏览器里。"
+    "roomNicksSignedOut": "登录后即可保存用户名——它保存在账户中，而不是这个浏览器里。",
+    "groupPreferences": "偏好",
+    "groupRooms": "房间",
+    "groupStudy": "学习",
+    "groupData": "数据"
   },
   "shortcuts": {
     "title": "键盘快捷键",

@@ -1,13 +1,70 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DEFAULT_LOOKUP_TEMPLATE, isValidLookupTemplate } from '@/model/lookup';
 import i18n, { LANGUAGES } from '@/i18n';
 import { getRepository } from '@/db/repository';
 import { DEFAULT_TAGS, useAppStore, type RendererChoice } from '@/state/store';
 import { FLAGS } from '@/ui/flags';
-import { IconDatabase, IconPlay, IconSearch, IconSliders, IconTag, IconUser } from '@/ui/icons';
+import { IconChevronDown, IconDatabase, IconPlay, IconSearch, IconSliders, IconTag, IconUser } from '@/ui/icons';
 import { ConfirmDialog } from '@/ui/ConfirmDialog';
 import { RoomNicks } from './RoomNicks';
+
+type PanelId = 'general' | 'replay' | 'nicks' | 'tags' | 'lookup' | 'data';
+
+interface Group {
+  id: string;
+  label: string;
+  items: { id: PanelId; label: string; icon: React.ReactNode }[];
+}
+
+const GROUPS: Group[] = [
+  {
+    id: 'preferences',
+    label: 'settings.groupPreferences',
+    items: [
+      { id: 'general', label: 'settings.general', icon: <IconSliders size={14} /> },
+      { id: 'replay', label: 'settings.replay', icon: <IconPlay size={14} /> },
+    ],
+  },
+  {
+    id: 'rooms',
+    label: 'settings.groupRooms',
+    items: [{ id: 'nicks', label: 'settings.roomNicks', icon: <IconUser size={14} /> }],
+  },
+  {
+    id: 'study',
+    label: 'settings.groupStudy',
+    items: [
+      { id: 'tags', label: 'settings.tags', icon: <IconTag size={14} /> },
+      { id: 'lookup', label: 'settings.lookup', icon: <IconSearch size={14} /> },
+    ],
+  },
+  {
+    id: 'data',
+    label: 'settings.groupData',
+    items: [{ id: 'data', label: 'settings.data', icon: <IconDatabase size={14} /> }],
+  },
+];
+
+const OPEN_KEY = 'pokerstudio.settings.group';
+const PANEL_KEY = 'pokerstudio.settings.panel';
+
+/** Where the reader was last time, when the browser remembers it. */
+function remembered(key: string, fallback: string): string {
+  try {
+    return window.localStorage.getItem(key) ?? fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function remember(key: string, value: string) {
+  try {
+    window.localStorage.setItem(key, value);
+  } catch {
+    // A browser that refuses storage still works, it just forgets.
+  }
+}
 
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -38,11 +95,15 @@ export function SettingsPage() {
     setNotice(t('settings.cleared'));
   };
 
-  const [tab, setTab] = useState<'general' | 'replay' | 'nicks' | 'tags' | 'lookup' | 'data'>('general');
+  const [tab, setTab] = useState<PanelId>(() => remembered(PANEL_KEY, 'general') as PanelId);
+  const [openGroup, setOpenGroup] = useState(() => remembered(OPEN_KEY, 'preferences'));
   const [confirmingClear, setConfirmingClear] = useState(false);
 
+  useEffect(() => remember(PANEL_KEY, tab), [tab]);
+  useEffect(() => remember(OPEN_KEY, openGroup), [openGroup]);
+
   return (
-    <div className="mx-auto h-full max-w-3xl overflow-auto p-6">
+    <div className="mx-auto h-full max-w-5xl overflow-auto p-6">
       <ConfirmDialog
         open={confirmingClear}
         title={t('settings.clearData')}
@@ -57,30 +118,51 @@ export function SettingsPage() {
       />
       <h1 className="mb-4 text-2xl font-semibold">{t('settings.title')}</h1>
 
-      <nav className="mb-4 flex flex-wrap gap-1" role="tablist">
-        {(
-          [
-            ['general', 'settings.general', <IconSliders size={14} key="a" />],
-            ['replay', 'settings.replay', <IconPlay size={14} key="b" />],
-            ['nicks', 'settings.roomNicks', <IconUser size={14} key="n" />],
-            ['tags', 'settings.tags', <IconTag size={14} key="c" />],
-            ['lookup', 'settings.lookup', <IconSearch size={14} key="d" />],
-            ['data', 'settings.data', <IconDatabase size={14} key="e" />],
-          ] as const
-        ).map(([id, label, icon]) => (
-          <button
-            key={id}
-            type="button"
-            role="tab"
-            aria-selected={tab === id}
-            className={tab === id ? 'btn btn-primary' : 'btn btn-ghost'}
-            onClick={() => setTab(id)}
-          >
-            {icon}
-            {t(label)}
-          </button>
-        ))}
+      <div className="flex flex-col gap-4 md:flex-row md:items-start">
+      <nav className="w-full shrink-0 md:w-56" aria-label={t('settings.title')}>
+        {GROUPS.map((group) => {
+          const open = openGroup === group.id;
+          return (
+            <div key={group.id} className="mb-1">
+              <button
+                type="button"
+                className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-xs font-semibold uppercase tracking-wide"
+                style={{ color: 'var(--text-muted)' }}
+                aria-expanded={open}
+                onClick={() => setOpenGroup(open ? '' : group.id)}
+              >
+                <span className={`transition-transform ${open ? '' : '-rotate-90'}`}>
+                  <IconChevronDown size={12} />
+                </span>
+                {t(group.label)}
+              </button>
+              {open && (
+                <ul className="flex flex-col gap-0.5 pb-1 pl-2">
+                  {group.items.map((item) => (
+                    <li key={item.id}>
+                      <button
+                        type="button"
+                        aria-current={tab === item.id ? 'page' : undefined}
+                        className={`flex w-full items-center gap-2 rounded-md px-2.5 py-1.5 text-left text-sm ${
+                          tab === item.id
+                            ? 'bg-[color-mix(in_srgb,var(--accent)_18%,transparent)] font-medium'
+                            : 'hover:bg-[var(--surface-2)]'
+                        }`}
+                        onClick={() => setTab(item.id)}
+                      >
+                        {item.icon}
+                        <span className="truncate">{t(item.label)}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          );
+        })}
       </nav>
+
+      <div className="min-w-0 flex-1">
 
       {tab === 'general' && (
       <section className="panel mb-4 px-4 pb-1 pt-3">
@@ -332,6 +414,8 @@ export function SettingsPage() {
         {notice && <span className="ml-3 text-xs">{notice}</span>}
       </section>
       )}
+      </div>
+      </div>
     </div>
   );
 }

@@ -343,7 +343,11 @@
     "roomNicksHint": "Optional. Sagen Sie uns, unter welchem Namen Sie in jedem Raum spielen, und der Replayer erkennt Sie in jeder Historie — auch wenn die Datei den Helden nicht nennt.",
     "roomNickPlaceholder": "Ihr Name in diesem Raum",
     "roomNicksSaved": "Im Konto gespeichert.",
-    "roomNicksSignedOut": "Melden Sie sich an, um Ihre Spielernamen zu speichern — sie gehören zum Konto, nicht zu diesem Browser."
+    "roomNicksSignedOut": "Melden Sie sich an, um Ihre Spielernamen zu speichern — sie gehören zum Konto, nicht zu diesem Browser.",
+    "groupPreferences": "Einstellungen",
+    "groupRooms": "Räume",
+    "groupStudy": "Studium",
+    "groupData": "Daten"
   },
   "shortcuts": {
     "title": "Tastaturkürzel",

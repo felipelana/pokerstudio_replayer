@@ -55,7 +55,7 @@ export function Header() {
 
   return (
     <header
-      className="flex h-12 shrink-0 items-center gap-2 border-b px-3"
+      className="flex h-12 shrink-0 items-center gap-2 overflow-x-auto border-b px-3"
       style={{ borderColor: 'var(--border)', background: 'var(--surface)' }}
     >
       <NavLink to="/" className="mr-2 flex items-center gap-2 font-semibold tracking-tight">

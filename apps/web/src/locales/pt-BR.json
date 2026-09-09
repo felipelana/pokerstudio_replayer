@@ -343,7 +343,11 @@
     "roomNicksHint": "Opcional. Diga com que nome você joga em cada sala e o replayer reconhece você em qualquer histórico — inclusive quando o arquivo não diz quem é o herói.",
     "roomNickPlaceholder": "Seu nick nessa sala",
     "roomNicksSaved": "Nicks salvos na sua conta.",
-    "roomNicksSignedOut": "Entre na sua conta para guardar seus nicks — eles ficam na conta, não neste navegador."
+    "roomNicksSignedOut": "Entre na sua conta para guardar seus nicks — eles ficam na conta, não neste navegador.",
+    "groupPreferences": "Preferências",
+    "groupRooms": "Salas",
+    "groupStudy": "Estudo",
+    "groupData": "Dados"
   },
   "shortcuts": {
     "title": "Atalhos de teclado",

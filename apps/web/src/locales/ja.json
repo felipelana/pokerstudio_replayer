@@ -343,7 +343,11 @@
     "roomNicksHint": "任意です。各ルームでのプレイヤー名を登録すると、ファイルにヒーローが書かれていない場合でも、リプレイヤーがあなたを見つけられます。",
     "roomNickPlaceholder": "このルームでの名前",
     "roomNicksSaved": "アカウントに保存しました。",
-    "roomNicksSignedOut": "ニックネームを保存するにはサインインしてください。この情報はブラウザではなくアカウントに保存されます。"
+    "roomNicksSignedOut": "ニックネームを保存するにはサインインしてください。この情報はブラウザではなくアカウントに保存されます。",
+    "groupPreferences": "環境設定",
+    "groupRooms": "ルーム",
+    "groupStudy": "学習",
+    "groupData": "データ"
   },
   "shortcuts": {
     "title": "キーボードショートカット",
