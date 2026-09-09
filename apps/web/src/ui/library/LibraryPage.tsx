@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { LegalLink } from '@/ui/legal/LegalDialog';
+import { ShareReviewDialog } from '@/ui/share/ShareReviewDialog';
 import type { Session } from '@/model/types';
 import {
   IconCloudCheck,
@@ -11,6 +12,7 @@ import {
   IconDownload,
   IconPencil,
   IconPlay,
+  IconShare,
   IconTrash,
 } from '@/ui/icons';
 import { ConfirmDialog } from '@/ui/ConfirmDialog';
@@ -50,6 +52,7 @@ export function LibraryPage() {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [confirming, setConfirming] = useState<'all' | 'selected' | undefined>(undefined);
   const [naming, setNaming] = useState<Session[]>([]);
+  const [sharing, setSharing] = useState<Session | undefined>();
 
   // The view lives in the store: coming back from the replayer should land on
   // the same list, in the same order and on the same page.
@@ -529,7 +532,7 @@ export function LibraryPage() {
             {notice}
           </div>
         )}
-        {sessions.length === 0 ? (
+        {matching.length === 0 ? (
           <div className="flex flex-col items-start gap-3 p-6 text-sm" style={{ color: 'var(--text-muted)' }}>
             <div>{t('library.empty')}</div>
             <div className="flex items-center gap-2">
@@ -709,6 +712,17 @@ export function LibraryPage() {
                             <IconCloudUp size={15} />
                           </button>
                         )}
+                        {savedIds.has(s.id) && (
+                          <button
+                            type="button"
+                            className="btn-icon !px-1.5"
+                            title={t('share.tooltip')}
+                            aria-label={`${t('share.title')}: ${s.name || s.sourceFileName || ''}`}
+                            onClick={() => setSharing(s)}
+                          >
+                            <IconShare size={13} />
+                          </button>
+                        )}
                         {!!s.handIds.length && (
                           <button type="button" className="btn-icon !px-1.5" title={t('library.download')} aria-label={t('library.download')} onClick={() => void download(s)}>
                             <IconDownload size={15} />
@@ -779,6 +793,13 @@ export function LibraryPage() {
         onConfirm={() => void deleteChosen()}
       />
 
+
+      <ShareReviewDialog
+        reviewId={sharing?.id ?? ''}
+        reviewTitle={sharing?.name || sharing?.sourceFileName || ''}
+        open={!!sharing}
+        onClose={() => setSharing(undefined)}
+      />
 
       <footer className="mt-6 flex items-center gap-4 pb-4 text-xs" style={{ color: 'var(--text-muted)' }}>
         <NavLink to="/novidades" className="hover:underline">

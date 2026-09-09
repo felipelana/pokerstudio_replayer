@@ -130,10 +130,13 @@ export type InviteState = 'ok' | 'revoked' | 'expired' | 'unknown';
 export async function inviteState(
   deps: InviteDeps,
   inviteId: string,
-): Promise<{ state: InviteState; invite?: { id: string; reviewSessionId: string; coachName: string; expiresAt: Date } }> {
+): Promise<{
+  state: InviteState;
+  invite?: { id: string; token: string; reviewSessionId: string; coachName: string; expiresAt: Date };
+}> {
   const invite = await deps.prisma.coachInvite.findUnique({
     where: { id: inviteId },
-    select: { id: true, reviewSessionId: true, coachName: true, expiresAt: true, revokedAt: true },
+    select: { id: true, token: true, reviewSessionId: true, coachName: true, expiresAt: true, revokedAt: true },
   });
   if (!invite) return { state: 'unknown' };
   if (invite.revokedAt) return { state: 'revoked' };

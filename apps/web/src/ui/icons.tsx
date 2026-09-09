@@ -83,6 +83,13 @@ export const IconDice = (p: Props) => (
   </Svg>
 );
 
+export const IconRefresh = (p: Props) => (
+  <Svg {...p}>
+    <path d="M20 11a8 8 0 1 0-2.3 5.6" />
+    <path d="M20 5v6h-6" />
+  </Svg>
+);
+
 export const IconCopy = (p: Props) => (
   <Svg {...p}>
     <rect x="9" y="9" width="11" height="11" rx="2.5" />

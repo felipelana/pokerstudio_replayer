@@ -133,6 +133,48 @@ async function inviteAndOpen(coachName: string) {
 }
 
 describe('the coach gets one review and nothing else', () => {
+  it('a cookie from one link does not answer for another link', async () => {
+    const first = await inviteAndOpen('Ana');
+    const second = await inviteAndOpen('Bruno');
+
+    // The address names the link; the cookie names the invitation. When the two
+    // disagree, the browser is treated as not signed in at all.
+    const mismatch = await app.inject({
+      method: 'GET',
+      url: `/api/v1/coach/session?token=${second.invite.token}`,
+      headers: { cookie: first.cookie },
+    });
+    expect(mismatch.statusCode).toBe(401);
+
+    const match = await app.inject({
+      method: 'GET',
+      url: `/api/v1/coach/session?token=${first.invite.token}`,
+      headers: { cookie: first.cookie },
+    });
+    expect(match.statusCode).toBe(200);
+  });
+
+  it('reads the hands only when the player kept the histories', async () => {
+    const { cookie } = await inviteAndOpen('Ana');
+
+    const withheld = await app.inject({ method: 'GET', url: '/api/v1/coach/hands', headers: { cookie } });
+    expect(withheld.statusCode).toBe(200);
+    expect(JSON.parse(withheld.body)).toEqual({ stored: false, items: [] });
+
+    await prisma.reviewSession.update({ where: { id: reviewId }, data: { storeHandHistory: true } });
+    await prisma.handRecord.update({
+      where: { reviewSessionId_index: { reviewSessionId: reviewId, index: 0 } },
+      data: { rawHistory: 'PokerStars Hand #1: ...' },
+    });
+
+    const shared = await app.inject({ method: 'GET', url: '/api/v1/coach/hands', headers: { cookie } });
+    const body = JSON.parse(shared.body);
+    expect(body.stored).toBe(true);
+    // Only the row that actually carries a history travels.
+    expect(body.items).toHaveLength(1);
+    expect(body.items[0].index).toBe(0);
+  });
+
   it('opens with the link and the password, and sees the session and the player', async () => {
     const { cookie } = await inviteAndOpen('Ana');
     const res = await app.inject({ method: 'GET', url: '/api/v1/coach/session', headers: { cookie } });
