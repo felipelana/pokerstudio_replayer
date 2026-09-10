@@ -1,2 +1,9 @@
 * text=auto eol=lf
+
+# Hand histories a reader downloads are opened in Notepad, so they keep the
+# line ending Windows expects.
 *.txt text eol=crlf
+
+# The ones the tests read are data: their bytes decide the hand ids, and they
+# have to arrive the same on every machine.
+apps/web/src/parsers/**/fixtures/*.txt text eol=lf

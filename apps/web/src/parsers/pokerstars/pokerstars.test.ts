@@ -416,7 +416,12 @@ Seat 2: B (big blind) collected ($2)`;
 describe('registry parseText', () => {
   it('parses a file end-to-end with stable ids', async () => {
     const a = await parseText(ko);
-    const b = await parseText('﻿' + ko.replace(/\n/g, '\r\n'));
+    // The fixture reaches the disk with whatever line ending git was told to
+    // write, so it is flattened to LF before the Windows file is simulated.
+    // Without that, a CRLF checkout doubles every line and the blocks split
+    // differently, which changes the hand ids.
+    const windowsFile = ko.replace(/\r\n/g, '\n').replace(/\n/g, '\r\n');
+    const b = await parseText('\uFEFF' + windowsFile);
     expect(a.site).toBe('pokerstars');
     expect(a.hands).toHaveLength(3);
     expect(a.hands.map((h) => h.id)).toEqual(b.hands.map((h) => h.id));
