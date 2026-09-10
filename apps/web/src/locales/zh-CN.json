@@ -653,7 +653,10 @@
     "continueWith": "使用 {{provider}} 继续",
     "signUpWith": "使用 {{provider}} 注册",
     "providerNotConfigured": "{{provider}} 尚未在此环境中配置。",
-    "providerSetupHint": "变暗的登录方式在此环境中没有配置凭据，仅在开发时显示。"
+    "providerSetupHint": "变暗的登录方式在此环境中没有配置凭据，仅在开发时显示。",
+    "providerSoon": "使用 {{provider}} 登录，即将支持",
+    "providerSoonHint": "使用 Google、Facebook 和 Apple 登录正在准备中。现在先用邮箱创建账户，等它上线后，用那种方式登录会找到同一个账户。",
+    "disposableEmail": "这是一次性邮箱服务。请填写长期使用的地址，因为找回账户要靠它。"
   },
   "account": {
     "title": "我的账户",

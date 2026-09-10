@@ -14,6 +14,7 @@ import { LanguageSelector } from '@/ui/LanguageSelector';
 import { LanguageChoice } from '@/ui/LanguageChoice';
 import { PasswordSection, ProfileEditor } from './AccountSettings';
 import { assetUrl } from '@pokerstudio/shared';
+import { isDisposableEmail } from '@pokerstudio/shared';
 
 /** Shell shared by every authentication screen. */
 function AuthShell({ title, subtitle, children }: { title: string; subtitle?: string; children: React.ReactNode }) {
@@ -220,6 +221,13 @@ export function SignUpPage() {
         <label className="flex flex-col gap-1 text-sm">
           {t('auth.email')}
           <input className="input" type="email" required autoComplete="email" value={form.email} onChange={(e) => set('email', e.target.value)} />
+          {/* Said while there is still something to do about it, rather than
+              after the form has been filled in and sent. */}
+          {isDisposableEmail(form.email) && (
+            <span className="text-xs leading-snug" style={{ color: 'var(--result-lost)' }}>
+              {t('auth.disposableEmail')}
+            </span>
+          )}
         </label>
         <label className="flex flex-col gap-1 text-sm">
           {t('auth.password')}

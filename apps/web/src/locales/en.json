@@ -653,7 +653,10 @@
     "continueWith": "Continue with {{provider}}",
     "signUpWith": "Sign up with {{provider}}",
     "providerNotConfigured": "{{provider}} is not configured on this deployment yet.",
-    "providerSetupHint": "The dimmed providers have no credentials on this deployment. They are shown here in development only."
+    "providerSetupHint": "The dimmed providers have no credentials on this deployment. They are shown here in development only.",
+    "providerSoon": "Sign in with {{provider}}, coming soon",
+    "providerSoonHint": "Signing in with Google, Facebook and Apple is on the way. Create the account with your e-mail now, and when it arrives, signing in that way will find the same account.",
+    "disposableEmail": "This is a throwaway e-mail service. Use a permanent address, because it is how you get the account back."
   },
   "account": {
     "title": "My account",

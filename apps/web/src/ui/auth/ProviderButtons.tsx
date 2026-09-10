@@ -150,15 +150,12 @@ export function ProviderButtons({ redirect = '/', signUp = false }: { redirect?:
   const { t } = useTranslation();
   const available = useProviders();
   const all = Object.keys(LOOKS) as ProviderName[];
-  // Outside production every provider is on screen — the ones without
-  // credentials disabled and saying so — because a button that quietly is not
-  // there reads as a bug. In production, only what actually works is offered.
-  // Vite and Next both replace this at build time, so one line serves both.
-  const inDevelopment = process.env.NODE_ENV !== 'production';
-  const shown = inDevelopment ? all : all.filter((p) => available[p]);
-
-  if (shown.length === 0) return null;
-  const missing = shown.some((p) => !available[p]);
+  // Every provider is on screen, always. The ones without credentials are
+  // disabled and say "coming soon", which is the truth and is more useful than
+  // an empty space: a reader who signs up with an address today will be able to
+  // sign in with Google on the same address later, and the account links itself.
+  const shown = all;
+  const missing = shown.some((name) => !available[name]);
 
   return (
     <div className="mb-4 flex flex-col gap-2">
@@ -169,15 +166,17 @@ export function ProviderButtons({ redirect = '/', signUp = false }: { redirect?:
           redirect={redirect}
           disabled={!available[provider]}
           label={
-            signUp
-              ? t('auth.signUpWith', { provider: PROVIDER_LABEL[provider] })
-              : t('auth.continueWith', { provider: PROVIDER_LABEL[provider] })
+            !available[provider]
+              ? t('auth.providerSoon', { provider: PROVIDER_LABEL[provider] })
+              : signUp
+                ? t('auth.signUpWith', { provider: PROVIDER_LABEL[provider] })
+                : t('auth.continueWith', { provider: PROVIDER_LABEL[provider] })
           }
         />
       ))}
       {missing && (
         <p className="text-[11px] leading-snug" style={{ color: 'var(--text-muted)' }}>
-          {t('auth.providerSetupHint')}
+          {t('auth.providerSoonHint')}
         </p>
       )}
       <div className="mt-1 flex items-center gap-3 text-xs" style={{ color: 'var(--text-muted)' }}>

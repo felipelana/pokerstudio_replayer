@@ -653,7 +653,10 @@
     "continueWith": "Weiter mit {{provider}}",
     "signUpWith": "Mit {{provider}} registrieren",
     "providerNotConfigured": "{{provider}} ist in dieser Umgebung noch nicht eingerichtet.",
-    "providerSetupHint": "Die abgeblendeten Anbieter haben in dieser Umgebung keine Zugangsdaten. Sie erscheinen hier nur in der Entwicklung."
+    "providerSetupHint": "Die abgeblendeten Anbieter haben in dieser Umgebung keine Zugangsdaten. Sie erscheinen hier nur in der Entwicklung.",
+    "providerSoon": "Mit {{provider}} anmelden, demnächst",
+    "providerSoonHint": "Die Anmeldung mit Google, Facebook und Apple kommt noch. Legen Sie das Konto jetzt mit Ihrer E-Mail an; sobald sie da ist, findet die Anmeldung dort dasselbe Konto.",
+    "disposableEmail": "Das ist ein Wegwerf-E-Mail-Dienst. Nehmen Sie eine dauerhafte Adresse, denn über sie bekommen Sie das Konto zurück."
   },
   "account": {
     "title": "Mein Konto",

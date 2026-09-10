@@ -653,7 +653,10 @@
     "continueWith": "Continuar con {{provider}}",
     "signUpWith": "Registrarse con {{provider}}",
     "providerNotConfigured": "{{provider}} aún no está configurado en este entorno.",
-    "providerSetupHint": "Los proveedores atenuados no tienen credenciales en este entorno. Aparecen aquí solo en desarrollo."
+    "providerSetupHint": "Los proveedores atenuados no tienen credenciales en este entorno. Aparecen aquí solo en desarrollo.",
+    "providerSoon": "Entrar con {{provider}}, próximamente",
+    "providerSoonHint": "La entrada con Google, Facebook y Apple está en camino. Crea la cuenta con tu correo ahora y, cuando llegue, entrar por ahí reconocerá la misma cuenta.",
+    "disposableEmail": "Este es un servicio de correo temporal. Usa una dirección permanente, porque es por donde recuperas la cuenta."
   },
   "account": {
     "title": "Mi cuenta",

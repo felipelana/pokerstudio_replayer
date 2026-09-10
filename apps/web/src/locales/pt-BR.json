@@ -653,7 +653,10 @@
     "continueWith": "Continuar com {{provider}}",
     "signUpWith": "Cadastrar com {{provider}}",
     "providerNotConfigured": "{{provider}} ainda não está configurado neste ambiente.",
-    "providerSetupHint": "Os provedores esmaecidos não têm credenciais configuradas neste ambiente. Aparecem aqui só em desenvolvimento."
+    "providerSetupHint": "Os provedores esmaecidos não têm credenciais configuradas neste ambiente. Aparecem aqui só em desenvolvimento.",
+    "providerSoon": "Entrar com {{provider}}, em breve",
+    "providerSoonHint": "A entrada por Google, Facebook e Apple está a caminho. Crie a conta com o seu e-mail agora e, quando ela chegar, entrar por lá vai reconhecer a mesma conta.",
+    "disposableEmail": "Este é um serviço de e-mail temporário. Use um endereço permanente, porque é por ele que você recupera a conta."
   },
   "account": {
     "title": "Minha conta",

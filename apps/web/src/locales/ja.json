@@ -653,7 +653,10 @@
     "continueWith": "{{provider}} で続行",
     "signUpWith": "{{provider}} で登録",
     "providerNotConfigured": "{{provider}} はこの環境ではまだ設定されていません。",
-    "providerSetupHint": "薄く表示されている提供元には、この環境の認証情報がありません。開発時のみ表示されます。"
+    "providerSetupHint": "薄く表示されている提供元には、この環境の認証情報がありません。開発時のみ表示されます。",
+    "providerSoon": "{{provider}} でログイン、近日対応",
+    "providerSoonHint": "Google、Facebook、Apple でのログインは準備中です。今はメールでアカウントを作ってください。対応した時に、同じアカウントとして認識されます。",
+    "disposableEmail": "これは使い捨てのメールサービスです。アカウントを取り戻すために使う住所なので、恒久的なアドレスを入れてください。"
   },
   "account": {
     "title": "マイアカウント",
