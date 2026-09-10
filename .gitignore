@@ -8,6 +8,8 @@ coverage
 .env
 .env.*
 !.env.example
+# and every other template: .env.prod.example, .env.staging.example.
+!*.example
 *.local
 
 .claude/
