@@ -17,6 +17,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run check:locales
+      - run: npm run check:copy
       - run: npm run lint
       - run: npm test -w @pokerstudio/web
       - run: npm run build
@@ -69,6 +70,20 @@ jobs:
         run: npx prisma migrate diff --from-migrations apps/api/prisma/migrations --to-schema-datamodel apps/api/prisma/schema.prisma --shadow-database-url "$DATABASE_URL" --exit-code
       - run: npm run build -w @pokerstudio/api
       - run: npm test -w @pokerstudio/api
+
+  next:
+    name: Aplicacao Next
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # O cliente do Prisma e gerado porque o type check do Next le a API.
+      - run: npx prisma generate --schema apps/api/prisma/schema.prisma
+      - run: npm run build -w @pokerstudio/next
 
   audit:
     name: Dependencies

@@ -77,6 +77,11 @@ jobs:
             dockerfile: infra/docker/Dockerfile
           - image: landing
             dockerfile: infra/docker/Dockerfile.landing
+          # A imagem unica da migracao: a landing, o replayer e a API juntos.
+          # E publicada junto das tres antigas para existir no registro quando a
+          # virada acontecer. Nada do que sobe hoje muda por causa dela.
+          - image: app
+            dockerfile: infra/docker/Dockerfile.next
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-buildx-action@v3

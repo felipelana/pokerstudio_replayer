@@ -94,6 +94,8 @@ migração, e a branch `backup/vite-fastify-2026-09-09` guarda a mesma coisa.
 - A imagem não foi construída: não há Docker nesta máquina. O servidor de
   produção que a imagem executa foi rodado à mão e responde.
 - Os três fluxos de OAuth dependem de credenciais que este ambiente não tem.
-- O CI ainda aponta para as três imagens antigas.
+- A virada não foi dada: o servidor continua subindo as três imagens antigas.
+  A imagem única já é construída e publicada pela esteira, então a troca é
+  mudar qual compose o servidor usa, e é uma decisão deliberada.
 - O `apps/web` em Vite continua no repositório, e só sai com autorização
   explícita, em commit isolado.
