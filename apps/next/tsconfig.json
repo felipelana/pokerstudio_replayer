@@ -16,7 +16,8 @@
     "plugins": [{ "name": "next" }],
     "paths": {
       "@/*": ["../web/src/*"],
-      "@pokerstudio/shared": ["../../packages/shared/src/index.ts"]
+      "@pokerstudio/shared": ["../../packages/shared/src/index.ts"],
+      "@pokerstudio/api/*": ["../api/src/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "../web/src/**/*.ts", "../web/src/**/*.tsx"],

@@ -16,8 +16,13 @@ const nextConfig = {
   output: 'standalone',
   reactStrictMode: false,
   // The shared package ships TypeScript source, not a build.
-  transpilePackages: ['@pokerstudio/shared'],
+  transpilePackages: ['@pokerstudio/shared', '@pokerstudio/api'],
   eslint: { ignoreDuringBuilds: true },
+  // Native modules and the Prisma engine are loaded by Node at run time,
+  // never bundled. In Next 14 the option lives under experimental.
+  experimental: {
+    serverComponentsExternalPackages: ['@prisma/client', '.prisma/client', '@node-rs/argon2', 'pino', 'pino-pretty', 'thread-stream'],
+  },
   webpack: (config) => {
     // An import ending in '?url' is how Vite asks for a file to be emitted
     // and for its address back. The same request is honoured here, so the
@@ -36,6 +41,9 @@ const nextConfig = {
       ...config.resolve.alias,
       '@': path.resolve(here, '../web/src'),
       '@pokerstudio/shared': path.resolve(here, '../../packages/shared/src/index.ts'),
+      // The API is imported as source, not as a build: one compiler, one set
+      // of types, and no dist to keep in step during the migration.
+      '@pokerstudio/api': path.resolve(here, '../api/src'),
     };
     return config;
   },
