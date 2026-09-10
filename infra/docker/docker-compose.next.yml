@@ -1,0 +1,79 @@
+# The shape after the migration: one application container instead of three.
+#
+# It is deliberately buildable from the repository, so a platform that clones
+# and builds (Coolify, for one) has something to build, and a platform that
+# pulls a published image can still override `image`.
+#
+#   local       docker compose -f docker-compose.next.yml up -d --build
+#   producao    APP_IMAGE=ghcr.io/... docker compose -f docker-compose.next.yml up -d
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: pokerstudio
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+      POSTGRES_DB: pokerstudio
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./backups:/backups
+    expose:
+      - '5432'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U pokerstudio']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    logging: &json-logging
+      driver: json-file
+      options:
+        max-size: '10m'
+        max-file: '5'
+
+  app:
+    # Built from this repository unless an image is named.
+    image: ${APP_IMAGE:-pokerstudio/app:local}
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.next
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      APP_ENV: ${APP_ENV:-production}
+      APP_VERSION: ${APP_VERSION:-0.0.0}
+      APP_COMMIT: ${APP_COMMIT:-unknown}
+      DATABASE_URL: postgresql://pokerstudio:${POSTGRES_PASSWORD}@postgres:5432/pokerstudio?schema=public
+      SESSION_SECRET: ${SESSION_SECRET:?set SESSION_SECRET}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY:?set ENCRYPTION_KEY}
+      APP_URL: ${APP_URL:?set APP_URL}
+      COOKIE_DOMAIN: ${COOKIE_DOMAIN:-}
+      ADMIN_EMAILS: ${ADMIN_EMAILS:-}
+      EMAIL_FROM: ${EMAIL_FROM:-nao-responda@pokerstudio.com.br}
+      EMAIL_FROM_NAME: ${EMAIL_FROM_NAME:-PokerStudio Replayer}
+      EMAIL_PROVIDER_KEY: ${EMAIL_PROVIDER_KEY:-}
+      TURNSTILE_SECRET: ${TURNSTILE_SECRET:-}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      GOOGLE_REDIRECT_URI: ${GOOGLE_REDIRECT_URI:-}
+      FACEBOOK_APP_ID: ${FACEBOOK_APP_ID:-}
+      FACEBOOK_APP_SECRET: ${FACEBOOK_APP_SECRET:-}
+      FACEBOOK_REDIRECT_URI: ${FACEBOOK_REDIRECT_URI:-}
+      APPLE_CLIENT_ID: ${APPLE_CLIENT_ID:-}
+      APPLE_TEAM_ID: ${APPLE_TEAM_ID:-}
+      APPLE_KEY_ID: ${APPLE_KEY_ID:-}
+      APPLE_PRIVATE_KEY: ${APPLE_PRIVATE_KEY:-}
+      APPLE_REDIRECT_URI: ${APPLE_REDIRECT_URI:-}
+      ERROR_LOG_RETENTION_DAYS: ${ERROR_LOG_RETENTION_DAYS:-30}
+    # Published so a reverse proxy on the host, or the platform's own, can
+    # reach it. Nothing else in this file publishes anything.
+    ports:
+      - '${APP_PORT:-3000}:3000'
+    logging: *json-logging
+
+volumes:
+  pgdata:

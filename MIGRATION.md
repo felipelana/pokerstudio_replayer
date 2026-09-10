@@ -13,7 +13,7 @@ interface e elas não podem divergir.
 | `apps/next` | casca Next, com o layout, a rota catch-all e a porta de entrada da API |
 | `apps/api` | Fastify e Prisma, sem alteração, servido pelas duas cascas |
 | `packages/shared` | regras e dados puros, usados pelo navegador e pelo servidor |
-| `landingpage` | site institucional, ainda em Vite |
+| `landingpage` | fonte do site institucional, servida pelo Next e ainda construível em Vite |
 
 ## Rodar
 
@@ -38,6 +38,23 @@ origem.
 **Não rode `next build` com o `next dev` de pé.** Os dois escrevem no mesmo
 `.next` e o servidor de desenvolvimento passa a responder 404. Se acontecer,
 pare o dev, apague `apps/next/.next` e suba de novo.
+
+## Um servidor, dois sites
+
+O Next escolhe pelo domínio: `pokerstudio.com.br` recebe a landing e
+`replayer.pokerstudio.com.br` recebe o produto. Em desenvolvimento existe só
+localhost, então `?site=1` chega à landing e o resto chega ao replayer.
+
+## Imagem
+
+`infra/docker/Dockerfile.next` produz uma imagem no lugar das três de antes,
+com a saída standalone. O `infra/docker/docker-compose.next.yml` sobe o Postgres
+e a aplicação, e é construível a partir do repositório, então uma plataforma que
+clona e constrói tem o que construir.
+
+```
+docker compose -f infra/docker/docker-compose.next.yml up -d --build
+```
 
 ## Voltar atrás, em menos de cinco minutos
 
@@ -74,8 +91,9 @@ migração, e a branch `backup/vite-fastify-2026-09-09` guarda a mesma coisa.
 
 ## O que ainda não
 
-- A landing continua em Vite, fora do app Next.
-- Não há Dockerfile para a saída standalone.
-- A matriz de paridade completa não foi preenchida.
+- A imagem não foi construída: não há Docker nesta máquina. O servidor de
+  produção que a imagem executa foi rodado à mão e responde.
+- Os três fluxos de OAuth dependem de credenciais que este ambiente não tem.
+- O CI ainda aponta para as três imagens antigas.
 - O `apps/web` em Vite continua no repositório, e só sai com autorização
   explícita, em commit isolado.
