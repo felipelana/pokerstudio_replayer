@@ -58,11 +58,24 @@ function CopyField({ label, value, secret = false }: { label: string; value: str
 export function ShareReviewDialog({
   reviewId,
   reviewTitle,
+  hand,
+  onSaveToAccount,
   open,
   onClose,
 }: {
   reviewId: string;
   reviewTitle: string;
+  /**
+   * The hand on screen, when the dialog is opened from the replayer. Its
+   * presence is what makes sharing a single hand possible at all.
+   */
+  hand?: { index: number; label: string };
+  /**
+   * How to put this review on the account, when it is not there yet. A link
+   * points at a review the server holds, so there is nothing to share until it
+   * has been sent. Given here, the dialog offers to do it rather than refusing.
+   */
+  onSaveToAccount?: () => Promise<void>;
   open: boolean;
   onClose(): void;
 }) {
@@ -75,16 +88,34 @@ export function ShareReviewDialog({
   const [coachName, setCoachName] = useState('');
   const [password, setPassword] = useState(freshPassword);
   const [hours, setHours] = useState(24);
+  const [scope, setScope] = useState<'review' | 'hand'>('review');
+  const [onAccount, setOnAccount] = useState(true);
+  // Only whether there is a hand matters here, and a fresh object on every
+  // render would restart this effect for no reason.
+  const hasHand = !!hand;
   const [created, setCreated] = useState<NewInvite | undefined>();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [reading, setReading] = useState<{ id: string; assessmentId: string; coachName: string }>();
 
   const reload = useCallback(async () => {
-    const [settings, list] = await Promise.all([shareApi.settings(), shareApi.list(reviewId)]);
+    const settings = await shareApi.settings();
     setLimits(settings);
     setHours((h) => (h === 24 ? settings.defaultHours : h));
-    setInvites(list.items);
+    try {
+      const list = await shareApi.list(reviewId);
+      setInvites(list.items);
+      setOnAccount(true);
+    } catch (err) {
+      // The review is not on the account yet, which is a thing to offer to fix,
+      // not an error to report.
+      if (err instanceof ApiError && err.problem.status === 404) {
+        setInvites([]);
+        setOnAccount(false);
+        return;
+      }
+      throw err;
+    }
   }, [reviewId]);
 
   useEffect(() => {
@@ -92,23 +123,45 @@ export function ShareReviewDialog({
     closeRef.current?.focus();
     setError('');
     setCreated(undefined);
+    // Opened over a hand, the offer starts on that hand: it is what the reader
+    // was looking at when they reached for the button.
+    setScope(hasHand ? 'hand' : 'review');
     void reload().catch(() => undefined);
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
-  }, [open, onClose, reload]);
+  }, [open, onClose, reload, hasHand]);
 
   if (!open) return null;
 
   const problems = validateCoachPassword(password);
-  const canCreate = coachName.trim().length > 0 && problems.length === 0 && !busy;
+  const canCreate = coachName.trim().length > 0 && problems.length === 0 && !busy && onAccount;
+
+  const sendToAccount = async () => {
+    if (!onSaveToAccount) return;
+    setBusy(true);
+    setError('');
+    try {
+      await onSaveToAccount();
+      await reload();
+    } catch (err) {
+      setError(err instanceof ApiError ? err.problem.title : t('auth.offline'));
+    } finally {
+      setBusy(false);
+    }
+  };
 
   const create = async () => {
     setBusy(true);
     setError('');
     try {
       const expiresAt = new Date(Date.now() + hours * 3600_000).toISOString();
-      const invite = await shareApi.create(reviewId, { coachName: coachName.trim(), password, expiresAt });
+      const invite = await shareApi.create(reviewId, {
+        coachName: coachName.trim(),
+        password,
+        expiresAt,
+        handIndex: scope === 'hand' && hand ? hand.index : undefined,
+      });
       setCreated(invite);
       setCoachName('');
       await reload();
@@ -176,7 +229,9 @@ export function ShareReviewDialog({
                 {t('share.passwordOnce')}
               </p>
               <p className="text-xs leading-relaxed" style={{ color: 'var(--text-muted)' }}>
-                {t('share.readOnlyNote')}
+                {created.handIndex === null || created.handIndex === undefined
+                  ? t('share.readOnlyNote')
+                  : t('share.readOnlyNoteHand')}
               </p>
               <div className="flex justify-end gap-2">
                 <button
@@ -202,6 +257,31 @@ export function ShareReviewDialog({
                 void create();
               }}
             >
+              {!onAccount && (
+                <div className="rounded-lg border border-dashed p-3 text-sm" style={{ borderColor: 'var(--border)' }}>
+                  <p style={{ color: 'var(--text-muted)' }}>{t('share.notOnAccount')}</p>
+                  {onSaveToAccount && (
+                    <button type="button" className="btn btn-primary mt-2" disabled={busy} onClick={() => void sendToAccount()}>
+                      {busy ? t('auth.working') : t('share.sendToAccount')}
+                    </button>
+                  )}
+                </div>
+              )}
+
+              {hand && (
+                <fieldset className="flex flex-col gap-1 text-sm">
+                  <legend className="mb-1">{t('share.scope')}</legend>
+                  <label className="checkbox">
+                    <input type="radio" name="scope" checked={scope === 'hand'} onChange={() => setScope('hand')} />
+                    {t('share.scopeHand', { hand: hand.label })}
+                  </label>
+                  <label className="checkbox">
+                    <input type="radio" name="scope" checked={scope === 'review'} onChange={() => setScope('review')} />
+                    {t('share.scopeReview')}
+                  </label>
+                </fieldset>
+              )}
+
               <label className="flex flex-col gap-1 text-sm">
                 {t('share.coachName')}
                 <input
@@ -279,6 +359,14 @@ export function ShareReviewDialog({
                   return (
                     <li key={invite.id} className="flex items-center gap-2 text-xs">
                       <span className="min-w-[120px] truncate font-semibold">{invite.coachName}</span>
+                      {invite.handIndex !== null && invite.handIndex !== undefined && (
+                        <span
+                          className="shrink-0 rounded-full border px-1.5 text-[10px]"
+                          style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}
+                        >
+                          {t('share.oneHand', { number: invite.handIndex + 1 })}
+                        </span>
+                      )}
                       <span className="shrink-0" style={{ color: state.color }}>
                         {state.label}
                       </span>

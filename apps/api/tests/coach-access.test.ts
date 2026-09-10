@@ -154,6 +154,55 @@ describe('the coach gets one review and nothing else', () => {
     expect(match.statusCode).toBe(200);
   });
 
+  it('a link for one hand hands over that hand and no other', async () => {
+    await prisma.reviewSession.update({ where: { id: reviewId }, data: { storeHandHistory: true } });
+    for (const index of [0, 1, 2]) {
+      await prisma.handRecord.update({
+        where: { reviewSessionId_index: { reviewSessionId: reviewId, index } },
+        data: { rawHistory: `PokerStars Hand #${index}: ...` },
+      });
+    }
+
+    const created = await app.inject({
+      method: 'POST',
+      url: `/api/v1/reviews/${reviewId}/invites`,
+      ...sending(playerCookie),
+      payload: { coachName: 'Ana', password: PASSWORD, handIndex: 1 },
+    });
+    expect(created.statusCode, created.body).toBe(201);
+    const invite = JSON.parse(created.body) as { token: string; handIndex: number };
+    expect(invite.handIndex).toBe(1);
+
+    const opened = await app.inject({
+      method: 'POST',
+      url: '/api/v1/coach/open',
+      remoteAddress: fromOwnMachine(),
+      ...sending(),
+      payload: { token: invite.token, password: PASSWORD },
+    });
+    const cookie = cookieOf(opened);
+
+    const hands = await app.inject({ method: 'GET', url: '/api/v1/coach/hands', headers: { cookie } });
+    const body = JSON.parse(hands.body);
+    expect(body.items).toHaveLength(1);
+    expect(body.items[0].index).toBe(1);
+
+    // And the screen is told, so it can say so rather than looking empty.
+    const seen = await app.inject({ method: 'GET', url: '/api/v1/coach/session', headers: { cookie } });
+    expect(JSON.parse(seen.body).handIndex).toBe(1);
+  });
+
+  it('refuses a link for a hand the review does not have', async () => {
+    const created = await app.inject({
+      method: 'POST',
+      url: `/api/v1/reviews/${reviewId}/invites`,
+      ...sending(playerCookie),
+      payload: { coachName: 'Ana', password: PASSWORD, handIndex: 99 },
+    });
+    // A hand that does not exist is a validation problem, not a missing route.
+    expect(created.statusCode).toBe(422);
+  });
+
   it('reads the hands only when the player kept the histories', async () => {
     const { cookie } = await inviteAndOpen('Ana');
 

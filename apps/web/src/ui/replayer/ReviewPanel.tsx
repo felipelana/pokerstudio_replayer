@@ -1,10 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import type { Hand, Review, Street } from '@/model/types';
 import { STREETS } from '@/model/types';
 import { getRepository } from '@/db/repository';
+import { STAR_SCORE } from '@pokerstudio/shared';
+import { quickResult } from '@/engine/replay';
+import { scoreOf } from '@/report/assessment';
 import { useAppStore } from '@/state/store';
-import { IconCheck, IconEye } from '@/ui/icons';
+import { IconCheck, IconEye, IconMore, IconShare } from '@/ui/icons';
 import type { CoachReading } from '@/ui/hooks/useCoachReadings';
 import { captureTable } from './capture';
 
@@ -16,15 +20,19 @@ export function ReviewPanel({
   hand,
   handIndex,
   coaches,
+  onShare,
   onClose,
 }: {
   hand: Hand;
   /** Position of this hand in the session, which is how a coach files their reading. */
   handIndex: number;
   coaches: CoachReading[];
+  /** Raises the sharing dialog on this hand. */
+  onShare(): void;
   onClose(): void;
 }) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const tags = useAppStore((s) => s.settings.leakTags);
   const [capturing, setCapturing] = useState(false);
   const [review, setReview] = useState<Review>(() => emptyReview(hand.id));
@@ -52,7 +60,12 @@ export function ReviewPanel({
     window.clearTimeout(timer.current);
     timer.current = window.setTimeout(async () => {
       const toSave = { ...review, updatedAt: new Date() };
-      const isEmpty = !toSave.notes.trim() && toSave.tags.length === 0 && !toSave.rating && !Object.values(toSave.streetNotes ?? {}).some((v) => v?.trim());
+      const isEmpty =
+        !toSave.notes.trim() &&
+        toSave.tags.length === 0 &&
+        typeof toSave.score !== 'number' &&
+        !toSave.rating &&
+        !Object.values(toSave.streetNotes ?? {}).some((v) => v?.trim());
       if (isEmpty) await getRepository().deleteReview(hand.id);
       else await getRepository().saveReview(toSave);
       setStatus('saved');
@@ -77,6 +90,15 @@ export function ReviewPanel({
           {status === 'saving' ? t('review.saving') : status === 'saved' ? t('review.saved') : ''}
         </span>
         <div className="flex-1" />
+        <button
+          type="button"
+          className="btn-icon !px-1.5"
+          title={t('share.tooltipHand')}
+          aria-label={t('share.tooltipHand')}
+          onClick={onShare}
+        >
+          <IconShare size={14} />
+        </button>
         <button type="button" className="btn btn-ghost" onClick={onClose} aria-label={t('common.close')}>
           ✕
         </button>
@@ -84,27 +106,30 @@ export function ReviewPanel({
 
       <CoachNotes coaches={coaches} handIndex={handIndex} />
 
-      <div>
-        <label className="label">{t('review.rating')}</label>
-        <div className="flex gap-1" role="radiogroup" aria-label={t('review.rating')}>
-          {[1, 2, 3, 4, 5].map((n) => (
-            <button
-              key={n}
-              type="button"
-              role="radio"
-              aria-checked={review.rating === n}
-              className="text-xl"
-              style={{ color: (review.rating ?? 0) >= n ? 'var(--result-break-even)' : 'var(--text-muted)' }}
-              onClick={() => update({ rating: review.rating === n ? undefined : (n as Review['rating']) })}
-            >
-              ★
-            </button>
-          ))}
-        </div>
-      </div>
+      <ScoreField
+        score={scoreOf(review)}
+        stars={review.rating}
+        played={quickResult(hand).vpip}
+        onStars={(rating) =>
+          update({ rating, score: rating === undefined ? undefined : STAR_SCORE[rating] })
+        }
+        onScore={(score) => update({ score, rating: undefined })}
+      />
 
       <div>
-        <label className="label">{t('review.tags')}</label>
+        <div className="flex items-center">
+          <label className="label">{t('review.tags')}</label>
+          <div className="flex-1" />
+          <button
+            type="button"
+            className="btn-icon !px-1 !py-0.5"
+            title={t('review.manageTags')}
+            aria-label={t('review.manageTags')}
+            onClick={() => navigate('/settings?panel=tags')}
+          >
+            <IconMore size={14} />
+          </button>
+        </div>
         <div className="flex flex-wrap gap-1">
           {tags.map((tag) => {
             const on = review.tags.includes(tag.id);
@@ -243,5 +268,94 @@ function CoachNotes({ coaches, handIndex }: { coaches: CoachReading[]; handIndex
         </div>
       ))}
     </section>
+  );
+}
+
+/**
+ * The reader's score for one hand, from 0 to 100, on the scale a coach writes.
+ *
+ * The five buttons are the quick way in, and they are the same ruler the report
+ * uses to read an old star rating: 10, 30, 50, 75, 95. The slider is there when
+ * a hand deserves a number between them. Nothing is scored until the reader
+ * says so, and the score can be taken back off.
+ *
+ * A hand the hero folded before putting money in still takes a score, but the
+ * panel says it does not count towards coverage, because coverage asks about
+ * hands that were actually played.
+ */
+function ScoreField({
+  score,
+  stars,
+  played,
+  onStars,
+  onScore,
+}: {
+  score?: number;
+  stars?: 1 | 2 | 3 | 4 | 5;
+  played: boolean;
+  onStars(stars: 1 | 2 | 3 | 4 | 5 | undefined): void;
+  onScore(score: number | undefined): void;
+}) {
+  const { t } = useTranslation();
+  const steps = [1, 2, 3, 4, 5] as const;
+  // A hand rated with the stars shows those stars. One scored with the slider
+  // shows the stars it has earned, so the row is never blank on a scored hand.
+  const lit = stars ?? (score === undefined ? 0 : steps.filter((n) => score >= STAR_SCORE[n]).length);
+
+  return (
+    <div className="flex flex-col gap-1.5">
+      <div className="flex items-center">
+        <label className="label">{t('review.rating')}</label>
+        <div className="flex-1" />
+        {stars !== undefined && (
+          <button type="button" className="btn btn-ghost !px-2 !py-0.5 text-xs" onClick={() => onStars(undefined)}>
+            {t('review.clearScore')}
+          </button>
+        )}
+      </div>
+
+      <div className="flex items-center gap-1" role="radiogroup" aria-label={t('review.rating')}>
+        {steps.map((n) => (
+          <button
+            key={n}
+            type="button"
+            role="radio"
+            aria-checked={stars === n}
+            className="text-xl leading-none"
+            title={`${n} · ${STAR_SCORE[n]}`}
+            style={{ color: lit >= n ? 'var(--result-break-even)' : 'var(--text-muted)' }}
+            onClick={() => onStars(stars === n ? undefined : n)}
+          >
+            ★
+          </button>
+        ))}
+      </div>
+
+      <div className="flex items-baseline">
+        <label className="label" htmlFor="review-score">
+          {t('review.score')}
+        </label>
+        <div className="flex-1" />
+        <span className="text-lg font-semibold tabular-nums" style={{ color: score === undefined ? 'var(--text-muted)' : 'var(--accent)' }}>
+          {score === undefined ? t('review.noScore') : score}
+        </span>
+      </div>
+
+      <input
+        id="review-score"
+        type="range"
+        min={0}
+        max={100}
+        step={1}
+        value={score ?? 50}
+        style={{ accentColor: 'var(--accent)' }}
+        aria-label={t('review.score')}
+        onChange={(e) => onScore(Number(e.target.value))}
+      />
+
+      <p className="text-[11px] leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+        {played ? t('review.countsForCoverage') : t('review.notPlayed')}
+      </p>
+    </div>
   );
 }

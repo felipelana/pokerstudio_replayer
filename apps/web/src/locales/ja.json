@@ -298,7 +298,14 @@
     "captureSaved": "スクリーンショットを保存しました",
     "coachTitle": "コーチのコメント",
     "coachPlayedWell": "良いプレー",
-    "coachInProgress": "評価は進行中"
+    "coachInProgress": "評価は進行中",
+    "score": "0 から 100 のあなたの点数",
+    "noScore": "点数なし",
+    "quickScore": "かんたん採点",
+    "clearScore": "取り消す",
+    "countsForCoverage": "プレイしたハンドです。セッションのカバー率に入ります。",
+    "notPlayed": "プレイしていないハンドです。点数は付けられますが、カバー率には入りません。",
+    "manageTags": "タグを管理"
   },
   "settings": {
     "title": "設定",
@@ -352,7 +359,12 @@
     "groupStudy": "学習",
     "groupData": "データ",
     "comingSoon": "近日対応",
-    "roomNicksSoonHint": "近日対応と表示されたルームはまだ読み込めません。ニックネームは保存され、対応した日から使われます。"
+    "roomNicksSoonHint": "近日対応と表示されたルームはまだ読み込めません。ニックネームは保存され、対応した日から使われます。",
+    "tagRemove": "タグ {{tag}} を削除",
+    "tagRemoveFree": "このタグはどのハンドにも付いていません。削除しても何も失いません。",
+    "tagInUse": "このタグは {{reviews}} 件のレビューの {{hands}} ハンドに付いています。",
+    "tagCascadeNote": "それでも削除すると、そのハンドからもタグが外れます。メモや点数などはそのまま残ります。",
+    "tagRemoveCascade": "削除してハンドからも外す"
   },
   "shortcuts": {
     "title": "キーボードショートカット",
@@ -985,7 +997,15 @@
     "readFeedback": "評価を見る",
     "feedbackFrom": "{{coach}} の評価",
     "feedbackEmpty": "この評価にはまだ何も書かれていません。",
-    "handNumber": "ハンド {{number}}"
+    "handNumber": "ハンド {{number}}",
+    "tooltipHand": "このハンド、またはレビュー全体を共有",
+    "scope": "共有する範囲",
+    "scopeHand": "ハンド {{hand}} だけ",
+    "scopeReview": "レビュー全体",
+    "oneHand": "ハンド {{number}}",
+    "readOnlyNoteHand": "リンクを開いた人はそのハンドだけを見ます。セッションの他は見えません。再生して感想を書くことができます。",
+    "notOnAccount": "このレビューはまだこの端末にしかありません。リンクを作るにはアカウントに保存する必要があります。",
+    "sendToAccount": "アカウントに保存して続ける"
   },
   "coach": {
     "title": "セッションを読む",
@@ -1012,6 +1032,7 @@
     "saved": "保存しました",
     "finish": "評価を完了する",
     "finished": "評価を完了し、共有した人に送りました。",
-    "finishNote": "完了すると評価は共有した人に送られ、あとから変更できません。"
+    "finishNote": "完了すると評価は共有した人に送られ、あとから変更できません。",
+    "reviewingHand": "{{player}} のセッションのハンド {{number}}。"
   }
 }

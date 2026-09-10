@@ -298,7 +298,14 @@
     "captureSaved": "Screenshot zu dieser Notiz gespeichert",
     "coachTitle": "Was der Coach sagt",
     "coachPlayedWell": "Gut gespielt",
-    "coachInProgress": "Einschätzung läuft noch"
+    "coachInProgress": "Einschätzung läuft noch",
+    "score": "Ihre Note von 0 bis 100",
+    "noScore": "keine Note",
+    "quickScore": "Schnelle Noten",
+    "clearScore": "entfernen",
+    "countsForCoverage": "Hand gespielt. Sie zählt für die Abdeckung der Sitzung.",
+    "notPlayed": "Hand nicht gespielt. Sie darf eine Note tragen, bleibt aber außerhalb der Abdeckung.",
+    "manageTags": "Etiketten verwalten"
   },
   "settings": {
     "title": "Einstellungen",
@@ -352,7 +359,12 @@
     "groupStudy": "Studium",
     "groupData": "Daten",
     "comingSoon": "Demnächst",
-    "roomNicksSoonHint": "Die als demnächst markierten Räume liest der Import noch nicht. Der Name wird aufbewahrt und gilt, sobald der Raum dazukommt."
+    "roomNicksSoonHint": "Die als demnächst markierten Räume liest der Import noch nicht. Der Name wird aufbewahrt und gilt, sobald der Raum dazukommt.",
+    "tagRemove": "Etikett {{tag}} löschen",
+    "tagRemoveFree": "Dieses Etikett ist auf keiner Hand. Löschen kostet nichts.",
+    "tagInUse": "Dieses Etikett ist auf {{hands}} Hand/Händen in {{reviews}} Review(s):",
+    "tagCascadeNote": "Wird es trotzdem gelöscht, verschwindet es auch von diesen Händen. Notizen, Noten und alles Übrige bleiben.",
+    "tagRemoveCascade": "Löschen und von diesen Händen nehmen"
   },
   "shortcuts": {
     "title": "Tastaturkürzel",
@@ -985,7 +997,15 @@
     "readFeedback": "Einschätzung lesen",
     "feedbackFrom": "Einschätzung von {{coach}}",
     "feedbackEmpty": "In dieser Einschätzung steht noch nichts.",
-    "handNumber": "Hand {{number}}"
+    "handNumber": "Hand {{number}}",
+    "tooltipHand": "Diese Hand oder die ganze Review teilen",
+    "scope": "Was geteilt wird",
+    "scopeHand": "Nur Hand {{hand}}",
+    "scopeReview": "Die ganze Review",
+    "oneHand": "Hand {{number}}",
+    "readOnlyNoteHand": "Wer den Link öffnet, sieht diese Hand und sonst nichts aus der Sitzung. Er kann sie nachspielen und aufschreiben, was er denkt.",
+    "notOnAccount": "Diese Review liegt bisher nur in diesem Browser. Für einen Link muss sie im Konto sein.",
+    "sendToAccount": "Im Konto speichern und weiter"
   },
   "coach": {
     "title": "Eine Sitzung lesen",
@@ -1012,6 +1032,7 @@
     "saved": "Gespeichert",
     "finish": "Einschätzung abschließen",
     "finished": "Einschätzung abgeschlossen und an die teilende Person geschickt.",
-    "finishNote": "Mit dem Abschluss geht die Einschätzung an die teilende Person und lässt sich danach nicht mehr ändern."
+    "finishNote": "Mit dem Abschluss geht die Einschätzung an die teilende Person und lässt sich danach nicht mehr ändern.",
+    "reviewingHand": "Hand {{number}} aus der Sitzung von {{player}}."
   }
 }

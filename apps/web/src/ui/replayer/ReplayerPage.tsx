@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useCloudProgress } from './useCloudProgress';
 import { ResumePrompt } from './ResumePrompt';
@@ -9,11 +9,14 @@ import { computePositions } from '@/model/positions';
 import { useAppStore, useActiveSkin, type JumpTarget } from '@/state/store';
 import { useAmountFormatter } from '@/ui/hooks/useFormat';
 import { ImportPanel } from '@/ui/library/ImportPanel';
-import { IconClose, IconNote } from '@/ui/icons';
+import { IconClose, IconNote, IconShare } from '@/ui/icons';
 import { Footer } from './Footer';
 import { HelpModal } from './HelpModal';
 import { ReviewPanel } from './ReviewPanel';
 import { useCoachReadings } from '@/ui/hooks/useCoachReadings';
+import { ShareReviewDialog } from '@/ui/share/ShareReviewDialog';
+import { buildCloudReview } from '@/ui/library/CloudReviews';
+import { reviewApi } from '@/infrastructure/http/reviewApi';
 import { Sidebar, type HandRow } from './Sidebar';
 import { TableArea } from './TableArea';
 import { useReplayerKeyboard } from './useKeyboard';
@@ -46,6 +49,7 @@ export function ReplayerPage() {
   // What any coach wrote about this review. Empty for a session that never left
   // this browser, and for a reader who is not signed in.
   const coaches = useCoachReadings(sessionId);
+  const [sharing, setSharing] = useState(false);
 
   // Fullscreen (R17): the browser API and our own state are kept in sync, so
   // leaving with Esc restores the layout too.
@@ -240,6 +244,12 @@ export function ReplayerPage() {
 
   const frame = replay.frames[Math.min(frameIndex, replay.frames.length - 1)];
 
+  /** Sharing points at a review the server holds, so it may have to go there first. */
+  const sendToAccount = async () => {
+    if (!session) return;
+    await reviewApi.save(session.id, await buildCloudReview(session, true));
+  };
+
   return (
     <div ref={rootRef} className="flex h-full" style={{ background: fullscreen ? 'var(--bg)' : undefined }}>
       <Sidebar
@@ -260,11 +270,18 @@ export function ReplayerPage() {
           <ResumePrompt handCount={hands.length} onGoTo={goToHand} />
           <TableArea replay={replay} frame={frame} heroName={heroName} onSeatClick={onSeatClick} />
           {reviewOpen ? (
-            <ReviewPanel hand={hand} handIndex={handIndex} coaches={coaches} onClose={() => setReviewOpen(false)} />
+            <ReviewPanel
+              hand={hand}
+              handIndex={handIndex}
+              coaches={coaches}
+              onShare={() => setSharing(true)}
+              onClose={() => setReviewOpen(false)}
+            />
           ) : (
+            <div className="m-1.5 flex flex-col gap-1 self-start">
             <button
               type="button"
-              className="btn-icon m-1.5 self-start"
+              className="btn-icon"
               data-tour="notes"
               onClick={() => setReviewOpen(true)}
               title={t('header.review')}
@@ -272,10 +289,29 @@ export function ReplayerPage() {
             >
               <IconNote size={15} />
             </button>
+            <button
+              type="button"
+              className="btn-icon"
+              onClick={() => setSharing(true)}
+              title={t('share.tooltipHand')}
+              aria-label={t('share.tooltipHand')}
+            >
+              <IconShare size={15} />
+            </button>
+            </div>
           )}
         </div>
         <Footer replay={replay} rows={rows} visible={visible} currentIndex={handIndex} fmt={fmt} onSelectHand={goToHand} />
       </div>
+      <ShareReviewDialog
+        reviewId={session?.id ?? ''}
+        reviewTitle={session?.name ?? ''}
+        hand={{ index: handIndex, label: hand.handNumber }}
+        onSaveToAccount={sendToAccount}
+        open={sharing}
+        onClose={() => setSharing(false)}
+      />
+
       <HelpModal />
       {importModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={() => setImportModalOpen(false)} role="presentation">

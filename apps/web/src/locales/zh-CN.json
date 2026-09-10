@@ -298,7 +298,14 @@
     "captureSaved": "截图已随此笔记保存",
     "coachTitle": "教练的评价",
     "coachPlayedWell": "打得不错",
-    "coachInProgress": "评价进行中"
+    "coachInProgress": "评价进行中",
+    "score": "你的 0 到 100 分",
+    "noScore": "无分数",
+    "quickScore": "快速打分",
+    "clearScore": "清除",
+    "countsForCoverage": "这手打过。它计入本次会话的覆盖率。",
+    "notPlayed": "这手没打。可以打分，但不计入覆盖率。",
+    "manageTags": "管理标签"
   },
   "settings": {
     "title": "设置",
@@ -352,7 +359,12 @@
     "groupStudy": "学习",
     "groupData": "数据",
     "comingSoon": "即将支持",
-    "roomNicksSoonHint": "标记为即将支持的房间还无法导入。昵称会先保存，等房间接入当天开始生效。"
+    "roomNicksSoonHint": "标记为即将支持的房间还无法导入。昵称会先保存，等房间接入当天开始生效。",
+    "tagRemove": "删除标签 {{tag}}",
+    "tagRemoveFree": "这个标签没有用在任何一手上，删除不会丢失什么。",
+    "tagInUse": "这个标签用在 {{reviews}} 份复盘的 {{hands}} 手上：",
+    "tagCascadeNote": "仍然删除的话，标签也会从那些手上移除。笔记、分数和其他内容都保持不变。",
+    "tagRemoveCascade": "删除并从那些手上移除"
   },
   "shortcuts": {
     "title": "键盘快捷键",
@@ -985,7 +997,15 @@
     "readFeedback": "查看评价",
     "feedbackFrom": "{{coach}} 的评价",
     "feedbackEmpty": "这份评价还没有写下任何内容。",
-    "handNumber": "第 {{number}} 手"
+    "handNumber": "第 {{number}} 手",
+    "tooltipHand": "共享这一手或整份复盘",
+    "scope": "共享什么",
+    "scopeHand": "只共享第 {{hand}} 手",
+    "scopeReview": "整份复盘",
+    "oneHand": "第 {{number}} 手",
+    "readOnlyNoteHand": "打开链接的人只看到那一手，会话的其他部分都看不到。他可以回放并写下看法。",
+    "notOnAccount": "这份复盘目前只在这个浏览器里。要生成链接，它得先在你的账户上。",
+    "sendToAccount": "保存到账户并继续"
   },
   "coach": {
     "title": "查看一个会话",
@@ -1012,6 +1032,7 @@
     "saved": "已保存",
     "finish": "完成评价",
     "finished": "评价已完成并发送给共享会话的人。",
-    "finishNote": "完成后评价会发送给共享会话的人，之后不能再修改。"
+    "finishNote": "完成后评价会发送给共享会话的人，之后不能再修改。",
+    "reviewingHand": "{{player}} 会话中的第 {{number}} 手。"
   }
 }

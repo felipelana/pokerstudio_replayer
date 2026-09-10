@@ -46,13 +46,21 @@ export async function saveShareSettings(
 export async function createInvite(
   deps: InviteDeps,
   userId: string,
-  input: { reviewSessionId: string; coachName: string; password: string; expiresAt?: Date },
-): Promise<Result<{ id: string; token: string; expiresAt: Date; coachName: string }>> {
+  input: { reviewSessionId: string; coachName: string; password: string; expiresAt?: Date; handIndex?: number },
+): Promise<Result<{ id: string; token: string; expiresAt: Date; coachName: string; handIndex: number | null }>> {
   const session = await deps.prisma.reviewSession.findFirst({
     where: { id: input.reviewSessionId, userId },
-    select: { id: true },
+    select: { id: true, handCount: true },
   });
   if (!session) return fail(Errors.notFound('Review'));
+
+  // A link that names a hand has to name one that exists, or the coach opens
+  // an empty screen and has no way to tell whose mistake it was.
+  if (input.handIndex !== undefined) {
+    if (!Number.isInteger(input.handIndex) || input.handIndex < 0 || input.handIndex >= session.handCount) {
+      return fail(Errors.validation('A mão escolhida não existe nesta review.'));
+    }
+  }
 
   const problems = validateCoachPassword(input.password);
   if (problems.length > 0) return fail(Errors.validation(problems.join(' ')));
@@ -75,8 +83,9 @@ export async function createInvite(
       token,
       passwordHash: await deps.hasher.hash(input.password),
       expiresAt,
+      handIndex: input.handIndex,
     },
-    select: { id: true, token: true, expiresAt: true, coachName: true },
+    select: { id: true, token: true, expiresAt: true, coachName: true, handIndex: true },
   });
   return ok(invite);
 }
@@ -97,6 +106,7 @@ export async function listInvites(deps: InviteDeps, userId: string, reviewSessio
       expiresAt: true,
       revokedAt: true,
       createdAt: true,
+      handIndex: true,
       assessment: { select: { id: true, status: true, completedAt: true } },
     },
   });
@@ -132,11 +142,26 @@ export async function inviteState(
   inviteId: string,
 ): Promise<{
   state: InviteState;
-  invite?: { id: string; token: string; reviewSessionId: string; coachName: string; expiresAt: Date };
+  invite?: {
+    id: string;
+    token: string;
+    reviewSessionId: string;
+    coachName: string;
+    expiresAt: Date;
+    handIndex: number | null;
+  };
 }> {
   const invite = await deps.prisma.coachInvite.findUnique({
     where: { id: inviteId },
-    select: { id: true, token: true, reviewSessionId: true, coachName: true, expiresAt: true, revokedAt: true },
+    select: {
+      id: true,
+      token: true,
+      reviewSessionId: true,
+      coachName: true,
+      expiresAt: true,
+      revokedAt: true,
+      handIndex: true,
+    },
   });
   if (!invite) return { state: 'unknown' };
   if (invite.revokedAt) return { state: 'revoked' };

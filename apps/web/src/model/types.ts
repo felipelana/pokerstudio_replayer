@@ -210,6 +210,13 @@ export interface Review {
   imageAssetId?: string;
   /** Action the note refers to, in words (L3). */
   actionLabel?: string;
+  /**
+   * The reader's own score for this hand, 0 to 100, on the same scale a coach
+   * writes. Sessions written before this existed carry `rating` instead, and
+   * are read through the shared ruler.
+   */
+  score?: number;
+  /** Legacy: one to five stars. Kept so old reviews still say something. */
   rating?: 1 | 2 | 3 | 4 | 5;
   streetNotes?: Partial<Record<Street, string>>;
   createdAt: Date;

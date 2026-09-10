@@ -11,6 +11,8 @@ export interface Invite {
   expiresAt: string;
   revokedAt?: string | null;
   createdAt: string;
+  /** Null when the link is for the whole review. */
+  handIndex?: number | null;
   assessment?: { id: string; status: string; completedAt?: string | null } | null;
 }
 
@@ -20,6 +22,7 @@ export interface NewInvite {
   token: string;
   coachName: string;
   expiresAt: string;
+  handIndex?: number | null;
 }
 
 export interface CoachSession {
@@ -27,6 +30,8 @@ export interface CoachSession {
   expiresAt: string;
   assessmentId: string;
   player: string;
+  /** Null for the whole review; a position when the link is for one hand. */
+  handIndex?: number | null;
   session: { id: string; title: string; sourceFileName?: string | null; room?: string | null; handCount: number };
 }
 
@@ -72,7 +77,7 @@ export interface SessionAssessmentRow {
 export const shareApi = {
   settings: () => api.get<ShareSettings>('/share-settings'),
   list: (reviewId: string) => api.get<{ items: Invite[] }>(`/reviews/${reviewId}/invites`),
-  create: (reviewId: string, input: { coachName: string; password: string; expiresAt?: string }) =>
+  create: (reviewId: string, input: { coachName: string; password: string; expiresAt?: string; handIndex?: number }) =>
     api.post<NewInvite>(`/reviews/${reviewId}/invites`, input),
   revoke: (inviteId: string) => api.post<{ id: string }>(`/invites/${inviteId}/revoke`),
   /** What a coach wrote, read by the player who owns the review. */
