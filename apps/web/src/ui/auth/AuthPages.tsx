@@ -13,6 +13,7 @@ import { ProviderButton, ProviderButtons, useProviders, type ProviderName } from
 import { LanguageSelector } from '@/ui/LanguageSelector';
 import { LanguageChoice } from '@/ui/LanguageChoice';
 import { PasswordSection, ProfileEditor } from './AccountSettings';
+import { assetUrl } from '@/assets/assetUrl';
 
 /** Shell shared by every authentication screen. */
 function AuthShell({ title, subtitle, children }: { title: string; subtitle?: string; children: React.ReactNode }) {
@@ -21,7 +22,7 @@ function AuthShell({ title, subtitle, children }: { title: string; subtitle?: st
       <div className="w-full max-w-[420px]">
         <div className="mb-6 flex flex-col items-center gap-3">
           <img
-            src={brandMark}
+            src={assetUrl(brandMark)}
             alt="PokerStudio Replayer"
             className="h-20 w-20 select-none"
             style={{ filter: 'drop-shadow(0 8px 22px rgba(225, 6, 0, 0.45))' }}

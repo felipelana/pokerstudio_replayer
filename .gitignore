@@ -17,3 +17,7 @@ coverage
 
 # Incremental TypeScript state
 *.tsbuildinfo
+
+# Next build output
+.next/
+next-env.d.ts

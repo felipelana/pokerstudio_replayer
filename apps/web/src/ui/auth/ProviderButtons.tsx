@@ -153,7 +153,9 @@ export function ProviderButtons({ redirect = '/', signUp = false }: { redirect?:
   // Outside production every provider is on screen — the ones without
   // credentials disabled and saying so — because a button that quietly is not
   // there reads as a bug. In production, only what actually works is offered.
-  const shown = import.meta.env.DEV ? all : all.filter((p) => available[p]);
+  // Vite and Next both replace this at build time, so one line serves both.
+  const inDevelopment = process.env.NODE_ENV !== 'production';
+  const shown = inDevelopment ? all : all.filter((p) => available[p]);
 
   if (shown.length === 0) return null;
   const missing = shown.some((p) => !available[p]);

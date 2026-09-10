@@ -12,6 +12,7 @@ import { parseInWorker } from '@/parsers/importer';
 import { TableArea } from '@/ui/replayer/TableArea';
 import type { Session } from '@/model/types';
 import brandMark from '@/assets/pokerstudio-mark.png';
+import { assetUrl } from '@/assets/assetUrl';
 
 /**
  * Everything a coach sees, and the boundary of it.
@@ -86,7 +87,7 @@ export function CoachPage() {
       <div className="auth-theme flex h-full items-center justify-center overflow-auto p-6">
         <div className="w-full max-w-[420px]">
           <div className="mb-6 flex flex-col items-center gap-3">
-            <img src={brandMark} alt="PokerStudio Replayer" className="h-16 w-16 select-none" draggable={false} />
+            <img src={assetUrl(brandMark)} alt="PokerStudio Replayer" className="h-16 w-16 select-none" draggable={false} />
             <span className="text-lg font-semibold tracking-wide">
               PokerStudio <span style={{ color: 'var(--accent)' }}>Replayer</span>
             </span>
@@ -129,7 +130,7 @@ export function CoachPage() {
         className="flex flex-wrap items-center gap-3 border-b px-4 py-2"
         style={{ borderColor: 'var(--border)', background: 'var(--surface)' }}
       >
-        <img src={brandMark} alt="" aria-hidden="true" className="h-6 w-6 select-none" draggable={false} />
+        <img src={assetUrl(brandMark)} alt="" aria-hidden="true" className="h-6 w-6 select-none" draggable={false} />
         <span className="text-sm font-semibold">
           PokerStudio <span style={{ color: 'var(--accent)' }}>Replayer</span>
         </span>

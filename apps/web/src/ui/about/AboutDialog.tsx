@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import brandMark from '@/assets/pokerstudio-mark.png';
 import { IconClose } from '../icons';
+import { assetUrl } from '@/assets/assetUrl';
 
 /**
  * Who made this, and what it is for. Opened from the account menu; the text and
@@ -35,7 +36,7 @@ export function AboutDialog({ open, onClose }: { open: boolean; onClose(): void 
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-start gap-3 px-5 pb-2 pt-4">
-          <img src={brandMark} alt="" aria-hidden="true" className="h-9 w-9 select-none" draggable={false} />
+          <img src={assetUrl(brandMark)} alt="" aria-hidden="true" className="h-9 w-9 select-none" draggable={false} />
           <div className="flex-1">
             <h2 className="text-lg font-semibold">{t('about.title')}</h2>
             <p className="text-xs" style={{ color: 'var(--text-muted)' }}>

@@ -9,6 +9,7 @@ import { LanguageSelector } from './LanguageSelector';
 import { UserMenu } from './UserMenu';
 import { HeaderMenu } from './HeaderMenu';
 import { useAuthStore } from '@/state/authStore';
+import { assetUrl } from '@/assets/assetUrl';
 
 /** Screens that render their own brand and must not show the app chrome. */
 const AUTH_PATHS = ['/login', '/signup', '/forgot-password', '/reset-password', '/verify-email', '/r/'];
@@ -63,7 +64,7 @@ export function Header() {
       style={{ borderColor: 'var(--border)', background: 'var(--surface)' }}
     >
       <NavLink to="/" className="mr-2 flex items-center gap-2 font-semibold tracking-tight">
-        <img src={brandMark} alt="" className="h-7 w-7 select-none" draggable={false} />
+        <img src={assetUrl(brandMark)} alt="" className="h-7 w-7 select-none" draggable={false} />
         <span className="hidden sm:inline">
           PokerStudio <span style={{ color: 'var(--accent)' }}>Replayer</span>
         </span>

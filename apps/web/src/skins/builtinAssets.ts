@@ -1,5 +1,6 @@
 import pokerStudioLogo from '@/assets/pokerstudio-logo.png';
 import pokerStudioMark from '@/assets/pokerstudio-mark.png';
+import { assetUrl } from '@/assets/assetUrl';
 
 /**
  * Images shipped with the app. Skins reference them through the same
@@ -9,8 +10,8 @@ import pokerStudioMark from '@/assets/pokerstudio-mark.png';
 export const BUILTIN_ASSET_PREFIX = 'builtin:';
 
 export const BUILTIN_ASSETS: Record<string, string> = {
-  'builtin:pokerstudio': pokerStudioLogo,
-  'builtin:pokerstudio-mark': pokerStudioMark,
+  'builtin:pokerstudio': assetUrl(pokerStudioLogo),
+  'builtin:pokerstudio-mark': assetUrl(pokerStudioMark),
 };
 
 export function isBuiltinAsset(id?: string): boolean {
