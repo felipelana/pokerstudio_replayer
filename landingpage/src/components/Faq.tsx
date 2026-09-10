@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Section } from '@/components/Section';
+import { Section } from '@landing/components/Section';
 
 const ITEMS = ['free', 'files', 'formats', 'rooms', 'skins', 'coach', 'reports', 'expiry'] as const;
 

@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
-import { useReveal } from '@/hooks/useReveal';
-import { SECTION_ICONS } from '@/components/Icons';
-import { SECTIONS, type SectionId } from '@/config';
+import { useReveal } from '@landing/hooks/useReveal';
+import { SECTION_ICONS } from '@landing/components/Icons';
+import { SECTIONS, type SectionId } from '@landing/config';
 
 interface SectionProps {
   id: string;

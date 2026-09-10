@@ -1,15 +1,15 @@
 import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
-import en from '@/locales/en.json';
-import ptBR from '@/locales/pt-BR.json';
-import es from '@/locales/es.json';
-import de from '@/locales/de.json';
-import ru from '@/locales/ru.json';
-import zhCN from '@/locales/zh-CN.json';
-import ja from '@/locales/ja.json';
-import ko from '@/locales/ko.json';
-import type { FlagId } from '@/components/Flags';
+import en from '@landing/locales/en.json';
+import ptBR from '@landing/locales/pt-BR.json';
+import es from '@landing/locales/es.json';
+import de from '@landing/locales/de.json';
+import ru from '@landing/locales/ru.json';
+import zhCN from '@landing/locales/zh-CN.json';
+import ja from '@landing/locales/ja.json';
+import ko from '@landing/locales/ko.json';
+import type { FlagId } from '@landing/components/Flags';
 
 export interface LanguageInfo {
   code: string;

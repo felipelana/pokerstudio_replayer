@@ -9,7 +9,7 @@ import { LanguageSelector } from './LanguageSelector';
 import { UserMenu } from './UserMenu';
 import { HeaderMenu } from './HeaderMenu';
 import { useAuthStore } from '@/state/authStore';
-import { assetUrl } from '@/assets/assetUrl';
+import { assetUrl } from '@pokerstudio/shared';
 
 /** Screens that render their own brand and must not show the app chrome. */
 const AUTH_PATHS = ['/login', '/signup', '/forgot-password', '/reset-password', '/verify-email', '/r/'];

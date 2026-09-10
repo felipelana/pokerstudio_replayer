@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { Section } from '@/components/Section';
-import { ROADMAP_ICONS } from '@/components/Icons';
+import { Section } from '@landing/components/Section';
+import { ROADMAP_ICONS } from '@landing/components/Icons';
 
 const ITEMS = ['shared', 'audio', 'video', 'profile', 'dashboard', 'ai'] as const;
 

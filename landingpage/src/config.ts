@@ -6,12 +6,12 @@
  * from the staging host sends them to the staging replayer, and everything
  * else — the real site — sends them to production. Because the destination is
  * read from the hostname the page is being served from, one built image is
- * correct on every host, and `VITE_REPLAYER_URL` only exists to override it.
+ * correct on every host, and `NEXT_PUBLIC_REPLAYER_URL` only exists to override it.
  */
 
-const PROD_URL = import.meta.env.VITE_REPLAYER_URL_PROD ?? 'https://replayer.pokerstudio.com.br';
-const STAGING_URL = import.meta.env.VITE_REPLAYER_URL_STAGING ?? 'https://stage.replayer.pokerstudio.com.br';
-const DEV_URL = import.meta.env.VITE_REPLAYER_URL_DEV ?? 'http://localhost:5173';
+const PROD_URL = process.env.NEXT_PUBLIC_REPLAYER_URL_PROD ?? 'https://replayer.pokerstudio.com.br';
+const STAGING_URL = process.env.NEXT_PUBLIC_REPLAYER_URL_STAGING ?? 'https://stage.replayer.pokerstudio.com.br';
+const DEV_URL = process.env.NEXT_PUBLIC_REPLAYER_URL_DEV ?? 'http://localhost:5173';
 
 /** Hostnames that mean "someone is developing", not "a visitor". */
 function isLocalHost(hostname: string): boolean {
@@ -33,7 +33,7 @@ function isStagingHost(hostname: string): boolean {
 }
 
 export function replayerUrl(): string {
-  const explicit = import.meta.env.VITE_REPLAYER_URL;
+  const explicit = process.env.NEXT_PUBLIC_REPLAYER_URL;
   if (explicit) return explicit;
   if (typeof window === 'undefined') return PROD_URL;
   const { hostname } = window.location;
@@ -42,7 +42,7 @@ export function replayerUrl(): string {
   return PROD_URL;
 }
 
-export const SITE_URL = import.meta.env.VITE_SITE_URL ?? 'https://pokerstudio.com.br';
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pokerstudio.com.br';
 export const SITE_LABEL = 'pokerstudio.com.br';
 
 /** Section ids, in the order they appear. The nav and the scroll spy share it. */

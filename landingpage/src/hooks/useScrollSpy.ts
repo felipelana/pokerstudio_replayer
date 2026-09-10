@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { HEADER_HEIGHT, SECTIONS, type SectionId } from '@/config';
+import { HEADER_HEIGHT, SECTIONS, type SectionId } from '@landing/config';
 
 /**
  * Which section the reader is currently in.

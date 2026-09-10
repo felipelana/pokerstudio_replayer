@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SECTIONS, type SectionId } from '@/config';
-import { MARK } from '@/assets/shots';
-import { scrollToSection } from '@/lib/scroll';
-import { CtaButton } from '@/components/CtaButton';
-import { SECTION_ICONS } from '@/components/Icons';
-import { LanguageSelector } from '@/components/LanguageSelector';
+import { SECTIONS, type SectionId } from '@landing/config';
+import { MARK } from '@landing/assets/shots';
+import { scrollToSection } from '@landing/lib/scroll';
+import { CtaButton } from '@landing/components/CtaButton';
+import { SECTION_ICONS } from '@landing/components/Icons';
+import { LanguageSelector } from '@landing/components/LanguageSelector';
 
 export function Header({ active }: { active: SectionId | null }) {
   const { t } = useTranslation();

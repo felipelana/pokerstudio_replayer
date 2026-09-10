@@ -17,7 +17,8 @@
     "paths": {
       "@/*": ["../web/src/*"],
       "@pokerstudio/shared": ["../../packages/shared/src/index.ts"],
-      "@pokerstudio/api/*": ["../api/src/*"]
+      "@pokerstudio/api/*": ["../api/src/*"],
+      "@landing/*": ["../../landingpage/src/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "../web/src/**/*.ts", "../web/src/**/*.tsx", "../api/src/types.d.ts"],

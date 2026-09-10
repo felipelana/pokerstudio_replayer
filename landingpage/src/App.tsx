@@ -1,20 +1,20 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { languageInfo } from '@/i18n';
-import { useScrollSpy } from '@/hooks/useScrollSpy';
-import { Header } from '@/components/Header';
-import { Hero } from '@/components/Hero';
-import { Section } from '@/components/Section';
-import { FeatureCarousel } from '@/components/FeatureCarousel';
-import { ShotStrip } from '@/components/ShotStrip';
-import { HowItWorks } from '@/components/HowItWorks';
-import { CoachReview } from '@/components/CoachReview';
-import { Reports } from '@/components/Reports';
-import { Rooms } from '@/components/Rooms';
-import { Roadmap } from '@/components/Roadmap';
-import { Faq } from '@/components/Faq';
-import { FinalCta } from '@/components/FinalCta';
-import { Footer } from '@/components/Footer';
+import { languageInfo } from '@landing/i18n';
+import { useScrollSpy } from '@landing/hooks/useScrollSpy';
+import { Header } from '@landing/components/Header';
+import { Hero } from '@landing/components/Hero';
+import { Section } from '@landing/components/Section';
+import { FeatureCarousel } from '@landing/components/FeatureCarousel';
+import { ShotStrip } from '@landing/components/ShotStrip';
+import { HowItWorks } from '@landing/components/HowItWorks';
+import { CoachReview } from '@landing/components/CoachReview';
+import { Reports } from '@landing/components/Reports';
+import { Rooms } from '@landing/components/Rooms';
+import { Roadmap } from '@landing/components/Roadmap';
+import { Faq } from '@landing/components/Faq';
+import { FinalCta } from '@landing/components/FinalCta';
+import { Footer } from '@landing/components/Footer';
 
 export default function App() {
   const { t, i18n } = useTranslation();

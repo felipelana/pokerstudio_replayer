@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import { Section } from '@/components/Section';
-import { SHOTS } from '@/assets/shots';
-import { Shot } from '@/components/Shot';
-import { ShareIllustration } from '@/components/Illustrations';
+import { Section } from '@landing/components/Section';
+import { SHOTS } from '@landing/assets/shots';
+import { Shot } from '@landing/components/Shot';
+import { ShareIllustration } from '@landing/components/Illustrations';
 
 const ITEMS = [
   'link',

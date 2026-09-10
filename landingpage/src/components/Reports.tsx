@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { Section } from '@/components/Section';
-import { EvolutionChart } from '@/components/Illustrations';
+import { Section } from '@landing/components/Section';
+import { EvolutionChart } from '@landing/components/Illustrations';
 
 const ITEMS = ['score', 'coverage', 'leaks', 'self', 'coaches', 'filter'] as const;
 

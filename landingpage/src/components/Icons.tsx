@@ -1,4 +1,4 @@
-import type { SectionId } from '@/config';
+import type { SectionId } from '@landing/config';
 
 /*
  * One icon per navigation entry, all drawn on the same 24-unit grid with the

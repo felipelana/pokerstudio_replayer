@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import brandMark from '@/assets/pokerstudio-mark.png';
 import { IconClose } from '../icons';
-import { assetUrl } from '@/assets/assetUrl';
+import { assetUrl } from '@pokerstudio/shared';
 
 /**
  * Who made this, and what it is for. Opened from the account menu; the text and

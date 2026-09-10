@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
-import { Section } from '@/components/Section';
-import { ROOMS } from '@/data/rooms';
-import { ROOM_MARKS } from '@/components/RoomLogos';
+import { Section } from '@landing/components/Section';
+import { ROOMS } from '@landing/data/rooms';
+import { ROOM_MARKS } from '@landing/components/RoomLogos';
 
 /**
  * Two rooms read today; the rest are on the way. The card says which is which

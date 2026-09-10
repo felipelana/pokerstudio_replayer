@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { CtaButton, FreeBadge } from '@/components/CtaButton';
-import { useReveal } from '@/hooks/useReveal';
+import { CtaButton, FreeBadge } from '@landing/components/CtaButton';
+import { useReveal } from '@landing/hooks/useReveal';
 
 export function FinalCta() {
   const { t } = useTranslation();

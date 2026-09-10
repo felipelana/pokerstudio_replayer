@@ -1,7 +1,7 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { LANGUAGES, languageInfo } from '@/i18n';
-import { FLAGS } from '@/components/Flags';
+import { LANGUAGES, languageInfo } from '@landing/i18n';
+import { FLAGS } from '@landing/components/Flags';
 
 /**
  * The eight languages, written out in full. A listbox rather than a <select>,

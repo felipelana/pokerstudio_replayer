@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { SHOTS, type Shot } from '@/assets/shots';
+import { SHOTS, type Shot } from '@landing/assets/shots';
 
 /** Corners of the real interface, under the carousel: filters, display
  *  controls, the deck preview and the language menu. */

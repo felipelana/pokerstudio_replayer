@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { replayerUrl } from '@/config';
+import { replayerUrl } from '@landing/config';
 
 interface CtaButtonProps {
   /** `sm` is the one in the header. */

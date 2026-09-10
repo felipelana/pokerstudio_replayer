@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SHOTS, type Shot as ShotAsset } from '@/assets/shots';
+import { SHOTS, type Shot as ShotAsset } from '@landing/assets/shots';
 import {
   EvolutionChart,
   ReportIllustration,
   ResumeIllustration,
   SaveIllustration,
   ShareIllustration,
-} from '@/components/Illustrations';
+} from '@landing/components/Illustrations';
 
 type Media =
   | { kind: 'shot'; shots: ShotAsset[]; altKeys: string[] }

@@ -12,7 +12,7 @@ import { parseInWorker } from '@/parsers/importer';
 import { TableArea } from '@/ui/replayer/TableArea';
 import type { Session } from '@/model/types';
 import brandMark from '@/assets/pokerstudio-mark.png';
-import { assetUrl } from '@/assets/assetUrl';
+import { assetUrl } from '@pokerstudio/shared';
 
 /**
  * Everything a coach sees, and the boundary of it.

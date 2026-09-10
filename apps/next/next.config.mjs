@@ -44,6 +44,8 @@ const nextConfig = {
       // The API is imported as source, not as a build: one compiler, one set
       // of types, and no dist to keep in step during the migration.
       '@pokerstudio/api': path.resolve(here, '../api/src'),
+      // The landing keeps its own prefix, because two folders cannot both be '@'.
+      '@landing': path.resolve(here, '../../landingpage/src'),
     };
     return config;
   },

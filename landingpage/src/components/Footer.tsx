@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
-import { SECTIONS, SITE_LABEL, SITE_URL } from '@/config';
-import { MARK } from '@/assets/shots';
-import { scrollToSection } from '@/lib/scroll';
+import { SECTIONS, SITE_LABEL, SITE_URL } from '@landing/config';
+import { MARK } from '@landing/assets/shots';
+import { scrollToSection } from '@landing/lib/scroll';
 
 export function Footer() {
   const { t } = useTranslation();

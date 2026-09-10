@@ -1,4 +1,4 @@
-import { HEADER_HEIGHT } from '@/config';
+import { HEADER_HEIGHT } from '@landing/config';
 
 /**
  * Scrolls a section to just under the fixed header, animated unless the visitor

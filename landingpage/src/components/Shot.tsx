@@ -1,4 +1,4 @@
-import type { Shot as ShotAsset } from '@/assets/shots';
+import type { Shot as ShotAsset } from '@landing/assets/shots';
 
 interface ShotProps {
   shot: ShotAsset;

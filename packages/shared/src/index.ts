@@ -62,3 +62,4 @@ export const QUOTAS = {
 } as const;
 
 export * from './countries';
+export * from './assetUrl.js';

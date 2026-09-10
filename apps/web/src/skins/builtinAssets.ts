@@ -1,6 +1,6 @@
 import pokerStudioLogo from '@/assets/pokerstudio-logo.png';
 import pokerStudioMark from '@/assets/pokerstudio-mark.png';
-import { assetUrl } from '@/assets/assetUrl';
+import { assetUrl } from '@pokerstudio/shared';
 
 /**
  * Images shipped with the app. Skins reference them through the same

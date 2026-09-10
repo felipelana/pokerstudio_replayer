@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import { SHOTS } from '@/assets/shots';
-import { Shot } from '@/components/Shot';
-import { CtaButton, FreeBadge } from '@/components/CtaButton';
-import { scrollToSection } from '@/lib/scroll';
+import { SHOTS } from '@landing/assets/shots';
+import { Shot } from '@landing/components/Shot';
+import { CtaButton, FreeBadge } from '@landing/components/CtaButton';
+import { scrollToSection } from '@landing/lib/scroll';
 
 export function Hero() {
   const { t } = useTranslation();

@@ -13,7 +13,7 @@ import { ProviderButton, ProviderButtons, useProviders, type ProviderName } from
 import { LanguageSelector } from '@/ui/LanguageSelector';
 import { LanguageChoice } from '@/ui/LanguageChoice';
 import { PasswordSection, ProfileEditor } from './AccountSettings';
-import { assetUrl } from '@/assets/assetUrl';
+import { assetUrl } from '@pokerstudio/shared';
 
 /** Shell shared by every authentication screen. */
 function AuthShell({ title, subtitle, children }: { title: string; subtitle?: string; children: React.ReactNode }) {
