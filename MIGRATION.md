@@ -7,13 +7,13 @@ interface e elas não podem divergir.
 
 ## Estrutura
 
-| Pasta | O que é |
-|---|---|
-| `apps/web` | aplicação Vite, o legado que continua funcionando, e o `src` que ambos usam |
-| `apps/next` | casca Next, com o layout, a rota catch-all e a porta de entrada da API |
-| `apps/api` | Fastify e Prisma, sem alteração, servido pelas duas cascas |
-| `packages/shared` | regras e dados puros, usados pelo navegador e pelo servidor |
-| `landingpage` | fonte do site institucional, servida pelo Next e ainda construível em Vite |
+| Pasta             | O que é                                                                     |
+| ----------------- | --------------------------------------------------------------------------- |
+| `apps/web`        | aplicação Vite, o legado que continua funcionando, e o `src` que ambos usam |
+| `apps/next`       | casca Next, com o layout, a rota catch-all e a porta de entrada da API      |
+| `apps/api`        | Fastify e Prisma, sem alteração, servido pelas duas cascas                  |
+| `packages/shared` | regras e dados puros, usados pelo navegador e pelo servidor                 |
+| `landingpage`     | fonte do site institucional, servida pelo Next e ainda construível em Vite  |
 
 ## Rodar
 
@@ -27,17 +27,21 @@ npm run dev:api        # API em 3001
 O Next, que serve o front e a API juntos:
 
 ```
-npm run dev -w @pokerstudio/next    # tudo em 3100
+npm run dev    # tudo em 3100
 ```
 
-O `.env` da API é lido de `apps/api/.env` pelas duas cascas, então existe um
-arquivo só. Para desenvolvimento com o Next, o `APP_URL` precisa ser
+O `.env` é lido da raiz do projeto pelas duas cascas, então existe um arquivo
+só. Para desenvolvimento com o Next, o `APP_URL` precisa ser
 `http://localhost:3100`, porque é contra ele que a guarda de CSRF compara a
 origem.
 
 **Não rode `next build` com o `next dev` de pé.** Os dois escrevem no mesmo
-`.next` e o servidor de desenvolvimento passa a responder 404. Se acontecer,
-pare o dev, apague `apps/next/.next` e suba de novo.
+`.next`, e o build o reescreve debaixo do servidor que está no ar: a página
+passa a receber HTML onde esperava JavaScript, e o erro que aparece é
+"Unexpected token '<'" numa tela em branco, sem nada no terminal. O `prebuild`
+agora recusa o build quando a porta 3100 está ocupada, justamente porque este
+aviso escrito não impediu que acontecesse. Se ainda assim acontecer, pare o
+dev, apague `.next` e suba de novo.
 
 ## Um servidor, dois sites
 
@@ -99,3 +103,13 @@ migração, e a branch `backup/vite-fastify-2026-09-09` guarda a mesma coisa.
   mudar qual compose o servidor usa, e é uma decisão deliberada.
 - O `apps/web` em Vite continua no repositório, e só sai com autorização
   explícita, em commit isolado.
+
+## Depois
+
+A árvore foi reorganizada em seguida: `apps/web`, `apps/api` e `apps/next`
+viraram uma `src` só na raiz, e o deploy passou a montar uma imagem em vez de
+quatro. O que esta página descreve continua valendo como relato da migração; os
+caminhos, não. Ver `docs/adr/0008-uma-arvore-de-codigo-na-raiz.md`.
+
+A casca Vite continua no repositório, agora por `npm run dev:vite`, e só sai com
+autorização explícita.

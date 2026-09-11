@@ -9,6 +9,7 @@
   ],
   "scripts": {
     "dev": "next dev --port 3100",
+    "prebuild": "node infra/scripts/check-no-dev-server.mjs",
     "build": "next build",
     "start": "next start",
     "dev:vite": "vite",
