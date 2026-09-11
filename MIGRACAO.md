@@ -71,9 +71,11 @@ baseline medido antes de começar.
 
 - A estrutura de pastas ainda é a do monorepo original. O desenho com
   `src/features`, `src/domain` e `src/server` não foi aplicado.
-- Não há testes de ponta a ponta com Playwright.
+- Dos quatro testes de ponta a ponta, três passam. O quarto, que importa uma
+  mão pela tela, está marcado como pendente com o diagnóstico no arquivo.
 - Os três fluxos de OAuth não foram vistos funcionar, por falta de credenciais.
   A Apple não aceita `localhost` e precisa de staging.
 - A imagem Docker não foi construída, por não haver Docker nesta máquina. O
   servidor de produção que ela executa foi montado à mão e responde.
-- O catálogo de leaks editável pelo admin ainda não existe.
+- O catálogo de leaks existe na API e no replayer; falta a tela de
+  administração para editá-lo sem chamar a API à mão.
