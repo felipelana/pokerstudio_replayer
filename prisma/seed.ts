@@ -22,6 +22,12 @@ async function main() {
     update: {},
   });
 
+  // O catálogo não depende da conta de administração, e por isso vem antes: o
+  // trecho abaixo tem três saídas antecipadas, e todas elas são normais. Quando
+  // o catálogo ficava no fim, bastava a conta já existir para ele nunca ser
+  // criado, e a tela que o edita abria vazia.
+  await seedLeaks();
+
   const email = process.env.ADMIN_BOOTSTRAP_EMAIL?.toLowerCase();
   const password = process.env.ADMIN_BOOTSTRAP_PASSWORD;
   if (!email) {
@@ -65,8 +71,6 @@ async function main() {
     `Admin ${email} created. Change the password on first login, then drop ADMIN_BOOTSTRAP_PASSWORD.`,
   );
   console.log(`(seed nonce ${randomBytes(4).toString('hex')})`);
-
-  await seedLeaks();
 }
 
 /**
