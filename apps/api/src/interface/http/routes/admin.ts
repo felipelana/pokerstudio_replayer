@@ -1,14 +1,36 @@
 import type { FastifyInstance } from 'fastify';
 import { z } from 'zod';
-import { blockUser, listUsers, revokeUserSessions, unblockUser } from '../../../application/admin/ManageUsers.js';
-import { readEmailSettings, saveEmailSettings, sendTestEmail } from '../../../application/admin/EmailSettings.js';
+import {
+  blockUser,
+  listUsers,
+  revokeUserSessions,
+  unblockUser,
+} from '../../../application/admin/ManageUsers.js';
+import {
+  readEmailSettings,
+  saveEmailSettings,
+  sendTestEmail,
+} from '../../../application/admin/EmailSettings.js';
+import {
+  createLeak,
+  listActiveLeaks,
+  listAllLeaks,
+  retireLeak,
+  updateLeak,
+} from '../../../application/admin/LeakCatalogue.js';
 import { problem } from '../errors.js';
 import { requireAdmin } from '../context.js';
 import type { AppContainer } from '../../../main-container.js';
 
 /** Everything under /admin needs role ADMIN and a session with 2FA checked. */
 export async function adminRoutes(app: FastifyInstance, container: AppContainer) {
-  const deps = { users: container.users, sessions: container.sessions, log: container.log, clock: container.clock };
+  const deps = {
+    users: container.users,
+    sessions: container.sessions,
+    log: container.log,
+    clock: container.clock,
+  };
+  const leakDeps = { prisma: container.prisma };
 
   app.get('/admin/users', async (request, reply) => {
     const admin = requireAdmin(request, reply);
@@ -45,7 +67,8 @@ export async function adminRoutes(app: FastifyInstance, container: AppContainer)
     if (!admin) return;
     const { id } = z.object({ id: z.string().uuid() }).parse(request.params);
     const user = await container.users.findById(id);
-    if (!user) return problem(reply, { code: 'not_found', message: 'User not found.', status: 404 });
+    if (!user)
+      return problem(reply, { code: 'not_found', message: 'User not found.', status: 404 });
     const [sessions, logs, identities, referrals] = await Promise.all([
       container.sessions.listForUser(id),
       container.log.list({ userId: id, page: 1, pageSize: 50 }),
@@ -117,11 +140,17 @@ export async function adminRoutes(app: FastifyInstance, container: AppContainer)
     const [byStatus, byPlan, signups, logins, devices, skins] = await Promise.all([
       container.prisma.user.groupBy({ by: ['status'], _count: true }),
       container.prisma.user.groupBy({ by: ['plan'], _count: true }),
-      container.prisma.$queryRaw`SELECT date_trunc('day', "createdAt")::date AS day, count(*)::int AS value
+      container.prisma
+        .$queryRaw`SELECT date_trunc('day', "createdAt")::date AS day, count(*)::int AS value
         FROM "User" WHERE "createdAt" >= ${since} GROUP BY 1 ORDER BY 1`,
-      container.prisma.$queryRaw`SELECT date_trunc('day', "createdAt")::date AS day, count(*)::int AS value
+      container.prisma
+        .$queryRaw`SELECT date_trunc('day', "createdAt")::date AS day, count(*)::int AS value
         FROM "AccessLog" WHERE event IN ('LOGIN_OK','ADMIN_LOGIN_OK') AND "createdAt" >= ${since} GROUP BY 1 ORDER BY 1`,
-      container.prisma.accessLog.groupBy({ by: ['deviceType'], _count: true, where: { createdAt: { gte: since } } }),
+      container.prisma.accessLog.groupBy({
+        by: ['deviceType'],
+        _count: true,
+        where: { createdAt: { gte: since } },
+      }),
       container.prisma.usageEvent.groupBy({
         by: ['skinId'],
         _count: true,
@@ -140,13 +169,31 @@ export async function adminRoutes(app: FastifyInstance, container: AppContainer)
     const header = 'id,email,name,status,role,plan,country,language,createdAt\n';
     const rows = items
       .map((u) =>
-        [u.id, u.email, csv(u.name), u.status, u.role, u.plan, u.countryCode, u.language, u.createdAt.toISOString()].join(','),
+        [
+          u.id,
+          u.email,
+          csv(u.name),
+          u.status,
+          u.role,
+          u.plan,
+          u.countryCode,
+          u.language,
+          u.createdAt.toISOString(),
+        ].join(','),
       )
       .join('\n');
-    return reply.type('text/csv').header('content-disposition', 'attachment; filename="users.csv"').send(header + rows);
+    return reply
+      .type('text/csv')
+      .header('content-disposition', 'attachment; filename="users.csv"')
+      .send(header + rows);
   });
 
-  const emailDeps = { prisma: container.prisma, log: container.log, clock: container.clock, cipher: container.cipher };
+  const emailDeps = {
+    prisma: container.prisma,
+    log: container.log,
+    clock: container.clock,
+    cipher: container.cipher,
+  };
 
   app.get('/admin/email-settings', async (request, reply) => {
     const admin = requireAdmin(request, reply);
@@ -190,7 +237,10 @@ export async function adminRoutes(app: FastifyInstance, container: AppContainer)
   app.get('/admin/email-outbox', async (request, reply) => {
     const admin = requireAdmin(request, reply);
     if (!admin) return;
-    const rows = await container.prisma.emailOutbox.findMany({ orderBy: { createdAt: 'desc' }, take: 200 });
+    const rows = await container.prisma.emailOutbox.findMany({
+      orderBy: { createdAt: 'desc' },
+      take: 200,
+    });
     return reply.send(rows);
   });
 
@@ -233,8 +283,72 @@ export async function adminRoutes(app: FastifyInstance, container: AppContainer)
     if (!admin) return;
     const { id } = z.object({ id: z.string().regex(/^[0-9]+$/) }).parse(request.params);
     const row = await container.errors.find(id);
-    if (!row) return problem(reply, { code: 'not_found', message: 'Error log not found.', status: 404 });
+    if (!row)
+      return problem(reply, { code: 'not_found', message: 'Error log not found.', status: 404 });
     return reply.send(row);
+  });
+
+  /* ---------------------------------------------------------------- */
+  /* O catálogo de leaks                                               */
+  /* ---------------------------------------------------------------- */
+
+  /**
+   * O que todo leitor recebe. Não exige admin, e nem sessão: é vocabulário
+   * público, e a tela de review precisa dele antes mesmo de alguém entrar.
+   */
+  app.get('/leaks', async (_request, reply) => {
+    return reply.send({ items: await listActiveLeaks(leakDeps) });
+  });
+
+  app.get('/admin/leaks', async (request, reply) => {
+    if (!requireAdmin(request, reply)) return;
+    return reply.send({ items: await listAllLeaks(leakDeps) });
+  });
+
+  app.post('/admin/leaks', async (request, reply) => {
+    if (!requireAdmin(request, reply)) return;
+    const body = z
+      .object({
+        slug: z.string().min(1).max(40),
+        label: z.string().min(1).max(60),
+        color: z.string().min(4).max(9),
+        hint: z.string().max(200).optional(),
+        position: z.number().int().min(0).optional(),
+      })
+      .parse(request.body);
+    const result = await createLeak(leakDeps, body);
+    if (!result.ok) return problem(reply, result.error);
+    return reply.code(201).send(result.value);
+  });
+
+  /** O identificador não se edita: é ele que as mãos já marcadas guardam. */
+  app.patch('/admin/leaks/:id', async (request, reply) => {
+    if (!requireAdmin(request, reply)) return;
+    const { id } = z.object({ id: z.string().uuid() }).parse(request.params);
+    const body = z
+      .object({
+        label: z.string().min(1).max(60).optional(),
+        color: z.string().min(4).max(9).optional(),
+        hint: z.string().max(200).nullable().optional(),
+        position: z.number().int().min(0).optional(),
+        active: z.boolean().optional(),
+      })
+      .parse(request.body);
+    const result = await updateLeak(leakDeps, id, body);
+    if (!result.ok) return problem(reply, result.error);
+    return reply.send(result.value);
+  });
+
+  /**
+   * Aposentar, não apagar. Uma avaliação guarda o identificador, e uma linha
+   * que sumisse deixaria marcas antigas ilegíveis.
+   */
+  app.delete('/admin/leaks/:id', async (request, reply) => {
+    if (!requireAdmin(request, reply)) return;
+    const { id } = z.object({ id: z.string().uuid() }).parse(request.params);
+    const result = await retireLeak(leakDeps, id);
+    if (!result.ok) return problem(reply, result.error);
+    return reply.send(result.value);
   });
 }
 

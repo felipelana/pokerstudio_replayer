@@ -158,7 +158,12 @@ interface AppState {
   loadSession(sessionId: string, handId?: string): Promise<void>;
   setHands(session: Session | undefined, hands: Hand[]): void;
   /** Records where the review stopped, in the database and in this store. */
-  saveProgress(patch: { lastHandIndex?: number; lastFrameIndex?: number; status?: 'in-progress' | 'completed'; resumeNoticeSeen?: boolean }): Promise<void>;
+  saveProgress(patch: {
+    lastHandIndex?: number;
+    lastFrameIndex?: number;
+    status?: 'in-progress' | 'completed';
+    resumeNoticeSeen?: boolean;
+  }): Promise<void>;
   /** The screen name this account plays under in each room, from the server.
    *  Used to recognise the reader in a history that names no hero. */
   /** The guided tour, while it is running, and which of the two it is. */
@@ -174,6 +179,9 @@ interface AppState {
 
   roomNicks: Partial<Record<Site, string>>;
   loadRoomNicks(): Promise<void>;
+  /** O vocabulário que a administração oferece, ao lado das etiquetas do leitor. */
+  catalogueLeaks: UserTag[];
+  loadCatalogueLeaks(): Promise<void>;
 
   /** How the library was left: filters, order and page survive a trip to the
    *  replayer and back, so the reader returns to the list they were reading. */
@@ -200,7 +208,11 @@ interface AppState {
   prevFrame(): void;
   jumpTo(target: JumpTarget): void;
   setPlaying(playing: boolean): void;
-  setReplayMeta(frameCount: number, jumpTargets: Partial<Record<JumpTarget, number>>, postFrames?: number[]): void;
+  setReplayMeta(
+    frameCount: number,
+    jumpTargets: Partial<Record<JumpTarget, number>>,
+    postFrames?: number[],
+  ): void;
   togglePosition(position: string): void;
   setFilterResult(value: 'all' | 'won' | 'lost'): void;
   setFilterPlayedOnly(value: boolean): void;
@@ -305,7 +317,12 @@ export const useAppStore = create<AppState>((set, get) => ({
     // hand does. Either way, landing on the saved hand restores the saved
     // moment inside it — reloading the page the replayer itself wrote into the
     // address bar must not cost the reader the action they were looking at.
-    const idx = handId ? Math.max(0, hands.findIndex((h) => h.id === handId)) : saved;
+    const idx = handId
+      ? Math.max(
+          0,
+          hands.findIndex((h) => h.id === handId),
+        )
+      : saved;
     const frame = idx === saved ? savedFrame : 0;
     // Focus player is remembered per session (hero-less dealer exports).
     const focusPlayer = await repo.getSetting<string | undefined>(`focus:${sessionId}`, undefined);
@@ -339,18 +356,51 @@ export const useAppStore = create<AppState>((set, get) => ({
   },
 
   roomNicks: {},
+  catalogueLeaks: [],
+
+  /**
+   * O catálogo é oferecido, não imposto: entra ao lado do que o leitor criou,
+   * e uma falha em buscá-lo deixa a tela exatamente como estava.
+   */
+  async loadCatalogueLeaks() {
+    try {
+      const answer = await accountApi.leaks();
+      set({
+        catalogueLeaks: answer.items.map((leak) => ({
+          id: leak.slug,
+          label: leak.label,
+          color: leak.color,
+        })),
+      });
+    } catch {
+      // Sem servidor, o leitor continua com as próprias etiquetas.
+    }
+  },
 
   async loadRoomNicks() {
     try {
       const { items } = await accountApi.roomNicks();
-      set({ roomNicks: Object.fromEntries(items.map((n) => [n.room, n.nickname])) as Partial<Record<Site, string>> });
+      set({
+        roomNicks: Object.fromEntries(items.map((n) => [n.room, n.nickname])) as Partial<
+          Record<Site, string>
+        >,
+      });
     } catch {
       // Signed out, or the server is not there: the replayer works without it.
       set({ roomNicks: {} });
     }
   },
 
-  libraryView: { query: '', site: '', from: '', to: '', storage: 'all', sort: 'imported', pageIndex: 0, pageSize: 10 },
+  libraryView: {
+    query: '',
+    site: '',
+    from: '',
+    to: '',
+    storage: 'all',
+    sort: 'imported',
+    pageIndex: 0,
+    pageSize: 10,
+  },
 
   setLibraryView(patch) {
     set({ libraryView: { ...get().libraryView, ...patch } });
@@ -427,7 +477,11 @@ export const useAppStore = create<AppState>((set, get) => ({
 
   togglePosition(position) {
     const current = get().filterPositions;
-    set({ filterPositions: current.includes(position) ? current.filter((p) => p !== position) : [...current, position] });
+    set({
+      filterPositions: current.includes(position)
+        ? current.filter((p) => p !== position)
+        : [...current, position],
+    });
   },
 
   setFilterPlayedOnly(value) {

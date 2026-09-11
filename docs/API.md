@@ -190,6 +190,29 @@ Notas que importam:
 - O coach é recusado em todo o resto do produto: biblioteca, skins, admin e a
   autoavaliação do jogador.
 
+## O catálogo de leaks
+
+O leitor sempre teve as próprias etiquetas, inventadas para o jogo dele e
+guardadas no navegador. O catálogo é a outra metade: um vocabulário comum, para
+que dois coaches que marcam o mesmo erro usem a mesma palavra e um relatório
+possa contá-lo. Um não substitui o outro; a tela de review oferece os dois.
+
+| Método | Rota               | Acesso  | O que faz                                          | Situação |
+| ------ | ------------------ | ------- | -------------------------------------------------- | -------- |
+| GET    | `/leaks`           | público | o vocabulário oferecido a todos, na ordem definida | ✅       |
+| GET    | `/admin/leaks`     | admin   | tudo, inclusive o que foi aposentado               | ✅       |
+| POST   | `/admin/leaks`     | admin   | cria uma entrada                                   | ✅       |
+| PATCH  | `/admin/leaks/:id` | admin   | renomeia, recolore, reordena ou reativa            | ✅       |
+| DELETE | `/admin/leaks/:id` | admin   | aposenta, nunca apaga                              | ✅       |
+
+Duas regras que decidem o desenho:
+
+- **O identificador não se edita.** É ele que uma avaliação de mão guarda, então
+  renomear a entrada não órfã nada do que já foi marcado.
+- **Aposentar, não apagar.** Uma linha removida deixaria marcas antigas
+  ilegíveis. A entrada some da lista oferecida e continua existindo para quem
+  precisar ler uma review de seis meses atrás.
+
 ## Sugestões e erros do navegador
 
 | Método | Rota                         | Acesso  | O que faz                                            | Situação |

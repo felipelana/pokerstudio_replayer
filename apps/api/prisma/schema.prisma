@@ -678,3 +678,32 @@ model ErrorLog {
   @@index([env, createdAt])
   @@index([source, createdAt])
 }
+
+/// A leak the administration suggests to everyone.
+///
+/// The reader keeps their own tags, which live in their browser and are theirs
+/// to invent. This is the other half: a shared vocabulary, so two coaches
+/// marking the same mistake use the same word, and a report can count it.
+///
+/// Nothing here overrides what a reader wrote. The catalogue is offered, and
+/// the reader's own list sits beside it.
+model LeakCatalogItem {
+  id    String @id @default(uuid())
+  /// Stable across renames, because it is what a hand assessment stores.
+  slug  String @unique @db.VarChar(40)
+  /// The name as it is shown. Renaming it does not orphan the hands it is on.
+  label String @db.VarChar(60)
+  /// Hex, the same shape the reader's own tags use.
+  color String @db.VarChar(9)
+  /// A line saying what the mistake is, for a reader who does not know the term.
+  hint  String? @db.VarChar(200)
+  /// Retired instead of deleted, so old assessments keep their meaning.
+  active   Boolean  @default(true)
+  /// The order the administration wants them read in.
+  position Int      @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([active, position])
+}

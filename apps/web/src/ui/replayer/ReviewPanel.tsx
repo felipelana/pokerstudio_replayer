@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import type { Hand, Review, Street } from '@/model/types';
@@ -13,7 +13,14 @@ import type { CoachReading } from '@/ui/hooks/useCoachReadings';
 import { captureTable } from './capture';
 
 function emptyReview(handId: string): Review {
-  return { handId, notes: '', tags: [], streetNotes: {}, createdAt: new Date(), updatedAt: new Date() };
+  return {
+    handId,
+    notes: '',
+    tags: [],
+    streetNotes: {},
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
 }
 
 export function ReviewPanel({
@@ -33,7 +40,15 @@ export function ReviewPanel({
 }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const tags = useAppStore((s) => s.settings.leakTags);
+  const ownTags = useAppStore((s) => s.settings.leakTags);
+  const catalogue = useAppStore((s) => s.catalogueLeaks);
+  // O catálogo primeiro, porque é o vocabulário que um coach vai reconhecer.
+  // Uma etiqueta do leitor com o mesmo identificador vence, porque foi ela
+  // que ele nomeou.
+  const tags = useMemo(() => {
+    const own = new Set(ownTags.map((tag) => tag.id));
+    return [...catalogue.filter((leak) => !own.has(leak.id)), ...ownTags];
+  }, [catalogue, ownTags]);
   const [capturing, setCapturing] = useState(false);
   const [review, setReview] = useState<Review>(() => emptyReview(hand.id));
   const [status, setStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
@@ -79,11 +94,18 @@ export function ReviewPanel({
   };
 
   const toggleTag = (tag: string) => {
-    update({ tags: review.tags.includes(tag) ? review.tags.filter((x) => x !== tag) : [...review.tags, tag] });
+    update({
+      tags: review.tags.includes(tag)
+        ? review.tags.filter((x) => x !== tag)
+        : [...review.tags, tag],
+    });
   };
 
   return (
-    <aside className="panel flex h-full w-[300px] shrink-0 flex-col gap-3 overflow-auto p-3" aria-label={t('review.title')}>
+    <aside
+      className="panel flex h-full w-[300px] shrink-0 flex-col gap-3 overflow-auto p-3"
+      aria-label={t('review.title')}
+    >
       <div className="flex items-center">
         <h2 className="font-semibold">{t('review.title')}</h2>
         <span className="ml-2 text-xs" style={{ color: 'var(--text-muted)' }}>
@@ -99,7 +121,12 @@ export function ReviewPanel({
         >
           <IconShare size={14} />
         </button>
-        <button type="button" className="btn btn-ghost" onClick={onClose} aria-label={t('common.close')}>
+        <button
+          type="button"
+          className="btn btn-ghost"
+          onClick={onClose}
+          aria-label={t('common.close')}
+        >
           ✕
         </button>
       </div>
@@ -139,7 +166,11 @@ export function ReviewPanel({
                 type="button"
                 className="chip-tag"
                 aria-pressed={on}
-                style={{ background: on ? tag.color : undefined, color: on ? '#fff' : undefined, borderColor: on ? 'transparent' : undefined }}
+                style={{
+                  background: on ? tag.color : undefined,
+                  color: on ? '#fff' : undefined,
+                  borderColor: on ? 'transparent' : undefined,
+                }}
                 onClick={() => toggleTag(tag.id)}
               >
                 {tag.label}
@@ -163,7 +194,10 @@ export function ReviewPanel({
       </div>
 
       {/* Report options: what goes in, and whether a picture goes with it. */}
-      <div className="flex flex-col gap-2 rounded-lg border p-2" style={{ borderColor: 'var(--border)' }}>
+      <div
+        className="flex flex-col gap-2 rounded-lg border p-2"
+        style={{ borderColor: 'var(--border)' }}
+      >
         <label className="checkbox">
           <input
             type="checkbox"
@@ -190,7 +224,11 @@ export function ReviewPanel({
           >
             {capturing ? t('review.capturing') : t('review.captureImage')}
           </button>
-          <button type="button" className="btn" onClick={() => update({ capture: 'text', imageAssetId: undefined })}>
+          <button
+            type="button"
+            className="btn"
+            onClick={() => update({ capture: 'text', imageAssetId: undefined })}
+          >
             {t('review.captureText')}
           </button>
         </div>
@@ -210,7 +248,9 @@ export function ReviewPanel({
               <input
                 className="input"
                 value={review.streetNotes?.[s] ?? ''}
-                onChange={(e) => update({ streetNotes: { ...review.streetNotes, [s]: e.target.value } })}
+                onChange={(e) =>
+                  update({ streetNotes: { ...review.streetNotes, [s]: e.target.value } })
+                }
               />
             </label>
           ))}
@@ -231,14 +271,21 @@ function CoachNotes({ coaches, handIndex }: { coaches: CoachReading[]; handIndex
   const { t } = useTranslation();
   const said = coaches
     .map((coach) => ({ coach, reading: coach.byIndex.get(handIndex) }))
-    .filter((row) => row.reading && (row.reading.comment || typeof row.reading.score === 'number' || row.reading.markedOk));
+    .filter(
+      (row) =>
+        row.reading &&
+        (row.reading.comment || typeof row.reading.score === 'number' || row.reading.markedOk),
+    );
 
   if (said.length === 0) return null;
 
   return (
     <section
       className="flex flex-col gap-2 rounded-lg border p-2.5"
-      style={{ borderColor: 'var(--accent)', background: 'color-mix(in srgb, var(--accent) 8%, transparent)' }}
+      style={{
+        borderColor: 'var(--accent)',
+        background: 'color-mix(in srgb, var(--accent) 8%, transparent)',
+      }}
       aria-label={t('review.coachTitle')}
     >
       <h3 className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide">
@@ -255,7 +302,10 @@ function CoachNotes({ coaches, handIndex }: { coaches: CoachReading[]; handIndex
               </span>
             )}
             {reading?.markedOk && (
-              <span className="inline-flex items-center gap-0.5" style={{ color: 'var(--result-won)' }}>
+              <span
+                className="inline-flex items-center gap-0.5"
+                style={{ color: 'var(--result-won)' }}
+              >
                 <IconCheck size={11} />
                 {t('review.coachPlayedWell')}
               </span>
@@ -264,7 +314,9 @@ function CoachNotes({ coaches, handIndex }: { coaches: CoachReading[]; handIndex
               <span style={{ color: 'var(--text-muted)' }}>{t('review.coachInProgress')}</span>
             )}
           </div>
-          {reading?.comment && <p className="whitespace-pre-wrap text-sm leading-relaxed">{reading.comment}</p>}
+          {reading?.comment && (
+            <p className="whitespace-pre-wrap text-sm leading-relaxed">{reading.comment}</p>
+          )}
         </div>
       ))}
     </section>
@@ -300,7 +352,8 @@ function ScoreField({
   const steps = [1, 2, 3, 4, 5] as const;
   // A hand rated with the stars shows those stars. One scored with the slider
   // shows the stars it has earned, so the row is never blank on a scored hand.
-  const lit = stars ?? (score === undefined ? 0 : steps.filter((n) => score >= STAR_SCORE[n]).length);
+  const lit =
+    stars ?? (score === undefined ? 0 : steps.filter((n) => score >= STAR_SCORE[n]).length);
 
   return (
     <div className="flex flex-col gap-1.5">
@@ -308,7 +361,11 @@ function ScoreField({
         <label className="label">{t('review.rating')}</label>
         <div className="flex-1" />
         {stars !== undefined && (
-          <button type="button" className="btn btn-ghost !px-2 !py-0.5 text-xs" onClick={() => onStars(undefined)}>
+          <button
+            type="button"
+            className="btn btn-ghost !px-2 !py-0.5 text-xs"
+            onClick={() => onStars(undefined)}
+          >
             {t('review.clearScore')}
           </button>
         )}
@@ -336,7 +393,10 @@ function ScoreField({
           {t('review.score')}
         </label>
         <div className="flex-1" />
-        <span className="text-lg font-semibold tabular-nums" style={{ color: score === undefined ? 'var(--text-muted)' : 'var(--accent)' }}>
+        <span
+          className="text-lg font-semibold tabular-nums"
+          style={{ color: score === undefined ? 'var(--text-muted)' : 'var(--accent)' }}
+        >
           {score === undefined ? t('review.noScore') : score}
         </span>
       </div>

@@ -36,6 +36,7 @@ export function App() {
   const loadSettings = useAppStore((s) => s.loadSettings);
   const loadSkins = useAppStore((s) => s.loadSkins);
   const loadRoomNicks = useAppStore((s) => s.loadRoomNicks);
+  const loadCatalogueLeaks = useAppStore((s) => s.loadCatalogueLeaks);
   const signedIn = useAuthStore((s) => s.phase === 'authenticated');
   const settingsLoaded = useAppStore((s) => s.settingsLoaded);
   const language = useAppStore((s) => s.settings.language);
@@ -56,9 +57,16 @@ export function App() {
     if (signedIn) void loadRoomNicks();
   }, [signedIn, loadRoomNicks]);
 
+  // The shared vocabulary of leaks. It is public, so it is asked for once,
+  // whether or not anyone is signed in.
+  useEffect(() => {
+    void loadCatalogueLeaks();
+  }, [loadCatalogueLeaks]);
+
   // Persisted language wins over browser detection once settings are loaded.
   useEffect(() => {
-    if (settingsLoaded && language && i18n.language !== language) void i18n.changeLanguage(language);
+    if (settingsLoaded && language && i18n.language !== language)
+      void i18n.changeLanguage(language);
   }, [settingsLoaded, language]);
 
   useEffect(() => {
@@ -98,17 +106,73 @@ export function App() {
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/verify-email" element={<VerifyEmailPage />} />
           <Route path="/r/:code" element={<ReferralLanding />} />
-          <Route path="/" element={<RequireAuth><LibraryPage /></RequireAuth>} />
-          <Route path="/account" element={<RequireAuth><AccountPage /></RequireAuth>} />
-          <Route path="/replay/:sessionId/:handId?" element={<RequireAuth><ReplayerPage /></RequireAuth>} />
-          <Route path="/settings" element={<RequireAuth><SettingsPage /></RequireAuth>} />
-          <Route path="/admin" element={<RequireAuth><AdminPage /></RequireAuth>} />
-          <Route path="/admstudio" element={<RequireAuth><AdmStudioPage /></RequireAuth>} />
-          <Route path="/report/:sessionId" element={<RequireAuth><ReportPage /></RequireAuth>} />
+          <Route
+            path="/"
+            element={
+              <RequireAuth>
+                <LibraryPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/account"
+            element={
+              <RequireAuth>
+                <AccountPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/replay/:sessionId/:handId?"
+            element={
+              <RequireAuth>
+                <ReplayerPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <RequireAuth>
+                <SettingsPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <RequireAuth>
+                <AdminPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/admstudio"
+            element={
+              <RequireAuth>
+                <AdmStudioPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/report/:sessionId"
+            element={
+              <RequireAuth>
+                <ReportPage />
+              </RequireAuth>
+            }
+          />
           <Route path="/novidades" element={<ReleaseNotesPage />} />
           <Route path="/privacidade" element={<LegalPage doc="privacy" />} />
           <Route path="/termos" element={<LegalPage doc="terms" />} />
-          <Route path="*" element={<RequireAuth><LibraryPage /></RequireAuth>} />
+          <Route
+            path="*"
+            element={
+              <RequireAuth>
+                <LibraryPage />
+              </RequireAuth>
+            }
+          />
         </Routes>
       </main>
       <ConsentBanner />

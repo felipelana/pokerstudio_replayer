@@ -41,7 +41,9 @@ async function main() {
   }
 
   if (!password) {
-    console.log('ADMIN_BOOTSTRAP_PASSWORD is empty — set it in .env.local to create the first admin.');
+    console.log(
+      'ADMIN_BOOTSTRAP_PASSWORD is empty — set it in .env.local to create the first admin.',
+    );
     return;
   }
 
@@ -59,8 +61,94 @@ async function main() {
       termsAcceptedAt: new Date(),
     },
   });
-  console.log(`Admin ${email} created. Change the password on first login, then drop ADMIN_BOOTSTRAP_PASSWORD.`);
+  console.log(
+    `Admin ${email} created. Change the password on first login, then drop ADMIN_BOOTSTRAP_PASSWORD.`,
+  );
   console.log(`(seed nonce ${randomBytes(4).toString('hex')})`);
+
+  await seedLeaks();
+}
+
+/**
+ * O vocabulário inicial de leaks.
+ *
+ * São os mesmos dez que o replayer já oferecia por padrão, agora num catálogo
+ * que a administração edita. O `upsert` pelo slug torna o seed repetível: rodar
+ * de novo não duplica nem sobrescreve um nome que a administração mudou.
+ */
+async function seedLeaks() {
+  const initial = [
+    {
+      slug: 'overfold',
+      label: 'Overfold',
+      color: '#4fa3ff',
+      hint: 'Desiste mais do que a mão e o preço pedem.',
+    },
+    {
+      slug: 'underfold',
+      label: 'Underfold',
+      color: '#38b6ff',
+      hint: 'Paga demais em spots que não comportam.',
+    },
+    {
+      slug: 'sizing',
+      label: 'Sizing',
+      color: '#f5c542',
+      hint: 'Tamanho de aposta que não serve ao plano da mão.',
+    },
+    {
+      slug: 'icm',
+      label: 'ICM',
+      color: '#ef8f4c',
+      hint: 'Ignora o que a premiação faz com o valor das fichas.',
+    },
+    {
+      slug: 'bluff-catch',
+      label: 'Bluff catch',
+      color: '#c2185b',
+      hint: 'Paga ou desiste no river sem ler a história da mão.',
+    },
+    {
+      slug: 'thin-value',
+      label: 'Thin value',
+      color: '#7b3fb5',
+      hint: 'Deixa de apostar valor fino, ou aposta onde não há.',
+    },
+    {
+      slug: 'position',
+      label: 'Position',
+      color: '#12a3a3',
+      hint: 'Joga a mão como se a posição não importasse.',
+    },
+    {
+      slug: 'tilt',
+      label: 'Tilt',
+      color: '#e53935',
+      hint: 'A decisão veio da mão anterior, não desta.',
+    },
+    {
+      slug: 'preflop-range',
+      label: 'Preflop range',
+      color: '#43a047',
+      hint: 'Abre ou defende fora do que a posição comporta.',
+    },
+    {
+      slug: 'missed-value',
+      label: 'Missed value',
+      color: '#aacc00',
+      hint: 'Passou a vez onde havia valor a tirar.',
+    },
+  ];
+
+  for (const [index, leak] of initial.entries()) {
+    await prisma.leakCatalogItem.upsert({
+      where: { slug: leak.slug },
+      create: { ...leak, position: index },
+      // Um nome que a administração mudou fica como está.
+      update: {},
+    });
+  }
+  console.log(`Leak catalogue: ${initial.length} entries ensured.`);
 }
 
 main()
