@@ -196,7 +196,9 @@
     "toCall": "zu zahlen {{amount}}",
     "returned": "Zurückgegeben",
     "lookup": "Spieler nachschlagen",
-    "sitHere": "Hier setzen"
+    "sitHere": "Hier setzen",
+    "sessionNotHere": "Diese Auswertung liegt in deinem Konto, aber noch nicht in diesem Browser. Die Hände leben im lokalen Speicher, der pro Adresse getrennt ist, also öffne die Bibliothek und hole sie hierher.",
+    "backToLibrary": "Zur Bibliothek"
   },
   "footer": {
     "log": "Aktionsprotokoll",

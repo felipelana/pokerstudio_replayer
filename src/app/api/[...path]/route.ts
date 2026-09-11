@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import type { FastifyInstance } from 'fastify';
+import { toWebResponse } from '@/server/interface/http/toWebResponse.js';
 
 /**
  * The API, unchanged, answering from inside Next.
@@ -87,21 +88,9 @@ async function handle(request: Request): Promise<Response> {
     remoteAddress: callerAddress(request),
   });
 
-  // A response may set more than one cookie, and a plain object would keep
-  // only the last of them.
-  const out = new Headers();
-  for (const [key, value] of Object.entries(answer.headers)) {
-    if (value === undefined) continue;
-    if (Array.isArray(value)) for (const one of value) out.append(key, String(one));
-    else out.set(key, String(value));
-  }
-  // The body is already complete; the length Fastify wrote can only disagree.
-  out.delete('content-length');
-  out.delete('transfer-encoding');
-
-  // rawPayload is a Node Buffer; a Response wants the bytes underneath it.
-  const bytes = new Uint8Array(answer.rawPayload);
-  return new Response(bytes, { status: answer.statusCode, headers: out });
+  // A conversão mora à parte, e tem teste próprio: é onde um 204 derrubava a
+  // resposta inteira. Ver src/server/interface/http/toWebResponse.ts.
+  return toWebResponse(answer);
 }
 
 export const GET = handle;

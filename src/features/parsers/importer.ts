@@ -67,13 +67,22 @@ export async function importText(
   text: string,
   override?: Site,
   sourceFileName?: string,
+  /**
+   * O identificador a usar, quando ele já existe em outro lugar.
+   *
+   * Uma revisão guardada na conta e reconstruída aqui é a mesma revisão, e
+   * precisa do mesmo identificador: com um novo, a biblioteca listaria as duas
+   * como coisas diferentes e a linha da nuvem nunca se reconheceria como já
+   * baixada. Uma importação comum não passa nada e ganha um identificador novo.
+   */
+  sessionId?: string,
 ): Promise<ImportSummary> {
   const result = await parseInWorker(text, override);
   const hands: Hand[] = result.hands;
   const players = Array.from(new Set(hands.flatMap((h) => h.players.map((p) => p.name)))).sort();
   const times = hands.map((h) => h.timestamp.getTime()).filter((t) => !Number.isNaN(t));
   const session: Session = {
-    id: newId(),
+    id: sessionId ?? newId(),
     name,
     // Only a real file has a file name; a pasted import has none.
     sourceFileName,

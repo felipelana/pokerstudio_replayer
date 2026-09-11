@@ -278,8 +278,14 @@ export function LibraryPage() {
     confirming === 'all' ? matching.map((row) => row.id) : [...selected]
   ).filter((id) => savedIds.has(id)).length;
 
-  /** Rebuilds a review saved elsewhere into this browser. */
-  const pullFromAccount = async (id: string) => {
+  /**
+   * Rebuilds a review saved elsewhere into this browser.
+   *
+   * O identificador da nuvem viaja junto, senão a mesma revisão apareceria duas
+   * vezes na lista: a linha baixada, com um identificador novo, e a da conta,
+   * que nunca se reconheceria como já trazida.
+   */
+  const pullFromAccount = async (id: string): Promise<boolean> => {
     setPulling(id);
     try {
       const full = await reviewApi.get(id);
@@ -287,15 +293,31 @@ export function LibraryPage() {
         .map((hand) => hand.rawHistory)
         .filter((raw): raw is string => !!raw)
         .join('\n\n');
-      if (text) {
-        await importText(full.title, text);
-        await refresh();
-      }
+      if (!text) return false;
+      await importText(full.title, text, undefined, undefined, id);
+      await refresh();
+      return true;
     } catch {
       // Offline, or saved without the hand histories: nothing to rebuild.
+      return false;
     } finally {
       setPulling('');
     }
+  };
+
+  /**
+   * Abrir uma linha da lista.
+   *
+   * As mãos vivem no IndexedDB deste navegador. Uma revisão que só existe na
+   * conta precisa ser trazida antes, ou o replayer abre numa tela de
+   * carregamento que nunca sai. Antes o clique navegava direto, sempre.
+   */
+  const openSession = async (session: Session) => {
+    if (session.handIds.length > 0) {
+      navigate(`/replay/${session.id}`);
+      return;
+    }
+    if (await pullFromAccount(session.id)) navigate(`/replay/${session.id}`);
   };
 
   /** Stores this session on the account, hand histories included. */
@@ -604,7 +626,7 @@ export function LibraryPage() {
                     key={s.id}
                     className="cursor-default border-t align-middle"
                     style={{ borderColor: 'var(--border)' }}
-                    onDoubleClick={() => navigate(`/replay/${s.id}`)}
+                    onDoubleClick={() => void openSession(s)}
                     title={t('library.openHint')}
                   >
                     <td
@@ -628,7 +650,7 @@ export function LibraryPage() {
                         type="button"
                         className="block max-w-full truncate font-medium hover:underline"
                         title={s.name}
-                        onClick={() => navigate(`/replay/${s.id}`)}
+                        onClick={() => void openSession(s)}
                       >
                         {s.name === s.sourceFileName ? '-' : s.name}
                       </button>
@@ -644,7 +666,7 @@ export function LibraryPage() {
                         type="button"
                         className="block max-w-full truncate hover:underline"
                         title={s.sourceFileName ?? undefined}
-                        onClick={() => navigate(`/replay/${s.id}`)}
+                        onClick={() => void openSession(s)}
                       >
                         {s.sourceFileName ?? '-'}
                       </button>
@@ -776,7 +798,7 @@ export function LibraryPage() {
                           className="btn-icon !px-1.5"
                           title={t('library.open')}
                           aria-label={t('library.open')}
-                          onClick={() => navigate(`/replay/${s.id}`)}
+                          onClick={() => void openSession(s)}
                         >
                           <IconPlay size={15} />
                         </button>

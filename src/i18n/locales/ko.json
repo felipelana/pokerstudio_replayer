@@ -196,7 +196,9 @@
     "toCall": "콜 {{amount}}",
     "returned": "반환됨",
     "lookup": "이 플레이어 검색",
-    "sitHere": "여기에 앉기"
+    "sitHere": "여기에 앉기",
+    "sessionNotHere": "이 리뷰는 계정에 저장되어 있지만 아직 이 브라우저에는 없습니다. 핸드는 주소별로 나뉜 로컬 저장소에 있으니, 라이브러리를 열어 이곳으로 가져오세요.",
+    "backToLibrary": "라이브러리로"
   },
   "footer": {
     "log": "액션 로그",

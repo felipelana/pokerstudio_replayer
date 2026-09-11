@@ -196,7 +196,9 @@
     "toCall": "跟注 {{amount}}",
     "returned": "已退回",
     "lookup": "查询该玩家",
-    "sitHere": "坐这里"
+    "sitHere": "坐这里",
+    "sessionNotHere": "这份复盘保存在你的账户里，但还不在这个浏览器中。牌局存放在本地存储，按地址区分，请打开资料库把它取下来。",
+    "backToLibrary": "前往资料库"
   },
   "footer": {
     "log": "动作记录",

@@ -83,8 +83,14 @@ export function ReplayerPage() {
     return () => document.removeEventListener('fullscreenchange', onChange);
   }, [setFullscreen]);
 
+  // Se a busca já terminou. Sem isso não há como separar "ainda carregando" de
+  // "esta revisão não está neste navegador", e as duas mostravam a mesma tela
+  // de carregamento, que nunca saía.
+  const [looked, setLooked] = useState(false);
   useEffect(() => {
-    if (sessionId && session?.id !== sessionId) void loadSession(sessionId, handId);
+    if (!sessionId || session?.id === sessionId) return;
+    setLooked(false);
+    void loadSession(sessionId, handId).finally(() => setLooked(true));
   }, [sessionId, handId, session?.id, loadSession]);
 
   const hand = hands[handIndex];
@@ -250,6 +256,22 @@ export function ReplayerPage() {
     },
     [focusPlayer, setFocus],
   );
+
+  // Uma revisão guardada na conta e nunca baixada não está neste navegador: as
+  // mãos vivem no IndexedDB, que é por origem. Dizer isso, e apontar o caminho
+  // de volta, é o mínimo; a tela de carregamento eterna não explicava nada.
+  if (!session && looked) {
+    return (
+      <div className="flex h-full flex-col items-center justify-center gap-3 p-6 text-center">
+        <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+          {t('table.sessionNotHere')}
+        </p>
+        <button type="button" className="btn btn-primary" onClick={() => navigate('/')}>
+          {t('table.backToLibrary')}
+        </button>
+      </div>
+    );
+  }
 
   if (!session || !replay || !hand) {
     return (

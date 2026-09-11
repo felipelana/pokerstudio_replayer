@@ -196,7 +196,9 @@
     "toCall": "to call {{amount}}",
     "returned": "Returned",
     "lookup": "Look this player up",
-    "sitHere": "Sit here"
+    "sitHere": "Sit here",
+    "sessionNotHere": "This review is saved to your account but is not in this browser yet. The hands live in local storage, which is per address, so open the library and bring the review down here.",
+    "backToLibrary": "Go to the library"
   },
   "footer": {
     "log": "Action log",

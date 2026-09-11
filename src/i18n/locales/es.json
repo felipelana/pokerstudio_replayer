@@ -196,7 +196,9 @@
     "toCall": "para pagar {{amount}}",
     "returned": "Devuelto",
     "lookup": "Buscar este jugador",
-    "sitHere": "Sentarse aquí"
+    "sitHere": "Sentarse aquí",
+    "sessionNotHere": "Esta revisión está guardada en tu cuenta, pero todavía no en este navegador. Las manos viven en el almacenamiento local, que es por dirección, así que abre la biblioteca y tráela aquí.",
+    "backToLibrary": "Ir a la biblioteca"
   },
   "footer": {
     "log": "Registro de acciones",
