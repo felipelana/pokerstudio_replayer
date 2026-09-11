@@ -9,24 +9,22 @@ FROM node:22-alpine AS build
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-# Every workspace manifest, because npm ci checks the whole tree against the
-# lockfile even when only one workspace is being installed.
-COPY apps/web/package.json apps/web/
-COPY apps/api/package.json apps/api/
-COPY apps/next/package.json apps/next/
+# The remaining workspace manifests, because npm ci checks the whole tree
+# against the lockfile even when only one workspace is being installed.
 COPY packages/shared/package.json packages/shared/
 COPY landingpage/package.json landingpage/
 RUN npm ci --no-audit --no-fund
 
 COPY packages/shared packages/shared
-COPY apps/api apps/api
-COPY apps/web apps/web
-COPY apps/next apps/next
 COPY landingpage landingpage
+COPY prisma prisma
+COPY src src
+COPY public public
+COPY next.config.mjs tailwind.config.cjs postcss.config.cjs tsconfig.json ./
 
 # The Prisma client is generated against the schema, not downloaded.
-RUN npx prisma generate --schema apps/api/prisma/schema.prisma
-RUN npm run build -w @pokerstudio/next
+RUN npx prisma generate
+RUN npm run build
 
 # ---- run ----
 FROM node:22-alpine
@@ -36,19 +34,19 @@ ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
 
 # The standalone output already contains the server and the modules it needs.
-COPY --from=build /app/apps/next/.next/standalone ./
-COPY --from=build /app/apps/next/.next/static ./apps/next/.next/static
-COPY --from=build /app/apps/next/public ./apps/next/public
+COPY --from=build /app/.next/standalone ./
+COPY --from=build /app/.next/static ./.next/static
+COPY --from=build /app/public ./public
 
 # Prisma is loaded by Node at run time, so its engine and schema travel too.
 COPY --from=build /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=build /app/node_modules/@prisma ./node_modules/@prisma
 COPY --from=build /app/node_modules/prisma ./node_modules/prisma
-COPY --from=build /app/apps/api/prisma ./apps/api/prisma
+COPY --from=build /app/prisma ./prisma
 
 EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=40s \
   CMD wget -qO- http://127.0.0.1:3000/api/v1/health >/dev/null || exit 1
 
 # Migrations run before the server comes up, so a deploy is a single step.
-CMD ["sh", "-c", "npx prisma migrate deploy --schema apps/api/prisma/schema.prisma && node apps/next/server.js"]
+CMD ["sh", "-c", "npx prisma migrate deploy && node server.js"]

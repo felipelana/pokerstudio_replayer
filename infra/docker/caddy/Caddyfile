@@ -1,8 +1,12 @@
 # The single entry point for the host. One Caddy owns 80 and 443, issues a
 # certificate per hostname over HTTP-01 (no wildcard, no DNS credentials), and
 # hands each request to the container of the right environment. The names it
-# proxies to — web-prod, api-staging, and so on — are network aliases declared
-# in docker-compose.prod.yml and docker-compose.staging.yml.
+# proxies to, app-prod and app-staging, are network aliases declared in
+# docker-compose.prod.yml and docker-compose.staging.yml.
+#
+# Each environment is one container now. The landing page and the replayer are
+# told apart by the Host header, which the application reads itself, so the
+# proxy passes the name through and decides nothing.
 
 {
 	email {$ACME_EMAIL}
@@ -31,22 +35,13 @@
 
 replayer.pokerstudio.com.br {
 	encode zstd gzip
-
-	# The API keeps its own prefix; everything else is the static replayer.
-	handle /api/* {
-		reverse_proxy api-prod:3001
-	}
-
-	handle {
-		reverse_proxy web-prod:80
-	}
-
+	reverse_proxy app-prod:3000
 	import security_headers
 }
 
 pokerstudio.com.br, www.pokerstudio.com.br {
 	encode zstd gzip
-	reverse_proxy landing-prod:80
+	reverse_proxy app-prod:3000
 	import security_headers
 }
 
@@ -59,17 +54,12 @@ stage.replayer.pokerstudio.com.br {
 	# the one path that answers without a password.
 	handle /api/v1/health {
 		header X-Robots-Tag "noindex, nofollow"
-		reverse_proxy api-staging:3001
-	}
-
-	handle /api/* {
-		import staging_gate
-		reverse_proxy api-staging:3001
+		reverse_proxy app-staging:3000
 	}
 
 	handle {
 		import staging_gate
-		reverse_proxy web-staging:80
+		reverse_proxy app-staging:3000
 	}
 
 	import security_headers
@@ -78,6 +68,6 @@ stage.replayer.pokerstudio.com.br {
 web.replayer.pokerstudio.com.br {
 	encode zstd gzip
 	import staging_gate
-	reverse_proxy landing-staging:80
+	reverse_proxy app-staging:3000
 	import security_headers
 }

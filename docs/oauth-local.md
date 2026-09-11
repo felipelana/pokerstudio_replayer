@@ -3,18 +3,18 @@
 O código dos três provedores atravessou a migração sem alteração. O que falta
 são credenciais, e elas só podem ser criadas por você: eu não recebo senha,
 segredo nem chave privada. Você cria os aplicativos nos consoles, cola os
-valores em `apps/api/.env`, e eu testo o fluxo.
+valores em `.env`, e eu testo o fluxo.
 
 ## O endereço de retorno
 
 O servidor registra, para cada provedor, uma rota que começa o fluxo e outra que
 o termina. Rodando no Next em 3100, os retornos são:
 
-| Provedor | Redirect URI |
-|---|---|
-| Google | `http://localhost:3100/api/v1/auth/google/callback` |
+| Provedor | Redirect URI                                          |
+| -------- | ----------------------------------------------------- |
+| Google   | `http://localhost:3100/api/v1/auth/google/callback`   |
 | Facebook | `http://localhost:3100/api/v1/auth/facebook/callback` |
-| Apple | não aceita `localhost`, veja abaixo |
+| Apple    | não aceita `localhost`, veja abaixo                   |
 
 Se você testar no Vite, troque 3100 por 5173. O `APP_URL` do `.env` precisa
 apontar para a mesma porta, ou a guarda de CSRF recusa a volta.
@@ -28,7 +28,7 @@ tabela. O `localhost` é aceito sem HTTPS.
 
 Escopos usados: `openid email profile`.
 
-Preencha no `apps/api/.env`:
+Preencha no `.env`:
 
 ```
 GOOGLE_CLIENT_ID=

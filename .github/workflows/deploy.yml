@@ -62,26 +62,13 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
+  # Uma imagem: a landing, o replayer e a API sao um servidor Next so.
   build:
-    name: Build ${{ matrix.image }}
+    name: Build app
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
-    strategy:
-      matrix:
-        include:
-          - image: api
-            dockerfile: infra/docker/Dockerfile.api
-          - image: web
-            dockerfile: infra/docker/Dockerfile
-          - image: landing
-            dockerfile: infra/docker/Dockerfile.landing
-          # A imagem unica da migracao: a landing, o replayer e a API juntos.
-          # E publicada junto das tres antigas para existir no registro quando a
-          # virada acontecer. Nada do que sobe hoje muda por causa dela.
-          - image: app
-            dockerfile: infra/docker/Dockerfile.next
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-buildx-action@v3
@@ -93,13 +80,13 @@ jobs:
       - uses: docker/build-push-action@v6
         with:
           context: .
-          file: ${{ matrix.dockerfile }}
+          file: infra/docker/Dockerfile.next
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.image }}:${{ inputs.image_tag }}
-            ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.image }}:${{ github.sha }}
-          cache-from: type=gha,scope=${{ inputs.app_env }}-${{ matrix.image }}
-          cache-to: type=gha,mode=max,scope=${{ inputs.app_env }}-${{ matrix.image }}
+            ${{ env.REGISTRY }}/${{ github.repository }}/app:${{ inputs.image_tag }}
+            ${{ env.REGISTRY }}/${{ github.repository }}/app:${{ github.sha }}
+          cache-from: type=gha,scope=${{ inputs.app_env }}-app
+          cache-to: type=gha,mode=max,scope=${{ inputs.app_env }}-app
 
   deploy:
     name: Deploy to ${{ inputs.app_env }}
@@ -130,17 +117,15 @@ jobs:
               # Replace the line if it exists, append it if it does not.
               grep -q "^$1=" .env && sed -i "s|^$1=.*|$1=$2|" .env || echo "$1=$2" >> .env
             }
-            set_var API_IMAGE     "$REGISTRY/$REPOSITORY/api:$IMAGE_TAG"
-            set_var WEB_IMAGE     "$REGISTRY/$REPOSITORY/web:$IMAGE_TAG"
-            set_var LANDING_IMAGE "$REGISTRY/$REPOSITORY/landing:$IMAGE_TAG"
+            set_var APP_IMAGE     "$REGISTRY/$REPOSITORY/app:$IMAGE_TAG"
             set_var APP_VERSION   "$VERSION"
             set_var APP_COMMIT    "$COMMIT"
             set_var APP_BUILT_AT  "$BUILT_AT"
 
             compose() { docker compose -p "$PROJECT" -f docker-compose.yml -f "$OVERLAY" "$@"; }
             compose pull
-            # The API container runs `prisma migrate deploy` before it listens,
-            # so the schema and the code that needs it move together.
+            # The container runs `prisma migrate deploy` before it listens, so
+            # the schema and the code that needs it move together.
             compose up -d --remove-orphans
             docker image prune -f
         env:

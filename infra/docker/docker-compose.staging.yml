@@ -1,18 +1,10 @@
-# Staging. The names below are how Caddy reaches these containers, and they
-# carry the environment in them so the two stacks can share one network without
-# ever answering for each other.
+# Staging. The name below is how Caddy reaches this container, and it carries
+# the environment in it so the two stacks can share one network without ever
+# answering for each other.
 services:
-  api:
+  app:
+    environment:
+      LANDING_HOSTS: web.replayer.pokerstudio.com.br
     networks:
       edge:
-        aliases: [api-staging]
-
-  web:
-    networks:
-      edge:
-        aliases: [web-staging]
-
-  landing:
-    networks:
-      edge:
-        aliases: [landing-staging]
+        aliases: [app-staging]

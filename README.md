@@ -5,9 +5,15 @@ leaks e gera relatório. Roda no navegador; a conta guarda perfil, skins e
 indicações.
 
 ```
-apps/next       a aplicação: landing, replayer e API num servidor só (Next 14)
-apps/web        o replayer em Vite, ainda funcionando, e o src que as duas cascas usam
-apps/api        backend (Node 22 + Fastify 5 + Prisma 5 + PostgreSQL 16)
+src/app         as rotas do Next: landing, replayer e a porta da API
+src/domain      modelo e motor de replay, sem React e sem navegador
+src/features    cada assunto inteiro: parsers, replayer, reviews, admin, auth
+src/components  o que serve a mais de uma feature
+src/lib         banco local, estado, skins, clientes HTTP, assets
+src/i18n        a configuração e os oito idiomas
+src/server      backend (Node 22 + Fastify 5 + Prisma 5 + PostgreSQL 16)
+prisma          schema, migrações e seed
+tests           ponta a ponta e os testes do servidor
 landingpage     o site institucional, servido pelo Next e ainda construível em Vite
 packages/shared contratos compartilhados (tipos, países, idiomas, salas)
 infra           Docker, Caddy, scripts de backup
@@ -22,10 +28,10 @@ Em desenvolvimento existe só `localhost`, então a landing atende em `?site=1`.
 
 ```powershell
 npm install
-Copy-Item apps\api\.env.example apps\api\.env.local   # edite as variáveis
+Copy-Item .env.example .env   # edite as variáveis
 npm run db:migrate
 npm run db:seed
-npm run dev:next     # tudo junto em http://localhost:3100
+npm run dev          # tudo junto em http://localhost:3100
 ```
 
 O `APP_URL` do `.env` precisa nomear a porta em que o navegador está, ou a
@@ -33,8 +39,8 @@ guarda de CSRF recusa a requisição. As duas cascas antigas continuam
 disponíveis, se você precisar comparar:
 
 ```
-npm run dev:api      # API em http://localhost:3001
-npm run dev          # replayer em Vite, em http://localhost:5173
+npm run dev:api      # só a API, em http://localhost:3001
+npm run dev:vite     # o replayer em Vite, em http://localhost:5173
 ```
 
 O passo a passo completo (PostgreSQL 16 no Windows 11, role, base, e-mail em
@@ -42,19 +48,19 @@ desenvolvimento) está em **[docs/DEV-SETUP.md](docs/DEV-SETUP.md)**.
 
 ## Comandos
 
-| Comando | O que faz |
-|---|---|
-| `npm run dev:next` | landing, replayer e API juntos, em 3100 |
-| `npm run build:next` | build de produção da aplicação |
-| `npm run typecheck` | TypeScript da aplicação e da API |
-| `npm run dev` | o replayer em Vite, em modo desenvolvimento |
-| `npm run dev:api` | API com recarga automática |
-| `npm run build` | build de produção do replayer |
-| `npm test` | testes de todos os workspaces |
-| `npm run lint` | ESLint, incluindo as regras de fronteira entre camadas |
-| `npm run check:locales` | garante que nenhum idioma tem chave faltando |
-| `npm run check:copy` | recusa travessão e clichê de IA em qualquer texto de interface |
-| `npm run db:migrate` / `db:seed` / `db:reset` / `db:studio` | banco |
+| Comando                                                     | O que faz                                                      |
+| ----------------------------------------------------------- | -------------------------------------------------------------- |
+| `npm run dev:next`                                          | landing, replayer e API juntos, em 3100                        |
+| `npm run build:next`                                        | build de produção da aplicação                                 |
+| `npm run typecheck`                                         | TypeScript da aplicação e da API                               |
+| `npm run dev`                                               | o replayer em Vite, em modo desenvolvimento                    |
+| `npm run dev:api`                                           | API com recarga automática                                     |
+| `npm run build`                                             | build de produção do replayer                                  |
+| `npm test`                                                  | testes de todos os workspaces                                  |
+| `npm run lint`                                              | ESLint, incluindo as regras de fronteira entre camadas         |
+| `npm run check:locales`                                     | garante que nenhum idioma tem chave faltando                   |
+| `npm run check:copy`                                        | recusa travessão e clichê de IA em qualquer texto de interface |
+| `npm run db:migrate` / `db:seed` / `db:reset` / `db:studio` | banco                                                          |
 
 ## Texto de interface
 
@@ -82,16 +88,16 @@ formulário de nicks tiram a lista, para que os três não possam discordar.
 
 ## Adicionar um parser
 
-1. Crie `apps/web/src/parsers/<sala>/index.ts` implementando
+1. Crie `src/features/parsers/<sala>/index.ts` implementando
    `HandHistoryParser` (`detect`, `split`, `parse`).
-2. Registre em `apps/web/src/parsers/registry.ts`.
-3. Coloque hand histories reais em `apps/web/src/parsers/<sala>/fixtures/` e
+2. Registre em `src/features/parsers/registry.ts`.
+3. Coloque hand histories reais em `src/features/parsers/<sala>/fixtures/` e
    escreva os testes a partir delas — **não invente o formato**.
 
 ## Entrar com uma rede social
 
 Os botões só aparecem quando as variáveis do provedor estão preenchidas em
-`apps/api/.env` — sem elas o app segue funcionando com e-mail e senha.
+`.env` na raiz. Sem elas o app segue funcionando com e-mail e senha.
 
 ### Google
 
@@ -121,18 +127,18 @@ Os botões só aparecem quando as variáveis do provedor estão preenchidas em
 Exige a conta paga do **Apple Developer Program**.
 
 1. Em **Certificates, Identifiers & Profiles**, crie um **App ID** e depois um **Services ID**
-   (ex.: `com.pokerstudio.replayer.web`) com *Sign in with Apple* habilitado.
-2. No Services ID, configure o domínio `replayer.pokerstudio.com.br` e o *Return URL*
+   (ex.: `com.pokerstudio.replayer.web`) com _Sign in with Apple_ habilitado.
+2. No Services ID, configure o domínio `replayer.pokerstudio.com.br` e o _Return URL_
    `https://replayer.pokerstudio.com.br/api/v1/auth/apple/callback`. A Apple **não aceita
    `localhost`**: para testar em desenvolvimento use um túnel HTTPS.
-3. Em **Keys**, crie uma chave com *Sign in with Apple* e baixe o `.p8` (só é possível uma vez).
+3. Em **Keys**, crie uma chave com _Sign in with Apple_ e baixe o `.p8` (só é possível uma vez).
 4. `APPLE_CLIENT_ID` (o Services ID), `APPLE_TEAM_ID`, `APPLE_KEY_ID`, `APPLE_PRIVATE_KEY`
    (conteúdo do `.p8`, com `\\n` no lugar das quebras de linha) e `APPLE_REDIRECT_URI`.
 
 ### Duas coisas que não dá para fazer
 
 - **Instagram não serve para login.** A API Basic Display foi desligada em dezembro de 2024, e o
-  que restou (*Instagram API with Instagram Login*) atende contas **business/creator**, não devolve
+  que restou (_Instagram API with Instagram Login_) atende contas **business/creator**, não devolve
   e-mail e não é um provedor de identidade. Quem usa Instagram entra pelo Facebook.
 - **Nenhum provedor devolve telefone.** O Google exige escopo sensível com verificação do app e
   ainda assim só entrega se a pessoa publicou o número; o Facebook removeu esse acesso; a Apple
@@ -145,7 +151,7 @@ entra no bundle e fica público.
 
 - `infra/docker/docker-compose.yml` sobe `postgres`, `api`, `web` e `caddy`.
   O Caddy emite TLS para `replayer.pokerstudio.com.br` e roteia `/api/*`.
-- As migrações rodam antes da API subir (ver `Dockerfile.api`).
+- As migrações rodam antes do servidor subir (ver `Dockerfile.next`).
 - Backup diário e restore: `infra/scripts/backup.sh` e `restore.sh`.
 - Segredos obrigatórios no ambiente: `POSTGRES_PASSWORD`, `SESSION_SECRET`,
   `ENCRYPTION_KEY`. Opcionais: `EMAIL_PROVIDER_KEY`, `TURNSTILE_SECRET`,

@@ -2,10 +2,10 @@
 
 Uma VPS Ubuntu (`185.214.135.167`), dois ambientes isolados, um proxy só.
 
-| Ambiente | Replayer | Landing | Projeto Docker | Diretório |
-| --- | --- | --- | --- | --- |
-| Staging | `stage.replayer.pokerstudio.com.br` | `web.replayer.pokerstudio.com.br` | `pokerstudio-staging` | `/opt/pokerstudio/staging` |
-| Produção | `replayer.pokerstudio.com.br` | `pokerstudio.com.br` | `pokerstudio-prod` | `/opt/pokerstudio/prod` |
+| Ambiente | Replayer                            | Landing                           | Projeto Docker        | Diretório                  |
+| -------- | ----------------------------------- | --------------------------------- | --------------------- | -------------------------- |
+| Staging  | `stage.replayer.pokerstudio.com.br` | `web.replayer.pokerstudio.com.br` | `pokerstudio-staging` | `/opt/pokerstudio/staging` |
+| Produção | `replayer.pokerstudio.com.br`       | `pokerstudio.com.br`              | `pokerstudio-prod`    | `/opt/pokerstudio/prod`    |
 
 Os quatro nomes apontam para o mesmo IP (registro `A`). O Caddy — um único
 container, no projeto `pokerstudio-edge`, dono das portas 80 e 443 — emite um
@@ -22,7 +22,7 @@ exceção é `/api/v1/health`, aberta para o pipeline conseguir se verificar.
 ```bash
 ssh root@185.214.135.167
 apt-get update && apt-get install -y git
-git clone https://github.com/felipelana/pokerstudioreplayer.git /opt/pokerstudio/repo
+git clone https://github.com/felipelana/pokerstudio_replayer.git /opt/pokerstudio/repo
 bash /opt/pokerstudio/repo/infra/scripts/provision-vps.sh deploy
 ```
 
@@ -67,21 +67,21 @@ docker compose -p pokerstudio-edge logs -f caddy   # acompanha a emissão dos ce
 
 `Settings → Secrets and variables → Actions`:
 
-| Secret | Valor |
-| --- | --- |
-| `VPS_HOST` | `185.214.135.167` |
-| `VPS_USER` | `deploy` |
-| `VPS_SSH_KEY` | conteúdo de `~/.ssh/pokerstudio_deploy` (a chave **privada**) |
-| `VPS_PORT` | `22` (opcional) |
-| `STAGING_USER` | usuário do basic auth de staging |
-| `STAGING_PASSWORD` | a senha em texto — só o smoke test a usa |
+| Secret             | Valor                                                         |
+| ------------------ | ------------------------------------------------------------- |
+| `VPS_HOST`         | `185.214.135.167`                                             |
+| `VPS_USER`         | `deploy`                                                      |
+| `VPS_SSH_KEY`      | conteúdo de `~/.ssh/pokerstudio_deploy` (a chave **privada**) |
+| `VPS_PORT`         | `22` (opcional)                                               |
+| `STAGING_USER`     | usuário do basic auth de staging                              |
+| `STAGING_PASSWORD` | a senha em texto — só o smoke test a usa                      |
 
-Em `Settings → Environments`, crie **`production`** e marque *Required
-reviewers*. É esse ambiente que segura o deploy de produção esperando um
+Em `Settings → Environments`, crie **`production`** e marque _Required
+reviewers_. É esse ambiente que segura o deploy de produção esperando um
 humano; o de staging não passa por lá e sobe sozinho.
 
 O registry é o GHCR do próprio repositório
-(`ghcr.io/felipelana/pokerstudioreplayer/{api,web,landing}`) e usa o
+(`ghcr.io/felipelana/pokerstudio_replayer/app`) e usa o
 `GITHUB_TOKEN` do workflow — não há token a cadastrar.
 
 ## 3. Variáveis de cada ambiente
@@ -89,19 +89,19 @@ O registry é o GHCR do próprio repositório
 `infra/docker/.env.staging.example` e `.env.prod.example` são a referência. As
 que mudam entre ambientes:
 
-| Variável | Staging | Produção |
-| --- | --- | --- |
-| `APP_ENV` | `staging` | `production` |
-| `APP_URL` | `https://stage.replayer.pokerstudio.com.br` | `https://replayer.pokerstudio.com.br` |
-| `GOOGLE_REDIRECT_URI` | `…stage.replayer…/api/v1/auth/google/callback` | `…replayer…/api/v1/auth/google/callback` |
-| `COOKIE_DOMAIN` | vazio | vazio |
-| `ROBOTS_POLICY` | `noindex` | `index` |
-| `ERROR_LOG_RETENTION_DAYS` | `14` | `30` |
-| `EMAIL_PROVIDER_KEY` | vazio (fica na outbox) | a chave real |
+| Variável                   | Staging                                        | Produção                                 |
+| -------------------------- | ---------------------------------------------- | ---------------------------------------- |
+| `APP_ENV`                  | `staging`                                      | `production`                             |
+| `APP_URL`                  | `https://stage.replayer.pokerstudio.com.br`    | `https://replayer.pokerstudio.com.br`    |
+| `GOOGLE_REDIRECT_URI`      | `…stage.replayer…/api/v1/auth/google/callback` | `…replayer…/api/v1/auth/google/callback` |
+| `COOKIE_DOMAIN`            | vazio                                          | vazio                                    |
+| `ROBOTS_POLICY`            | `noindex`                                      | `index`                                  |
+| `ERROR_LOG_RETENTION_DAYS` | `14`                                           | `30`                                     |
+| `EMAIL_PROVIDER_KEY`       | vazio (fica na outbox)                         | a chave real                             |
 
 `COOKIE_DOMAIN` fica vazio nos dois de propósito. Um cookie em
 `.pokerstudio.com.br` valeria para os quatro hosts, e a sessão de produção
-viajaria para staging. Vazio, o cookie é *host-only*: cada ambiente com a sua.
+viajaria para staging. Vazio, o cookie é _host-only_: cada ambiente com a sua.
 
 No console do Google, cadastre **as duas** URIs de callback, senão o login
 social só funciona num dos lados.
@@ -111,9 +111,9 @@ social só funciona num dos lados.
 **Staging** — todo push em `develop`, sem aprovação:
 
 ```
-push develop → CI → build das 3 imagens (staging-<sha>) → GHCR
-             → ssh: .env recebe as tags novas → compose pull → up -d
-             → prisma migrate deploy (roda dentro do container da API)
+push develop → CI → build da imagem (staging-<sha>) → GHCR
+             → ssh: .env recebe a tag nova → compose pull → up -d
+             → prisma migrate deploy (roda dentro do container)
              → smoke test → ok, ou rollback
 ```
 
@@ -131,7 +131,7 @@ O workflow `Production` para no ambiente `production` até alguém aprovar.
 O smoke test não pergunta se o container subiu: ele lê
 `/api/v1/health` até o campo `commit` ser exatamente o SHA que acabou de ser
 publicado. Se em 2,5 minutos isso não acontecer, o passo falha e o rollback
-restaura `.env.previous` — que ainda nomeia as imagens que estavam servindo — e
+restaura `.env.previous`, que ainda nomeia a imagem que estava servindo, e
 sobe de novo. Nenhuma imagem é reconstruída para voltar atrás.
 
 ## 5. Rollback manual
@@ -198,7 +198,7 @@ período e texto, e o stack de cada ocorrência. Cada linha carrega o ambiente e
 release, então dá para separar barulho de staging de problema em produção.
 
 Nada de credencial entra ali: chaves com cara de segredo são substituídas
-*antes* da linha existir, e o pino redige cookie, authorization e campos de
+_antes_ da linha existir, e o pino redige cookie, authorization e campos de
 senha das linhas de log. O que a redaction **não** faz é vasculhar o texto livre
 da mensagem — se um erro imprimir um segredo dentro da própria mensagem, ele
 será gravado. Vale lembrar disso ao lançar exceções.
@@ -210,7 +210,7 @@ expurgo diário. Logs de acesso continuam em 180 dias.
 
 ```bash
 cd /opt/pokerstudio/prod
-docker compose -p pokerstudio-prod -f docker-compose.yml -f docker-compose.prod.yml logs -f --tail=200 api
+docker compose -p pokerstudio-prod -f docker-compose.yml -f docker-compose.prod.yml logs -f --tail=200 app
 cd /opt/pokerstudio/edge && docker compose -p pokerstudio-edge -f docker-compose.edge.yml logs -f caddy
 ```
 

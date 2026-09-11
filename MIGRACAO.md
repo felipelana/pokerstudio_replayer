@@ -79,3 +79,9 @@ baseline medido antes de começar.
   servidor de produção que ela executa foi montado à mão e responde.
 - O catálogo de leaks existe na API e no replayer; falta a tela de
   administração para editá-lo sem chamar a API à mão.
+
+## Depois
+
+A árvore foi reorganizada em seguida: `apps/web`, `apps/api` e `apps/next`
+viraram uma `src` só na raiz. O que esta página descreve continua valendo como
+relato da migração; os caminhos, não. Ver `docs/adr/0008-uma-arvore-de-codigo-na-raiz.md`.

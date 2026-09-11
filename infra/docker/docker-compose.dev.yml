@@ -1,30 +1,14 @@
-# Local only. Builds the three images from this working tree instead of pulling
-# them from the registry, and publishes the edge proxy's ports straight to the
-# host so there is no separate Caddy stack to run.
+# Local only. Builds the image from this working tree instead of pulling it
+# from the registry, and publishes its port straight to the host so there is no
+# separate Caddy stack to run.
 services:
-  api:
+  app:
     build:
       context: ../..
-      dockerfile: infra/docker/Dockerfile.api
-    image: pokerstudio/api:dev
+      dockerfile: infra/docker/Dockerfile.next
+    image: pokerstudio/app:dev
     ports:
-      - '3001:3001'
-
-  web:
-    build:
-      context: ../..
-      dockerfile: infra/docker/Dockerfile
-    image: pokerstudio/web:dev
-    ports:
-      - '8080:80'
-
-  landing:
-    build:
-      context: ../..
-      dockerfile: infra/docker/Dockerfile.landing
-    image: pokerstudio/landing:dev
-    ports:
-      - '8081:80'
+      - '3000:3000'
 
 networks:
   edge:

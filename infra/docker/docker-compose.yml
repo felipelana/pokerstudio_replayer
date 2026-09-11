@@ -1,14 +1,16 @@
 # The shape shared by every environment. Nothing here is specific to staging or
-# production: the addresses, the secrets and the image tags all arrive from the
+# production: the addresses, the secrets and the image tag all arrive from the
 # .env file that sits beside this one on the server, and the per-environment
-# override adds the names by which the edge proxy finds these containers.
+# override adds the name by which the edge proxy finds this container.
 #
 #   staging     docker compose -p pokerstudio-staging -f docker-compose.yml -f docker-compose.staging.yml up -d
 #   production  docker compose -p pokerstudio-prod    -f docker-compose.yml -f docker-compose.prod.yml    up -d
 #   local       docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
 #
-# Only the edge proxy publishes ports. Everything else is reachable solely
-# through the two networks below, and `internal` never leaves the host.
+# One container answers for the landing, the replayer and the API, because one
+# Next server serves all three. Only the edge proxy publishes ports. Everything
+# else is reachable solely through the two networks below, and `internal` never
+# leaves the host.
 
 services:
   postgres:
@@ -36,15 +38,16 @@ services:
         max-size: '10m'
         max-file: '5'
 
-  api:
-    image: ${API_IMAGE:?set API_IMAGE}
+  app:
+    image: ${APP_IMAGE:?set APP_IMAGE}
     restart: unless-stopped
     depends_on:
       postgres:
         condition: service_healthy
     environment:
       NODE_ENV: production
-      PORT: 3001
+      PORT: 3000
+      HOSTNAME: 0.0.0.0
       APP_ENV: ${APP_ENV:?set APP_ENV}
       APP_VERSION: ${APP_VERSION:-0.0.0}
       APP_COMMIT: ${APP_COMMIT:-unknown}
@@ -53,6 +56,9 @@ services:
       SESSION_SECRET: ${SESSION_SECRET:?set SESSION_SECRET}
       ENCRYPTION_KEY: ${ENCRYPTION_KEY:?set ENCRYPTION_KEY}
       APP_URL: ${APP_URL:?set APP_URL}
+      # Which hostnames answer with the landing page instead of the replayer.
+      # Staging answers on different names, so each environment names its own.
+      LANDING_HOSTS: ${LANDING_HOSTS:-pokerstudio.com.br,www.pokerstudio.com.br}
       # Left blank on purpose. A host-only cookie cannot travel from production
       # to staging, or the other way round, even though both live under
       # pokerstudio.com.br.
@@ -65,36 +71,25 @@ services:
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
       GOOGLE_REDIRECT_URI: ${GOOGLE_REDIRECT_URI:-}
+      FACEBOOK_APP_ID: ${FACEBOOK_APP_ID:-}
+      FACEBOOK_APP_SECRET: ${FACEBOOK_APP_SECRET:-}
+      FACEBOOK_REDIRECT_URI: ${FACEBOOK_REDIRECT_URI:-}
+      APPLE_CLIENT_ID: ${APPLE_CLIENT_ID:-}
+      APPLE_TEAM_ID: ${APPLE_TEAM_ID:-}
+      APPLE_KEY_ID: ${APPLE_KEY_ID:-}
+      APPLE_PRIVATE_KEY: ${APPLE_PRIVATE_KEY:-}
+      APPLE_REDIRECT_URI: ${APPLE_REDIRECT_URI:-}
+      ROBOTS_POLICY: ${ROBOTS_POLICY:-index}
       ERROR_LOG_RETENTION_DAYS: ${ERROR_LOG_RETENTION_DAYS:-30}
     networks: [internal, edge]
     expose:
-      - '3001'
+      - '3000'
     healthcheck:
-      test: ['CMD-SHELL', 'wget -qO- http://127.0.0.1:3001/api/v1/health >/dev/null || exit 1']
+      test: ['CMD-SHELL', 'wget -qO- http://127.0.0.1:3000/api/v1/health >/dev/null || exit 1']
       interval: 30s
       timeout: 5s
       retries: 5
       start_period: 40s
-    logging: *json-logging
-
-  web:
-    image: ${WEB_IMAGE:?set WEB_IMAGE}
-    restart: unless-stopped
-    environment:
-      ROBOTS_POLICY: ${ROBOTS_POLICY:-index}
-    networks: [edge]
-    expose:
-      - '80'
-    logging: *json-logging
-
-  landing:
-    image: ${LANDING_IMAGE:?set LANDING_IMAGE}
-    restart: unless-stopped
-    environment:
-      ROBOTS_POLICY: ${ROBOTS_POLICY:-index}
-    networks: [edge]
-    expose:
-      - '80'
     logging: *json-logging
 
 networks:

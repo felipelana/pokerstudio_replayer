@@ -20,8 +20,10 @@ jobs:
       - run: npm run check:copy
       - run: npm run check:api-docs
       - run: npm run lint
-      - run: npm test -w @pokerstudio/web
-      - run: npm run build
+      # O type check le o servidor, e o servidor le o cliente do Prisma.
+      - run: npx prisma generate
+      - run: npm run test:web
+      - run: npm run typecheck
 
   landing:
     name: Landing page
@@ -64,13 +66,12 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npx prisma generate --schema apps/api/prisma/schema.prisma
+      - run: npx prisma generate
       - name: Apply migrations
-        run: npm run db:migrate -w @pokerstudio/api
+        run: npm run db:migrate
       - name: Migrations match the schema
-        run: npx prisma migrate diff --from-migrations apps/api/prisma/migrations --to-schema-datamodel apps/api/prisma/schema.prisma --shadow-database-url "$DATABASE_URL" --exit-code
-      - run: npm run build -w @pokerstudio/api
-      - run: npm test -w @pokerstudio/api
+        run: npx prisma migrate diff --from-migrations prisma/migrations --to-schema-datamodel prisma/schema.prisma --shadow-database-url "$DATABASE_URL" --exit-code
+      - run: npm run test:server
 
   next:
     name: Aplicacao Next
@@ -82,9 +83,9 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      # O cliente do Prisma e gerado porque o type check do Next le a API.
-      - run: npx prisma generate --schema apps/api/prisma/schema.prisma
-      - run: npm run build -w @pokerstudio/next
+      # O cliente do Prisma e gerado porque o type check do Next le o servidor.
+      - run: npx prisma generate
+      - run: npm run build
 
   e2e:
     name: Ponta a ponta
@@ -114,8 +115,8 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npx prisma generate --schema apps/api/prisma/schema.prisma
-      - run: npm run db:migrate -w @pokerstudio/api
+      - run: npx prisma generate
+      - run: npm run db:migrate
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
       - uses: actions/upload-artifact@v4

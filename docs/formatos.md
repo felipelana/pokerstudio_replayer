@@ -5,15 +5,15 @@ mudar o formato — o que elas fazem sem avisar.
 
 ## Estado
 
-| Dialeto | Sala | Situação | Fixtures |
-|---|---|---|---|
-| `pokerstars` | PokerStars | **Completo** | 1 export real de torneio KO (36 mãos) + 2 sintéticos |
-| `chico` | Chico / BetOnline / TigerGaming | **Completo** | 2 torneios reais de 2026, 660 mãos |
-| `wpn` | WPN / ACR | Reconhece, não interpreta | — |
-| `ggpoker` | GGPoker | Reconhece, não interpreta | — |
-| `888` | 888poker | Reconhece, não interpreta | — |
-| `ipoker` | iPoker | Reconhece, não interpreta | — |
-| `coinpoker` | CoinPoker | Reconhece, não interpreta | — |
+| Dialeto      | Sala                            | Situação                  | Fixtures                                             |
+| ------------ | ------------------------------- | ------------------------- | ---------------------------------------------------- |
+| `pokerstars` | PokerStars                      | **Completo**              | 1 export real de torneio KO (36 mãos) + 2 sintéticos |
+| `chico`      | Chico / BetOnline / TigerGaming | **Completo**              | 2 torneios reais de 2026, 660 mãos                   |
+| `wpn`        | WPN / ACR                       | Reconhece, não interpreta | —                                                    |
+| `ggpoker`    | GGPoker                         | Reconhece, não interpreta | —                                                    |
+| `888`        | 888poker                        | Reconhece, não interpreta | —                                                    |
+| `ipoker`     | iPoker                          | Reconhece, não interpreta | —                                                    |
+| `coinpoker`  | CoinPoker                       | Reconhece, não interpreta | —                                                    |
 
 "Reconhece, não interpreta" significa que a detecção acerta a sala e a
 importação diz que o formato ainda não é suportado. É deliberado: um parser
@@ -34,12 +34,12 @@ Table 'CHC_1827491784 2' 8-max Seat #6 is the button
 
 **O cabeçalho mente.** Diz PokerStars. As marcas que desmentem:
 
-| Marca | Exemplo |
-|---|---|
-| Mesa com prefixo `CHC_` | `Table 'CHC_1827491784 2'` |
-| Id de torneio não numérico | `916-1a5ca85` |
-| Nível sem número nem romano | `Level (3500/7000)` |
-| Pote lateral com hífen | `collected 45000 from side pot-1` |
+| Marca                       | Exemplo                           |
+| --------------------------- | --------------------------------- |
+| Mesa com prefixo `CHC_`     | `Table 'CHC_1827491784 2'`        |
+| Id de torneio não numérico  | `916-1a5ca85`                     |
+| Nível sem número nem romano | `Level (3500/7000)`               |
+| Pote lateral com hífen      | `collected 45000 from side pot-1` |
 
 Duas marcas bastam para confiança 0,95. Uma só vale 0,5 — e o PokerStars se
 retira assim que qualquer uma aparece, porque errar aqui reproduz a mão sob a
@@ -83,7 +83,7 @@ todos verificados contra as fixtures do PokerStars:
 
 ### Teste de aceite
 
-`apps/web/src/parsers/chico/chico.test.ts` — as 660 mãos das duas fixtures reais
+`src/features/parsers/chico/chico.test.ts` — as 660 mãos das duas fixtures reais
 parseiam sem um único aviso, do parser ou do motor de replay; tudo o que entrou
 no pote, menos o que voltou, é igual ao pote declarado; e o que foi pago é igual
 ao pote menos o rake. Mais a garantia de que a Chico nunca é lida como
