@@ -255,7 +255,7 @@ const er = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${ER_W} ${ER_H}
 ${legendItems}
 ${EDGES.map(edgeSvg).join('\n')}
 ${TABLES.map(tableSvg).join('\n')}
-  <text x="36" y="${ER_H - 20}" font-size="10" fill="${MUTED}">Gerado de apps/api/prisma/schema.prisma · ReviewNote precede Assessment e é mantida por compatibilidade · pokerstudio.com.br</text>
+  <text x="36" y="${ER_H - 20}" font-size="10" fill="${MUTED}">Gerado de prisma/schema.prisma · ReviewNote precede Assessment e é mantida por compatibilidade · pokerstudio.com.br</text>
 </svg>
 `;
 

@@ -28,7 +28,7 @@ export default defineConfig({
   },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
   webServer: {
-    command: `npm run dev -w @pokerstudio/next -- --port ${PORT}`,
+    command: `npm run dev -- --port ${PORT}`,
     url: `${BASE_URL}/api/v1/health`,
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,

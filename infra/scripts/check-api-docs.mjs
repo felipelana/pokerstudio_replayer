@@ -14,7 +14,7 @@ import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = fileURLToPath(new URL('../..', import.meta.url));
-const ROUTES_DIR = join(ROOT, 'apps/api/src/interface/http/routes');
+const ROUTES_DIR = join(ROOT, 'src/server/interface/http/routes');
 const DOC = join(ROOT, 'docs/API.md');
 
 /**

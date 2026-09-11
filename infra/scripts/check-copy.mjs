@@ -24,8 +24,8 @@ const ROOT = fileURLToPath(new URL('../..', import.meta.url));
 
 /** Where interface text lives. */
 const TARGETS = [
-  'apps/web/src/locales',
-  'apps/web/src',
+  'src/i18n/locales',
+  'src',
   'landingpage/src/locales',
   'landingpage/src',
   'landingpage/index.html',

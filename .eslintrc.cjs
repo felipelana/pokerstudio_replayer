@@ -5,7 +5,7 @@ module.exports = {
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module', ecmaFeatures: { jsx: true } },
   plugins: ['@typescript-eslint', 'react-hooks'],
   extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:react-hooks/recommended'],
-  ignorePatterns: ['dist', 'node_modules', '*.cjs', 'apps/web/scripts/*.ts'],
+  ignorePatterns: ['dist', 'node_modules', '*.cjs', 'scripts/*.ts'],
   rules: {
     '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
     '@typescript-eslint/no-non-null-assertion': 'off',
@@ -19,19 +19,21 @@ module.exports = {
           'error',
           {
             patterns: [
-              { group: ['react', 'react-*', 'three', '@react-three/*', 'dexie', 'i18next', '@/*', '../../apps/*'], message: 'packages/shared must stay free of framework and app code.' },
+              { group: ['react', 'react-*', 'three', '@react-three/*', 'dexie', 'i18next', '@/*', '../../src/server/*'], message: 'packages/shared must stay free of framework and app code.' },
             ],
           },
         ],
       },
     },
     {
-      // The web app never imports server code directly — it talks HTTP.
-      files: ['apps/web/**/*.{ts,tsx}'],
+      // The interface never imports server code directly — it talks HTTP.
+      // The route handler under src/app is the one place that may, because it
+      // is the adapter: it is what turns a web Request into a Fastify one.
+      files: ['src/{features,components,lib,domain,i18n}/**/*.{ts,tsx}'],
       rules: {
         'no-restricted-imports': [
           'error',
-          { patterns: [{ group: ['**/apps/api/*', '@pokerstudio/api*'], message: 'The web app must reach the backend over HTTP only.' }] },
+          { patterns: [{ group: ['@/server/*', '**/src/server/*'], message: 'The web app must reach the backend over HTTP only.' }] },
         ],
       },
     },

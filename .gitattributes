@@ -8,4 +8,4 @@
 # the hand ids, and one of them is a real dealer export whose CRLF, BOM and
 # trailing spaces are the very thing a test asserts. Git converts none of it:
 # what was committed is what lands on disk, on every machine.
-apps/web/src/parsers/**/fixtures/* -text
+src/features/parsers/**/fixtures/* -text
