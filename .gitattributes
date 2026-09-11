@@ -4,6 +4,8 @@
 # line ending Windows expects.
 *.txt text eol=crlf
 
-# The ones the tests read are data: their bytes decide the hand ids, and they
-# have to arrive the same on every machine.
-apps/web/src/parsers/**/fixtures/*.txt text eol=lf
+# The ones the tests read are not prose, they are evidence. Their bytes decide
+# the hand ids, and one of them is a real dealer export whose CRLF, BOM and
+# trailing spaces are the very thing a test asserts. Git converts none of it:
+# what was committed is what lands on disk, on every machine.
+apps/web/src/parsers/**/fixtures/* -text

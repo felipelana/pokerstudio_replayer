@@ -28,7 +28,11 @@
     "check:copy": "node infra/scripts/check-copy.mjs",
     "typecheck": "tsc -p apps/next/tsconfig.json --noEmit && tsc -p apps/api/tsconfig.json --noEmit",
     "dev:next": "npm run dev -w @pokerstudio/next",
-    "build:next": "npm run build -w @pokerstudio/next"
+    "build:next": "npm run build -w @pokerstudio/next",
+    "check:api-docs": "node infra/scripts/check-api-docs.mjs",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "prepare": "husky"
   },
   "devDependencies": {
     "prettier": "^3.3.3",
@@ -41,5 +45,14 @@
     "@prisma/engines@5.22.0": true,
     "@prisma/client@5.22.0": true,
     "core-js@3.50.0": true
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,css,md}": [
+      "prettier --write"
+    ]
   }
 }
