@@ -20,9 +20,10 @@ import { useAuthStore } from '@/lib/state/authStore';
 import { TwoFactorGate } from './TwoFactorGate';
 import { BuildFooter } from './BuildFooter';
 import { LogsTab } from './LogsTab';
+import { LeaksTab } from './LeaksTab';
 import { Empty, StatusChip, dateTime, useLoader } from './shared';
 
-type Tab = 'dashboard' | 'users' | 'access' | 'logs' | 'email' | 'feedback';
+type Tab = 'dashboard' | 'users' | 'access' | 'logs' | 'email' | 'feedback' | 'leaks';
 
 /**
  * /admstudio — the administrative area. The role is checked here for the sake
@@ -54,6 +55,7 @@ export function AdmStudioPage() {
     { id: 'logs', label: t('admstudio.logs') },
     { id: 'email', label: t('admstudio.email') },
     { id: 'feedback', label: t('admstudio.feedback') },
+    { id: 'leaks', label: t('admstudio.leaks') },
   ];
 
   return (
@@ -93,6 +95,7 @@ export function AdmStudioPage() {
           {tab === 'logs' && <LogsTab />}
           {tab === 'email' && <EmailTab />}
           {tab === 'feedback' && <FeedbackTab />}
+          {tab === 'leaks' && <LeaksTab />}
         </TwoFactorGate>
       </div>
 

@@ -1,5 +1,15 @@
 import { api } from './client';
 
+export interface AdminLeakRow {
+  id: string;
+  slug: string;
+  label: string;
+  color: string;
+  hint: string | null;
+  active: boolean;
+  position: number;
+}
+
 export interface AdminUserRow {
   id: string;
   email: string;
@@ -158,6 +168,27 @@ export const adminApi = {
   ) => api.post<{ ok: true }>('/admin/email-settings', settings),
   testEmail: (to: string) =>
     api.post<{ delivered: boolean; detail?: string }>('/admin/email-settings/test', { to }),
+  /** O catálogo inteiro, aposentados inclusive, que é o que a tela edita. */
+  leaks: () => api.get<{ items: AdminLeakRow[] }>('/admin/leaks'),
+  createLeak: (input: {
+    slug: string;
+    label: string;
+    color: string;
+    hint?: string;
+    position?: number;
+  }) => api.post<AdminLeakRow>('/admin/leaks', input),
+  updateLeak: (
+    id: string,
+    patch: {
+      label?: string;
+      color?: string;
+      hint?: string | null;
+      position?: number;
+      active?: boolean;
+    },
+  ) => api.patch<AdminLeakRow>(`/admin/leaks/${id}`, patch),
+  /** Aposenta. A linha continua existindo, porque as mãos guardam o slug. */
+  retireLeak: (id: string) => api.delete<AdminLeakRow>(`/admin/leaks/${id}`),
   usersCsvUrl: '/api/v1/admin/export/users.csv',
 };
 
