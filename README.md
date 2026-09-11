@@ -5,12 +5,18 @@ leaks e gera relatório. Roda no navegador; a conta guarda perfil, skins e
 indicações.
 
 ```
-apps/web        replayer (Vite + React 18 + TypeScript)
+apps/next       a aplicação: landing, replayer e API num servidor só (Next 14)
+apps/web        o replayer em Vite, ainda funcionando, e o src que as duas cascas usam
 apps/api        backend (Node 22 + Fastify 5 + Prisma 5 + PostgreSQL 16)
+landingpage     o site institucional, servido pelo Next e ainda construível em Vite
 packages/shared contratos compartilhados (tipos, países, idiomas, salas)
 infra           Docker, Caddy, scripts de backup
 docs            arquitetura, setup, segurança, API, QA
 ```
+
+O Next serve os três: `pokerstudio.com.br` recebe a landing,
+`replayer.pokerstudio.com.br` recebe o produto, e a API responde em `/api/v1`.
+Em desenvolvimento existe só `localhost`, então a landing atende em `?site=1`.
 
 ## Começar
 
@@ -19,8 +25,16 @@ npm install
 Copy-Item apps\api\.env.example apps\api\.env.local   # edite as variáveis
 npm run db:migrate
 npm run db:seed
+npm run dev:next     # tudo junto em http://localhost:3100
+```
+
+O `APP_URL` do `.env` precisa nomear a porta em que o navegador está, ou a
+guarda de CSRF recusa a requisição. As duas cascas antigas continuam
+disponíveis, se você precisar comparar:
+
+```
 npm run dev:api      # API em http://localhost:3001
-npm run dev          # replayer em http://localhost:5173
+npm run dev          # replayer em Vite, em http://localhost:5173
 ```
 
 O passo a passo completo (PostgreSQL 16 no Windows 11, role, base, e-mail em
@@ -30,7 +44,10 @@ desenvolvimento) está em **[docs/DEV-SETUP.md](docs/DEV-SETUP.md)**.
 
 | Comando | O que faz |
 |---|---|
-| `npm run dev` | replayer em modo desenvolvimento |
+| `npm run dev:next` | landing, replayer e API juntos, em 3100 |
+| `npm run build:next` | build de produção da aplicação |
+| `npm run typecheck` | TypeScript da aplicação e da API |
+| `npm run dev` | o replayer em Vite, em modo desenvolvimento |
 | `npm run dev:api` | API com recarga automática |
 | `npm run build` | build de produção do replayer |
 | `npm test` | testes de todos os workspaces |
@@ -54,6 +71,14 @@ de código ficam de fora da varredura.
 e último frame · `Space` play/pause · `1–5` preflop/herói/flop/turn/river ·
 `B` fichas/BB · `T` tema · `C` skin · `S` mostrar cartas conhecidas ·
 `F` tela cheia · `[` recolher a lista · `+`/`-` zoom · `?` ajuda.
+
+## Salas que o importador lê
+
+**PokerStars** e a rede **Chico**, que é BetOnline, TigerGaming e SportsBetting.
+As outras salas são reconhecidas pelo cabeçalho e recusadas com uma mensagem
+clara, em vez de remontar a mão errado em silêncio. O catálogo vive em
+`packages/shared/src/rooms.ts`, e é dele que a landing, o importador e o
+formulário de nicks tiram a lista, para que os três não possam discordar.
 
 ## Adicionar um parser
 
