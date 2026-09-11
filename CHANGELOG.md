@@ -6,20 +6,67 @@ Generated from the commit messages by `npm run changelog`.
 
 ### Features
 
+- o catalogo de leaks ganha tela, e a aba de e-mail ganha suas palavras (eb7080d)
+- o catalogo de leaks que a administracao edita (a7aed5b)
 - **admin**: the failures nobody was seeing, on a screen (e9ce6eb)
 - **infra**: two environments on one host, and images instead of builds (2291bcd)
 - **landing**: the landing page, as its own workspace (d6317e6)
 
+### Fixes
+
+- o fixture do dealer export volta a ter os bytes que o teste afirma (4092663)
+
+### Refactoring
+
+- o deploy passa a montar uma imagem, nao quatro (5e7a78c)
+- uma arvore de codigo, com src, prisma e tests na raiz (8d54848)
+
 ### Documentation
 
+- what each identity provider needs, and what Apple refuses (dd6ee22)
 - component map and proposed diff for Parts 3 and 4 (7f5e9f8)
+
+### Tests
+
+- ponta a ponta, tres verdes e um pendente com o motivo escrito (954be24)
+
+### Pipeline
+
+- one deploy, called twice, and a server that can be built from nothing (657d52c)
 
 ### Chores
 
+- repositorio proprio, com o esqueleto que faltava (1e4d9d2)
 - every .env stays local, and the example is complete again (b768239)
 
 ### Other
 
+- Google, Facebook and Apple say "coming soon", and throwaway addresses are turned away at the door (d7ca213)
+- The pipeline builds what the migration produced (a21e90f)
+- One image where there were three, and the production server proved (30585b4)
+- The landing joins the same app, and the host decides which site answers (fea6360)
+- Bloco 2, o resto: the parity table, filled in from the browser (86cc541)
+- MIGRATION.md: how to run both shells, and how to go back (66bc779)
+- The production build type-checks the API it now serves (78f15ca)
+- Bloco 2, primeira parte: the API answers from inside Next (26d6869)
+- Bloco 1: the replayer served by Next, over the same source (e788795)
+- The deploy templates were being swallowed by the ignore rule (502f67d)
+- A fresh clone on Windows builds and passes (b26f7a1)
+- The share dialog stops restarting itself on every render (0ba8b24)
+- A link can carry one hand, and the replayer is where you reach for it (c950a0a)
+- A score out of 100 on the hand, and a tag that will not vanish quietly (30e96c9)
+- The report says how the session went, not only which hands were kept (c62e89b)
+- The coach's reading arrives where the hand is (f9a3669)
+- The skin studio gets its 3D and 2D switch back (e30e7e1)
+- The interface stops writing with a dash it does not need (c824d3a)
+- The nickname list is the room catalogue, Ignition included (4d0912c)
+- Settings gets an order instead of six buttons in a row (1eac462)
+- Handing one review to a coach, and getting the reading back (ade45b7)
+- A page that says what changed, and a dot when it changed (110ded2)
+- One list of rooms, read by the grid and by the importer (f9db6a3)
+- The room grid stops promising eight rooms it cannot read (64128b2)
+- The tour waits until there is an app to show (2738f0c)
+- The coach gets a way in, and only ever one review (c5c21c6)
 - Chico reads its own hands, and stops answering to PokerStars (0313d9d)
 - Two drawings for the technical file, generated from the code (cfc048e)
 - Assessments and coach links, with the rules held on the server (bf995b8)
